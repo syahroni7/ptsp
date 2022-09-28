@@ -25,6 +25,40 @@
                                 </div>
                             </div>
 
+                            <div class="row mb-3">
+                                <label for="inputText" class="col-sm-3 col-form-label">Permissions</label>
+                                <div class="col-sm-9">
+
+
+                                    <div class="row mb-3">
+                                        <strong class="col-sm-12 p-0">Menu</strong>
+                                        @foreach ($permissions['menu'] as $perm)
+                                            <div class="form-check col-sm-6">
+                                                <input class="form-check-input" type="checkbox" id="permissions"
+                                                    name="permissions[]" value="{{ $perm->id }}">
+                                                <label class="form-check-label">{{ $perm->name }}</label>
+                                            </div>
+                                        @endforeach
+                                    </div>
+
+
+                                    <div class="row">
+                                        <strong class="col-sm-12 p-0">Page</strong>
+                                        @foreach ($permissions['page'] as $perm)
+                                            <div class="form-check col-sm-6">
+                                                <input class="form-check-input" type="checkbox" id="permissions"
+                                                    name="permissions[]" value="{{ $perm->id }}">
+                                                <label class="form-check-label">{{ $perm->name }}</label>
+                                            </div>
+                                        @endforeach
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+
+
 
                         </div>
                     </div>

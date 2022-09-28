@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\DataMaster;
+namespace App\Http\Controllers\DataDisposisi;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\JenisLayanan;
+use App\Models\MasterAksiDisposisi;
 use DataTables;
 
-class JenisLayananController extends Controller
+class MasterDisposisiController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -23,23 +23,23 @@ class JenisLayananController extends Controller
     {
 
         if ($request->ajax()) {
-            $jenises = JenisLayanan::all();
+            $jenises = MasterAksiDisposisi::all();
 
             return Datatables::of($jenises)
                 ->addIndexColumn()
-                ->addColumn('action', function ($jenis) {
+                ->addColumn('action', function ($aksi) {
                     $btn = '<button id="editBtn" type="button" class="btn btn-sm btn-warning btn-xs" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Level / Peran User"><i class="bi bi-pencil-square"></i></button>&nbsp;';
-                    $btn .= '<button id="destroyBtn" type="button" class="btn btn-sm btn-danger btn-xs" data-bs-id_jenis_layanan="'. $jenis->id_jenis_layanan  .'" data-id_jenis_layanan="'.  $jenis->id_jenis_layanan  .'"><i class="bi bi-trash-fill"></i></button>';
+                    $btn .= '<button id="destroyBtn" type="button" class="btn btn-sm btn-danger btn-xs" data-bs-id_aksi_disposisi="'. $aksi->id_aksi_disposisi  .'" data-id_aksi_disposisi="'.  $aksi->id_aksi_disposisi  .'"><i class="bi bi-trash-fill"></i></button>';
                     return $btn;
                 })
                 ->rawColumns(['action'])
                 ->make(true);
         }
 
-        return view('admin.jenis-layanan.index', [
-            'title'  => 'Daftar Jenis Layanan',
+        return view('admin.disposisi.master.index', [
+            'title'  => 'Daftar Master Disposisi',
             'br1'  => 'Kelola',
-            'br2'  => 'Jenis Layanan',
+            'br2'  => 'Master Disposisi',
         ]);
 
     }
@@ -53,10 +53,10 @@ class JenisLayananController extends Controller
         $data = $request->input();
 
         try {
-            if ($data['id_jenis_layanan'] == '') {
-                JenisLayanan::create(['name' => $data['name']]);   
+            if ($data['id_aksi_disposisi'] == '') {
+                MasterAksiDisposisi::create(['name' => $data['name']]);   
             } else {
-                $unit = JenisLayanan::findOrFail($data['id_jenis_layanan']);
+                $unit = MasterAksiDisposisi::findOrFail($data['id_aksi_disposisi']);
                 $unit->name = $data['name'];
                 $unit->update();
             }
@@ -75,13 +75,13 @@ class JenisLayananController extends Controller
         ], $code);
     }
 
-    public function destroy(JenisLayanan $jenis)
+    public function destroy(MasterAksiDisposisi $aksi)
     {
         $success = false;
         $message = '';
 
         try {
-            $jenis->delete();
+            $aksi->delete();
             $success = true;
         } catch (\Exception $e) {
             $message = $e->getMessage();

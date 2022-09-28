@@ -14,85 +14,93 @@
                     {{ csrf_field() }}
 
                     <div class="row card-body">
+                        <div class="col-md-6 mb-3">
+                            <label for="search_no_registrasi" class="form-label fw-bold">No Registrasi</label>
+                            <input class="form-control" name="search_no_registrasi" id="search_no_registrasi"
+                                type="text" value="" placeholder="No Registrasi" disabled>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="search_id_layanan" class="form-label fw-bold">Nama Layanan</label>
+                            <select name="search_id_layanan" id="search_id_layanan" class="form-control select2"
+                                disabled="true">
+                                <option selected="">Pilih Layanan</option>
+                                @foreach ($daftar_layanan as $layanan)
+                                    <option value="{{ $layanan->id_layanan }}">{{ $layanan->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="search_pemohon_no_surat" class="form-label fw-bold">Perihal</label>
+                            <input class="form-control" name="search_perihal" id="search_perihal" type="text"
+                                value="" placeholder="Perihal" disabled>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="search_pemohon_no_surat" class="form-label fw-bold">No. Surat
+                                Permohonan</label>
+                            <input class="form-control" name="search_pemohon_no_surat" id="search_pemohon_no_surat"
+                                type="text" placeholder="Nomor Surat" value="" disabled>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="search_pemohon_tanggal_surat" class="form-label fw-bold">Tanggal Surat
+                                Permohonan</label>
+                            <input type="date" class="form-control" name="search_pemohon_tanggal_surat"
+                                id="search_pemohon_tanggal_surat" placeholder="Tanggal Surat" disabled>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="search_pemohon_nama" class="form-label fw-bold">Nama Pemohon</label>
+                            <input class="form-control" name="search_pemohon_nama" id="search_pemohon_nama"
+                                type="text" placeholder="Nama Pemohon" value="" disabled>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="search_pemohon_alamat" class="form-label fw-bold">Alamat
+                                Pemohon</label>
+                            <input class="form-control" name="search_pemohon_alamat" id="search_pemohon_alamat"
+                                type="text" placeholder="Alamat Pemohon" value="" disabled>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="search_pemohon_no_hp" class="form-label fw-bold">No. HP
+                                Pemohon</label>
+                            <input class="form-control" name="search_pemohon_no_hp" id="search_pemohon_no_hp"
+                                type="text" placeholder="Nomor HP Pemohon" value="" disabled>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="search_pengirim_nama" class="form-label fw-bold">Nama Pengirim</label>
+                            <input class="form-control" name="search_pengirim_nama" id="search_pengirim_nama"
+                                type="text" placeholder="Nama Pengirim" value="" disabled>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="search_kelengkapan_syarat" class="form-label fw-bold">Kelengkapan
+                                Syarat</label>
+                            <select name="search_kelengkapan_syarat" id="search_kelengkapan_syarat"
+                                class="form-control select2" disabled="true">
+                                <option selected="">-- Pilih Kelengkapan Syarat --</option>
+                                <option value="Sudah Lengkap">Sudah Lengkap</option>
+                                <option value="Belum Lengkap">Belum Lengkap</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="search_status_pelayanan" class="form-label fw-bold">Status
+                                Pelayanan</label>
+                            <select name="search_status_pelayanan" id="search_status_pelayanan"
+                                class="form-control select2" disabled="true">
+                                <option selected="">-- Pilih Status Layanan --</option>
+                                <option value="Baru">Baru</option>
+                                <option value="Proses">Proses</option>
+                                <option value="selesai">Selesai</option>
+                                <option value="Ambil">Ambil</option>
+                            </select>
+                        </div>
                         <div class="col-12">
-
-
-                            <input type="hidden" name="id_layanan" id="id_layanan" value="">
-                            <div class="row mb-3">
-                                <label for="inputText" class="col-sm-3 col-form-label">Nama Layanan</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="name" name="name"
-                                        placeholder="Nama Layanan">
-                                </div>
-                            </div>
-
-
-                            <div class="row mb-3">
-                                <label for="Comparator" class="col-sm-3 col-form-label">Unit Pengolah</label>
-                                <div class="col-sm-9">
-                                    <select name="id_unit_pengolah" id="id_unit_pengolah" class="form-control select2">
-                                        <option selected="">Pilih Unit Pengolah</option>
-                                        @foreach ($dd['unit_all'] as $unit)
-                                            <option value="{{ $unit->id_unit_pengolah }}">{{ $unit->name }}</option>
-                                        @endforeach
-
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <label for="Comparator" class="col-sm-3 col-form-label">Jenis Layanan</label>
-                                <div class="col-sm-9">
-                                    <select name="id_jenis_layanan" id="id_jenis_layanan" class="form-control select2">
-                                        <option selected="">Pilih Jenis Layanan</option>
-                                        @foreach ($dd['jenis_all'] as $item)
-                                            <option value="{{ $item->id_jenis_layanan }}">{{ $item->name }}</option>
-                                        @endforeach
-
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <label for="Comparator" class="col-sm-3 col-form-label">Output Layanan</label>
-                                <div class="col-sm-9">
-                                    <select name="id_output_layanan" id="id_output_layanan"
-                                        class="form-control select2">
-                                        <option selected="">Pilih Output Layanan</option>
-                                        @foreach ($dd['output_all'] as $item)
-                                            <option value="{{ $item->id_output_layanan }}">{{ $item->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-
-
-
-                            <div class="row mb-3">
-                                <label for="inputText" class="col-sm-3 col-form-label">Lama Layanan</label>
-                                <div class="col-sm-9">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Lama Layanan"
-                                            aria-label="Lama Layanan" aria-describedby="basic-addon2" id="lama_layanan"
-                                            name="lama_layanan">
-                                        <span class="input-group-text" id="basic-addon2">Dalam Hari</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <label for="inputText" class="col-sm-3 col-form-label">Biaya Layanan</label>
-                                <div class="col-sm-9">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Biaya Layanan"
-                                            aria-label="Biaya Layanan" aria-describedby="basic-addon2"
-                                            id="biaya_layanan" name="biaya_layanan">
-                                        <span class="input-group-text" id="basic-addon2">Dalam Rupiah</span>
-                                    </div>
-                                </div>
-                            </div>
-
-
+                            <label for="search_catatan" class="form-label fw-bold">Catatan</label>
+                            <textarea class="form-control" style="height: 100px" name="search_catatan" id="search_catatan" disabled="true"></textarea>
                         </div>
                     </div>
                 </div>

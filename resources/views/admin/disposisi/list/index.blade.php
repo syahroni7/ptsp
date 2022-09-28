@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="{{ asset('css/select2-bootstrap-5-theme.rtl.min.css') }}" />
 @endsection
 
-
 @section('content')
 
     <main id="main" class="main">
@@ -30,14 +29,19 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ $title }}</h5>
 
-                            <table class='table table-bordered display' id="example"
-                                style="width:100%; font-size:11pt!important;">
+                            <table class='table table-bordered display' id="example" style="width:100%; font-size:11pt!important;">
                                 <thead>
                                     <tr>
                                         <th class="text-center" width="5%">No</th>
-                                        <th class="text-center">Level User</th>
-                                        <th class="text-center">Izin Akses</th>
-                                        <th class="text-center" width="20%">Aksi</th>
+                                        <th class="text-center">No. Surat</th>
+                                        <th class="text-center">Dari</th>
+                                        <th class="text-center">Tanggal Surat</th>
+                                        <th class="text-center">Perihal</th>
+                                        <th class="text-center">Diteruskan Ke-</th>
+                                        <th class="text-center">Waktu Disposisi</th>
+                                        <th class="text-center">Catatan</th>
+                                        <th class="text-center">Aksi</th>
+
                                     </tr>
                                 </thead>
                             </table>
@@ -48,7 +52,7 @@
             </div>
         </section>
 
-        @include('admin.users.roles._modal')
+        @include('admin.disposisi.list._modal')
 
     </main>
 
@@ -57,7 +61,6 @@
 
 
 @section('_scripts')
-
 
     <script src="{{ asset('js/select2.min.js') }}"></script>
     <script src="{{ asset('js/sweetalert2@11.js') }}"></script>
@@ -73,6 +76,7 @@
     <script type="text/javascript" language="javascript" src="{{ asset('js/buttons.html5.min.js') }}"></script>
     <script type="text/javascript" language="javascript" src="{{ asset('js/buttons.print.min.js') }}"></script>
     <script type="text/javascript" language="javascript" src="{{ asset('js/buttons.colVis.min.js') }}"></script>
+
 
 
     <script>
@@ -91,31 +95,15 @@
             responsive: false,
             scrollX: true,
             autoWidth: false,
+            pageLength: 10,
             lengthMenu: [
                 [10, 25, 50, -1],
                 ['10 rows', '25 rows', '50 rows', 'Show all']
             ],
             iDisplayLength: 50,
             buttons: [
-                'pageLength', {
-                    text: '<i class="fa fa-plus-circle"></i> Tambah',
-                    attr: {
-                        'title': 'Import Data',
-                        'data-bs-original-title': 'Import Data',
-                        'data-bs-target': '#fModal',
-                        'data-bs-toggle': 'modal',
-                        'data-bs-backdrop': 'static',
-                        'data-bs-keyboard': 'false',
-                        'data-bs-title': 'Tambah Level / Peran User',
-                        'data-title': 'Tambah Level / Peran User',
-                        'type': 'button',
-                        'id': 'addBtn',
-                        'class': 'btn btn-primary'
-                    },
-                    action: function(e, dt, node, config) {
-                        // alert('Button activated');
-                    }
-                }, {
+                'pageLength',
+                {
                     text: '<i class="fa fa-refresh"></i>  Reload',
                     attr: {
                         'title': 'Refresh Table',
@@ -137,11 +125,32 @@
                 name: 'DT_RowIndex',
                 className: 'text-center'
             }, {
-                data: 'name',
-                name: 'name'
+                data: 'pelayanan.pemohon_no_surat',
+                name: 'pelayanan.pemohon_no_surat'
             }, {
-                data: 'role_permissions',
-                name: 'role_permissions'
+                data: 'dari',
+                name: 'dari',
+                className: 'text-center'
+            }, {
+                data: 'pelayanan.pemohon_tanggal_surat',
+                name: 'pelayanan.pemohon_tanggal_surat',
+                className: 'text-center'
+            }, {
+                data: 'pelayanan.perihal',
+                name: 'pelayanan.perihal',
+                className: 'text-center'
+            }, {
+                data: 'kepada',
+                name: 'kepada',
+                className: 'text-center'
+            }, {
+                data: 'created_at',
+                name: 'created_at',
+                className: 'text-center'
+            }, {
+                data: 'keterangan',
+                name: 'keterangan',
+                className: 'text-center'
             }, {
                 data: 'action',
                 name: 'action',
@@ -151,7 +160,7 @@
 
 
         $(document).ready(function() {
-            table.ajax.url('/users/roles').load();
+            table.ajax.url('/disposisi/list').load();
 
             table.buttons().container()
                 .appendTo('#example_wrapper .col-md-6:eq(0)');
@@ -169,7 +178,7 @@
 
             $(document).on("click", "#addBtn", function() {
                 $('.edit-state').hide();
-                $('#id_role').val('');
+                $('#id_aksi_disposisi').val('');
                 $('#fForm')[0].reset();
                 var title = $(this).data('title');
                 $("#judul-modal").html(title);
@@ -183,19 +192,8 @@
                 var data = table.row($(this).parents('tr')).data();
                 console.log(data);
                 console.log(title);
-                $("#id_role").val(data.id);
+                $("#id_aksi_disposisi").val(data.id_aksi_disposisi);
                 $('#name').val(data.name);
-
-                $('input[type=checkbox]').each(function() {
-                    this.checked = false;
-                });
-                $.each(data.permissions, function(index, item) {
-                    console.log('item');
-                    console.log(item.name);
-                    $('input[name="permissions[]"][value="' + item.id + '"]').prop(
-                        "checked",
-                        true);
-                });
 
             });
 
@@ -236,7 +234,7 @@
                                 );
                             }
                             $('#fForm')[0].reset();
-                            $('#id_role').val('');
+                            $('#id_aksi_disposisi').val('');
                         }, 200);
 
                     },
@@ -267,7 +265,7 @@
 
             $(document).on("click", "#destroyBtn", function() {
                 event.preventDefault();
-                var roleID = $(this).data('role_id');
+                var idItem = $(this).data('id_aksi_disposisi');
 
                 swalWithBootstrapButtons.fire({
                     title: 'Apakah anda yakin akan melakukan penghapusan data?',
@@ -279,8 +277,8 @@
                     reverseButtons: true
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        var url = '{{ route('user-roles.destroy', ':id') }}';
-                        url = url.replace(':id', roleID);
+                        var url = '{{ route('disposisi-list.destroy', ':id') }}';
+                        url = url.replace(':id', idItem);
                         $.ajax({
                             type: 'DELETE',
                             url: url,

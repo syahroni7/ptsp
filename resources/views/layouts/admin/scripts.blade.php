@@ -10,6 +10,12 @@
 <script src="{{ asset('niceadmin/js/main.js') }}"></script>
 
 <script src="{{ asset('js/jquery.blockUI.js') }}"></script>
+<script src="{{ asset('js/jquery.validate.min.js') }}"></script>
+<script src="{{ asset('js/additional-methods.min.js') }}"></script>
+<script src="{{ asset('js/messages_id.min.js') }}"></script>
+
+
+
 
 
 <script>

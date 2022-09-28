@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\DataMaster;
+namespace App\Http\Controllers\DataLayanan;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\OutputLayanan;
+use App\Models\JenisLayanan;
 use DataTables;
 
-class OutputLayananController extends Controller
+class JenisLayananController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -23,23 +23,23 @@ class OutputLayananController extends Controller
     {
 
         if ($request->ajax()) {
-            $outputs = OutputLayanan::all();
+            $jenises = JenisLayanan::all();
 
-            return Datatables::of($outputs)
+            return Datatables::of($jenises)
                 ->addIndexColumn()
-                ->addColumn('action', function ($output) {
+                ->addColumn('action', function ($jenis) {
                     $btn = '<button id="editBtn" type="button" class="btn btn-sm btn-warning btn-xs" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Level / Peran User"><i class="bi bi-pencil-square"></i></button>&nbsp;';
-                    $btn .= '<button id="destroyBtn" type="button" class="btn btn-sm btn-danger btn-xs" data-bs-id_output_layanan="'. $output->id_output_layanan  .'" data-id_output_layanan="'.  $output->id_output_layanan  .'"><i class="bi bi-trash-fill"></i></button>';
+                    $btn .= '<button id="destroyBtn" type="button" class="btn btn-sm btn-danger btn-xs" data-bs-id_jenis_layanan="'. $jenis->id_jenis_layanan  .'" data-id_jenis_layanan="'.  $jenis->id_jenis_layanan  .'"><i class="bi bi-trash-fill"></i></button>';
                     return $btn;
                 })
                 ->rawColumns(['action'])
                 ->make(true);
         }
 
-        return view('admin.output-layanan.index', [
-            'title'  => 'Daftar Output Layanan',
+        return view('admin.jenis-layanan.index', [
+            'title'  => 'Daftar Jenis Layanan',
             'br1'  => 'Kelola',
-            'br2'  => 'Output Layanan',
+            'br2'  => 'Jenis Layanan',
         ]);
 
     }
@@ -53,10 +53,10 @@ class OutputLayananController extends Controller
         $data = $request->input();
 
         try {
-            if ($data['id_output_layanan'] == '') {
-                OutputLayanan::create(['name' => $data['name']]);   
+            if ($data['id_jenis_layanan'] == '') {
+                JenisLayanan::create(['name' => $data['name']]);   
             } else {
-                $unit = OutputLayanan::findOrFail($data['id_output_layanan']);
+                $unit = JenisLayanan::findOrFail($data['id_jenis_layanan']);
                 $unit->name = $data['name'];
                 $unit->update();
             }
@@ -75,13 +75,13 @@ class OutputLayananController extends Controller
         ], $code);
     }
 
-    public function destroy(OutputLayanan $output)
+    public function destroy(JenisLayanan $jenis)
     {
         $success = false;
         $message = '';
 
         try {
-            $output->delete();
+            $jenis->delete();
             $success = true;
         } catch (\Exception $e) {
             $message = $e->getMessage();

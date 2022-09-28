@@ -32,6 +32,7 @@ class CreateDaftarPelayananTable extends Migration
             $table->enum('kelengkapan_syarat', ['Sudah Lengkap', 'Belum Lengkap'])->default('Belum Lengkap');
             $table->enum('status_pelayanan', ['Baru', 'Proses', 'Selesai', 'Ambil'])->default('Baru');
             $table->text('catatan')->nullable(true);
+            $table->string('penerima_nama',100)->nullable(true);
 
             $table->unsignedInteger('id_layanan')->nullable(true);
             $table->unsignedInteger('id_unit_pengolah')->nullable(true);

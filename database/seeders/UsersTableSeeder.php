@@ -99,19 +99,19 @@ class UsersTableSeeder extends Seeder
             ],
             [
                 'name' => 'Seksi Pendidikan Madrasah',
-            ], 
+            ],
             [
                 'name' => 'Seksi Pendidikan Agama Islam',
-            ], 
+            ],
             [
                 'name' => 'Seksi Pendidikan Diniyah dan Pondok Pesantren',
-            ], 
+            ],
             [
                 'name' => 'Seksi Penyelenggaraan Haji dan Umrah',
             ],
             [
                 'name' => 'Seksi Bimbingan Masyarakat Islam',
-            ], 
+            ],
             [
                 'name' => 'Seksi Penyelenggara Syariah Zakat dan Wakaf',
             ]
@@ -127,19 +127,19 @@ class UsersTableSeeder extends Seeder
             ],
             [
                 'name' => 'Layanan Perizinan',
-            ], 
+            ],
             [
                 'name' => 'Layanan Pendaftaran',
-            ], 
+            ],
             [
                 'name' => 'Layanan Pengesahan',
-            ], 
+            ],
             [
                 'name' => 'Layanan Pencatatan',
             ],
             [
                 'name' => 'Layanan Rekomendasi',
-            ], 
+            ],
             [
                 'name' => 'Layanan Persetujuan',
             ],
@@ -211,22 +211,83 @@ class UsersTableSeeder extends Seeder
 
 
         $outputs = [
-            [
-                'name' => 'Surat Rekomendasi',
-            ],
-            [
-                'name' => 'Surat Izin',
-            ],
-            [
-                'name' => 'Surat Keterangan',
-            ]
+                ['name' => 'Surat Rekomendasi'], #1
+                ['name' => 'Surat Izin'],
+                ['name' => 'Surat Keterangan'],
+                ['name' => 'Surat Keputusan'],
+                ['name' => 'Surat Edaran'],
+                ['name' => 'Surat Penunjukan'], #6
+                ['name' => 'Laporan'],
+                ['name' => 'Legalisir'],
+                ['name' => 'Sertifikat'],
+                ['name' => 'Data dan Informasi'],
+                ['name' => 'Berkas Lengkap'], #11
+                ['name' => 'Saran Tindak Lanjut'],
+                ['name' => 'Jadwal Konsultasi'],
+                ['name' => 'Jadwal Audiensi'],
+                ['name' => 'Karya Tulis'],
+                ['name' => 'Persyaratan'], #16
+                ['name' => 'Pengesahan'],
+                ['name' => 'Pengajuan'],
+                ['name' => 'Pengantar usul KP'],
+                ['name' => 'Pengantar Pensiun'],
+                ['name' => 'Rekomendasi'], #21
+                ['name' => 'Arsip Surat'],
+                ['name' => 'Formulir A 05'],
+                ['name' => 'S 28 a'],
+                ['name' => 'Tanda Tangan'],
+                ['name' => 'Petugas Rohaniwan'], #26
+                ['name' => 'Konsultasi'],
+                ['name' => 'Pemahaman'],
+                ['name' => 'Surat Pengesahan'],
+                ['name' => 'Surat Pengantar'],
+                ['name' => 'Surat Tugas'], #31
+                ['name' => 'Surat Pesetujuan']
         ];
 
         DB::table('daftar_output_layanan')->insert($outputs);
 
-
-
         $layanans = [
+            [
+                'name' => 'Pelayanan Data dan Informasi Umum',
+                'id_unit_pengolah' => 1,
+                'id_jenis_layanan' => 10,
+                'id_output_layanan' => 10,
+                'lama_layanan' => 1,
+                'biaya_layanan' => 0
+            ],
+            [
+                'name' => 'Pelayanan Surat Masuk',
+                'id_unit_pengolah' => 1,
+                'id_jenis_layanan' => 5,
+                'id_output_layanan' => 22,
+                'lama_layanan' => 1,
+                'biaya_layanan' => 0
+            ],
+            [
+                'name' => 'Pelayanan Surat Keluar',
+                'id_unit_pengolah' => 1,
+                'id_jenis_layanan' => 5,
+                'id_output_layanan' => 22,
+                'lama_layanan' => 1,
+                'biaya_layanan' => 0
+            ],
+            [
+                'name' => 'Pelayanan Pengaduan Masyarakat',
+                'id_unit_pengolah' => 1,
+                'id_jenis_layanan' => 11,
+                'id_output_layanan' => 5,
+                'lama_layanan' => 1,
+                'biaya_layanan' => 0
+            ],
+            [
+                'name' => 'Izin Magang/PKL',
+                'id_unit_pengolah' => 1,
+                'id_jenis_layanan' => 2,
+                'id_output_layanan' => 2,
+                'lama_layanan' => 1,
+                'biaya_layanan' => 0
+            ],
             [
                 'name' => 'Rekomendasi Pembuatan Paspor Haji',
                 'id_unit_pengolah' => 5,
@@ -266,18 +327,89 @@ class UsersTableSeeder extends Seeder
 
 
         $syarats = [
-            [
-                'name' => 'Fotocopy KTP (2 Lembar)',
-            ],
-            [
-                'name' => 'Fotocopy Kartu Keluarga (2 lembar)',
-            ],
-            [
-                'name' => 'Fotocopy Surat/Akte Kelahiran/Ijazah /Nikah (2 Lembar)',
-            ],
-            [
-                'name' => 'Surat Rekomendasi Pembuatan Paspor Umrah Asli dari Travel',
-            ]
+            ['name' => 'Surat Masuk'], #1
+            ['name' => 'Surat Keluar'],
+            ['name' => 'Surat Permohonan'],
+            ['name' => 'Fotokopi Buku Nikah'],
+            ['name' => 'Fotokopi KTP'],
+            ['name' => 'Keterangan Tertulis tentang Permalasahan yang Dikonsultasikan'], #6
+            ['name' => 'Surat Pengantar dari Ka. KUA'],
+            ['name' => 'Laporan'],
+            ['name' => 'Data dan Informasi'],
+            ['name' => 'Ijazah Asli yang akan diperbaiki'],
+            ['name' => 'Foto Copy Akta Kelahiran / KK / KTP orang tua yang masih berlaku'], #11
+            ['name' => 'FC sah Ijazah / STTB yang salah penulisannya'],
+            ['name' => 'Ijazah / STTB asli yang salah penulisannya'],
+            ['name' => 'Surat Pernyataan Tanggung Jawab Mutlak (FM-SKP-05)'],
+            ['name' => 'Pas Foto berwarna ukuran 3 x 4 (2 lembar)'],
+            ['name' => 'Materai Rp. 6.000,-'], #16
+            ['name' => 'Mengisi dan menyerahkan Form FM-SKP-04 (bagi yang dikuasakan orang lain);'],
+            ['name' => 'Fotocopy KTP (2 Lembar)'],
+            ['name' => 'Fotocopy Kartu Keluarga (2 Lembar)'],
+            ['name' => 'Fotocopy Surat / Akte Kelahiran / Ijazah / Nikah (2 Lembar)'],
+            ['name' => 'Fotocopy BPIH (2 Lembar)'], #21
+            ['name' => 'Surat Rekomendasi Pembuatan Paspor Umrah Asli dari Travel'],
+            ['name' => 'Fotocopy SK Travel Umrah (2 lembar)'],
+            ['name' => 'Fotocopy Kwitansi Pembayaran (2 lembar)'],
+            ['name' => 'Fotocopy Paspor (bagi jamaah yang sudah memiliki paspor) (2 lembar)'],
+            ['name' => 'Permohonan Ahli Waris diatas Materai 6000'], #26
+            ['name' => 'Fotocopy KTP Almarhum (2 lembar)'],
+            ['name' => 'Fotocopy KTP Ahli Waris (2 lembar)'],
+            ['name' => 'BPIH Asli dan Fotocopy  (masing-masing 1 lembar)'],
+            ['name' => 'Surat Keterangan Ahli Waris Asli dan Fotocopy dari Lurah (masing-masing 1 lembar)'],
+            ['name' => 'Surat Keterangan Meninggal Dunia dari Kelurahan Asli dan foto copy (masing-masing 1 lembar)'], #31
+            ['name' => 'Fotocopy Rekening Ahli Waris yang Satu Bank dengan Almarhum (2 lembar)'],
+            ['name' => 'FC Akta Notaris Pendirian PT sebagai Biro perjalanan Wisata yang memiliki bidang keagamaan / perjalanan ibadah'],
+            ['name' => 'FC Surat Pengesahan Akta Notaris dari Kemenkumham'],
+            ['name' => 'FC Ijin Usaha Biro Perjalanan Wisata setempat harus sudah beroperasional paling singkat 2 (dua) tahu dibuktikan dengan Tanda Daftar Usaha Pariwisata (TDUP)'],
+            ['name' => 'FC Surat Keterangan Domisili Usaha (SKDU) dari Pemda setempat yang masih berlaku'], #36
+            ['name' => 'FC Surat Keterangan Terdaftar sebagai Wajib Pajak dari Dirjen Pajak Kementerian Keuangan'],
+            ['name' => 'Surat Rekomendasi dari Kankemenag Kabupaten/Kota setempat (asli)'],
+            ['name' => 'FC Surat Rekomendasi dari instansi Pemda Provinsi setempat dan/atau Kab/Kota setempat yang membidangi pariwisata'],
+            ['name' => 'FC Laporan Keuangan perusahaan 1 (satu) tahun terakhir dan telah diaudit Akuntan Publik'],
+            ['name' => 'Susunan dan struktur pengurus perusahaan (asli)'], #41
+            ['name' => 'FC Kartu Tanda Penduduk (KTP) dan Biodata Pemegang saham dan anggota Direksi dan Komisaris (Semua WNI beragama Islam)'],
+            ['name' => 'FC NPWP atas nama perusahaan dan pimpinan perusahaan'],
+            ['name' => 'Foto-foto kondisi muka kantor dan ruang pelayanan serta kegiatan bimbingan umrah'],
+            ['name' => 'FC Sertifikat keanggotaan ASITA'],
+            ['name' => 'Laporan pelaksanaan Penyelenggaraan Ibadah Umrah 2 (dua) tahun terakhir yang dibuktikan dengan daftar jamaah yang telah mengikutinya/terdaftar di PPIU-nya'], #46
+            ['name' => 'Bukti telah memberangkatkan jemaah umrah minimal 200 orang selama 3 (tiga) tahun;'],
+            ['name' => 'Surat Keputusan Penetapan sebagai PPIU/ijin operasional PPIU yang masih berlaku'],
+            ['name' => 'Surat Pengantar dari Madrasah'],
+            ['name' => 'Foto Copy Karpeg'],
+            ['name' => 'Foto Copy SK Pangkat Terakhir'], #51
+            ['name' => 'Foto Copy SK Jabatan Terakhir'],
+            ['name' => 'SK Jabatan  Stuktural'],
+            ['name' => 'Surat permohonan dari yang besangkutan'],
+            ['name' => 'SK Pangkat terakhir'],
+            ['name' => 'SK Jabatan Terakhir'], #56
+            ['name' => 'Persetujuan melepas dari tempat tugas sekarang'],
+            ['name' => 'Dasar Surat Penugasan/Pemanggilan'],
+            ['name' => 'Foto Copy SK PAK Terakhir'],
+            ['name' => 'SKP 2 Tahun Terakhir'],
+            ['name' => 'DUPAK'], #61
+            ['name' => 'Penilaian Kinerja Guru'],
+            ['name' => 'Bukti fisik sesuai dengan DUPAK'],
+            ['name' => 'Lampiran yang menjadi bukti-bukti terjadinya fraud / gratifikasi'],
+            ['name' => 'FC Sah SK CPNS'],
+            ['name' => 'FC Sah SK PNS'], #66
+            ['name' => 'FC Sah SK Pangkat Terakhir'],
+            ['name' => 'FC Sah KARPEG'],
+            ['name' => 'FC Sah Ijazah Terakhir'],
+            ['name' => 'FC Sah Penilaian Prestasi Kerja + FC Sah SKP 2 Tahun terakhir'],
+            ['name' => 'Surat Pernyataan Tidak Mutasi'], #71
+            ['name' => 'Surat Pernyataan Tidak Menggangu Tugas Kedinasan'],
+            ['name' => 'Surat Pernyataan Tidak Menuntut Penyesuaian Ijasah'],
+            ['name' => 'Surat Pernyataan Tidak Pernah Dijatuhi Hukuman Disiplin Tingkat Sedang atau Berat'],
+            ['name' => 'Surat Keterangan Masih Aktif Kuliah Terbaru'],
+            ['name' => 'Jadwal Kuliah Terbaru'], #76
+            ['name' => 'Surat Keterangan Akriditasi Jurusan (minimal B)'],
+            ['name' => 'Profil Perguruan Tinggi/Radius Lokasi'],
+            ['name' => 'FC SK Mutasi terakhir (jika pada saat pengajuan, terdapat beda tempat tugas terakhir dengan tempat tugas yang tercantum pada SK Pangkat terakhir'],
+            ['name' => 'Surat Pemohonan Magang dari Pimpinan Lembaga'],
+            ['name' => 'Daftar nama peserta magang/praktek lapangan'], #81
+            ['name' => 'Surat Permohonan Audiensi'],
+            ['name' => 'Surat Permohonan/Pengantar dari Lembaga Pendidikan'],
         ];
 
         DB::table('master_syarat_layanan')->insert($syarats);
@@ -285,38 +417,115 @@ class UsersTableSeeder extends Seeder
 
         $daftarSyarats = [
             [
-                'id_layanan' => 1,
-                'id_master_syarat_layanan' => 1,
-            ],
-            [
-                'id_layanan' => 1,
-                'id_master_syarat_layanan' => 2,
-            ],
-            [
-                'id_layanan' => 1,
+                'id_layanan' => 1, #Pelayanan Data dan Informasi Umum
                 'id_master_syarat_layanan' => 3,
             ],
             [
-                'id_layanan' => 2,
+                'id_layanan' => 2, #Pelayanan Surat Masuk
                 'id_master_syarat_layanan' => 1,
             ],
             [
-                'id_layanan' => 2,
+                'id_layanan' => 3, #Pelayanan Surat Keluar
                 'id_master_syarat_layanan' => 2,
             ],
             [
-                'id_layanan' => 2,
-                'id_master_syarat_layanan' => 3,
+                'id_layanan' => 4, #Pelayanan Pengaduan Masyarakat
+                'id_master_syarat_layanan' => 64,
             ],
             [
-                'id_layanan' => 2,
-                'id_master_syarat_layanan' => 4
-            ]
-            
+                'id_layanan' => 5, #Izin Magang / PKL
+                'id_master_syarat_layanan' => 80,
+            ],
+            [
+                'id_layanan' => 5, 
+                'id_master_syarat_layanan' => 81,
+            ],
+            [
+                'id_layanan' => 6, #Rekomendasi Pembuatan Paspor Haji
+                'id_master_syarat_layanan' => 18,
+            ],
+            [
+                'id_layanan' => 6, 
+                'id_master_syarat_layanan' => 19,
+            ],
+            [
+                'id_layanan' => 6, 
+                'id_master_syarat_layanan' => 20,
+            ],
+            [
+                'id_layanan' => 6, 
+                'id_master_syarat_layanan' => 21,
+            ],
+            [
+                'id_layanan' => 7, #Rekomendasi Pembuatan Paspor Umrah
+                'id_master_syarat_layanan' => 22
+            ],
+            [
+                'id_layanan' => 7,
+                'id_master_syarat_layanan' => 23
+            ],
+            [
+                'id_layanan' => 7,
+                'id_master_syarat_layanan' => 24
+            ],
+            [
+                'id_layanan' => 7,
+                'id_master_syarat_layanan' => 25
+            ],
+            [
+                'id_layanan' => 7,
+                'id_master_syarat_layanan' => 18
+            ],
+            [
+                'id_layanan' => 7,
+                'id_master_syarat_layanan' => 19
+            ],
+            [
+                'id_layanan' => 7,
+                'id_master_syarat_layanan' => 20
+            ],
+            [
+                'id_layanan' => 8, #Pembatalan Haji (Berangkat)
+                'id_master_syarat_layanan' => 3
+            ],
+            [
+                'id_layanan' => 8, 
+                'id_master_syarat_layanan' => 18
+            ],
+            [
+                'id_layanan' => 8, 
+                'id_master_syarat_layanan' => 29
+            ],
+            [
+                'id_layanan' => 9, #Pembatalan Haji (Meninggal Dunia)
+                'id_master_syarat_layanan' =>  26
+            ],
+            [
+                'id_layanan' => 9, 
+                'id_master_syarat_layanan' =>  27
+            ],
+            [
+                'id_layanan' => 9, 
+                'id_master_syarat_layanan' =>  28
+            ],
+            [
+                'id_layanan' => 9, 
+                'id_master_syarat_layanan' =>  29
+            ],
+            [
+                'id_layanan' => 9, 
+                'id_master_syarat_layanan' =>  30
+            ],
+            [
+                'id_layanan' => 9, 
+                'id_master_syarat_layanan' =>  31
+            ],
+            [
+                'id_layanan' => 9, 
+                'id_master_syarat_layanan' =>  32
+            ],
         ];
 
         DB::table('daftar_syarat_layanan')->insert($daftarSyarats);
-
-
     }
 }

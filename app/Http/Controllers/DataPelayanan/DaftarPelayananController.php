@@ -1,15 +1,21 @@
 <?php
 
-namespace App\Http\Controllers\DataTransaksi;
+namespace App\Http\Controllers\DataPelayanan;
+
+use Notification;
+use App\Notifications\NewPelayananNotification;
 
 use App\Http\Controllers\Controller;
+use App\Models\DaftarDisposisi;
 use Illuminate\Http\Request;
 use App\Models\DaftarPelayanan;
 use App\Models\DaftarLayanan;
 use App\Models\JenisLayanan;
 use App\Models\OutputLayanan;
 use App\Models\UnitPengolah;
+use App\Notifications\NewUserNotification;
 use DataTables;
+use Auth;
 
 class DaftarPelayananController extends Controller
 {
@@ -34,6 +40,8 @@ class DaftarPelayananController extends Controller
         $jenis_all = JenisLayanan::all();
         $unit_all = UnitPengolah::all();
         $output_all = OutputLayanan::all();
+        $daftarLayanan = DaftarLayanan::with('unit')->get();
+
 
         $dd = [
             'jenis_all' => $jenis_all,
@@ -48,7 +56,8 @@ class DaftarPelayananController extends Controller
             'br3'  => $status,
             'status'  => $status,
             'dd'   => $dd,
-            'html_status' => '<span class="html-status">'.ucfirst($status).'</span>'
+            'html_status' => '<span class="html-status">'.ucfirst($status).'</span>',
+            'daftar_layanan'  => $daftarLayanan
         ])->render();
     }
 
@@ -65,17 +74,18 @@ class DaftarPelayananController extends Controller
 
     public function store(Request $request)
     {
-        $success = 'nope';
+        $success = false;
         $message = '';
         $code = 400;
 
         $data = $request->input();
+        $newData = null;
 
         try {
-            $layanan = DaftarLayanan::first();
             $pelayananCount = DaftarPelayanan::count();
             $pelayananCount = $pelayananCount == 0 ? 1 : $pelayananCount++;
 
+            // Create Pelayanan
             $pelayanan = new DaftarPelayanan();
             $pelayanan->id_layanan = $data['id_layanan'];
             $pelayanan->no_registrasi = "02".date('Ymd').sprintf('%02d', $data['id_layanan']).sprintf('%04d', $pelayananCount);
@@ -90,15 +100,40 @@ class DaftarPelayananController extends Controller
             $pelayanan->status_pelayanan = $data['status_pelayanan'];
             $pelayanan->catatan = $data['catatan'];
             $pelayanan->save();
+            $pelayanan->fresh();
 
-            $success = 'yeah';
+            if ($data['status_pelayanan'] == 'Baru') {
+                // Create Disposisi
+                $disposisi = new DaftarDisposisi();
+                $disposisi->id_pelayanan = $pelayanan->id_pelayanan;
+                $disposisi->id_aksi_disposisi = 4; // aksi 'ditindaklanjuti'
+                $disposisi->urutan_disposisi = 1;
+                $disposisi->id_sender = Auth::user()->id;
+                $disposisi->username_sender = Auth::user()->username;
+                $recipient = \App\Models\User::whereHas('roles', function ($q) {
+                    $q->where('name', 'manager');
+                })->first();
+                $disposisi->id_recipient = $recipient->id;
+                $disposisi->username_recipient = $recipient->username;
+                $disposisi->urutan_disposisi = 1;
+                $disposisi->save();
+
+                Notification::send($recipient, new NewPelayananNotification($pelayanan));
+            }
+
+            $newData = $pelayanan;
+
+            $success = true;
             $code = 200;
             $message = 'Data Berhasil Disimpan';
         } catch (\Throwable $th) {
             $message = $th->getMessage();
         }
 
-        return redirect()->route('daftar-pelayanan.index', strtolower($data['status_pelayanan']));
+        return response()
+            ->json(['success' => $success, 'message' => $message, 'data' => $newData]);
+
+        // return redirect()->route('daftar-pelayanan.index', strtolower($data['status_pelayanan']));
     }
 
     public function search(Request $request)

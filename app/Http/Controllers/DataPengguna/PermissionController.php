@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\DataUtama;
+namespace App\Http\Controllers\DataPengguna;
 
+use Spatie\Permission\Models\Permission;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Role;
 use DataTables;
 
-class RoleController extends Controller
+class PermissionController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -23,26 +23,25 @@ class RoleController extends Controller
     {
 
         if ($request->ajax()) {
-            $roles = Role::all();
+            $permissions = Permission::all();
 
-            return Datatables::of($roles)
+            return Datatables::of($permissions)
                 ->addIndexColumn()
-                ->addColumn('action', function ($role) {
+                ->addColumn('action', function ($permission) {
                     $btn = '<button id="editBtn" type="button" class="btn btn-sm btn-warning btn-xs" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Level / Peran User"><i class="bi bi-pencil-square"></i></button>&nbsp;';
-                    $btn .= '<button id="destroyBtn" type="button" class="btn btn-sm btn-danger btn-xs" data-bs-role_id="'. $role->id  .'" data-role_id="'.  $role->id  .'"><i class="bi bi-trash-fill"></i></button>';
+                    $btn .= '<button id="destroyBtn" type="button" class="btn btn-sm btn-danger btn-xs" data-bs-permission_id="'. $permission->id  .'" data-permission_id="'.  $permission->id  .'"><i class="bi bi-trash-fill"></i></button>';
                     return $btn;
                 })
                 ->rawColumns(['action'])
                 ->make(true);
         }
 
-        return view('admin.users.roles.index', [
-            'title'  => 'Daftar Level Pengguna Sistem PTSP',
+        return view('admin.permissions.index', [
+            'title'  => 'Daftar Izin Akses',
             'br1'  => 'Kelola',
-            'br2'  => 'Data Level / Peran Pengguna',
+            'br2'  => 'Izin Akses',
         ]);
 
-        
     }
 
     public function store(Request $request)
@@ -54,12 +53,12 @@ class RoleController extends Controller
         $data = $request->input();
 
         try {
-            if ($data['id_role'] == '') {
-                Role::create(['name' => $data['name']]);   
+            if ($data['id_permission'] == '') {
+                Permission::create(['name' => $data['name']]);   
             } else {
-                $role = Role::findOrFail($data['id_role']);
-                $role->name = $data['name'];
-                $role->update();
+                $unit = Permission::findOrFail($data['id_permission']);
+                $unit->name = $data['name'];
+                $unit->update();
             }
 
             $success = 'yeah';
@@ -76,14 +75,13 @@ class RoleController extends Controller
         ], $code);
     }
 
-    public function destroy(Role $role)
+    public function destroy(Permission $permission)
     {
         $success = false;
         $message = '';
 
         try {
-
-            $role->delete();
+            $permission->delete();
             $success = true;
         } catch (\Exception $e) {
             $message = $e->getMessage();
@@ -92,5 +90,4 @@ class RoleController extends Controller
         return response()
             ->json(['success' => $success, 'message' => $message]);
     }
-
 }

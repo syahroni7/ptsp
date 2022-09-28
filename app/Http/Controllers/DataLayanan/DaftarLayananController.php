@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\DataMaster;
+namespace App\Http\Controllers\DataLayanan;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;

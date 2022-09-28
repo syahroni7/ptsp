@@ -1,7 +1,8 @@
 <!-- Tambah Group -->
-<div class="modal fade" id="fModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+<div class="modal fade" id="fModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
+    data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
-        <form id="fForm" method="post" action="{{ route('jenis-layanan.store') }}" enctype="multipart/form-data">
+        <form id="fForm" method="post" action="{{ route('permissions.store') }}" enctype="multipart/form-data">
             {{ csrf_field() }}
             <div class="modal-content">
                 <div class="modal-header">
@@ -16,7 +17,7 @@
                         <div class="col-12">
 
 
-                            <input type="hidden" name="id_jenis_layanan" id="id_jenis_layanan" value="">
+                            <input type="hidden" name="id_permission" id="id_permission" value="">
                             <div class="row mb-3">
                                 <label for="inputText" class="col-sm-3 col-form-label">Nama Jenis Layanan</label>
                                 <div class="col-sm-9">

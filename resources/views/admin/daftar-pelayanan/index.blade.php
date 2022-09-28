@@ -85,6 +85,11 @@
             }
         });
 
+        $('.select2').select2({
+            theme: 'bootstrap-5',
+            dropdownParent: $("#fModal"),
+        });
+
 
         var table = $('#example').DataTable({
             orderable: false,
@@ -143,22 +148,9 @@
         });
 
         $(document).on("click", ".menu-status", function() {
-            // var status = $(this).data('status_pelayanan');
-            // console.log('status');
-            // console.log(status);
-            // $('.html-status').html(ucwords(status));
-
-            // $('li a.menu-status').removeClass('active')
-
-            // $('.menu-' + status).addClass('active');
-
-            // table.ajax.url('/daftar-pelayanan/list/' + status).load();
 
             // New Algorithm
             var status = $(this).data('status_pelayanan');
-
-            // table.ajax.reload('/daftar-pelayanan/list/' + status, false);
-
 
             $('body').block({
                 message: `Loading...`
@@ -210,15 +202,91 @@
                 $('#nama').prop('disabled', false);
             });
 
-            $(document).on("click", "#editBtn", function() {
+            $(document).on("click", "#editBtn", function(e) {
+                e.preventDefault();
                 $('.edit-state').show();
                 var title = $(this).data('title');
                 $("#judul-modal").html(title);
                 var data = table.row($(this).parents('tr')).data();
                 console.log(data);
-                console.log(title);
-                $("#id_jenis_layanan").val(data.id_jenis_layanan);
-                $('#name').val(data.name);
+                $('#fForm')[0].reset();
+                $('#id_layanan').val('');
+
+                $('.modalBox').block({
+                    message: ``
+                });
+
+                setTimeout(function() {
+
+                    $.ajax({
+                        type: 'GET',
+                        url: '/daftar-pelayanan/fetch/' + data.id_pelayanan,
+                        dataType: 'json', // let's set the expected response format
+                        success: function(data) {
+                            console.log('data');
+                            console.log(data);
+                            if (data.success) {
+                                var item = data.data;
+                                $('#search_id_layanan').val(item.id_layanan).trigger(
+                                    'change');
+                                $('#search_no_registrasi').val(item.no_registrasi);
+                                console.log('item.no_registrasi');
+                                console.log(item.no_registrasi);
+                                $('#search_perihal').val(item.perihal);
+                                $('#search_pemohon_no_surat').val(item
+                                    .pemohon_no_surat);
+                                $('#search_pemohon_tanggal_surat').val(item
+                                    .pemohon_tanggal_surat);
+                                $('#search_pemohon_nama').val(item.pemohon_nama);
+                                $('#search_pemohon_alamat').val(item.pemohon_alamat);
+                                $('#search_pemohon_no_hp').val(item.pemohon_no_hp);
+                                $('#search_pengirim_nama').val(item.pengirim_nama);
+                                $('#search_kelengkapan_syarat').val(item
+                                        .kelengkapan_syarat)
+                                    .trigger('change');
+                                $('#search_status_pelayanan').val(item.status_pelayanan)
+                                    .trigger(
+                                        'change');
+                                $('#search_catatan').val(item.catatan);
+
+                            } else {
+                                Swal.fire(
+                                    'Error!', data.message, 'error'
+                                );
+                            }
+
+                        },
+                        error: function(err) {
+                            if (err.status ==
+                                422
+                            ) { // when status code is 422, it's a validation issue
+                                console.log(err.responseJSON);
+                                // you can loop through the errors object and show it to the user
+                                console.warn(err.responseJSON.errors);
+                                // display errors on each form field
+                                $('.ajax-invalid').remove();
+                                $.each(err.responseJSON.errors, function(i, error) {
+                                    var el = $(document).find('[name="' + i +
+                                        '"]');
+                                    el.after($('<span class="ajax-invalid" style="color: red;">' +
+                                        error[0] + '</span>'));
+                                });
+                            } else if (err.status == 403) {
+                                Swal.fire(
+                                    'Unauthorized!',
+                                    'You are unauthorized to do the action',
+                                    'warning'
+                                );
+
+                            }
+                        }
+                    });
+
+
+
+                    $('.modalBox').unblock();
+                }, 1500);
+
 
             });
 

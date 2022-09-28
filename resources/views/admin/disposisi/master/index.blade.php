@@ -30,13 +30,11 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ $title }}</h5>
 
-                            <table class='table table-bordered display' id="example"
-                                style="width:100%; font-size:11pt!important;">
+                            <table class='table table-bordered display' id="example" style="width:100%; font-size:11pt!important;">
                                 <thead>
                                     <tr>
                                         <th class="text-center" width="5%">No</th>
-                                        <th class="text-center">Level User</th>
-                                        <th class="text-center">Izin Akses</th>
+                                        <th class="text-center">Nama Aksi</th>
                                         <th class="text-center" width="20%">Aksi</th>
                                     </tr>
                                 </thead>
@@ -48,7 +46,7 @@
             </div>
         </section>
 
-        @include('admin.users.roles._modal')
+        @include('admin.disposisi.master._modal')
 
     </main>
 
@@ -57,7 +55,6 @@
 
 
 @section('_scripts')
-
 
     <script src="{{ asset('js/select2.min.js') }}"></script>
     <script src="{{ asset('js/sweetalert2@11.js') }}"></script>
@@ -73,6 +70,7 @@
     <script type="text/javascript" language="javascript" src="{{ asset('js/buttons.html5.min.js') }}"></script>
     <script type="text/javascript" language="javascript" src="{{ asset('js/buttons.print.min.js') }}"></script>
     <script type="text/javascript" language="javascript" src="{{ asset('js/buttons.colVis.min.js') }}"></script>
+
 
 
     <script>
@@ -91,6 +89,7 @@
             responsive: false,
             scrollX: true,
             autoWidth: false,
+            pageLength: 10,
             lengthMenu: [
                 [10, 25, 50, -1],
                 ['10 rows', '25 rows', '50 rows', 'Show all']
@@ -106,8 +105,8 @@
                         'data-bs-toggle': 'modal',
                         'data-bs-backdrop': 'static',
                         'data-bs-keyboard': 'false',
-                        'data-bs-title': 'Tambah Level / Peran User',
-                        'data-title': 'Tambah Level / Peran User',
+                        'data-bs-title': 'Tambah Aksi Disposisi',
+                        'data-title': 'Tambah Aksi Disposisi',
                         'type': 'button',
                         'id': 'addBtn',
                         'class': 'btn btn-primary'
@@ -140,9 +139,6 @@
                 data: 'name',
                 name: 'name'
             }, {
-                data: 'role_permissions',
-                name: 'role_permissions'
-            }, {
                 data: 'action',
                 name: 'action',
                 className: 'text-center'
@@ -151,7 +147,7 @@
 
 
         $(document).ready(function() {
-            table.ajax.url('/users/roles').load();
+            table.ajax.url('/disposisi/master').load();
 
             table.buttons().container()
                 .appendTo('#example_wrapper .col-md-6:eq(0)');
@@ -169,7 +165,7 @@
 
             $(document).on("click", "#addBtn", function() {
                 $('.edit-state').hide();
-                $('#id_role').val('');
+                $('#id_aksi_disposisi').val('');
                 $('#fForm')[0].reset();
                 var title = $(this).data('title');
                 $("#judul-modal").html(title);
@@ -183,19 +179,8 @@
                 var data = table.row($(this).parents('tr')).data();
                 console.log(data);
                 console.log(title);
-                $("#id_role").val(data.id);
+                $("#id_aksi_disposisi").val(data.id_aksi_disposisi);
                 $('#name').val(data.name);
-
-                $('input[type=checkbox]').each(function() {
-                    this.checked = false;
-                });
-                $.each(data.permissions, function(index, item) {
-                    console.log('item');
-                    console.log(item.name);
-                    $('input[name="permissions[]"][value="' + item.id + '"]').prop(
-                        "checked",
-                        true);
-                });
 
             });
 
@@ -236,7 +221,7 @@
                                 );
                             }
                             $('#fForm')[0].reset();
-                            $('#id_role').val('');
+                            $('#id_aksi_disposisi').val('');
                         }, 200);
 
                     },
@@ -267,7 +252,7 @@
 
             $(document).on("click", "#destroyBtn", function() {
                 event.preventDefault();
-                var roleID = $(this).data('role_id');
+                var idItem = $(this).data('id_aksi_disposisi');
 
                 swalWithBootstrapButtons.fire({
                     title: 'Apakah anda yakin akan melakukan penghapusan data?',
@@ -279,8 +264,8 @@
                     reverseButtons: true
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        var url = '{{ route('user-roles.destroy', ':id') }}';
-                        url = url.replace(':id', roleID);
+                        var url = '{{ route('disposisi-master.destroy', ':id') }}';
+                        url = url.replace(':id', idItem);
                         $.ajax({
                             type: 'DELETE',
                             url: url,
