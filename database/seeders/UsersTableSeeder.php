@@ -84,7 +84,7 @@ class UsersTableSeeder extends Seeder
                 'name' => 'Mardiyana',
                 'username' => 'mardiyana',
                 'email' => 'mardiyana@gmail.com',
-                'password' => Hash::make('operator'),
+                'password' => Hash::make('mardiyana'),
                 'updated_at' => \Carbon\Carbon::now()
             ],
         ];
