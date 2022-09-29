@@ -3,6 +3,7 @@
 namespace App\Models;
  
 use Illuminate\Database\Eloquent\Model;
+use Vinkla\Hashids\Facades\Hashids;
  
 class DaftarPelayanan extends Model
 {
@@ -12,6 +13,8 @@ class DaftarPelayanan extends Model
     protected $primaryKey = 'id_pelayanan';
  
     protected $guarded = [];
+
+    protected $appends = ['idx_pelayanan'];
 
     public function layanan() {
         return $this->belongsTo(DaftarLayanan::class, 'id_layanan');
@@ -28,5 +31,17 @@ class DaftarPelayanan extends Model
     public function jenis() {
         return $this->belongsTo(JenisLayanan::class, 'id_jenis_layanan');
     }
+
+    public function disposisi() {
+        return $this->hasMany(DaftarDisposisi::class, 'id_pelayanan');
+    }
+
+    public function getIdxPelayananAttribute()
+    {
+        return Hashids::encode($this->id_pelayanan);
+    }
+
+
+    
    
 }

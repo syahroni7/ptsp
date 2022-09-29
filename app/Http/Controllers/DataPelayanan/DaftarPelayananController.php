@@ -11,11 +11,15 @@ use Illuminate\Http\Request;
 use App\Models\DaftarPelayanan;
 use App\Models\DaftarLayanan;
 use App\Models\JenisLayanan;
+use App\Models\MasterAksiDisposisi;
 use App\Models\OutputLayanan;
 use App\Models\UnitPengolah;
+use App\Models\User;
 use App\Notifications\NewUserNotification;
 use DataTables;
 use Auth;
+use DB;
+use Vinkla\Hashids\Facades\Hashids;
 
 class DaftarPelayananController extends Controller
 {
@@ -23,13 +27,16 @@ class DaftarPelayananController extends Controller
     {
         if ($request->ajax()) {
             // $layanans = DaftarPelayanan::with('layanan', 'unit', 'output', 'jenis')->get();
-            $layanans = DaftarPelayanan::where('status_pelayanan', $status)
-            ->with('layanan', 'unit', 'output', 'jenis')->get();
+            $pelayanans = DaftarPelayanan::where('status_pelayanan', $status)
+            ->with('layanan', 'unit', 'output', 'jenis')->orderBy('id_pelayanan', 'desc')->take(300)->get();
 
-            return Datatables::of($layanans)
+            return Datatables::of($pelayanans)
                 ->addIndexColumn()
                 ->addColumn('action', function ($layanan) {
-                    $btn = '<button id="editBtn" type="button" class="btn btn-sm btn-warning btn-xs" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Item Layanan"><i class="bi bi-pencil-square"></i></button>&nbsp;';
+                    $url = route('daftar-pelayanan.detail', Hashids::encode( $layanan->id_pelayanan) );
+                    $btn = '<a href="'.$url.'" target="_blank" id="viewBtn" type="button" class="btn btn-sm btn-primary btn-xs"><i class="bi bi-journal-check"></i></a>&nbsp;&nbsp;';
+
+                    $btn .= '<button id="editBtn" type="button" class="btn btn-sm btn-warning btn-xs" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Item Layanan"><i class="bi bi-pencil-square"></i></button>&nbsp;&nbsp;';
                     $btn .= '<button id="destroyBtn" type="button" class="btn btn-sm btn-danger btn-xs" data-bs-id_layanan="'. $layanan->id_layanan  .'" data-id_layanan="'.  $layanan->id_layanan  .'"><i class="bi bi-trash-fill"></i></button>';
                     return $btn;
                 })
@@ -80,15 +87,22 @@ class DaftarPelayananController extends Controller
 
         $data = $request->input();
         $newData = null;
+        $summary = [];
+        $recipient = null;
+        $disposisi = null;
 
         try {
-            $pelayananCount = DaftarPelayanan::count();
-            $pelayananCount = $pelayananCount == 0 ? 1 : $pelayananCount++;
+            $layanan = DaftarLayanan::where('id_layanan', $data['id_layanan'])->first();
+            $pelayananCount = DaftarPelayanan::whereYear('created_at', '=', date('Y'))
+                                                ->whereMonth('created_at', '=', date('m'))
+                                                ->count();
+            
+            $pelayananCount = $pelayananCount == 0 ? 1 : ($pelayananCount + 1);
 
             // Create Pelayanan
             $pelayanan = new DaftarPelayanan();
             $pelayanan->id_layanan = $data['id_layanan'];
-            $pelayanan->no_registrasi = "02".date('Ymd').sprintf('%02d', $data['id_layanan']).sprintf('%04d', $pelayananCount);
+            $pelayanan->no_registrasi = "02".date('ymd').sprintf('%02d', $layanan->id_unit_pengolah).sprintf('%02d', $data['id_layanan']).sprintf('%03d', $pelayananCount);
             $pelayanan->perihal = $data['perihal'];
             $pelayanan->pemohon_nama = $data['pemohon_nama'];
             $pelayanan->pemohon_no_surat = $data['pemohon_no_surat'];
@@ -115,13 +129,20 @@ class DaftarPelayananController extends Controller
                 })->first();
                 $disposisi->id_recipient = $recipient->id;
                 $disposisi->username_recipient = $recipient->username;
-                $disposisi->urutan_disposisi = 1;
                 $disposisi->save();
+                $disposisi->fresh();
+                $disposisi->load('pelayanan');
 
-                Notification::send($recipient, new NewPelayananNotification($pelayanan));
+                Notification::send($recipient, new NewPelayananNotification($disposisi));
             }
 
             $newData = $pelayanan;
+
+            $summary = DaftarPelayanan::select('status_pelayanan', DB::raw('count(*) as total'))
+                                                ->whereYear('created_at', '=', date('Y'))
+                                                ->whereMonth('created_at', '=', date('m'))
+                                                ->groupBy('status_pelayanan')
+                                                ->get();
 
             $success = true;
             $code = 200;
@@ -131,9 +152,67 @@ class DaftarPelayananController extends Controller
         }
 
         return response()
-            ->json(['success' => $success, 'message' => $message, 'data' => $newData]);
+            ->json([
+                'success' => $success,
+                'message' => $message,
+                'data' => $newData,
+                'summary' => $summary,
+                'recipient' => $recipient,
+                'disposisi' => $disposisi,
+                'totalNotifikasi' => $recipient->unreadNotifications->count()
+            ]);
 
-        // return redirect()->route('daftar-pelayanan.index', strtolower($data['status_pelayanan']));
+    }
+
+    public function update(Request $request)
+    {
+        $success = false;
+        $message = '';
+        $code = 400;
+
+        $data = $request->input();
+        $newData = null;
+        $summary = [];
+
+        try {
+
+            $pelayanan = DaftarPelayanan::where('id_pelayanan', $data['id_pelayanan'])->first();
+
+            // Create Pelayanan
+            $pelayanan->perihal = $data['perihal'];
+            $pelayanan->pemohon_nama = $data['pemohon_nama'];
+            $pelayanan->pemohon_no_surat = $data['pemohon_no_surat'];
+            $pelayanan->pemohon_tanggal_surat = $data['pemohon_tanggal_surat'];
+            $pelayanan->pengirim_nama = $data['pengirim_nama'];
+            $pelayanan->pemohon_alamat = $data['pemohon_alamat'];
+            $pelayanan->pemohon_no_hp = $data['pemohon_no_hp'];
+            $pelayanan->kelengkapan_syarat = $data['kelengkapan_syarat'];
+            $pelayanan->status_pelayanan = $data['status_pelayanan'];
+            $pelayanan->catatan = $data['catatan'];
+            $pelayanan->save();
+            $pelayanan->fresh();
+
+            $summary = DaftarPelayanan::select('status_pelayanan', DB::raw('count(*) as total'))
+                                                ->whereYear('created_at', '=', date('Y'))
+                                                ->whereMonth('created_at', '=', date('m'))
+                                                ->groupBy('status_pelayanan')
+                                                ->get();
+
+            $success = true;
+            $code = 200;
+            $message = 'Data Berhasil Disimpan';
+        } catch (\Throwable $th) {
+            $message = $th->getMessage();
+        }
+
+        return response()
+            ->json([
+                'success' => $success,
+                'message' => $message,
+                'data' => $newData,
+                'summary' => $summary,
+            ]);
+
     }
 
     public function search(Request $request)
@@ -163,5 +242,69 @@ class DaftarPelayananController extends Controller
 
         return response()
             ->json(['success' => $success, 'message' => $message, 'data' => $data]);
+    }
+
+    public function detail(Request $request, $idx)
+    {
+
+        $id_pelayanan = Hashids::decode($idx);
+
+        if ($request->ajax()) {
+
+            $success = false;
+            $message = '';
+            $data = null;
+
+            try {
+                
+                $pelayanan = DaftarPelayanan::where('id_pelayanan', $id_pelayanan)->firstOrFail();
+                $pelayanan->load('layanan', 'layanan.unit', 'layanan.output', 'layanan.jenis', 'disposisi.sender', 'disposisi.recipient', 'disposisi.aksi');
+                $data = $pelayanan;
+                
+                $disposisiArr = $pelayanan->disposisi;
+                $disposisiCurr = $disposisiArr->last();
+                $lastRecipientUsername = $disposisiCurr->recipient ? $disposisiCurr->recipient->username : '';
+
+                $userLoggedUsername = Auth::user()->username;
+                $primary = [
+                    'disposisiCurr' => $disposisiCurr,
+                    'bisa_disposisi' => ($userLoggedUsername == $lastRecipientUsername)
+                ];
+
+                $success = true;
+            } catch (\Exception $e) {
+                $message = $e->getMessage();
+            }
+
+            return response()
+                ->json([
+                    'success' => $success, 
+                    'message' => $message, 
+                    'data' => $data,
+                    'primary' => $primary,
+                ]);
+                
+        }
+
+        
+       
+
+        $daftarLayanan = DaftarLayanan::all();
+        $pegawai = User::all();
+        $aksi = MasterAksiDisposisi::all();
+
+        
+
+        return view('admin.daftar-pelayanan.detail', [
+            'title'  => 'Detail Pelayanan Publik',
+            'br1'  => 'Detail',
+            'br2'  => 'Pelayanan Publik',
+            'daftar_layanan'  => $daftarLayanan,
+            'id_pelayanan'  => $idx,
+            'pegawai' => $pegawai,
+            'aksi' => $aksi
+        ])->render();
+
+
     }
 }

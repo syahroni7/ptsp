@@ -8,20 +8,6 @@
     <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/select2-bootstrap-5-theme.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/select2-bootstrap-5-theme.rtl.min.css') }}" />
-
-    <style>
-        .was-validated .custom-select:invalid+.select2 .select2-selection {
-            border-color: #dc3545 !important;
-        }
-
-        .was-validated .custom-select:valid+.select2 .select2-selection {
-            border-color: #28a745 !important;
-        }
-
-        *:focus {
-            outline: 0px;
-        }
-    </style>
 @endsection
 
 
@@ -144,7 +130,22 @@
 
                                     <div class="col-md-12 form-group">
                                         <label for="perihal" class="form-label fw-bold">Perihal</label>
-                                        <input class="form-control" name="perihal" id="perihal" type="text" value="" placeholder="Perihal">
+                                        {{-- <input class="form-control" name="perihal" id="perihal" type="text" value="" placeholder="Perihal"> --}}
+
+                                        <div class="input-group mt-2">
+                                            {{-- <input type="text" class="form-control" placeholder="Ketik No. Registrasi"
+                                                aria-label="Ketik No. Registrasi" aria-describedby="basic-addon2"> --}}
+                                            <input class="form-control" name="perihal" id="perihal" type="text" value="" placeholder="Perihal">
+                                            <button class="input-group-text" id="copy-from-layanan" role="button" type="button" aria-expanded="false" aria-controls="searchSection">
+                                                <i class="bi bi- clipboard-check"></i>&nbsp;&nbsp;Salin dari Layanan
+                                            </button>
+
+                                            {{-- <button class="input-group-text" id="basic-addon2" id="nav-profile-tab"
+                                                data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab"
+                                                aria-controls="nav-profile" aria-selected="false">
+                                                <i class="bi bi-search"></i>&nbsp;&nbsp;Cari
+                                            </button> --}}
+                                        </div>
                                     </div>
 
                                     <div class="col-md-6 form-group">
@@ -179,7 +180,7 @@
                                         <input class="form-control" name="pengirim_nama" id="pengirim_nama" type="text" placeholder="Nama Pengirim" value="">
                                     </div>
 
-                                    <div class="col-md-12 form-group">
+                                    {{-- <div class="col-md-12 form-group">
                                         <label for="kelengkapan_syarat" class="form-label fw-bold">Kelengkapan
                                             Syarat</label>
                                         <select name="kelengkapan_syarat" id="kelengkapan_syarat" class="form-control select2 custom-select">
@@ -187,8 +188,9 @@
                                             <option value="Sudah Lengkap">Sudah Lengkap</option>
                                             <option value="Belum Lengkap">Belum Lengkap</option>
                                         </select>
-                                    </div>
+                                    </div> --}}
 
+                                    <input type="hidden" name="kelengkapan_syarat" id="kelengkapan_syarat" value="Sudah Lengkap">
                                     <input type="hidden" name="status_pelayanan" id="status_pelayanan" value="Baru">
 
                                     <div class="col-12">
@@ -359,7 +361,13 @@
                 );
             }
 
-        })
+        });
+
+
+        $("#copy-from-layanan").on("click", function() {
+            var textLayanan = $('#id_layanan').find(":selected").text();
+            $('#perihal').val(textLayanan.split("-").pop());
+        });
 
 
         function searchData(id_pelayanan) {
@@ -519,8 +527,6 @@
 
             $(document).on('select2:select', '#id_layanan', function(e) {
                 var id_layanan = $(this).val();
-                console.log('id_layanan');
-                console.log(id_layanan);
                 fetchSyarat(id_layanan);
             });
 
@@ -559,6 +565,8 @@
 
             $("select").on("select2:close", function(e) {
                 $(this).valid();
+                console.log($(this).val());
+                console.log($(this).valid());
             });
 
 
@@ -661,6 +669,12 @@
                                         'success'
                                     );
 
+                                    socket.emit('sendSummaryToServer', data.summary);
+                                    var notifData = [
+                                        data.recipient, data.disposisi
+                                    ];
+                                    socket.emit('sendNotifToServer', notifData);
+
                                     searchData(data.data.id_pelayanan);
 
                                 } else {
@@ -708,7 +722,6 @@
                     }, 1500);
                 }
             });
-
 
         });
     </script>

@@ -25,7 +25,7 @@ class CreateDaftarDisposisiTable extends Migration
             $table->unsignedInteger('id_sender')->nullable(true);
             $table->string('username_sender')->nullable(true);;            
             $table->unsignedInteger('id_recipient')->nullable(true);
-            $table->string('username_recipient')->nullable(true);;
+            $table->string('username_recipient')->nullable(true);
             
             
 

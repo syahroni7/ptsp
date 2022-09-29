@@ -25,7 +25,7 @@ class MasterDisposisiSeeder extends Seeder
                 'name' => 'kita_bicarakan',
             ],
             [
-                'name' => 'ditindaklanjuti',
+                'name' => 'untuk_ditindaklanjuti',
             ],
             [
                 'name' => 'untuk_diedarkan',

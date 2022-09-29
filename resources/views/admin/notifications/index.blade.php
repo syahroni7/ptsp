@@ -15,12 +15,11 @@
 
     <main id="main" class="main">
         <div class="pagetitle">
-            <h1>{!! $title !!} - {!! $html_status !!}</h1>
+            <h1>{{ $title }}</h1>
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">{!! $br1 !!}</a></li>
-                    <li class="breadcrumb-item">{!! $br2 !!}</li>
-                    <li class="breadcrumb-item active">{!! $html_status !!}</li>
+                    <li class="breadcrumb-item"><a href="#">{{ $br1 }}</a></li>
+                    <li class="breadcrumb-item active">{{ $br2 }}</li>
                 </ol>
             </nav>
         </div>
@@ -29,17 +28,14 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">{!! $title !!} {!! $html_status !!}</h5>
+                            <h5 class="card-title">{{ $title }}</h5>
 
                             <table class='table table-bordered display' id="example" style="width:100%; font-size:11pt!important;">
                                 <thead>
                                     <tr>
-                                        <th class="text-center">No</th>
-                                        <th class="text-center">No Registrasi</th>
-                                        <th class="text-center">Nama Layanan</th>
-                                        <th class="text-center">Perihal</th>
-                                        <th class="text-center">Kelengkapan</th>
-                                        <th class="text-center">Status</th>
+                                        <th class="text-center" width="5%">No</th>
+                                        <th class="text-center">Created At</th>
+                                        <th class="text-center">Notifikasi</th>
                                         <th class="text-center">Aksi</th>
                                     </tr>
                                 </thead>
@@ -50,8 +46,6 @@
                 </div>
             </div>
         </section>
-
-        @include('admin.daftar-pelayanan._modal')
 
     </main>
 
@@ -83,11 +77,6 @@
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
-        });
-
-        $('.select2').select2({
-            theme: 'bootstrap-5',
-            dropdownParent: $("#fModal"),
         });
 
 
@@ -129,20 +118,11 @@
                 name: 'DT_RowIndex',
                 className: 'text-center'
             }, {
-                data: 'no_registrasi',
-                name: 'no_registrasi'
+                data: 'created_at',
+                name: 'created_at'
             }, {
-                data: 'layanan.name',
-                name: 'layanan.name'
-            }, {
-                data: 'perihal',
-                name: 'perihal'
-            }, {
-                data: 'kelengkapan_syarat',
-                name: 'kelengkapan_syarat'
-            }, {
-                data: 'status_pelayanan',
-                name: 'status_pelayanan'
+                data: 'disposisi_html',
+                name: 'disposisi_html'
             }, {
                 data: 'action',
                 name: 'action',
@@ -150,37 +130,9 @@
             }, ]
         });
 
-        $(document).on("click", ".menu-status", function() {
-
-            // New Algorithm
-            var status = $(this).data('status_pelayanan');
-
-            $('body').block({
-                message: `Loading...`
-            });
-
-            setTimeout(function() {
-                $('body').unblock();
-                $('.html-status').html(ucwords(status));
-
-                $('li a.menu-status').removeClass('active')
-
-                $('.menu-' + status).addClass('active');
-                table.ajax.url('/daftar-pelayanan/list/' + status).load();
-            }, 500);
-
-
-        });
-
-        function ucwords(str) {
-            return (str + '').replace(/^([a-z])|\s+([a-z])/g, function($1) {
-                return $1.toUpperCase();
-            });
-        }
-
 
         $(document).ready(function() {
-            table.ajax.url('/daftar-pelayanan/list/{{ $status }}').load();
+            table.ajax.url('/notifications').load();
 
             table.buttons().container()
                 .appendTo('#example_wrapper .col-md-6:eq(0)');
@@ -205,93 +157,15 @@
                 $('#nama').prop('disabled', false);
             });
 
-            $(document).on("click", "#editBtn", function(e) {
-                e.preventDefault();
+            $(document).on("click", "#editBtn", function() {
                 $('.edit-state').show();
                 var title = $(this).data('title');
                 $("#judul-modal").html(title);
                 var data = table.row($(this).parents('tr')).data();
                 console.log(data);
-                $('#fForm')[0].reset();
-                $('#id_layanan').val('');
-
-                $('.modalBox').block({
-                    message: ``
-                });
-
-                setTimeout(function() {
-
-                    $.ajax({
-                        type: 'GET',
-                        url: '/daftar-pelayanan/fetch/' + data.id_pelayanan,
-                        dataType: 'json', // let's set the expected response format
-                        success: function(data) {
-                            console.log('data');
-                            console.log(data);
-                            if (data.success) {
-                                var item = data.data;
-                                $('#search_id_pelayanan').val(item.id_pelayanan).trigger(
-                                    'change');
-                                $('#search_id_layanan').val(item.id_layanan).trigger(
-                                    'change');
-                                $('#search_no_registrasi').val(item.no_registrasi);
-                                console.log('item.no_registrasi');
-                                console.log(item.no_registrasi);
-                                $('#search_perihal').val(item.perihal);
-                                $('#search_pemohon_no_surat').val(item
-                                    .pemohon_no_surat);
-                                $('#search_pemohon_tanggal_surat').val(item
-                                    .pemohon_tanggal_surat);
-                                $('#search_pemohon_nama').val(item.pemohon_nama);
-                                $('#search_pemohon_alamat').val(item.pemohon_alamat);
-                                $('#search_pemohon_no_hp').val(item.pemohon_no_hp);
-                                $('#search_pengirim_nama').val(item.pengirim_nama);
-                                $('#search_kelengkapan_syarat').val(item
-                                        .kelengkapan_syarat)
-                                    .trigger('change');
-                                $('#search_status_pelayanan').val(item.status_pelayanan)
-                                    .trigger(
-                                        'change');
-                                $('#search_catatan').val(item.catatan);
-
-                            } else {
-                                Swal.fire(
-                                    'Error!', data.message, 'error'
-                                );
-                            }
-
-                        },
-                        error: function(err) {
-                            if (err.status ==
-                                422
-                            ) { // when status code is 422, it's a validation issue
-                                console.log(err.responseJSON);
-                                // you can loop through the errors object and show it to the user
-                                console.warn(err.responseJSON.errors);
-                                // display errors on each form field
-                                $('.ajax-invalid').remove();
-                                $.each(err.responseJSON.errors, function(i, error) {
-                                    var el = $(document).find('[name="' + i +
-                                        '"]');
-                                    el.after($('<span class="ajax-invalid" style="color: red;">' +
-                                        error[0] + '</span>'));
-                                });
-                            } else if (err.status == 403) {
-                                Swal.fire(
-                                    'Unauthorized!',
-                                    'You are unauthorized to do the action',
-                                    'warning'
-                                );
-
-                            }
-                        }
-                    });
-
-
-
-                    $('.modalBox').unblock();
-                }, 1500);
-
+                console.log(title);
+                $("#id_jenis_layanan").val(data.id_jenis_layanan);
+                $('#name').val(data.name);
 
             });
 
@@ -320,13 +194,12 @@
                             $('#submitBtn').prop("disabled", false);
                             $('.modalBox').unblock();
                             console.log(data);
-                            if (data.success) {
+                            if (data.success == 'yeah') {
                                 $('#fModal').modal('hide');
                                 table.ajax.reload(null, false);
                                 Swal.fire(
                                     'Great!', 'Data sukses di update!', 'success'
                                 );
-                                socket.emit('sendSummaryToServer', data.summary);
                             } else {
                                 Swal.fire(
                                     'Error!', data.message, 'error'

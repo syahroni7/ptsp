@@ -19,102 +19,140 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::middleware('auth')->group(function () {
+    /**
+     * Public Routes
+     */
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/syarat-layanan/list/fetch/{layanan}', [\App\Http\Controllers\DataLayanan\ListSyaratLayananController::class, 'fetch'])->name('syarat-layanan-list.fetch');
+    Route::get('/daftar-pelayanan/fetch/{id_pelayanan}', [\App\Http\Controllers\DataPelayanan\DaftarPelayananController::class, 'fetch'])->name('daftar-pelayanan.fetch');
+    Route::get('/daftar-pelayanan/detail/{idx}', [\App\Http\Controllers\DataPelayanan\DaftarPelayananController::class, 'detail'])->name('daftar-pelayanan.detail');
 
-/**
- * User
- */
-Route::get('/users/data', [\App\Http\Controllers\DataPengguna\UserController::class, 'index'])->name('user-data.index');
-Route::post('/users/data/store', [\App\Http\Controllers\DataPengguna\UserController::class, 'store'])->name('user-data.store');
-Route::delete('/users/data/destroy/{user}', [\App\Http\Controllers\DataPengguna\UserController::class, 'destroy'])->name('user-data.destroy');
 
-/**
- * Roles
- */
-Route::get('/users/roles', [\App\Http\Controllers\DataPengguna\RoleController::class, 'index'])->name('user-roles.index');
-Route::post('/users/roles/store', [\App\Http\Controllers\DataPengguna\RoleController::class, 'store'])->name('user-roles.store');
-Route::delete('/users/roles/destroy/{role}', [\App\Http\Controllers\DataPengguna\RoleController::class, 'destroy'])->name('user-roles.destroy');
+    /**
+     * Notifications
+     */
+    Route::get('/notifications', [\App\Http\Controllers\NotificationController::class, 'index'])->name('notification.index');
+    Route::get('/notifications/fetch', [\App\Http\Controllers\NotificationController::class, 'fetch'])->name('notification.fetch');
+    Route::get('/notifications/detail/{id}', [\App\Http\Controllers\NotificationController::class, 'detail'])->name('notification.detail');
 
-/**
- * Permissions
- */
-Route::get('/permissions', [\App\Http\Controllers\DataPengguna\PermissionController::class, 'index'])->name('permissions.index');
-Route::post('/permissions/store', [\App\Http\Controllers\DataPengguna\sController::class, 'store'])->name('permissions.store');
-Route::delete('/permissions/destroy/{permission}', [\App\Http\Controllers\DataPengguna\PermissionController::class, 'destroy'])->name('permissions.destroy');
+    Route::group(['middleware' => ['role:super_administrator|administrator']], function () {
+        /**
+         * User
+         */
+        Route::get('/users/data', [\App\Http\Controllers\DataPengguna\UserController::class, 'index'])->name('user-data.index');
+        Route::post('/users/data/store', [\App\Http\Controllers\DataPengguna\UserController::class, 'store'])->name('user-data.store');
+        Route::delete('/users/data/destroy/{user}', [\App\Http\Controllers\DataPengguna\UserController::class, 'destroy'])->name('user-data.destroy');
 
-/**
- * Unit Pengolah
- */
-Route::get('/unit-pengolah', [\App\Http\Controllers\DataPengguna\UnitPengolahController::class, 'index'])->name('unit-pengolah.index');
-Route::post('/unit-pengolah/store', [\App\Http\Controllers\DataPengguna\UnitPengolahController::class, 'store'])->name('unit-pengolah.store');
-Route::delete('/unit-pengolah/destroy/{unit}', [\App\Http\Controllers\DataPengguna\UnitPengolahController::class, 'destroy'])->name('unit-pengolah.destroy');
+        /**
+         * Roles
+         */
+        Route::get('/users/roles', [\App\Http\Controllers\DataPengguna\RoleController::class, 'index'])->name('user-roles.index');
+        Route::post('/users/roles/store', [\App\Http\Controllers\DataPengguna\RoleController::class, 'store'])->name('user-roles.store');
+        Route::delete('/users/roles/destroy/{role}', [\App\Http\Controllers\DataPengguna\RoleController::class, 'destroy'])->name('user-roles.destroy');
 
-/**
- * Jenis Layanan
- */
-Route::get('/jenis-layanan', [\App\Http\Controllers\DataLayanan\JenisLayananController::class, 'index'])->name('jenis-layanan.index');
-Route::post('/jenis-layanan/store', [\App\Http\Controllers\DataLayanan\JenisLayananController::class, 'store'])->name('jenis-layanan.store');
-Route::delete('/jenis-layanan/destroy/{jenis}', [\App\Http\Controllers\DataLayanan\JenisLayananController::class, 'destroy'])->name('jenis-layanan.destroy');
+        /**
+         * Permissions
+         */
+        Route::get('/permissions', [\App\Http\Controllers\DataPengguna\PermissionController::class, 'index'])->name('permissions.index');
+        Route::post('/permissions/store', [\App\Http\Controllers\DataPengguna\sController::class, 'store'])->name('permissions.store');
+        Route::delete('/permissions/destroy/{permission}', [\App\Http\Controllers\DataPengguna\PermissionController::class, 'destroy'])->name('permissions.destroy');
 
-/**
- * Output Layanan
- */
-Route::get('/output-layanan', [\App\Http\Controllers\DataLayanan\OutputLayananController::class, 'index'])->name('output-layanan.index');
-Route::post('/output-layanan/store', [\App\Http\Controllers\DataLayanan\OutputLayananController::class, 'store'])->name('output-layanan.store');
-Route::delete('/output-layanan/destroy/{jenis}', [\App\Http\Controllers\DataLayanan\OutputLayananController::class, 'destroy'])->name('output-layanan.destroy');
+        /**
+         * Unit Pengolah
+         */
+        Route::get('/unit-pengolah', [\App\Http\Controllers\DataPengguna\UnitPengolahController::class, 'index'])->name('unit-pengolah.index');
+        Route::post('/unit-pengolah/store', [\App\Http\Controllers\DataPengguna\UnitPengolahController::class, 'store'])->name('unit-pengolah.store');
+        Route::delete('/unit-pengolah/destroy/{unit}', [\App\Http\Controllers\DataPengguna\UnitPengolahController::class, 'destroy'])->name('unit-pengolah.destroy');
 
-/**
- * Daftar Layanan
- */
-Route::get('/daftar-layanan', [\App\Http\Controllers\DataLayanan\DaftarLayananController::class, 'index'])->name('daftar-layanan.index');
-Route::post('/daftar-layanan/store', [\App\Http\Controllers\DataLayanan\DaftarLayananController::class, 'store'])->name('daftar-layanan.store');
-Route::delete('/daftar-layanan/destroy/{layanan}', [\App\Http\Controllers\DataLayanan\DaftarLayananController::class, 'destroy'])->name('daftar-layanan.destroy');
+        /**
+         * Jenis Layanan
+         */
+        Route::get('/jenis-layanan', [\App\Http\Controllers\DataLayanan\JenisLayananController::class, 'index'])->name('jenis-layanan.index');
+        Route::post('/jenis-layanan/store', [\App\Http\Controllers\DataLayanan\JenisLayananController::class, 'store'])->name('jenis-layanan.store');
+        Route::delete('/jenis-layanan/destroy/{jenis}', [\App\Http\Controllers\DataLayanan\JenisLayananController::class, 'destroy'])->name('jenis-layanan.destroy');
 
-/**
- * Master Syarat Layanan
- */
-Route::get('/syarat-layanan/master', [\App\Http\Controllers\DataLayanan\MasterSyaratLayananController::class, 'index'])->name('syarat-layanan-master.index');
-Route::post('/syarat-layanan/master/store', [\App\Http\Controllers\DataLayanan\MasterSyaratLayananController::class, 'store'])->name('syarat-layanan-master.store');
-Route::delete('/syarat-layanan/master/destroy/{syarat}', [\App\Http\Controllers\DataLayanan\MasterSyaratLayananController::class, 'destroy'])->name('syarat-layanan-master.destroy');
-Route::get('/syarat-layanan/master/search', [\App\Http\Controllers\DataLayanan\MasterSyaratLayananController::class, 'search'])->name('syarat-layanan-master.search');
+        /**
+         * Output Layanan
+         */
+        Route::get('/output-layanan', [\App\Http\Controllers\DataLayanan\OutputLayananController::class, 'index'])->name('output-layanan.index');
+        Route::post('/output-layanan/store', [\App\Http\Controllers\DataLayanan\OutputLayananController::class, 'store'])->name('output-layanan.store');
+        Route::delete('/output-layanan/destroy/{jenis}', [\App\Http\Controllers\DataLayanan\OutputLayananController::class, 'destroy'])->name('output-layanan.destroy');
 
-/**
- * List Syarat Layanan
- */
-Route::get('/syarat-layanan/list', [\App\Http\Controllers\DataLayanan\ListSyaratLayananController::class, 'index'])->name('syarat-layanan-list.index');
-Route::get('/syarat-layanan/list/fetch/{layanan}', [\App\Http\Controllers\DataLayanan\ListSyaratLayananController::class, 'fetch'])->name('syarat-layanan-list.fetch');
-Route::post('/syarat-layanan/list/store', [\App\Http\Controllers\DataLayanan\ListSyaratLayananController::class, 'store'])->name('syarat-layanan-list.store');
-Route::put('/syarat-layanan/list/put/{id_layanan}/{id_master_syarat_layanan}', [\App\Http\Controllers\DataLayanan\ListSyaratLayananController::class, 'put'])->name('syarat-layanan-list.put');
-Route::delete('/syarat-layanan/list/destroy/{id_layanan}/{id_master_syarat_layanan}', [\App\Http\Controllers\DataLayanan\ListSyaratLayananController::class, 'destroy'])->name('syarat-layanan-list.destroy');
+        /**
+         * Daftar Layanan
+         */
+        Route::get('/daftar-layanan', [\App\Http\Controllers\DataLayanan\DaftarLayananController::class, 'index'])->name('daftar-layanan.index');
+        Route::post('/daftar-layanan/store', [\App\Http\Controllers\DataLayanan\DaftarLayananController::class, 'store'])->name('daftar-layanan.store');
+        Route::delete('/daftar-layanan/destroy/{layanan}', [\App\Http\Controllers\DataLayanan\DaftarLayananController::class, 'destroy'])->name('daftar-layanan.destroy');
 
-/**
- * Transaksi Pelayanan
- */
-Route::get('/daftar-pelayanan/list/{status}', [\App\Http\Controllers\DataPelayanan\DaftarPelayananController::class, 'index'])->name('daftar-pelayanan.index');
-Route::get('/daftar-pelayanan/create', [\App\Http\Controllers\DataPelayanan\DaftarPelayananController::class, 'create'])->name('daftar-pelayanan.create');
-Route::get('/daftar-pelayanan/search', [\App\Http\Controllers\DataPelayanan\DaftarPelayananController::class, 'search'])->name('daftar-pelayanan.search');
-Route::get('/daftar-pelayanan/fetch/{id_pelayanan}', [\App\Http\Controllers\DataPelayanan\DaftarPelayananController::class, 'fetch'])->name('daftar-pelayanan.fetch');
-Route::post('/daftar-pelayanan/store', [\App\Http\Controllers\DataPelayanan\DaftarPelayananController::class, 'store'])->name('daftar-pelayanan.store');
+        /**
+         * Master Syarat Layanan
+         */
+        Route::get('/syarat-layanan/master', [\App\Http\Controllers\DataLayanan\MasterSyaratLayananController::class, 'index'])->name('syarat-layanan-master.index');
+        Route::post('/syarat-layanan/master/store', [\App\Http\Controllers\DataLayanan\MasterSyaratLayananController::class, 'store'])->name('syarat-layanan-master.store');
+        Route::delete('/syarat-layanan/master/destroy/{syarat}', [\App\Http\Controllers\DataLayanan\MasterSyaratLayananController::class, 'destroy'])->name('syarat-layanan-master.destroy');
+        Route::get('/syarat-layanan/master/search', [\App\Http\Controllers\DataLayanan\MasterSyaratLayananController::class, 'search'])->name('syarat-layanan-master.search');
 
-/**
- * Master Disposisi
- */
-Route::get('/disposisi/master', [\App\Http\Controllers\DataDisposisi\MasterDisposisiController::class, 'index'])->name('disposisi-master.index');
-Route::post('/disposisi/master/store', [\App\Http\Controllers\DataDisposisi\MasterDisposisiController::class, 'store'])->name('disposisi-master.store');
-Route::delete('/disposisi/master/destroy/{aksi}', [\App\Http\Controllers\DataDisposisi\MasterDisposisiController::class, 'destroy'])->name('disposisi-master.destroy');
+        /**
+         * List Syarat Layanan
+         */
+        Route::get('/syarat-layanan/list', [\App\Http\Controllers\DataLayanan\ListSyaratLayananController::class, 'index'])->name('syarat-layanan-list.index');
 
-/**
- * Daftar Disposisi
- */
-Route::get('/disposisi/list', [\App\Http\Controllers\DataDisposisi\DaftarDisposisiController::class, 'index'])->name('disposisi-list.index');
-Route::post('/disposisi/list/store', [\App\Http\Controllers\DataDisposisi\DaftarDisposisiController::class, 'store'])->name('disposisi-list.store');
-Route::delete('/disposisi/list/destroy/{aksi}', [\App\Http\Controllers\DataDisposisi\DaftarDisposisiController::class, 'destroy'])->name('disposisi-list.destroy');
+        Route::post('/syarat-layanan/list/store', [\App\Http\Controllers\DataLayanan\ListSyaratLayananController::class, 'store'])->name('syarat-layanan-list.store');
+        Route::put('/syarat-layanan/list/put/{id_layanan}/{id_master_syarat_layanan}', [\App\Http\Controllers\DataLayanan\ListSyaratLayananController::class, 'put'])->name('syarat-layanan-list.put');
+        Route::delete('/syarat-layanan/list/destroy/{id_layanan}/{id_master_syarat_layanan}', [\App\Http\Controllers\DataLayanan\ListSyaratLayananController::class, 'destroy'])->name('syarat-layanan-list.destroy');
+    });
+
+
+
+    Route::group(['middleware' => ['role:super_administrator|administrator|operator|staff']], function () {
+        /**
+         * Transaksi Pelayanan
+         */
+        Route::get('/daftar-pelayanan/list/{status}', [\App\Http\Controllers\DataPelayanan\DaftarPelayananController::class, 'index'])->name('daftar-pelayanan.index');
+        Route::get('/daftar-pelayanan/create', [\App\Http\Controllers\DataPelayanan\DaftarPelayananController::class, 'create'])->name('daftar-pelayanan.create');
+        Route::get('/daftar-pelayanan/search', [\App\Http\Controllers\DataPelayanan\DaftarPelayananController::class, 'search'])->name('daftar-pelayanan.search');
+        Route::post('/daftar-pelayanan/store', [\App\Http\Controllers\DataPelayanan\DaftarPelayananController::class, 'store'])->name('daftar-pelayanan.store');
+        Route::post('/daftar-pelayanan/update', [\App\Http\Controllers\DataPelayanan\DaftarPelayananController::class, 'update'])->name('daftar-pelayanan.update');
+    });
+
+    Route::group(['middleware' => ['role:super_administrator|administrator|director|manager|supervisor|staff']], function () {
+        /**
+         * Master Disposisi
+         */
+        Route::get('/disposisi/master', [\App\Http\Controllers\DataDisposisi\MasterDisposisiController::class, 'index'])->name('disposisi-master.index');
+        Route::post('/disposisi/master/store', [\App\Http\Controllers\DataDisposisi\MasterDisposisiController::class, 'store'])->name('disposisi-master.store');
+        Route::delete('/disposisi/master/destroy/{aksi}', [\App\Http\Controllers\DataDisposisi\MasterDisposisiController::class, 'destroy'])->name('disposisi-master.destroy');
+
+        /**
+         * Daftar Disposisi
+         */
+        Route::get('/disposisi/list', [\App\Http\Controllers\DataDisposisi\DaftarDisposisiController::class, 'index'])->name('disposisi-list.index');
+        Route::post('/disposisi/list/store', [\App\Http\Controllers\DataDisposisi\DaftarDisposisiController::class, 'store'])->name('disposisi-list.store');
+        Route::delete('/disposisi/list/destroy/{aksi}', [\App\Http\Controllers\DataDisposisi\DaftarDisposisiController::class, 'destroy'])->name('disposisi-list.destroy');
+    });
+});
+
+
 
 
 /**
  * Experiment
  */
-Route::get('/exp', function() {
-    $usr = \App\Models\User::find(1);
-    return $usr->getRoleNames();
+Route::get('/exp', function () {
+    // $usr = \App\Models\User::find(1);
+    // return $usr->getRoleNames();
+
+    // $hashid = \Vinkla\Hashids\Facades\Hashids::encode(1);
+    // return $hashid;
+
+    $recipient = \App\Models\User::whereHas('roles', function ($q) {
+        $q->where('name', 'manager');
+    })->first();
+
+    $notifications = $recipient->unreadNotifications;
+    foreach ($notifications as $key => $notif) {
+        return $notif->id;
+    }
 });

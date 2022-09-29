@@ -97,25 +97,25 @@ class RolesTableSeeder extends Seeder
         ]);
 
         $director->givePermissionTo([
-            $permissionMenu1, $permissionMenu2,
+            $permissionMenu1, $permissionMenu3,
             $permissionPage1_1,
             $permissionPage3_1, $permissionPage3_2,
         ]);
 
         $manager->givePermissionTo([
-            $permissionMenu1, $permissionMenu2,
+            $permissionMenu1, $permissionMenu3,
             $permissionPage1_1,
             $permissionPage3_1, $permissionPage3_2,
         ]);
 
         $supervisor->givePermissionTo([
-            $permissionMenu1, $permissionMenu2,
+            $permissionMenu1, $permissionMenu3,
             $permissionPage1_1,
             $permissionPage3_1, $permissionPage3_2,
         ]);
 
         $staff->givePermissionTo([
-            $permissionMenu1, $permissionMenu2,
+            $permissionMenu1, $permissionMenu2, $permissionMenu3,
             $permissionPage1_1,
             $permissionPage2_1, $permissionPage2_2,
             $permissionPage3_1, $permissionPage3_2,

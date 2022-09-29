@@ -16,9 +16,9 @@ class NewPelayananNotification extends Notification
      *
      * @return void
      */
-    public function __construct($pelayanan)
+    public function __construct($disposisi)
     {
-        $this->pelayanan = $pelayanan;
+        $this->disposisi = $disposisi;
     }
 
     /**
@@ -55,7 +55,7 @@ class NewPelayananNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'pelayanan' => $this->pelayanan,
+            'disposisi' => $this->disposisi,
         ];
     }
 }

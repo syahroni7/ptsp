@@ -1,8 +1,7 @@
 <!-- Tambah Group -->
-<div class="modal fade" id="fModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
-    data-bs-backdrop="static" data-bs-keyboard="false">
+<div class="modal fade" id="fModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
-        <form id="fForm" method="post" action="{{ route('daftar-layanan.store') }}" enctype="multipart/form-data">
+        <form id="fForm" method="post" action="{{ route('daftar-pelayanan.update') }}" enctype="multipart/form-data">
             {{ csrf_field() }}
             <div class="modal-content">
                 <div class="modal-header">
@@ -13,16 +12,15 @@
 
                     {{ csrf_field() }}
 
+                    <input type="hidden" name="id_pelayanan" id="search_id_pelayanan">
                     <div class="row card-body">
                         <div class="col-md-6 mb-3">
                             <label for="search_no_registrasi" class="form-label fw-bold">No Registrasi</label>
-                            <input class="form-control" name="search_no_registrasi" id="search_no_registrasi"
-                                type="text" value="" placeholder="No Registrasi" disabled>
+                            <input class="form-control" name="no_registrasi" id="search_no_registrasi" type="text" value="" placeholder="No Registrasi" disabled>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="search_id_layanan" class="form-label fw-bold">Nama Layanan</label>
-                            <select name="search_id_layanan" id="search_id_layanan" class="form-control select2"
-                                disabled="true">
+                            <select name="id_layanan" id="search_id_layanan" class="form-control select2" disabled="true">
                                 <option selected="">Pilih Layanan</option>
                                 @foreach ($daftar_layanan as $layanan)
                                     <option value="{{ $layanan->id_layanan }}">{{ $layanan->name }}</option>
@@ -31,55 +29,47 @@
                         </div>
                         <div class="col-md-12 mb-3">
                             <label for="search_pemohon_no_surat" class="form-label fw-bold">Perihal</label>
-                            <input class="form-control" name="search_perihal" id="search_perihal" type="text"
-                                value="" placeholder="Perihal" disabled>
+                            <input class="form-control" name="perihal" id="search_perihal" type="text" value="" placeholder="Perihal">
                         </div>
 
                         <div class="col-md-6 mb-3">
                             <label for="search_pemohon_no_surat" class="form-label fw-bold">No. Surat
                                 Permohonan</label>
-                            <input class="form-control" name="search_pemohon_no_surat" id="search_pemohon_no_surat"
-                                type="text" placeholder="Nomor Surat" value="" disabled>
+                            <input class="form-control" name="pemohon_no_surat" id="search_pemohon_no_surat" type="text" placeholder="Nomor Surat" value="">
                         </div>
 
                         <div class="col-md-6 mb-3">
                             <label for="search_pemohon_tanggal_surat" class="form-label fw-bold">Tanggal Surat
                                 Permohonan</label>
-                            <input type="date" class="form-control" name="search_pemohon_tanggal_surat"
-                                id="search_pemohon_tanggal_surat" placeholder="Tanggal Surat" disabled>
+                            <input type="date" class="form-control" name="pemohon_tanggal_surat" id="search_pemohon_tanggal_surat" placeholder="Tanggal Surat">
                         </div>
 
                         <div class="col-md-6 mb-3">
                             <label for="search_pemohon_nama" class="form-label fw-bold">Nama Pemohon</label>
-                            <input class="form-control" name="search_pemohon_nama" id="search_pemohon_nama"
-                                type="text" placeholder="Nama Pemohon" value="" disabled>
+                            <input class="form-control" name="pemohon_nama" id="search_pemohon_nama" type="text" placeholder="Nama Pemohon" value="">
                         </div>
 
                         <div class="col-md-6 mb-3">
                             <label for="search_pemohon_alamat" class="form-label fw-bold">Alamat
                                 Pemohon</label>
-                            <input class="form-control" name="search_pemohon_alamat" id="search_pemohon_alamat"
-                                type="text" placeholder="Alamat Pemohon" value="" disabled>
+                            <input class="form-control" name="pemohon_alamat" id="search_pemohon_alamat" type="text" placeholder="Alamat Pemohon" value="">
                         </div>
 
                         <div class="col-md-6 mb-3">
                             <label for="search_pemohon_no_hp" class="form-label fw-bold">No. HP
                                 Pemohon</label>
-                            <input class="form-control" name="search_pemohon_no_hp" id="search_pemohon_no_hp"
-                                type="text" placeholder="Nomor HP Pemohon" value="" disabled>
+                            <input class="form-control" name="pemohon_no_hp" id="search_pemohon_no_hp" type="text" placeholder="Nomor HP Pemohon" value="">
                         </div>
 
                         <div class="col-md-6 mb-3">
                             <label for="search_pengirim_nama" class="form-label fw-bold">Nama Pengirim</label>
-                            <input class="form-control" name="search_pengirim_nama" id="search_pengirim_nama"
-                                type="text" placeholder="Nama Pengirim" value="" disabled>
+                            <input class="form-control" name="pengirim_nama" id="search_pengirim_nama" type="text" placeholder="Nama Pengirim" value="">
                         </div>
 
                         <div class="col-md-6 mb-3">
                             <label for="search_kelengkapan_syarat" class="form-label fw-bold">Kelengkapan
                                 Syarat</label>
-                            <select name="search_kelengkapan_syarat" id="search_kelengkapan_syarat"
-                                class="form-control select2" disabled="true">
+                            <select name="kelengkapan_syarat" id="search_kelengkapan_syarat" class="form-control select2">
                                 <option selected="">-- Pilih Kelengkapan Syarat --</option>
                                 <option value="Sudah Lengkap">Sudah Lengkap</option>
                                 <option value="Belum Lengkap">Belum Lengkap</option>
@@ -89,8 +79,7 @@
                         <div class="col-md-6">
                             <label for="search_status_pelayanan" class="form-label fw-bold">Status
                                 Pelayanan</label>
-                            <select name="search_status_pelayanan" id="search_status_pelayanan"
-                                class="form-control select2" disabled="true">
+                            <select name="status_pelayanan" id="search_status_pelayanan" class="form-control select2">
                                 <option selected="">-- Pilih Status Layanan --</option>
                                 <option value="Baru">Baru</option>
                                 <option value="Proses">Proses</option>
@@ -100,7 +89,7 @@
                         </div>
                         <div class="col-12">
                             <label for="search_catatan" class="form-label fw-bold">Catatan</label>
-                            <textarea class="form-control" style="height: 100px" name="search_catatan" id="search_catatan" disabled="true"></textarea>
+                            <textarea class="form-control" style="height: 100px" name="catatan" id="search_catatan"></textarea>
                         </div>
                     </div>
                 </div>

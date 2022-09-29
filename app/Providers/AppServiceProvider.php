@@ -77,7 +77,6 @@ class AppServiceProvider extends ServiceProvider
                     $statusPelayanan[$key]['total'] = $countItem;
                 }
 
-
                 $view->with('statusPelayanan', $statusPelayanan);
             }
         });

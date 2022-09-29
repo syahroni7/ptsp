@@ -18,6 +18,11 @@
 </head>
 
 <body class="d-flex flex-column min-vh-100">
+    <div class="preloader">
+        <div class="loader">
+            <img src="{{ asset('assets/images/logo/loader.png') }}" width="85px" alt="">
+        </div>
+    </div>
     @include('layouts.admin.header')
 
     @include('layouts.admin.sidebar')
@@ -28,8 +33,13 @@
 
     @include('layouts.admin.scripts')
 
-    @yield('_scripts')
+    <script>
+        $(document).ready(function() {
+            $('.preloader').addClass('out');
+        });
+    </script>
 
+    @yield('_scripts')
 
     <script>
         const swalWithBootstrapButtons = Swal.mixin({

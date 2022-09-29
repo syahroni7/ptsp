@@ -3,6 +3,7 @@
 namespace App\Models;
  
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
  
 class DaftarDisposisi extends Model
 {
@@ -12,6 +13,8 @@ class DaftarDisposisi extends Model
     protected $primaryKey = 'id_disposisi';
  
     protected $guarded = [];
+
+    protected $appends = ['aksi_disposisi', 'created_at_human', 'created_at_short'];
 
     public function pelayanan() {
         return $this->belongsTo(DaftarPelayanan::class, 'id_pelayanan');
@@ -23,6 +26,22 @@ class DaftarDisposisi extends Model
 
     public function recipient() {
         return $this->belongsTo(User::class, 'id_recipient');
+    }
+
+    public function aksi() {
+        return $this->belongsTo(MasterAksiDisposisi::class, 'id_aksi_disposisi');
+    }
+
+    public function getAksiDisposisiAttribute(){
+        return $this->aksi->name;
+    }
+
+    public function getCreatedAtHumanAttribute(){
+        return Carbon::createFromFormat('Y-m-d H:i:s', $this->attributes['created_at'])->diffForHumans();
+    }
+
+    public function getCreatedAtShortAttribute(){
+        return Carbon::createFromFormat('Y-m-d H:i:s', $this->attributes['created_at'])->format('j M Y H:i:s');
     }
    
 }
