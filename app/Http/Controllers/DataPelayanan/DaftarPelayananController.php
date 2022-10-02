@@ -34,7 +34,9 @@ class DaftarPelayananController extends Controller
                 ->addIndexColumn()
                 ->addColumn('action', function ($layanan) {
                     $url = route('daftar-pelayanan.detail', Hashids::encode( $layanan->id_pelayanan) );
-                    $btn = '<a href="'.$url.'" target="_blank" id="viewBtn" type="button" class="btn btn-sm btn-primary btn-xs"><i class="bi bi-journal-check"></i></a>&nbsp;&nbsp;';
+                    $urlPDF = route('pdf.create', Hashids::encode( $layanan->id_pelayanan) );
+                    $btn = '<a href="'.$urlPDF.'" target="_blank" id="pdfBtn" type="button" class="btn btn-sm btn-secondary btn-xs"><i class="bi bi-printer"></i></a>&nbsp;&nbsp;';
+                    $btn .= '<a href="'.$url.'" target="_blank" id="viewBtn" type="button" class="btn btn-sm btn-primary btn-xs"><i class="bi bi-journal-check"></i></a>&nbsp;&nbsp;';
 
                     $btn .= '<button id="editBtn" type="button" class="btn btn-sm btn-warning btn-xs" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Item Layanan"><i class="bi bi-pencil-square"></i></button>&nbsp;&nbsp;';
                     $btn .= '<button id="destroyBtn" type="button" class="btn btn-sm btn-danger btn-xs" data-bs-id_layanan="'. $layanan->id_layanan  .'" data-id_layanan="'.  $layanan->id_layanan  .'"><i class="bi bi-trash-fill"></i></button>';
@@ -113,6 +115,7 @@ class DaftarPelayananController extends Controller
             $pelayanan->kelengkapan_syarat = $data['kelengkapan_syarat'];
             $pelayanan->status_pelayanan = $data['status_pelayanan'];
             $pelayanan->catatan = $data['catatan'];
+            $pelayanan->created_by = Auth::user()->name;
             $pelayanan->save();
             $pelayanan->fresh();
 
@@ -235,13 +238,22 @@ class DaftarPelayananController extends Controller
             $pelayanan = DaftarPelayanan::find($id_pelayanan);
             $pelayanan->load('layanan', 'layanan.unit', 'layanan.output', 'layanan.jenis');
             $data = $pelayanan;
+            $url_detail = route('daftar-pelayanan.detail', $pelayanan->idx_pelayanan);
+            $url_pdf = route('pdf.create', $pelayanan->idx_pelayanan);
             $success = true;
+
         } catch (\Exception $e) {
             $message = $e->getMessage();
         }
 
         return response()
-            ->json(['success' => $success, 'message' => $message, 'data' => $data]);
+            ->json([
+                'success' => $success, 
+                'message' => $message, 
+                'data' => $data, 
+                'url_detail' => $url_detail,
+                'url_pdf' => $url_pdf
+            ]);
     }
 
     public function detail(Request $request, $idx)
@@ -297,8 +309,8 @@ class DaftarPelayananController extends Controller
 
         return view('admin.daftar-pelayanan.detail', [
             'title'  => 'Detail Pelayanan Publik',
-            'br1'  => 'Detail',
-            'br2'  => 'Pelayanan Publik',
+            'br1'  => 'Pelayanan Publik',
+            'br2'  => 'Detail',
             'daftar_layanan'  => $daftarLayanan,
             'id_pelayanan'  => $idx,
             'pegawai' => $pegawai,

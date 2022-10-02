@@ -14,6 +14,14 @@ class MasterDisposisiSeeder extends Seeder
      */
     public function run()
     {
+
+        // Mohon Arahan
+        // Mohon Petunjuk
+        // Mohon Diwakilkan
+        // Mohon Diproses
+        // Mohon Pertimbangan
+        // Mohon Ditindaklanjuti
+        // Mohon Ditelaah
         $aksis = [
             [
                 'name' => 'arsip',
@@ -25,25 +33,25 @@ class MasterDisposisiSeeder extends Seeder
                 'name' => 'kita_bicarakan',
             ],
             [
-                'name' => 'untuk_ditindaklanjuti',
+                'name' => 'mohon_ditindaklanjuti',
             ],
             [
-                'name' => 'untuk_diedarkan',
+                'name' => 'mohon_diedarkan',
             ],
             [
-                'name' => 'untuk_diketahui',
+                'name' => 'mohon_diketahui',
             ],
             [
-                'name' => 'diperiksa_atau_ditelaah',
+                'name' => 'mohon_diperiksa_atau_ditelaah',
             ],
             [
-                'name' => 'agar_dijawab',
+                'name' => 'mohon_dijawab',
             ],
             [
                 'name' => 'saran_atau_tanggapan',
             ],
             [
-                'name' => 'agar_diselesaikan',
+                'name' => 'mohon_diselesaikan',
             ]
         ];
 

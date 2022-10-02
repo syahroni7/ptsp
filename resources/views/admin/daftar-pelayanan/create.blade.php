@@ -8,6 +8,22 @@
     <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/select2-bootstrap-5-theme.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/select2-bootstrap-5-theme.rtl.min.css') }}" />
+
+    <style>
+        .responsive-iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .modal-body {
+            min-height: 700px !important;
+        }
+    </style>
 @endsection
 
 
@@ -217,7 +233,13 @@
                             <div class="card-header">
                                 <h5 class="card-title m-0 p-0"> <i class="bi bi-card-checklist"></i> Hasil Pencarian
                                     Pelayanan
+                                    <button id="cetak-bukti-button" type="button" class="btn btn-warning btn-sm mx-1 float-end" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-cetak_bukti_link="">
+                                        Cetak Bukti
+                                    </button>
+
+                                    <a target="_blank" type="button" class="btn btn-primary btn-sm mx-1 float-end detail-button">Detail</a>
                                 </h5>
+
                             </div>
                             <div class="card-body">
 
@@ -302,7 +324,7 @@
                                     </div>
 
                                     <div class="card-footer">
-                                        <button type="button" class="btn btn-primary float-end">Detail</button>
+                                        <a target="_blank" type="button" class="btn btn-primary float-end detail-button">Detail</a>
                                     </div>
                                 </form>
                             </div>
@@ -315,6 +337,8 @@
 
             {{-- </div> --}}
         </section>
+
+        @include('admin.daftar-pelayanan._cmodal')
 
     </main>
 
@@ -402,6 +426,10 @@
                                 .trigger(
                                     'change');
                             $('#search_catatan').val(item.catatan);
+
+                            $('.detail-button').attr('href', data.url_detail);
+
+                            $('#cetak-bukti-button').attr('data-cetak_bukti_link', data.url_pdf)
 
                         } else {
                             Swal.fire(
@@ -498,6 +526,11 @@
 
         $(document).ready(function() {
 
+            $(document).on("click", "#cetak-bukti-button", function() {
+                var cetakBuktiLink = $(this).data('cetak_bukti_link');
+                $('#cetak-bukti-link').attr('src', cetakBuktiLink);
+            });
+
             $(document).on("click", "#addBtn", function() {
                 $('.edit-state').hide();
                 $('#id_layanan').val('');
@@ -563,7 +596,7 @@
             }
 
 
-            $("select").on("select2:close", function(e) {
+            $(".custom-select").on("select2:close", function(e) {
                 $(this).valid();
                 console.log($(this).val());
                 console.log($(this).valid());

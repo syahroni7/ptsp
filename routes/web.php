@@ -135,6 +135,10 @@ Route::middleware('auth')->group(function () {
 });
 
 
+Route::get('/pdf', [\App\Http\Controllers\DataPrint\PDFController::class, 'index'])->name('pdf.index');
+
+Route::get('/create/pdf/{idx_pelayanan}', [\App\Http\Controllers\DataPrint\PDFController::class, 'create'])->name('pdf.create');
+
 
 
 /**
