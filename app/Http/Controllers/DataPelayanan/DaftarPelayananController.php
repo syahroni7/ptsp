@@ -33,14 +33,17 @@ class DaftarPelayananController extends Controller
             return Datatables::of($pelayanans)
                 ->addIndexColumn()
                 ->addColumn('action', function ($layanan) {
-                    $url = route('daftar-pelayanan.detail', Hashids::encode( $layanan->id_pelayanan) );
-                    $urlPDF = route('pdf.create', Hashids::encode( $layanan->id_pelayanan) );
-                    // $btn = '<a href="'.$urlPDF.'" target="_blank" id="pdfBtn" type="button" class="btn btn-sm btn-secondary btn-xs"><i class="bi bi-printer"></i></a>&nbsp;&nbsp;';
-                    $btn = '<button id="cetak-bukti-button" type="button" class="btn btn-secondary btn-sm mx-1 float-end" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-cetak_bukti_link="'.$urlPDF.'"><i class="bi bi-printer"></i></button>&nbsp;&nbsp;';
-                    $btn .= '<a href="'.$url.'" target="_blank" id="viewBtn" type="button" class="btn btn-sm btn-primary btn-xs"><i class="bi bi-journal-check"></i></a>&nbsp;&nbsp;';
+                    $url = route('daftar-pelayanan.detail', Hashids::encode($layanan->id_pelayanan));
+                    $urlPDF = route('pdf.create', Hashids::encode($layanan->id_pelayanan));
+                    // $btn = '<a href="'.$urlPDF.'" target="_blank" id="pdfBtn" type="button" class="btn btn-sm btn-secondary btn-xs"><i class="bi bi-printer"></i></a>';
+                    $btn = '<button id="cetak-bukti-button" type="button" class="btn btn-secondary btn-sm mx-1" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-cetak_bukti_link="'.$urlPDF.'"><i class="bi bi-printer"></i></button>';
+                    $btn .= '<a href="'.$url.'" target="_blank" id="viewBtn" type="button" class="btn btn-sm btn-primary btn-xs mx-1"><i class="bi bi-journal-check"></i></a>';
 
-                    $btn .= '<button id="editBtn" type="button" class="btn btn-sm btn-warning btn-xs" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Item Layanan"><i class="bi bi-pencil-square"></i></button>&nbsp;&nbsp;';
-                    $btn .= '<button id="destroyBtn" type="button" class="btn btn-sm btn-danger btn-xs" data-bs-id_layanan="'. $layanan->id_layanan  .'" data-id_layanan="'.  $layanan->id_layanan  .'"><i class="bi bi-trash-fill"></i></button>';
+                    $btn .= '<button id="editBtn" type="button" class="btn btn-sm btn-warning btn-xs mx-1" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Item Layanan"><i class="bi bi-pencil-square"></i></button>';
+                    $user = Auth::user();
+                    if ($user->hasRole('super_administrator')) {
+                        $btn .= '<button id="destroyBtn" type="button" class="btn btn-sm btn-danger btn-xs mx-1" data-bs-id_layanan="'. $layanan->id_layanan  .'" data-id_layanan="'.  $layanan->id_layanan  .'"><i class="bi bi-trash-fill"></i></button>';
+                    }
                     return $btn;
                 })
                 ->rawColumns(['action'])
@@ -99,7 +102,7 @@ class DaftarPelayananController extends Controller
             $pelayananCount = DaftarPelayanan::whereYear('created_at', '=', date('Y'))
                                                 ->whereMonth('created_at', '=', date('m'))
                                                 ->count();
-            
+
             $pelayananCount = $pelayananCount == 0 ? 1 : ($pelayananCount + 1);
 
             // Create Pelayanan
@@ -165,7 +168,6 @@ class DaftarPelayananController extends Controller
                 'disposisi' => $disposisi,
                 'totalNotifikasi' => $recipient->unreadNotifications->count()
             ]);
-
     }
 
     public function update(Request $request)
@@ -179,7 +181,6 @@ class DaftarPelayananController extends Controller
         $summary = [];
 
         try {
-
             $pelayanan = DaftarPelayanan::where('id_pelayanan', $data['id_pelayanan'])->first();
 
             // Create Pelayanan
@@ -216,7 +217,6 @@ class DaftarPelayananController extends Controller
                 'data' => $newData,
                 'summary' => $summary,
             ]);
-
     }
 
     public function search(Request $request)
@@ -242,16 +242,15 @@ class DaftarPelayananController extends Controller
             $url_detail = route('daftar-pelayanan.detail', $pelayanan->idx_pelayanan);
             $url_pdf = route('pdf.create', $pelayanan->idx_pelayanan);
             $success = true;
-
         } catch (\Exception $e) {
             $message = $e->getMessage();
         }
 
         return response()
             ->json([
-                'success' => $success, 
-                'message' => $message, 
-                'data' => $data, 
+                'success' => $success,
+                'message' => $message,
+                'data' => $data,
                 'url_detail' => $url_detail,
                 'url_pdf' => $url_pdf
             ]);
@@ -259,21 +258,18 @@ class DaftarPelayananController extends Controller
 
     public function detail(Request $request, $idx)
     {
-
         $id_pelayanan = Hashids::decode($idx);
 
         if ($request->ajax()) {
-
             $success = false;
             $message = '';
             $data = null;
 
             try {
-                
                 $pelayanan = DaftarPelayanan::where('id_pelayanan', $id_pelayanan)->firstOrFail();
                 $pelayanan->load('layanan', 'layanan.unit', 'layanan.output', 'layanan.jenis', 'disposisi.sender', 'disposisi.recipient', 'disposisi.aksi');
                 $data = $pelayanan;
-                
+
                 $disposisiArr = $pelayanan->disposisi;
                 $disposisiCurr = $disposisiArr->last();
                 $lastRecipientUsername = $disposisiCurr->recipient ? $disposisiCurr->recipient->username : '';
@@ -291,22 +287,21 @@ class DaftarPelayananController extends Controller
 
             return response()
                 ->json([
-                    'success' => $success, 
-                    'message' => $message, 
+                    'success' => $success,
+                    'message' => $message,
                     'data' => $data,
                     'primary' => $primary,
                 ]);
-                
         }
 
-        
-       
+
+
 
         $daftarLayanan = DaftarLayanan::all();
         $pegawai = User::all();
         $aksi = MasterAksiDisposisi::all();
 
-        
+
 
         return view('admin.daftar-pelayanan.detail', [
             'title'  => 'Detail Pelayanan Publik',
@@ -317,7 +312,5 @@ class DaftarPelayananController extends Controller
             'pegawai' => $pegawai,
             'aksi' => $aksi
         ])->render();
-
-
     }
 }
