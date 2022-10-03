@@ -35,7 +35,8 @@ class DaftarPelayananController extends Controller
                 ->addColumn('action', function ($layanan) {
                     $url = route('daftar-pelayanan.detail', Hashids::encode( $layanan->id_pelayanan) );
                     $urlPDF = route('pdf.create', Hashids::encode( $layanan->id_pelayanan) );
-                    $btn = '<a href="'.$urlPDF.'" target="_blank" id="pdfBtn" type="button" class="btn btn-sm btn-secondary btn-xs"><i class="bi bi-printer"></i></a>&nbsp;&nbsp;';
+                    // $btn = '<a href="'.$urlPDF.'" target="_blank" id="pdfBtn" type="button" class="btn btn-sm btn-secondary btn-xs"><i class="bi bi-printer"></i></a>&nbsp;&nbsp;';
+                    $btn = '<button id="cetak-bukti-button" type="button" class="btn btn-secondary btn-sm mx-1 float-end" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-cetak_bukti_link="'.$urlPDF.'"><i class="bi bi-printer"></i></button>&nbsp;&nbsp;';
                     $btn .= '<a href="'.$url.'" target="_blank" id="viewBtn" type="button" class="btn btn-sm btn-primary btn-xs"><i class="bi bi-journal-check"></i></a>&nbsp;&nbsp;';
 
                     $btn .= '<button id="editBtn" type="button" class="btn btn-sm btn-warning btn-xs" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Item Layanan"><i class="bi bi-pencil-square"></i></button>&nbsp;&nbsp;';

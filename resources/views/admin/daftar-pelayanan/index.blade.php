@@ -8,6 +8,22 @@
     <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/select2-bootstrap-5-theme.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/select2-bootstrap-5-theme.rtl.min.css') }}" />
+
+    <style>
+        .responsive-iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .modal-body {
+            min-height: 700px !important;
+        }
+    </style>
 @endsection
 
 
@@ -180,6 +196,12 @@
 
 
         $(document).ready(function() {
+
+            $(document).on("click", "#cetak-bukti-button", function() {
+                var cetakBuktiLink = $(this).data('cetak_bukti_link');
+                $('#cetak-bukti-link').attr('src', cetakBuktiLink);
+            });
+
             table.ajax.url('/daftar-pelayanan/list/{{ $status }}').load();
 
             table.buttons().container()

@@ -13,12 +13,16 @@ class PDFController extends Controller
 {
     public function create($idx_pelayanan)
     {
-        // set document information
+        // Get Data
+        $id_pelayanan = Hashids::decode($idx_pelayanan);
+        $pelayanan = DaftarPelayanan::where('id_pelayanan', $id_pelayanan)->with('layanan.unit')->first();
+
+        // Set document information
         PDF::SetCreator('Pramana Yuda Sayeti');
         PDF::SetAuthor('Pramana Yuda Sayeti');
-        PDF::SetTitle('Kartu Cetak PTSP');
-        PDF::SetSubject('TCPDF Tutorial');
-        PDF::SetKeywords('TCPDF, PDF, example, test, guide');
+        PDF::SetTitle('Bukti Pendaftaran #' . $pelayanan->no_registrasi);
+        PDF::SetSubject('Bukti Pendaftaran #' . $pelayanan->no_registrasi);
+        PDF::SetKeywords('PTSP, Pelayanan Publik, ' . $pelayanan->layanan->name);
 
         PDF::SetMargins(0, 0, 0, 0);
         PDF::SetLeftMargin(0);
@@ -159,7 +163,7 @@ class PDFController extends Controller
             PDF::MultiCell($columntLengtWMargin, 0, 'BUKTI TERIMA SURAT / BERKAS PERMOHONAN LAYANAN', $showBorder, 'C', false, 0, '', '', true, 0, false, true, 40, 'T');
             PDF::Ln(13);
 
-            
+
             /**
              * Content
              */
@@ -173,7 +177,7 @@ class PDFController extends Controller
             }
             $columntLengtWMargin -= 6; // 139
 
-            
+
 
             PDF::setFontStretching(100);
             PDF::setFontSpacing(0.2544);
@@ -191,9 +195,7 @@ class PDFController extends Controller
                 PDF::setX($columnStart2);
             }
 
-            $id_pelayanan = Hashids::decode($idx_pelayanan);
 
-            $pelayanan = DaftarPelayanan::where('id_pelayanan', $id_pelayanan)->with('layanan.unit')->first();
 
             $no_registrasi = $pelayanan->no_registrasi;
             $no_help_desk = '02';
@@ -357,8 +359,8 @@ class PDFController extends Controller
                 PDF::setX($columnStart2+70);
             }
             PDF::SetFont('times', 'B', 9);
-            
-            
+
+
             PDF::MultiCell($col1 + 20, 0, 'Petugas Penerima <br /> <br /> <br /> <br /> <br /> '. $petugas_penerima, 0, 'C', false, 0, '', '', true, 0, true, true, 40, 'T');
 
             $yHorizontal = 197;
@@ -367,13 +369,13 @@ class PDFController extends Controller
             if ($i == 0) {
                 $columnStart1 = 0 + 3;
                 $columnEnd1   = 148 - 3;
-                
+
                 PDF::Line($columnStart1, $yHorizontal - $adder, $columnEnd1, $yHorizontal - $adder, $styleB);
                 PDF::Line($columnStart1, $yHorizontal, $columnEnd1, $yHorizontal, $styleA);
             } else {
                 $columnStart2 = 149 + 3;
                 $columnEnd2   = 297 - 3;
-                
+
                 PDF::Line($columnStart2, $yHorizontal - $adder, $columnEnd2, $yHorizontal - $adder, $styleB);
                 PDF::Line($columnStart2, $yHorizontal, $columnEnd2, $yHorizontal, $styleA);
             }
@@ -393,7 +395,7 @@ class PDFController extends Controller
             PDF::SetFont('times', 'B', 9);
             PDF::SetFont('times', 'B', 9);
 
-            if($i == 0){
+            if ($i == 0) {
                 $owner = '*) Untuk Pemohon. Jangan sampai Hilang!';
             } else {
                 $owner = '*) Tempel di Berkas';
@@ -403,8 +405,6 @@ class PDFController extends Controller
             Carbon::setLocale('id');
             $date_now = Carbon::now()->translatedFormat('j F Y');
             PDF::MultiCell($col2, 0, 'Painan, '.$date_now, 0, 'R', false, 0, '', '', true, 0, false, true, 40, 'T');
-
-
         }
 
 
@@ -563,7 +563,7 @@ class PDFController extends Controller
             PDF::MultiCell($columntLengtWMargin, 0, 'BUKTI TERIMA SURAT / BERKAS PERMOHONAN LAYANAN', $showBorder, 'C', false, 0, '', '', true, 0, false, true, 40, 'T');
             PDF::Ln(13);
 
-            
+
             /**
              * Content
              */
@@ -577,7 +577,7 @@ class PDFController extends Controller
             }
             $columntLengtWMargin -= 6; // 139
 
-            
+
 
             PDF::setFontStretching(100);
             PDF::setFontSpacing(0.2544);
@@ -755,8 +755,8 @@ class PDFController extends Controller
                 PDF::setX($columnStart2+90);
             }
             PDF::SetFont('times', 'B', 9);
-            
-            
+
+
             PDF::MultiCell($col1, 0, 'Petugas Penerima <br /> <br /> <br /> <br /> <br /> '. $petugas_penerima, 0, 'C', false, 0, '', '', true, 0, true, true, 40, 'T');
 
             $yHorizontal = 197;
@@ -765,13 +765,13 @@ class PDFController extends Controller
             if ($i == 0) {
                 $columnStart1 = 0 + 3;
                 $columnEnd1   = 148 - 3;
-                
+
                 PDF::Line($columnStart1, $yHorizontal - $adder, $columnEnd1, $yHorizontal - $adder, $styleB);
                 PDF::Line($columnStart1, $yHorizontal, $columnEnd1, $yHorizontal, $styleA);
             } else {
                 $columnStart2 = 149 + 3;
                 $columnEnd2   = 297 - 3;
-                
+
                 PDF::Line($columnStart2, $yHorizontal - $adder, $columnEnd2, $yHorizontal - $adder, $styleB);
                 PDF::Line($columnStart2, $yHorizontal, $columnEnd2, $yHorizontal, $styleA);
             }
@@ -791,7 +791,7 @@ class PDFController extends Controller
             PDF::SetFont('times', 'B', 9);
             PDF::SetFont('times', 'B', 9);
 
-            if($i == 0){
+            if ($i == 0) {
                 $owner = '*) Untuk Pemohon. Jangan sampai Hilang!';
             } else {
                 $owner = '*) Tempel di Berkas';
@@ -799,8 +799,6 @@ class PDFController extends Controller
             PDF::MultiCell($col1, 0, $owner, 0, 'L', false, 0, '', '', true, 0, false, true, 40, 'T');
             PDF::SetFont('times', '', 9);
             PDF::MultiCell($col2, 0, 'Painan, 01 Oktober 2022', 0, 'R', false, 0, '', '', true, 0, false, true, 40, 'T');
-
-
         }
 
 
