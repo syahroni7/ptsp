@@ -83,6 +83,7 @@
                     <h2 class="animate__animated animate__fadeInDown">Pelayanan Terpadu Satu Pintu</span></h2>
                     <p class="animate__animated animate__fadeInUp">Selamat Datang pada Sistem Pelayanan Terpadu Satu Pintu (PTSP) Sistem Informasi Manajemen Pelayanan Publik Sepenuh Hati pada Lingkup Kementerian Agama Kabupaten Pesisir Selatan<br /> </p>
                     <a href="#services" class="btn-get-started animate__animated animate__fadeInUp scrollto">Lihat Daftar Layanan</a>
+                    <a href="#" class="btn-get-started animate__animated animate__fadeInUp scrollto">Buat Permohonan</a>
                 </div>
             </div>
 
