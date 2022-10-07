@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>PTSP Kemenag Pessel</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="{{ asset('anyar-assets/img/favicon.png') }}" rel="icon">
+    <link href="{{ asset('anyar-assets/img/apple-touch-icon.png" ') }}" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="{{ asset('anyar-assets/vendor/animate.css/animate.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('anyar-assets/vendor/aos/aos.css') }}" rel="stylesheet">
+    <link href="{{ asset('anyar-assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('anyar-assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
+    <link href="{{ asset('anyar-assets/vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('anyar-assets/vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('anyar-assets/vendor/remixicon/remixicon.css') }}" rel="stylesheet">
+    <link href="{{ asset('anyar-assets/vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="{{ asset('anyar-assets/css/style.css') }}" rel="stylesheet">
+
+    <style>
+        #header {
+            top: 0px !important;
+        }
+
+        #hero {
+            background: url('/anyar-assets/img/landing-kmg.jpeg') top center !important;
+            background-size: cover !important;
+        }
+    </style>
+
+    <!-- =======================================================
+  * Template Name: Anyar - v4.9.0
+  * Template URL: https://bootstrapmade.com/anyar-free-multipurpose-one-page-bootstrap-theme/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+
+    <!-- ======= Header ======= -->
+    <header id="header" class="fixed-top d-flex align-items-center ">
+        <div class="container d-flex align-items-center justify-content-between">
+
+            <h1 class="logo"><a href="index.html">SIMPUL SEHATI</a></h1>
+            <!-- Uncomment below if you prefer to use an image logo -->
+            <!-- <a href=index.html" class="logo"><img src="anyar-assets/img/logo.png" alt="" class="img-fluid"></a>-->
+
+            <nav id="navbar" class="navbar">
+                <ul>
+                    <li><a class="nav-link scrollto active" href="#hero">Beranda</a></li>
+                    <li><a class="nav-link scrollto" href="#about">Tentang</a></li>
+                    <li><a class="nav-link scrollto" href="#services">Daftar Pelayanan</a></li>
+                    <li><a class="nav-link scrollto " href="#footer">Lacak Pelayanan</a></li>
+                    <li><a class="nav-link scrollto" href="#team">Buku Manual</a></li>
+                    <li><a class="nav-link scrollto" href="#contact">HelpDesk</a></li>
+                </ul>
+                <i class="bi bi-list mobile-nav-toggle"></i>
+            </nav><!-- .navbar -->
+
+        </div>
+    </header><!-- End Header -->
+
+    <!-- ======= Hero Section ======= -->
+    <section id="hero" class="d-flex justify-cntent-center align-items-center">
+        <div id="heroCarousel" data-bs-interval="5000" class="container carousel carousel-fade" data-bs-ride="carousel">
+
+            <!-- Slide 1 -->
+            <div class="carousel-item active">
+                <div class="carousel-container">
+                    <h2 class="animate__animated animate__fadeInDown">Pelayanan Terpadu Satu Pintu</span></h2>
+                    <p class="animate__animated animate__fadeInUp">Selamat Datang pada Sistem Pelayanan Terpadu Satu Pintu (PTSP) Sistem Informasi Manajemen Pelayanan Publik Sepenuh Hati pada Lingkup Kementerian Agama Kabupaten Pesisir Selatan<br /> </p>
+                    <a href="#services" class="btn-get-started animate__animated animate__fadeInUp scrollto">Lihat Daftar Layanan</a>
+                </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="carousel-item">
+                <div class="carousel-container">
+                    <h2 class="animate__animated animate__fadeInDown">Lacak Permohonan Pelayanan</h2>
+                    <p class="animate__animated animate__fadeInUp">Pada sistem ini, Anda dapat mengikuti perkembangan Ajuan Permononan Pelayanan Publik. <br /> Pelacakan dapat dilakukan dengan menggunakan Nomor Registrasi yang telah didapatkan dari HelpDesk PTSP</p>
+                    <a href="#footer" class="btn-get-started animate__animated animate__fadeInUp scrollto">Lacak Permohonan</a>
+                </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="carousel-item">
+                <div class="carousel-container">
+                    <h2 class="animate__animated animate__fadeInDown">Buku Manual Pelayanan PTSP</h2>
+                    <p class="animate__animated animate__fadeInUp">Untuk memahami alur Pelayanan Publik melalui Sistem PTSP. <br /> Anda dapat mengunduh Manual Aplikasi PTSP disini.</p>
+                    <a href="#about" class="btn-get-started animate__animated animate__fadeInUp scrollto">Unduh Buku Manual Sistem</a>
+                </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="carousel-item">
+                <div class="carousel-container">
+                    <h2 class="animate__animated animate__fadeInDown">Survey Kepuasan Masyarakat</h2>
+                    <p class="animate__animated animate__fadeInUp">Untuk dapat selalu meningkatkan Pelayanan Publik dan memberikan pelayanan publik yang Prima, <br /> Kami menyediakan Kuesioner Survery terkait Pelayanan Publik yang dapat diakses secara langsung oleh para Pemohon Pelayanan Publik.</p>
+                    <a href="#about" class="btn-get-started animate__animated animate__fadeInUp scrollto">Survey Kepuasan Masyarakat</a>
+                </div>
+            </div>
+
+            <a class="carousel-control-prev" href="#heroCarousel" role="button" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon bx bx-chevron-left" aria-hidden="true"></span>
+            </a>
+
+            <a class="carousel-control-next" href="#heroCarousel" role="button" data-bs-slide="next">
+                <span class="carousel-control-next-icon bx bx-chevron-right" aria-hidden="true"></span>
+            </a>
+
+        </div>
+    </section><!-- End Hero -->
+
+    <main id="main">
+
+        <!-- ======= Icon Boxes Section ======= -->
+        <section id="icon-boxes" class="icon-boxes">
+            <div class="container">
+
+                <div class="row">
+                    <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="fade-up">
+                        <div class="icon-box">
+                            <div class="icon"><i class="bx bx-file"></i></div>
+                            <h4 class="title"><a href="">Daftar Pelayanan</a></h4>
+                            <p class="description">Pelajari dan persiapkan kelengkapan dokumen sebelum melakukan Pengajuan Permohonan</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="fade-up" data-aos-delay="100">
+                        <div class="icon-box">
+                            <div class="icon"><i class="bx bx-search-alt"></i></div>
+                            <h4 class="title"><a href="">Lacak Permohonan</a></h4>
+                            <p class="description">Lacak dan Pantau kemajuan Proses permohonan yang anda ajukan dari manapun kapanpun</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="fade-up" data-aos-delay="200">
+                        <div class="icon-box">
+                            <div class="icon"><i class="bx bx-book"></i></div>
+                            <h4 class="title"><a href="">Manual Book</a></h4>
+                            <p class="description">Pelajari Panduan dan alur proses permohonan Pelayanan Publik melalui Buku Manual yang dapat diunduh</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="fade-up" data-aos-delay="300">
+                        <div class="icon-box">
+                            <div class="icon"><i class="bx bx-user-voice"></i></div>
+                            <h4 class="title"><a href="">Help Desk</a></h4>
+                            <p class="description">Mengalami kesulitan? silahkan hubungi kami dan temukan solusinya</p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section><!-- End Icon Boxes Section -->
+
+        <!-- ======= About Us Section ======= -->
+        <section id="about" class="about">
+            <div class="container" data-aos="fade-up">
+
+                <div class="section-title">
+                    <h2>Tentang PTSP</h2>
+                    <p>Pelayanan Terpadu Satu Pintu (PTSP) merupakan salah satu program pemerintah dalam rangka peningkatan pelayanan publik, memangkas birokrasi pelayanan perizinan dan non perizinan, sebagai upaya mencapai good governance/kepemerintahan yang baik. PTSP dapat meminimalisir interaksi antara pengguna layanan dengan petugas dalam rangka terciptanya tata kelola pemerintahan yang baik dan bersih</p>
+                </div>
+
+                <div class="row content">
+                    <div class="col-lg-6">
+                        <p>
+                            Dengan konsep ini, pengguna layanan cukup datang ke PTSP dan bertemu dengan petugas front office (FO) kemudian menunggu proses selanjutnya.
+                        </p>
+                        Adapun Tujuan dari PTSP Adalah:
+                        <ul>
+                            <li><i class="ri-check-double-line"></i> Mendekatkan Pelayanan Kepada Masyarakat</li>
+                            <li><i class="ri-check-double-line"></i> Menyederhanakan Proses Pelayanan</li>
+                            <li><i class="ri-check-double-line"></i> Mewujudkan Proses Pelayanan yang: cepat, mudah, transparan, pasti, dan akuntabel</li>
+                            <li><i class="ri-check-double-line"></i> Memberikan Akses yang lebih baik kepada masyarakat untuk memperoleh pelayanan</li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-6 pt-4 pt-lg-0">
+                        <p>
+                            Sasaran PTSP : <br />
+                            Terwujudnya pelayanan publik yang cepat, mudah, transparan, pasti dan akuntabel dalam upaya meningkatkan hak-hak masyarakat terhadap pelayanan publik.
+
+                        </p>
+                        Manfaat PTSP Bagi Masyarakat :
+                        <ul>
+                            <li><i class="ri-check-double-line"></i> Mendapatkan kemudahan layanan</li>
+                            <li><i class="ri-check-double-line"></i> Memperoleh pelayanan yang lebih baik</li>
+                            <li><i class="ri-check-double-line"></i> Mendapatkan kepastian & jaminan hukum</li>
+                        </ul>
+
+                        <a href="#" class="btn-learn-more">Lihat lebih banyak</a>
+                    </div>
+                </div>
+
+            </div>
+        </section><!-- End About Us Section -->
+
+        <!-- ======= Services Section ======= -->
+        <section id="services" class="services">
+            <div class="container" data-aos="fade-up">
+
+                <div class="section-title">
+                    <h2>Daftar Layanan Tersedia</h2>
+                    <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="accordion" id="accordionExample">
+
+                            @foreach ($units as $key => $unit)
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingOne">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{ $unit->id_unit_pengolah }}" aria-expanded="false" aria-controls="collapse-{{ $unit->id_unit_pengolah }}">
+                                            {{ $unit->name }}
+                                        </button>
+                                    </h2>
+                                    <div id="collapse-{{ $unit->id_unit_pengolah }}" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="">
+                                        <div class="accordion-body">
+
+                                            <ul class="list-group">
+                                                @forelse ($unit->layanan as $layanan)
+                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                        {{ $layanan->name }}
+                                                        <a href="/lihat-syarat/{{ $layanan->id_layanan }}" class="badge bg-primary">Lihat Syarat</a>
+                                                    </li>
+
+                                                @empty
+                                                    .: Belum Ada Layanan Terdaftar :.
+                                                @endforelse
+                                            </ul>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section><!-- End Services Section -->
+
+        <!-- ======= Cta Section ======= -->
+        <section id="footer" class="footer">
+            <div class="footer-newsletter">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <h4>Lacak Permohonan Layanan</h4>
+                            <p>Masukkan No. Registrasi untuk melacak Permohonan</p>
+                        </div>
+                        <div class="col-lg-6">
+                            <form action="" method="post">
+                                <input type="email" name="email"><input type="submit" value="Lacak">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section><!-- End Cta Section -->
+
+        <!-- ======= Contact Section ======= -->
+        <section id="contact" class="contact">
+            <div class="container" data-aos="fade-up">
+
+                <div class="section-title">
+                    <h2>Contact Us</h2>
+                </div>
+
+                <div class="row mt-1 d-flex justify-content-end" data-aos="fade-right" data-aos-delay="100">
+
+                    <div class="col-lg-5">
+                        <div class="info">
+                            <div class="address">
+                                <i class="bi bi-geo-alt"></i>
+                                <h4>Location:</h4>
+                                <p>A108 Adam Street, New York, NY 535022</p>
+                            </div>
+
+                            <div class="email">
+                                <i class="bi bi-envelope"></i>
+                                <h4>Email:</h4>
+                                <p>info@example.com</p>
+                            </div>
+
+                            <div class="phone">
+                                <i class="bi bi-phone"></i>
+                                <h4>Call:</h4>
+                                <p>+1 5589 55488 55s</p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-6 mt-5 mt-lg-0" data-aos="fade-left" data-aos-delay="100">
+
+                        <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                    <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
+                                </div>
+                                <div class="col-md-6 form-group mt-3 mt-md-0">
+                                    <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
+                                </div>
+                            </div>
+                            <div class="form-group mt-3">
+                                <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
+                            </div>
+                            <div class="form-group mt-3">
+                                <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
+                            </div>
+                            <div class="my-3">
+                                <div class="loading">Loading</div>
+                                <div class="error-message"></div>
+                                <div class="sent-message">Your message has been sent. Thank you!</div>
+                            </div>
+                            <div class="text-center"><button type="submit">Send Message</button></div>
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </section><!-- End Contact Section -->
+
+    </main><!-- End #main -->
+
+    <!-- ======= Footer ======= -->
+    <footer id="footer" class="footer">
+
+        <div class="footer-top">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-lg-3 col-md-6 footer-links">
+                        <h4>Useful Links</h4>
+                        <ul>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Services</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 footer-links">
+                        <h4>Our Services</h4>
+                        <ul>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Web Design</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Web Development</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Product Management</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Marketing</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Graphic Design</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 footer-contact">
+                        <h4>Contact Us</h4>
+                        <p>
+                            A108 Adam Street <br>
+                            New York, NY 535022<br>
+                            United States <br><br>
+                            <strong>Phone:</strong> +1 5589 55488 55<br>
+                            <strong>Email:</strong> info@example.com<br>
+                        </p>
+
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 footer-info">
+                        <h3>About Anyar</h3>
+                        <p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada terra videa magna derita valies darta donna mare fermentum iaculis eu non diam phasellus.</p>
+                        <div class="social-links mt-3">
+                            <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+                            <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+                            <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+                            <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+                            <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="copyright">
+                &copy; Copyright <strong><span>Anyar</span></strong>. All Rights Reserved
+            </div>
+            <div class="credits">
+                <!-- All the links in the footer should remain intact. -->
+                <!-- You can delete the links only if you purchased the pro version. -->
+                <!-- Licensing information: https://bootstrapmade.com/license/ -->
+                <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/anyar-free-multipurpose-one-page-bootstrap-theme/ -->
+                Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+            </div>
+        </div>
+    </footer><!-- End Footer -->
+
+    <div id="preloader"></div>
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+    <!-- Vendor JS Files -->
+    <script src="{{ asset('anyar-assets/vendor/aos/aos.js') }}"></script>
+    <script src="{{ asset('anyar-assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('anyar-assets/vendor/glightbox/js/glightbox.min.js') }}"></script>
+    <script src="{{ asset('anyar-assets/vendor/isotope-layout/isotope.pkgd.min.js') }}"></script>
+    <script src="{{ asset('anyar-assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
+    <script src="{{ asset('anyar-assets/vendor/php-email-form/validate.js') }}"></script>
+
+    <!-- Template Main JS File -->
+    <script src="{{ asset('anyar-assets/js/main.js') }}"></script>
+
+</body>
+
+</html>

@@ -13,8 +13,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+
 Route::get('/', function () {
-    return view('welcome');
+    $units = \App\Models\UnitPengolah::with('layanan')->get();
+    return view('layouts.landing.anyar.index', [
+        'units' => $units
+    ]);
 });
 
 Auth::routes();
@@ -115,6 +123,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/daftar-pelayanan/search', [\App\Http\Controllers\DataPelayanan\DaftarPelayananController::class, 'search'])->name('daftar-pelayanan.search');
         Route::post('/daftar-pelayanan/store', [\App\Http\Controllers\DataPelayanan\DaftarPelayananController::class, 'store'])->name('daftar-pelayanan.store');
         Route::post('/daftar-pelayanan/update', [\App\Http\Controllers\DataPelayanan\DaftarPelayananController::class, 'update'])->name('daftar-pelayanan.update');
+
+        /**
+         * Arsip Pelayanan
+         */
+        Route::get('/arsip-pelayanan', [\App\Http\Controllers\DataArsip\ArsipPelayananController::class, 'index'])->name('arsip-pelayanan.index');
+        Route::post('/arsip-pelayanan/store', [\App\Http\Controllers\DataArsip\ArsipPelayananController::class, 'store'])->name('arsip-pelayanan.store');
     });
 
     Route::group(['middleware' => ['role:super_administrator|administrator|director|manager|supervisor|staff']], function () {

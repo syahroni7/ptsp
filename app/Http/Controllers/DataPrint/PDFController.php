@@ -407,12 +407,7 @@ class PDFController extends Controller
             PDF::MultiCell($col2, 0, 'Painan, '.$date_now, 0, 'R', false, 0, '', '', true, 0, false, true, 40, 'T');
         }
 
-
-
-
-
-
-        PDF::Output('example_010.pdf', 'I');
+        PDF::Output('Bukti Pendaftaran #' . $pelayanan->no_registrasi, 'I');
     }
 
     public function index()

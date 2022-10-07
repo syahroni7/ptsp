@@ -25,46 +25,49 @@
         window.dataLayer = window.dataLayer || [];
     }
 
-
-    const socket = io('wss://socket.kemenagpessel.com/', {
-        foceNew: true,
-        transports: ["polling"]
-    });
-
-    socket.on('connection');
-
-    socket.on('sendSummaryToClient', (data) => {
-        console.log(data);
-        $.each(data, function(i, item) {
-            var status = item.status_pelayanan;
-            $('.total-' + status).html(item.total);
+    if (!(typeof io === "undefined")) {
+        const socket = io('wss://socket.kemenagpessel.com/', {
+            foceNew: true,
+            transports: ["polling"]
         });
-    });
+    }
+
+    if (!(typeof socket === "undefined")) {
+        socket.on('connection');
+
+        socket.on('sendSummaryToClient', (data) => {
+            console.log(data);
+            $.each(data, function(i, item) {
+                var status = item.status_pelayanan;
+                $('.total-' + status).html(item.total);
+            });
+        });
 
 
-    socket.on('sendNotifToClient', (data) => {
-        let recipient = data[0];
-        console.log('recipient');
-        console.log(recipient);
+        socket.on('sendNotifToClient', (data) => {
+            let recipient = data[0];
+            console.log('recipient');
+            console.log(recipient);
 
-        let disposisi = data[1];
-        console.log('disposisi');
-        console.log(disposisi);
-        var authUsername = {!! Auth::user()->username !!};
-        console.log('authUsername');
-        console.log(authUsername);
+            let disposisi = data[1];
+            console.log('disposisi');
+            console.log(disposisi);
+            var authUsername = {!! Auth::user()->username !!};
+            console.log('authUsername');
+            console.log(authUsername);
 
-        console.log('recipient.username');
-        console.log(recipient.username);
+            console.log('recipient.username');
+            console.log(recipient.username);
 
-        console.log('recipient.username == authUsername');
-        console.log(recipient.username == authUsername);
+            console.log('recipient.username == authUsername');
+            console.log(recipient.username == authUsername);
 
-        if (recipient.username == authUsername) {
-            fetchNotif();
-        }
+            if (recipient.username == authUsername) {
+                fetchNotif();
+            }
 
-    });
+        });
+    }
 
     fetchNotif();
 

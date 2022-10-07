@@ -31,7 +31,8 @@
             position: relative;
             flex-shrink: 0;
             flex-grow: 0;
-            min-width: 140px !important;
+            min-width: 90px !important;
+            text-align: right !important;
         }
     </style>
 @endsection
@@ -302,9 +303,12 @@
                             var countDisp = item.disposisi.length;
                             $.each(item.disposisi, function(i, item) {
                                 urutan_disposisi++;
+                                var date = item.created_at_short.substring(0, 10);
+                                var time = item.created_at_short.substring(10, 20);
                                 if (item.id_disposisi_parent == null) {
+
                                     dHtml += `<div class="activity-item d-flex">
-                                            <div class="activite-label">${item.created_at_short}</div>
+                                            <div class="activite-label">${date} <br /> ${time}</div>
                                             <i class="bi bi-circle-fill activity-badge text-muted align-self-start"></i>
                                             <div class="activity-content">
                                                 <div class="disp-name">
@@ -329,7 +333,7 @@
                                     // <span class="aksi-disposisi">[${item.aksi_disposisi.replace("_", " ")}]</span>
                                 } else {
                                     dHtml += `<div class="activity-item d-flex">
-                                            <div class="activite-label">${item.created_at_short}</div>
+                                            <div class="activite-label">${date} <br /> ${time}</div>
                                             <i class="bi bi-circle-fill activity-badge text-muted align-self-start"></i>
                                             <div class="activity-content">
                                                 <div class="disp-name">
@@ -512,7 +516,9 @@
                                     var notifData = [
                                         data.recipient, data.disposisi
                                     ];
-                                    socket.emit('sendNotifToServer', notifData);
+                                    if (!(typeof socket === "undefined")) {
+                                        socket.emit('sendNotifToServer', notifData);
+                                    }
                                     searchData('{{ $id_pelayanan }}');
 
                                 } else {

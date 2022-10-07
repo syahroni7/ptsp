@@ -20,7 +20,7 @@
             height: 100%;
         }
 
-        .modal-body {
+        .modal-print {
             min-height: 700px !important;
         }
     </style>
@@ -238,6 +238,8 @@
                                     </button>
 
                                     <a target="_blank" type="button" class="btn btn-primary btn-sm mx-1 float-end detail-button">Detail</a>
+
+                                    <button id="upload_arsip_masuk" class="btn btn-secondary btn-sm mx-1 float-end" type="button" data-bs-toggle="modal" data-bs-target="#arsipModal" data-title="Edit Data Item Layanan">Upload Arsip</button>
                                 </h5>
 
                             </div>
@@ -367,6 +369,21 @@
 
 
     <script>
+        $(document).on("click", "#upload_arsip_masuk", function(e) {
+            var title = $(this).data('title');
+            $("#judul-modal").html('Upload Arsip Masuk');
+            $('.arsip-masuk-box').show();
+            $('.arsip-keluar-box').hide();
+            var data = table.row($(this).parents('tr')).data();
+            console.log(data);
+            $('#search_id_pelayanan').val(data.id_pelayanan);
+            $('#search_no_registrasi').val(data.no_registrasi);
+            $('#search_id_layanan').val(data.id_layanan).trigger('change');
+            $('#search_perihal').val(data.perihal);
+
+        });
+
+
         $(document).on('click', '#searchButton', function(e) {
             e.preventDefault();
 
@@ -702,11 +719,13 @@
                                         'success'
                                     );
 
-                                    socket.emit('sendSummaryToServer', data.summary);
-                                    var notifData = [
-                                        data.recipient, data.disposisi
-                                    ];
-                                    socket.emit('sendNotifToServer', notifData);
+                                    if (!(typeof socket === "undefined")) {
+                                        socket.emit('sendSummaryToServer', data.summary);
+                                        var notifData = [
+                                            data.recipient, data.disposisi
+                                        ];
+                                        socket.emit('sendNotifToServer', notifData);
+                                    }
 
                                     searchData(data.data.id_pelayanan);
 

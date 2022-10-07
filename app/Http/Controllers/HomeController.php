@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DaftarLayanan;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,6 +24,8 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
+
+
         return view('admin.home.index', [
             'title'  => 'Halaman Beranda',
             'br1'  => 'Home',

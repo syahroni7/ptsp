@@ -12,5 +12,9 @@ class UnitPengolah extends Model
     protected $primaryKey = 'id_unit_pengolah';
  
     protected $guarded = [];
+
+    public function layanan() {
+        return $this->hasMany(DaftarLayanan::class, 'id_unit_pengolah', 'id_unit_pengolah');
+    }    
    
 }

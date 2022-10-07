@@ -51,6 +51,15 @@
             @endcan
         @endcan
 
+        @can('menu-arsip')
+            <li class="nav-heading">Kelola Arsip Layanan</li>
+            @can('page-arsip-pelayanan')
+                <li class="nav-item"><a class="nav-link @if (request()->segment(1) == 'arsip-pelayanan') @else collapsed @endif" href="{{ route('arsip-pelayanan.index') }}"><i class="bi bi-arrow-down-square"></i><span>Arsip Pelayanan</span></a></li>
+            @endcan
+        @endcan
+
+
+
         @can('menu-disposisi')
             <li class="nav-heading">Kelola Disposisi</li>
             @can('page-disposisi-master')

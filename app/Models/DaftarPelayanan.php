@@ -37,6 +37,10 @@ class DaftarPelayanan extends Model
         return $this->hasMany(DaftarDisposisi::class, 'id_pelayanan');
     }
 
+    public function arsip() {
+        return $this->hasOne(DaftarArsip::class, 'id_pelayanan', 'id_pelayanan');
+    }
+
     public function getIdxPelayananAttribute()
     {
         return Hashids::encode($this->id_pelayanan);

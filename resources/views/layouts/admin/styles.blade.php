@@ -9,10 +9,10 @@
 
 <link href="{{ asset('niceadmin/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
 <link href="{{ asset('niceadmin/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
-<link href="{{ asset('niceadmin/vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
+{{-- <link href="{{ asset('niceadmin/vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
 <link href="{{ asset('niceadmin/vendor/quill/quill.snow.css') }}" rel="stylesheet">
 <link href="{{ asset('niceadmin/vendor/quill/quill.bubble.css') }}" rel="stylesheet">
-<link href="{{ asset('niceadmin/vendor/remixicon/remixicon.css') }}" rel="stylesheet">
+<link href="{{ asset('niceadmin/vendor/remixicon/remixicon.css') }}" rel="stylesheet"> --}}
 <link href="{{ asset('niceadmin/vendor/simple-datatables/style.css') }}" rel="stylesheet">
 <link href="{{ asset('niceadmin/css/style.css') }}" rel="stylesheet">
 {{-- Loader Style --}}
