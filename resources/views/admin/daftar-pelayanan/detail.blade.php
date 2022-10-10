@@ -303,8 +303,8 @@
                             var countDisp = item.disposisi.length;
                             $.each(item.disposisi, function(i, item) {
                                 urutan_disposisi++;
-                                var date = item.created_at_short.substring(0, 10);
-                                var time = item.created_at_short.substring(10, 20);
+                                var date = item.created_at_short.substring(0, 11);
+                                var time = item.created_at_short.substring(11, 20);
                                 if (item.id_disposisi_parent == null) {
 
                                     dHtml += `<div class="activity-item d-flex">
@@ -312,7 +312,7 @@
                                             <i class="bi bi-circle-fill activity-badge text-muted align-self-start"></i>
                                             <div class="activity-content">
                                                 <div class="disp-name">
-                                                    <span>${item.sender.name} </span><br><span class="text-muted" style="font-size:smaller;"> ${item.sender.jabatan}</span><br>
+                                                    <span>${item.sender ? item.sender.name : 'Publik'} </span><br><span class="text-muted" style="font-size:smaller;"> ${item.sender ? item.sender.jabatan : 'Masyarakat'}</span><br>
                                                 </div>
                                                 <span>[${item.aksi_disposisi}]</span>
                                                 

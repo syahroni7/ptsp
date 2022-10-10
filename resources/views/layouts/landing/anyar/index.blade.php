@@ -74,7 +74,7 @@
     </header><!-- End Header -->
 
     <!-- ======= Hero Section ======= -->
-    <section id="hero" class="d-flex justify-cntent-center align-items-center">
+    <section id="hero" class="d-flex justify-content-center align-items-center">
         <div id="heroCarousel" data-bs-interval="5000" class="container carousel carousel-fade" data-bs-ride="carousel">
 
             <!-- Slide 1 -->
@@ -204,7 +204,7 @@
                             <li><i class="ri-check-double-line"></i> Mendapatkan kepastian & jaminan hukum</li>
                         </ul>
 
-                        <a href="#" class="btn-learn-more">Lihat lebih banyak</a>
+                        <a href="/tentang" class="btn-learn-more">Lihat lebih banyak</a>
                     </div>
                 </div>
 
@@ -238,7 +238,12 @@
                                                 @forelse ($unit->layanan as $layanan)
                                                     <li class="list-group-item d-flex justify-content-between align-items-center">
                                                         {{ $layanan->name }}
-                                                        <a href="/lihat-syarat/{{ $layanan->id_layanan }}" class="badge bg-primary">Lihat Syarat</a>
+                                                        <div>
+
+
+                                                            <a href="/lihat-syarat/{{ $layanan->id_layanan }}" class="badge bg-secondary">Lihat Syarat</a>
+                                                            <a href="{{ route('landing.buat-pelayanan', $layanan->idx_layanan) }}" class="badge bg-primary">Buat Permohonan</a>
+                                                        </div>
                                                     </li>
 
                                                 @empty

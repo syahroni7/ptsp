@@ -173,7 +173,7 @@
                                     <div class="col-md-6 form-group">
                                         <label for="pemohon_tanggal_surat" class="form-label fw-bold">Tanggal Surat
                                             Permohonan</label>
-                                        <input type="date" class="form-control" name="pemohon_tanggal_surat" id="pemohon_tanggal_surat" placeholder="Tanggal Surat">
+                                        <input type="date" class="form-control" name="pemohon_tanggal_surat" id="pemohon_tanggal_surat" placeholder="Tanggal Surat" value="{{ date('Y-m-d') }}">
                                     </div>
 
                                     <div class="col-md-6 form-group">

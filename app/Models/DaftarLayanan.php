@@ -3,6 +3,7 @@
 namespace App\Models;
  
 use Illuminate\Database\Eloquent\Model;
+use Vinkla\Hashids\Facades\Hashids;
  
 class DaftarLayanan extends Model
 {
@@ -12,6 +13,8 @@ class DaftarLayanan extends Model
     protected $primaryKey = 'id_layanan';
  
     protected $guarded = [];
+
+    protected $appends = ['idx_layanan'];
 
     public function unit() {
         return $this->belongsTo(UnitPengolah::class, 'id_unit_pengolah');
@@ -29,6 +32,11 @@ class DaftarLayanan extends Model
         return $this->belongsToMany(MasterSyaratLayanan::class, 'daftar_syarat_layanan', 'id_layanan', 'id_master_syarat_layanan')
         ->whereNull('daftar_syarat_layanan.deleted_at') // Table `group_user` has column `deleted_at`
         ->withTimestamps();
+    }
+
+    public function getIdxLayananAttribute()
+    {
+        return Hashids::encode($this->id_layanan);
     }
    
 }

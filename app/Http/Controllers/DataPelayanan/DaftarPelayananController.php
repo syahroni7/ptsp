@@ -313,4 +313,86 @@ class DaftarPelayananController extends Controller
             'aksi' => $aksi
         ])->render();
     }
+
+    public function storeLanding(Request $request)
+    {
+        $success = false;
+        $message = '';
+        $code = 400;
+
+        $data = $request->input();
+        $newData = null;
+        $summary = [];
+        $recipient = null;
+        $disposisi = null;
+
+        // try {
+            $layanan = DaftarLayanan::where('id_layanan', $data['id_layanan'])->first();
+            $pelayananCount = DaftarPelayanan::whereYear('created_at', '=', date('Y'))
+                                                ->whereMonth('created_at', '=', date('m'))
+                                                ->count();
+
+            $pelayananCount = $pelayananCount == 0 ? 1 : ($pelayananCount + 1);
+
+            // Create Pelayanan
+            $pelayanan = new DaftarPelayanan();
+            $pelayanan->id_layanan = $data['id_layanan'];
+            $pelayanan->no_registrasi = "01".date('ymd').sprintf('%02d', $layanan->id_unit_pengolah).sprintf('%02d', $data['id_layanan']).sprintf('%03d', $pelayananCount);
+            $pelayanan->perihal = $data['perihal'];
+            $pelayanan->pemohon_nama = $data['pemohon_nama'];
+            $pelayanan->pemohon_no_surat = $data['pemohon_no_surat'];
+            $pelayanan->pemohon_tanggal_surat = $data['pemohon_tanggal_surat'];
+            $pelayanan->pengirim_nama = $data['pengirim_nama'];
+            $pelayanan->pemohon_alamat = $data['pemohon_alamat'];
+            $pelayanan->pemohon_no_hp = $data['pemohon_no_hp'];
+            $pelayanan->kelengkapan_syarat = $data['kelengkapan_syarat'];
+            $pelayanan->status_pelayanan = $data['status_pelayanan'];
+            $pelayanan->catatan = $data['catatan'];
+            $pelayanan->created_by = Auth::user() ? Auth::user()->name : 'Sistem';
+            $pelayanan->save();
+            $pelayanan->fresh();
+
+            if ($data['status_pelayanan'] == 'Baru') {
+                // Create Disposisi
+                $disposisi = new DaftarDisposisi();
+                $disposisi->id_pelayanan = $pelayanan->id_pelayanan;
+                $disposisi->id_aksi_disposisi = 4; // aksi 'ditindaklanjuti'
+                $disposisi->urutan_disposisi = 1;
+                $recipient = \App\Models\User::whereHas('roles', function ($q) {
+                    $q->where('name', 'manager');
+                })->first();
+                $disposisi->id_recipient = $recipient->id;
+                $disposisi->username_recipient = $recipient->username;
+                $disposisi->save();
+                $disposisi->fresh();
+                $disposisi->load('pelayanan');
+
+                Notification::send($recipient, new NewPelayananNotification($disposisi));
+            }
+
+            $newData = $pelayanan;
+
+            $summary = DaftarPelayanan::select('status_pelayanan', DB::raw('count(*) as total'))
+                                                ->whereYear('created_at', '=', date('Y'))
+                                                ->whereMonth('created_at', '=', date('m'))
+                                                ->groupBy('status_pelayanan')
+                                                ->get();
+
+            $success = true;
+            $code = 200;
+            $message = 'Data Berhasil Disimpan';
+        // } catch (\Throwable $th) {
+        //     $message = $th->getMessage();
+        // }
+
+        return response()
+            ->json([
+                'success' => $success,
+                'message' => $message,
+                'data' => $newData,
+                'summary' => $summary,
+                'recipient' => $recipient,
+                'disposisi' => $disposisi,
+            ]);
+    }
 }
