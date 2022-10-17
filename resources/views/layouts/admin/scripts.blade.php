@@ -64,7 +64,7 @@
         console.log('recipient.username == authUsername');
         console.log(recipient.username == authUsername);
 
-        if (recipient.username == authUsername) {
+        if (recipient.username == authUsername && authUsername != 'mardiyana') {
             let penampung_audio = document.createElement('div');
             penampung_audio.setAttribute('id', 'penampung_audio-' + authUsername);
             let audio = document.createElement('audio');
