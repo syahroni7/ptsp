@@ -96,7 +96,7 @@ class RolesTableSeeder extends Seeder
 
 
         $operator->givePermissionTo([
-            $permissionMenu1, $permissionMenu2,
+            $permissionMenu1, $permissionMenu2, $permissionMenu3,
             $permissionPage1_1,
             $permissionPage2_1, $permissionPage2_2,
             $permissionPage3_1,
