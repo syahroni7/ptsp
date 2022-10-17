@@ -13,32 +13,28 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
 
-
+/**
+ * Public Routes
+ */
 Route::get('/', [\App\Http\Controllers\LandingController::class, 'index'])->name('landing.index');
 Route::get('/tentang', [\App\Http\Controllers\LandingController::class, 'tentang'])->name('landing.tentang');
 Route::get('/daftar-pelayanan', [\App\Http\Controllers\LandingController::class, 'daftarPelayanan'])->name('landing.daftar-pelayanan');
 Route::get('/lacak-pelayanan', [\App\Http\Controllers\LandingController::class, 'lacakPelayanan'])->name('landing.lacak-pelayanan');
 
 Route::get('/permohonan-pelayanan/buat/{idx_layanan?}', [\App\Http\Controllers\LandingController::class, 'create'])->name('landing.buat-pelayanan');
-
+Route::get('/syarat-layanan/list/fetch/{layanan}', [\App\Http\Controllers\DataLayanan\ListSyaratLayananController::class, 'fetch'])->name('syarat-layanan-list.fetch');
 
 
 
 Route::post('/daftar-pelayanan/store-landing', [\App\Http\Controllers\DataPelayanan\DaftarPelayananController::class, 'storeLanding'])->name('daftar-pelayanan.store-landing');
 Route::get('/daftar-pelayanan/fetch/{id_pelayanan}', [\App\Http\Controllers\DataPelayanan\DaftarPelayananController::class, 'fetch'])->name('daftar-pelayanan.fetch');
+Route::get('/daftar-pelayanan/search', [\App\Http\Controllers\DataPelayanan\DaftarPelayananController::class, 'search'])->name('daftar-pelayanan.search');
 
 Auth::routes();
 
 Route::middleware('auth')->group(function () {
-    /**
-     * Public Routes
-     */
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-    Route::get('/syarat-layanan/list/fetch/{layanan}', [\App\Http\Controllers\DataLayanan\ListSyaratLayananController::class, 'fetch'])->name('syarat-layanan-list.fetch');
     Route::get('/daftar-pelayanan/detail/{idx}', [\App\Http\Controllers\DataPelayanan\DaftarPelayananController::class, 'detail'])->name('daftar-pelayanan.detail');
 
 
@@ -125,7 +121,6 @@ Route::middleware('auth')->group(function () {
          */
         Route::get('/daftar-pelayanan/list/{status}', [\App\Http\Controllers\DataPelayanan\DaftarPelayananController::class, 'index'])->name('daftar-pelayanan.index');
         Route::get('/daftar-pelayanan/create', [\App\Http\Controllers\DataPelayanan\DaftarPelayananController::class, 'create'])->name('daftar-pelayanan.create');
-        Route::get('/daftar-pelayanan/search', [\App\Http\Controllers\DataPelayanan\DaftarPelayananController::class, 'search'])->name('daftar-pelayanan.search');
         Route::post('/daftar-pelayanan/store', [\App\Http\Controllers\DataPelayanan\DaftarPelayananController::class, 'store'])->name('daftar-pelayanan.store');
         Route::post('/daftar-pelayanan/update', [\App\Http\Controllers\DataPelayanan\DaftarPelayananController::class, 'update'])->name('daftar-pelayanan.update');
 

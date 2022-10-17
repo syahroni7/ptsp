@@ -25,49 +25,78 @@
         window.dataLayer = window.dataLayer || [];
     }
 
-    if (!(typeof io === "undefined")) {
-        const socket = io('wss://socket.kemenagpessel.com/', {
-            foceNew: true,
-            transports: ["polling"]
+    // if (!(typeof io === "undefined")) {
+    const socket = io('wss://socket.kemenagpessel.com/', {
+        foceNew: true,
+        transports: ["polling"]
+    });
+    // }
+
+    // if (!(typeof socket === "undefined")) {
+    socket.on('connection');
+
+    socket.on('sendSummaryToClient', (data) => {
+        console.log(data);
+        $.each(data, function(i, item) {
+            var status = item.status_pelayanan;
+            $('.total-' + status).html(item.total);
         });
-    }
-
-    if (!(typeof socket === "undefined")) {
-        socket.on('connection');
-
-        socket.on('sendSummaryToClient', (data) => {
-            console.log(data);
-            $.each(data, function(i, item) {
-                var status = item.status_pelayanan;
-                $('.total-' + status).html(item.total);
-            });
-        });
+    });
 
 
-        socket.on('sendNotifToClient', (data) => {
-            let recipient = data[0];
-            console.log('recipient');
-            console.log(recipient);
+    socket.on('sendNotifToClient', (data) => {
+        console.log('data nya apa:');
+        console.log(data);
+        let recipient = data[0];
+        console.log('recipient');
+        console.log(recipient);
 
-            let disposisi = data[1];
-            console.log('disposisi');
-            console.log(disposisi);
-            var authUsername = {!! Auth::user()->username !!};
-            console.log('authUsername');
-            console.log(authUsername);
+        let disposisi = data[1];
+        console.log('disposisi');
+        console.log(disposisi);
+        var authUsername = '{!! Auth::user()->username !!}';
+        console.log('authUsername');
+        console.log(authUsername);
 
-            console.log('recipient.username');
-            console.log(recipient.username);
+        console.log('recipient.username');
+        console.log(recipient.username);
 
-            console.log('recipient.username == authUsername');
-            console.log(recipient.username == authUsername);
+        console.log('recipient.username == authUsername');
+        console.log(recipient.username == authUsername);
 
-            if (recipient.username == authUsername) {
-                fetchNotif();
-            }
+        if (recipient.username == authUsername) {
+            let penampung_audio = document.createElement('div');
+            penampung_audio.setAttribute('id', 'penampung_audio-' + authUsername);
+            let audio = document.createElement('audio');
+            penampung_audio.appendChild(audio);
+            audio.setAttribute('muted', "muted");
+            // audio.setAttribute('src', "{{ url('notification-sound.ogg') }}");
+            audio.setAttribute('src', "{{ url('ada-notifikasi-baru.mpeg') }}");
+            audio.play();
+            fetchNotif();
+        }
 
-        });
-    }
+        let pelayanan = data[1].pelayanan;
+        let noRegis = pelayanan.no_registrasi;
+        console.log('noRegis')
+        console.log(noRegis)
+        let front = noRegis.substr(0, 2);
+        console.log('front')
+        console.log(front)
+        if (front == '01' && authUsername == 'mardiyana') {
+            let penampung_audio2 = document.createElement('div');
+            penampung_audio2.setAttribute('id', 'penampung-operator-' + authUsername + front);
+            let audio2 = document.createElement('audio');
+            penampung_audio2.appendChild(audio2);
+            audio2.setAttribute('muted', "muted");
+            // audio2.setAttribute('src', "{{ url('notification-sound.ogg') }}");
+            audio2.setAttribute('src', "{{ url('ada-notifikasi-baru.mpeg') }}");
+            audio2.play();
+            fetchNotif();
+        }
+
+    });
+    // }
 
     fetchNotif();
 

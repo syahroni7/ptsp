@@ -365,21 +365,86 @@
     <script type="text/javascript" language="javascript" src="{{ asset('js/buttons.html5.min.js') }}"></script>
     <script type="text/javascript" language="javascript" src="{{ asset('js/buttons.print.min.js') }}"></script>
     <script type="text/javascript" language="javascript" src="{{ asset('js/buttons.colVis.min.js') }}"></script>
-
+    <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
 
 
     <script>
+        // Global Variabel
+        var id_pelayanan = null;
+        var id_arsip = null;
+        var arsip_masuk_url = null;
+        var arsip_keluar_url = null;
+        // Cloudinary Widget
+
+        var widgetMasuk = cloudinary.createUploadWidget({
+            cloudName: 'kemenagpessel',
+            uploadPreset: 'arsip_masuk',
+            theme: 'minimal',
+            multiple: true,
+            max_file_size: 10048576,
+            background: "white"
+        }, (error, result) => {
+            if (!error && result && result.event === "success") {
+                console.log('Info Arsip Masuk: ', result.info);
+                var arsip_masuk_url = result.info.secure_url;
+                console.log('arsip_masuk_url');
+                console.log(arsip_masuk_url);
+                $('#arsip_masuk_url').val(arsip_masuk_url);
+                console.log('val');
+                console.log($('#arsip_masuk_url').val());
+                console.log('hide masuk');
+
+                $('.upload_widget_opener_masuk').hide();
+                $('.masuk-img').show();
+                $('#arsip-masuk-src').attr("src", arsip_masuk_url);
+
+            }
+        });
+
+        document.getElementById("upload_widget_opener_masuk").addEventListener("click", function() {
+            widgetMasuk.open();
+        }, false);
+
+
+
+        var widgetKeluar = cloudinary.createUploadWidget({
+            cloudName: 'kemenagpessel',
+            uploadPreset: 'arsip_keluar',
+            theme: 'minimal',
+            multiple: true,
+            max_file_size: 10048576,
+            background: "white"
+        }, (error, result) => {
+            if (!error && result && result.event === "success") {
+                console.log('Info Arsip Keluar: ', result.info);
+                var arsip_keluar_url = result.info.secure_url;
+                console.log('arsip_keluar_url');
+                console.log(arsip_keluar_url);
+                $('#arsip_keluar_url').val(arsip_keluar_url);
+                console.log('val');
+                console.log($('#arsip_keluar_url').val());
+                console.log('hide keluar');
+
+                $('.upload_widget_opener_keluar').hide();
+                $('.keluar-img').show();
+                $('#arsip-keluar-src').attr("src", arsip_keluar_url);
+            }
+        });
+
+        var dataPelayanan = null;
+
         $(document).on("click", "#upload_arsip_masuk", function(e) {
             var title = $(this).data('title');
             $("#judul-modal").html('Upload Arsip Masuk');
             $('.arsip-masuk-box').show();
             $('.arsip-keluar-box').hide();
-            var data = table.row($(this).parents('tr')).data();
-            console.log(data);
-            $('#search_id_pelayanan').val(data.id_pelayanan);
-            $('#search_no_registrasi').val(data.no_registrasi);
-            $('#search_id_layanan').val(data.id_layanan).trigger('change');
-            $('#search_perihal').val(data.perihal);
+            console.log('dataPelayanan');
+            console.log(dataPelayanan);
+            var data = dataPelayanan;
+            $('#arsip_id_pelayanan').val(data.id_pelayanan);
+            $('#arsip_no_registrasi').val(data.no_registrasi);
+            $('#arsip_id_layanan').val(data.id_layanan).trigger('change');
+            $('#arsip_perihal').val(data.perihal);
 
         });
 
@@ -427,6 +492,7 @@
                         console.log(data);
                         if (data.success) {
                             var item = data.data;
+                            dataPelayanan = item;
                             $('#search_id_layanan').val(item.id_layanan).trigger('change');
                             $('#search_no_registrasi').val(item.no_registrasi);
                             $('#search_perihal').val(item.perihal);
@@ -447,6 +513,13 @@
                             $('.detail-button').attr('href', data.url_detail);
 
                             $('#cetak-bukti-button').attr('data-cetak_bukti_link', data.url_pdf)
+
+                            if (item.arsip) {
+                                if (item.arsip.arsip_masuk_url) {
+                                    $('#upload_arsip_masuk').prop('disabled', true);
+                                    $('#upload_arsip_masuk').props('disabled', true);
+                                }
+                            }
 
                         } else {
                             Swal.fire(
@@ -719,13 +792,13 @@
                                         'success'
                                     );
 
-                                    if (!(typeof socket === "undefined")) {
-                                        socket.emit('sendSummaryToServer', data.summary);
-                                        var notifData = [
-                                            data.recipient, data.disposisi
-                                        ];
-                                        socket.emit('sendNotifToServer', notifData);
-                                    }
+                                    // if (!(typeof socket === "undefined")) {
+                                    socket.emit('sendSummaryToServer', data.summary);
+                                    var notifData = [
+                                        data.recipient, data.disposisi
+                                    ];
+                                    socket.emit('sendNotifToServer', notifData);
+                                    // }
 
                                     searchData(data.data.id_pelayanan);
 
@@ -773,6 +846,73 @@
 
                     }, 1500);
                 }
+            });
+
+            $("#submitBtn").on("click", function(event) {
+                event.preventDefault();
+
+                $('.modalBox').block({
+                    message: null
+                });
+
+                $('#submitBtn').prop("disabled", true);
+
+                var formdata = $("#arsipForm")
+                    .serialize(); // here $(this) refere to the form its submitting
+                console.log(formdata);
+
+                url = $('#arsipForm').attr('action');
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: formdata, // here $(this) refers to the ajax object not form
+                    dataType: 'json', // let's set the expected response format
+                    success: function(data) {
+                        setTimeout(function() {
+                            $('#submitBtn').prop("disabled", false);
+                            $('.modalBox').unblock();
+                            console.log(data);
+                            if (data.success) {
+                                $('#fModal').modal('hide');
+                                searchData(dataPelayanan.id_pelayanan);
+                                Swal.fire(
+                                    'Great!', 'Data sukses di update!', 'success'
+                                );
+                                // if (!(typeof socket === "undefined")) {
+                                socket.emit('sendSummaryToServer', data.summary);
+                                // }
+                            } else {
+                                Swal.fire(
+                                    'Error!', data.message, 'error'
+                                );
+                            }
+                            $('#fForm')[0].reset();
+                            $('#id_jenis_layanan').val('');
+                        }, 200);
+
+                    },
+                    error: function(err) {
+                        if (err.status ==
+                            422) { // when status code is 422, it's a validation issue
+                            console.log(err.responseJSON);
+                            // you can loop through the errors object and show it to the user
+                            console.warn(err.responseJSON.errors);
+                            // display errors on each form field
+                            $('.ajax-invalid').remove();
+                            $.each(err.responseJSON.errors, function(i, error) {
+                                var el = $(document).find('[name="' + i + '"]');
+                                el.after($('<span class="ajax-invalid" style="color: red;">' +
+                                    error[0] + '</span>'));
+                            });
+                        } else if (err.status == 403) {
+                            Swal.fire(
+                                'Unauthorized!', 'You are unauthorized to do the action',
+                                'warning'
+                            );
+
+                        }
+                    }
+                });
             });
 
         });

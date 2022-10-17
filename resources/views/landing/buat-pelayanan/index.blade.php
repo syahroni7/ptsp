@@ -4,6 +4,10 @@
 
 
 @section('_styles')
+
+    <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/select2-bootstrap-5-theme.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/select2-bootstrap-5-theme.rtl.min.css') }}" />
     <style>
         .breadcrumbs {
             padding: 15px 0;
@@ -299,7 +303,19 @@
 
 @section('_scripts')
 
+    <script src="{{ asset('js/select2.min.js') }}"></script>
+    <script src="{{ asset('js/sweetalert2@11.js') }}"></script>
+    <script src="https://cdn.socket.io/4.5.0/socket.io.min.js" integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k" crossorigin="anonymous"></script>
+
     <script>
+        const socket = io('wss://socket.kemenagpessel.com/', {
+            foceNew: true,
+            transports: ["polling"]
+        });
+
+        socket.on('connection');
+
+
         $('.select2').select2({
             theme: 'bootstrap-5',
         });
@@ -316,10 +332,11 @@
                 $('#cetak-bukti-link').attr('src', cetakBuktiLink);
             });
 
-            var id_layanan = {{ $id_layanan }};
+            var id_layanan = '' + '{{ $id_layanan }}';
             if (id_layanan) {
                 $('#id_layanan').val(id_layanan).trigger('change');
                 $('#id_layanan').prop('readonly', true);
+                fetchSyarat(id_layanan);
             }
 
             jQuery.validator.addMethod("phoneID", function(value, element) {
@@ -420,13 +437,13 @@
                                         'success'
                                     );
 
-                                    if (!(typeof socket === "undefined")) {
-                                        socket.emit('sendSummaryToServer', data.summary);
-                                        var notifData = [
-                                            data.recipient, data.disposisi
-                                        ];
-                                        socket.emit('sendNotifToServer', notifData);
-                                    }
+                                    // if (!(typeof socket === "undefined")) {
+                                    socket.emit('sendSummaryToServer', data.summary);
+                                    var notifData = [
+                                        data.recipient, data.disposisi
+                                    ];
+                                    socket.emit('sendNotifToServer', notifData);
+                                    // }
 
                                     searchData(data.data.id_pelayanan);
 
@@ -474,6 +491,11 @@
 
                     }, 1500);
                 }
+            });
+
+            $(document).on('select2:select', '#id_layanan', function(e) {
+                var id_layanan = $(this).val();
+                fetchSyarat(id_layanan);
             });
 
         });
@@ -555,6 +577,37 @@
                 $('#inputSection').removeClass('show');
                 $('#searchSection2').fadeIn("slow");
             }, 1500);
+        }
+
+        function fetchSyarat(id_layanan) {
+
+            $('.template-syarat').block({
+                message: '',
+            });
+
+            setTimeout(function() {
+                $.ajax({
+                    url: '/syarat-layanan/list/fetch/' + id_layanan,
+                    method: 'get'
+                }).done(function(res) {
+                    console.log('res');
+                    console.log(res);
+
+
+
+                    var htmlData = `<ol>`;
+                    $.each(res.data, function(key, item) {
+                        htmlData += `<li>${item.name}</li>`
+                    });
+
+                    htmlData += `</ol>`;
+
+                    $('#message-syarat').html(htmlData);
+                    $('.template-syarat').fadeIn("slow");
+                    $('.template-syarat').unblock();
+                });
+
+            }, 300)
         }
     </script>
 

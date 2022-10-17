@@ -348,9 +348,9 @@
                                 Swal.fire(
                                     'Great!', 'Data sukses di update!', 'success'
                                 );
-                                if (!(typeof socket === "undefined")) {
-                                    socket.emit('sendSummaryToServer', data.summary);
-                                }
+                                // if (!(typeof socket === "undefined")) {
+                                socket.emit('sendSummaryToServer', data.summary);
+                                // }
                             } else {
                                 Swal.fire(
                                     'Error!', data.message, 'error'

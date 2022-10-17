@@ -63,9 +63,10 @@
                     <li><a class="nav-link scrollto active" href="#hero">Beranda</a></li>
                     <li><a class="nav-link scrollto" href="#about">Tentang</a></li>
                     <li><a class="nav-link scrollto" href="#services">Daftar Pelayanan</a></li>
-                    <li><a class="nav-link scrollto " href="#footer">Lacak Pelayanan</a></li>
+                    <li><a class="nav-link scrollto" href="lacak-pelayanan">Lacak Pelayanan</a></li>
                     <li><a class="nav-link scrollto" href="#team">Buku Manual</a></li>
                     <li><a class="nav-link scrollto" href="#contact">HelpDesk</a></li>
+                    <li><a class="nav-link scrollto" href="/login">Masuk</a></li>
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
             </nav><!-- .navbar -->
@@ -83,7 +84,7 @@
                     <h2 class="animate__animated animate__fadeInDown">Pelayanan Terpadu Satu Pintu</span></h2>
                     <p class="animate__animated animate__fadeInUp">Selamat Datang pada Sistem Pelayanan Terpadu Satu Pintu (PTSP) Sistem Informasi Manajemen Pelayanan Publik Sepenuh Hati pada Lingkup Kementerian Agama Kabupaten Pesisir Selatan<br /> </p>
                     <a href="#services" class="btn-get-started animate__animated animate__fadeInUp scrollto">Lihat Daftar Layanan</a>
-                    <a href="#" class="btn-get-started animate__animated animate__fadeInUp scrollto">Buat Permohonan</a>
+                    <a href="/permohonan-pelayanan/buat" class="btn-get-started animate__animated animate__fadeInUp scrollto">Buat Permohonan</a>
                 </div>
             </div>
 
@@ -92,7 +93,7 @@
                 <div class="carousel-container">
                     <h2 class="animate__animated animate__fadeInDown">Lacak Permohonan Pelayanan</h2>
                     <p class="animate__animated animate__fadeInUp">Pada sistem ini, Anda dapat mengikuti perkembangan Ajuan Permononan Pelayanan Publik. <br /> Pelacakan dapat dilakukan dengan menggunakan Nomor Registrasi yang telah didapatkan dari HelpDesk PTSP</p>
-                    <a href="#footer" class="btn-get-started animate__animated animate__fadeInUp scrollto">Lacak Permohonan</a>
+                    <a href="/lacak-pelayanan" class="btn-get-started animate__animated animate__fadeInUp scrollto">Lacak Permohonan</a>
                 </div>
             </div>
 
@@ -241,7 +242,9 @@
                                                         <div>
 
 
-                                                            <a href="/lihat-syarat/{{ $layanan->id_layanan }}" class="badge bg-secondary">Lihat Syarat</a>
+                                                            {{-- <a href="/lihat-syarat/{{ $layanan->id_layanan }}" class="badge bg-secondary">Lihat Syarat</a> --}}
+
+                                                            <a id="lihat-syarat" data-id_layanan="{{ $layanan->id_layanan }}" data-nama_layanan="{{ $layanan->name }}" class="badge bg-secondary" type="button" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Lihat Syarat Layanan">Lihat Syarat</a>
                                                             <a href="{{ route('landing.buat-pelayanan', $layanan->idx_layanan) }}" class="badge bg-primary">Buat Permohonan</a>
                                                         </div>
                                                     </li>
@@ -264,6 +267,41 @@
                 </div>
 
             </div>
+
+
+            <!-- Tambah Group -->
+            <div class="modal fade" id="fModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+                <div class="modal-dialog modal-lg" role="document">
+                    <form id="fForm" method="post" action="{{ route('arsip-pelayanan.store') }}" enctype="multipart/form-data">
+                        {{ csrf_field() }}
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Syarat Pelayanan Publik </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body modalBox">
+
+                                {{ csrf_field() }}
+
+                                <input type="hidden" name="id_pelayanan" id="search_id_pelayanan">
+                                <div class="row card-body m-2 p-2">
+                                    <div class="col-12">
+                                        Syarat dari Layanan <b><span id="judul-modal"></span></b>
+                                        <div class="syarat-layanan-box">
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
         </section><!-- End Services Section -->
 
         <!-- ======= Cta Section ======= -->
@@ -276,8 +314,10 @@
                             <p>Masukkan No. Registrasi untuk melacak Permohonan</p>
                         </div>
                         <div class="col-lg-6">
+
                             <form action="" method="post">
-                                <input type="email" name="email"><input type="submit" value="Lacak">
+                                <a href="/lacak-pelayanan" class="form-control">Lacak Permohonan Layanan</a>
+                                {{-- <input type="email" name="email"><input type="submit" value="Lacak"> --}}
                             </form>
                         </div>
                     </div>
@@ -354,49 +394,48 @@
     </main><!-- End #main -->
 
     <!-- ======= Footer ======= -->
-    <footer id="footer" class="footer">
+    <footer id="footer" class="footer mt-auto">
+
 
         <div class="footer-top">
             <div class="container">
+
                 <div class="row">
 
                     <div class="col-lg-3 col-md-6 footer-links">
-                        <h4>Useful Links</h4>
+                        <h4>Link Terkait</h4>
                         <ul>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Services</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="https://kemenag.go.id">Kemenag RI</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="https://sumbar.kemenag.go.id">Kemenag Provinsi</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="https://lpse.kemenag.go.id">LPSE Kemenag</a></li>
                         </ul>
                     </div>
 
                     <div class="col-lg-3 col-md-6 footer-links">
-                        <h4>Our Services</h4>
+                        <h4>Link Ekstra</h4>
                         <ul>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Web Design</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Web Development</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Product Management</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Marketing</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Graphic Design</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="https://pesisirselatan.kemenag.go.id/v1">Berita & Artikel</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="https://datuak.kemenagpessel.com">Datuak Pessel</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="https://ppid.kemenagpessel.com">PPID Kemenag Pessel</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="https://mtq.kemenagpessel.com">MTQ Kemenag Pessel</a></li>
                         </ul>
                     </div>
 
                     <div class="col-lg-3 col-md-6 footer-contact">
-                        <h4>Contact Us</h4>
+                        <h4>Hubungi Kami</h4>
                         <p>
-                            A108 Adam Street <br>
-                            New York, NY 535022<br>
-                            United States <br><br>
-                            <strong>Phone:</strong> +1 5589 55488 55<br>
-                            <strong>Email:</strong> info@example.com<br>
+                            Jl. Imam Bonjol, <br>
+                            Painan, Kec. Iv Jurai, <br>
+                            Kabupaten Pesisir Selatan <br><br>
+                            <strong>Phone:</strong> -<br>
+                            <strong>Email:</strong> pesselkemenag@gmail.com<br>
                         </p>
 
                     </div>
 
                     <div class="col-lg-3 col-md-6 footer-info">
-                        <h3>About Anyar</h3>
-                        <p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada terra videa magna derita valies darta donna mare fermentum iaculis eu non diam phasellus.</p>
+                        <h3>Tentang PTSP</h3>
+                        <p>Sistem Informasi Pelayanan Publik Terpadu Satu Pintu merupakan Program Unggulan Kementerian Agama Kabupaten Pesisir Selatan.</p>
                         <div class="social-links mt-3">
                             <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
                             <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
@@ -415,14 +454,11 @@
                 &copy; Copyright <strong><span>Anyar</span></strong>. All Rights Reserved
             </div>
             <div class="credits">
-                <!-- All the links in the footer should remain intact. -->
-                <!-- You can delete the links only if you purchased the pro version. -->
-                <!-- Licensing information: https://bootstrapmade.com/license/ -->
-                <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/anyar-free-multipurpose-one-page-bootstrap-theme/ -->
-                Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-            </div>
+                Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a> | Developed By <a href="https://github.com/yudapramana">Yuda Pramana</a></div>
         </div>
-    </footer><!-- End Footer -->
+        </div>
+    </footer>
+
 
     <div id="preloader"></div>
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
@@ -437,6 +473,46 @@
 
     <!-- Template Main JS File -->
     <script src="{{ asset('anyar-assets/js/main.js') }}"></script>
+    {{-- Jquery --}}
+    <script src="{{ asset('jquery/jquery-3.5.1.js') }}"></script>
+
+    <script>
+        function fetchSyarat(id_layanan) {
+            $.ajax({
+                url: "/syarat-layanan/list/fetch/" + id_layanan,
+                type: 'GET',
+                success: function(res) {
+                    var box = $('.syarat-layanan-box');
+                    box.empty();
+                    console.log(res);
+                    data = res.data;
+                    var html = '';
+                    if (data.length > 0) {
+                        html = `<ol>`;
+                        $.each(data, function(index, item) {
+                            html += `<li>
+                                        ${item.name}
+                                    </li>`;
+                        });
+                        html += `<ol>`;
+                    }
+
+                    box.append(html);
+
+                }
+            });
+        }
+        $(document).on("click", "#lihat-syarat", function() {
+            var idLayanan = $(this).data('id_layanan');
+            var namaLayanan = $(this).data('nama_layanan');
+
+            $('#judul-modal').html(namaLayanan);
+            console.log('namaLayanan');
+            console.log(namaLayanan);
+
+            fetchSyarat(idLayanan);
+        });
+    </script>
 
 </body>
 

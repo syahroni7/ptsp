@@ -153,6 +153,37 @@
 
 
                     <div class="col-lg-5">
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title m-0 p-0"> <i class="bi bi-archive"></i> Arsip Pelayanan
+                                </h5>
+                            </div>
+                            <div class="card-body">
+
+                                <form class="row g-3 mt-2" id="aForm">
+                                    <div class="col-6">
+                                        <label for="search_catatan" class="form-label fw-bold">Arsip Masuk</label>
+                                        <div class="arsip-masuk-box">
+                                            -
+                                        </div>
+                                    </div>
+
+                                    <div class="col-6">
+                                        <label for="search_catatan" class="form-label fw-bold">Arsip Keluar</label>
+                                        <div class="arsip-keluar-box">
+                                            -
+                                        </div>
+                                    </div>
+                                </form>
+
+
+
+                            </div>
+
+                        </div>
+
+
                         <div class="card">
                             <div class="card-header">
                                 <h5 class="card-title m-0 p-0"> <i class="bi bi-mailbox"></i> Riwayat Disposisi
@@ -294,6 +325,23 @@
                                 .trigger(
                                     'change');
                             $('#search_catatan').val(item.catatan);
+
+
+                            if (item.arsip) {
+                                if (item.arsip.arsip_masuk_url) {
+                                    let arsipBox = $('.arsip-masuk-box');
+                                    arsipBox.empty();
+                                    var arsipHTML = `<a href="${item.arsip.arsip_masuk_url}" target="_blank" class="badge bg-primary" type="button" >Lihat Dokumen</a>`;
+                                    arsipBox.append(arsipHTML);
+                                }
+
+                                if (item.arsip.arsip_keluar_url) {
+                                    let arsipBox = $('.arsip-keluar-box');
+                                    arsipBox.empty();
+                                    var arsipHTML = `<a href="${item.arsip.arsip_keluar_url}" target="_blank" class="badge bg-primary" type="button" >Lihat Dokumen</a>`;
+                                    arsipBox.append(arsipHTML);
+                                }
+                            }
 
 
                             let box = $('.disposisi-box');
@@ -516,9 +564,9 @@
                                     var notifData = [
                                         data.recipient, data.disposisi
                                     ];
-                                    if (!(typeof socket === "undefined")) {
-                                        socket.emit('sendNotifToServer', notifData);
-                                    }
+                                    // if (!(typeof socket === "undefined")) {
+                                    socket.emit('sendNotifToServer', notifData);
+                                    // }
                                     searchData('{{ $id_pelayanan }}');
 
                                 } else {

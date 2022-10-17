@@ -21,7 +21,7 @@ class UsersTableSeeder extends Seeder
                 'name' => 'Pramana Yuda Sayeti, S.Kom',
                 'username' => '199407292022031002',
                 'jabatan' => 'Ahli Pertama - Pranata Komputer',
-                'email' => 'pramanayuda772@gmail.com',
+                'email' => '199407292022031002@kemenag.go.id',
                 'password' => Hash::make('superadmin'),
                 'updated_at' => \Carbon\Carbon::now()
             ],
@@ -29,7 +29,7 @@ class UsersTableSeeder extends Seeder
                 'name' => 'H. Abrar Munanda, M.Ag',
                 'username' => '197105141995031001',
                 'jabatan' => 'Kepala Kantor',
-                'email' => 'abrar.munanda@gmail.com',
+                'email' => 'abrar.munanda@kemenag.go.id',
                 'password' => Hash::make('197105141995031001'),
                 'updated_at' => \Carbon\Carbon::now()
             ],
@@ -37,7 +37,7 @@ class UsersTableSeeder extends Seeder
                 'name' => 'Yossef Yuda, S.HI, MA',
                 'username' => '198008042005011007',
                 'jabatan' => 'Kepala Sub Bagian Tata Usaha',
-                'email' => 'yossef.yuda@gmail.com',
+                'email' => '198008042005011007@kemenag.go.id',
                 'password' => Hash::make('198008042005011007'),
                 'updated_at' => \Carbon\Carbon::now()
             ],
@@ -45,7 +45,7 @@ class UsersTableSeeder extends Seeder
                 'name' => 'Sudirman, S.Ag',
                 'username' => '197202112003121003',
                 'jabatan' => 'Kepala Seksi Pondok Pesantren',
-                'email' => 'sudirman@gmail.com',
+                'email' => '197202112003121003@kemenag.go.id',
                 'password' => Hash::make('197202112003121003'),
                 'updated_at' => \Carbon\Carbon::now()
             ],
@@ -53,7 +53,7 @@ class UsersTableSeeder extends Seeder
                 'name' => 'Masrizal, S.Ag, M.Pd',
                 'username' => '197202051997031003',
                 'jabatan' => 'Kepala Seksi Pendidikan Agama Islam',
-                'email' => 'masrizal@gmail.com',
+                'email' => '197202051997031003@kemenag.go.id',
                 'password' => Hash::make('197202051997031003'),
                 'updated_at' => \Carbon\Carbon::now()
             ],
@@ -61,7 +61,7 @@ class UsersTableSeeder extends Seeder
                 'name' => 'Drs. Firdaus',
                 'username' => '196706191994031004',
                 'jabatan' => 'Kepala Seksi Bimbingan Masyarakat Islam',
-                'email' => 'firdaus@gmail.com',
+                'email' => '196706191994031004@kemenag.go.id',
                 'password' => Hash::make('196706191994031004'),
                 'updated_at' => \Carbon\Carbon::now()
             ],
@@ -69,7 +69,7 @@ class UsersTableSeeder extends Seeder
                 'name' => 'Sumardi, S.Ag, M.Pd',
                 'username' => '197107051998031013',
                 'jabatan' => 'Kepala Seksi Pendidikan Madrasah',
-                'email' => 'sumardi@gmail.com',
+                'email' => 'sumardi@kemenag.go.id',
                 'password' => Hash::make('197107051998031013'),
                 'updated_at' => \Carbon\Carbon::now()
             ],
@@ -77,7 +77,7 @@ class UsersTableSeeder extends Seeder
                 'name' => 'Betriadi, S.HI',
                 'username' => '198106122008011013',
                 'jabatan' => 'Kepala Seksi Penyelenggara Haji dan Umrah',
-                'email' => 'betriadi@gmail.com',
+                'email' => '198106122008011013@kemenag.go.id',
                 'password' => Hash::make('198106122008011013'),
                 'updated_at' => \Carbon\Carbon::now()
             ],
@@ -85,7 +85,7 @@ class UsersTableSeeder extends Seeder
                 'name' => 'Gustiwarni, S.Ag',
                 'username' => '196906151996032002',
                 'jabatan' => 'Kepala Seksi Zakat dan Wakaf',
-                'email' => 'gustiwarni@gmail.com',
+                'email' => '196906151996032002@kemenag.go.id',
                 'password' => Hash::make('196906151996032002'),
                 'updated_at' => \Carbon\Carbon::now()
             ],
@@ -93,10 +93,37 @@ class UsersTableSeeder extends Seeder
                 'name' => 'Mardiyana, AMD, KKK',
                 'username' => 'mardiyana',
                 'jabatan' => 'Petugas',
-                'email' => 'mardiyana@gmail.com',
+                'email' => 'mardiyana@kemenag.go.id',
                 'password' => Hash::make('mardiyana'),
                 'updated_at' => \Carbon\Carbon::now()
             ],
+
+            // Staff
+            [
+                'name' => 'Anna Yoladevika, SH',
+                'username' => '197505152005012003',
+                'jabatan' => 'Staf',
+                'email' => '197505152005012003@kemenag.go.id',
+                'password' => Hash::make('197505152005012003'),
+                'updated_at' => \Carbon\Carbon::now()
+            ],
+            [
+                'name' => 'Sri Mulyani, SH',
+                'username' => '198006222014112002',
+                'jabatan' => 'Staf',
+                'email' => '198006222014112002@kemenag.go.id',
+                'password' => Hash::make('198006222014112002'),
+                'updated_at' => \Carbon\Carbon::now()
+            ],
+            [
+                'name' => 'Yunefri, S.Kom ',
+                'username' => '197406142007101001',
+                'jabatan' => 'Staf',
+                'email' => '197406142007101001@kemenag.go.id',
+                'password' => Hash::make('197406142007101001'),
+                'updated_at' => \Carbon\Carbon::now()
+            ],
+
         ];
 
 

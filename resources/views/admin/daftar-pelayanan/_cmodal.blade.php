@@ -24,7 +24,7 @@
 <!-- Tambah Group -->
 <div class="modal fade" id="arsipModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
-        <form id="fForm" method="post" action="{{ route('arsip-pelayanan.store') }}" enctype="multipart/form-data">
+        <form id="arsipForm" method="post" action="{{ route('arsip-pelayanan.store') }}" enctype="multipart/form-data">
             {{ csrf_field() }}
             <div class="modal-content">
                 <div class="modal-header">
@@ -35,15 +35,15 @@
 
                     {{ csrf_field() }}
 
-                    <input type="hidden" name="id_pelayanan" id="search_id_pelayanan">
+                    <input type="hidden" name="id_pelayanan" id="arsip_id_pelayanan">
                     <div class="row card-body">
                         <div class="col-md-6 mb-3">
-                            <label for="search_no_registrasi" class="form-label fw-bold">No Registrasi</label>
-                            <input class="form-control" name="no_registrasi" id="search_no_registrasi" type="text" value="" placeholder="No Registrasi" disabled>
+                            <label for="arsip_no_registrasi" class="form-label fw-bold">No Registrasi</label>
+                            <input class="form-control" name="no_registrasi" id="arsip_no_registrasi" type="text" value="" placeholder="No Registrasi" disabled>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="search_id_layanan" class="form-label fw-bold">Nama Layanan</label>
-                            <select name="id_layanan" id="search_id_layanan" class="form-control select2" disabled="true">
+                            <label for="arsip_id_layanan" class="form-label fw-bold">Nama Layanan</label>
+                            <select name="id_layanan" id="arsip_id_layanan" class="form-control select2" disabled="true">
                                 <option selected="">Pilih Layanan</option>
                                 @foreach ($daftar_layanan as $layanan)
                                     <option value="{{ $layanan->id_layanan }}">{{ $layanan->name }}</option>
@@ -51,8 +51,8 @@
                             </select>
                         </div>
                         <div class="col-md-12 mb-3">
-                            <label for="search_pemohon_no_surat" class="form-label fw-bold">Perihal</label>
-                            <input class="form-control" name="perihal" id="search_perihal" type="text" value="" placeholder="Perihal" disabled>
+                            <label for="arsip_perihal" class="form-label fw-bold">Perihal</label>
+                            <input class="form-control" name="perihal" id="arsip_perihal" type="text" value="" placeholder="Perihal" disabled>
                         </div>
 
 

@@ -237,7 +237,7 @@ class DaftarPelayananController extends Controller
 
         try {
             $pelayanan = DaftarPelayanan::find($id_pelayanan);
-            $pelayanan->load('layanan', 'layanan.unit', 'layanan.output', 'layanan.jenis');
+            $pelayanan->load('layanan', 'layanan.unit', 'layanan.output', 'layanan.jenis', 'arsip');
             $data = $pelayanan;
             $url_detail = route('daftar-pelayanan.detail', $pelayanan->idx_pelayanan);
             $url_pdf = route('pdf.create', $pelayanan->idx_pelayanan);
@@ -267,7 +267,7 @@ class DaftarPelayananController extends Controller
 
             try {
                 $pelayanan = DaftarPelayanan::where('id_pelayanan', $id_pelayanan)->firstOrFail();
-                $pelayanan->load('layanan', 'layanan.unit', 'layanan.output', 'layanan.jenis', 'disposisi.sender', 'disposisi.recipient', 'disposisi.aksi');
+                $pelayanan->load('layanan', 'layanan.unit', 'layanan.output', 'layanan.jenis', 'disposisi.sender', 'disposisi.recipient', 'disposisi.aksi', 'arsip');
                 $data = $pelayanan;
 
                 $disposisiArr = $pelayanan->disposisi;
@@ -368,6 +368,13 @@ class DaftarPelayananController extends Controller
                 $disposisi->load('pelayanan');
 
                 Notification::send($recipient, new NewPelayananNotification($disposisi));
+
+
+                // Send Notif to Operator
+                $operator = \App\Models\User::whereHas('roles', function ($q) {
+                    $q->where('name', 'operator');
+                })->first();
+                Notification::send($operator, new NewPelayananNotification($disposisi));
             }
 
             $newData = $pelayanan;
