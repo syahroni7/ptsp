@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->call(RolesTableSeeder::class);
         $this->call(MasterDisposisiSeeder::class);
         $this->call(LayananTableSeeder::class);
+        $this->call(SyaratLayananTableSeeder::class);
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1');
     }

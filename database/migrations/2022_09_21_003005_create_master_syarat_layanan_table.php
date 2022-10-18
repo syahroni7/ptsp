@@ -17,7 +17,7 @@ class CreateMasterSyaratLayananTable extends Migration
             $table->id('id_master_syarat_layanan');
             $table->timestamps();
             $table->softDeletes();
-            $table->string('name');
+            $table->text('name');
             $table->string('created_by')->default('');
             $table->string('updated_by')->default('');
         });
