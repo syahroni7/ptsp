@@ -54,7 +54,8 @@
         let disposisi = data[1];
         console.log('disposisi');
         console.log(disposisi);
-        var authUsername = {!! Auth::user()->username !!};
+        var authUsername = '{!! Auth::user()->username !!}';
+
         console.log('authUsername');
         console.log(authUsername);
 
@@ -64,7 +65,7 @@
         console.log('recipient.username == authUsername');
         console.log(recipient.username == authUsername);
 
-        if (recipient.username == authUsername) {
+        if (recipient.username == parseInt(authUsername)) {
             let penampung_audio = document.createElement('div');
             penampung_audio.setAttribute('id', 'penampung_audio-' + authUsername);
             let audio = document.createElement('audio');
