@@ -64,7 +64,7 @@
                     <li><a class="nav-link scrollto" href="#about">Tentang</a></li>
                     <li><a class="nav-link scrollto" href="#services">Daftar Pelayanan</a></li>
                     <li><a class="nav-link scrollto" href="lacak-pelayanan">Lacak Pelayanan</a></li>
-                    <li><a class="nav-link scrollto" href="#team">Buku Manual</a></li>
+                    <li><a class="nav-link scrollto" href="/Manual Book PTSP v2.pdf" target="_blank">Buku Manual</a></li>
                     <li><a class="nav-link scrollto" href="#contact">HelpDesk</a></li>
                     <li><a class="nav-link scrollto" href="/login">Masuk</a></li>
                 </ul>
@@ -136,7 +136,7 @@
                     <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="fade-up">
                         <div class="icon-box">
                             <div class="icon"><i class="bx bx-file"></i></div>
-                            <h4 class="title"><a href="">Daftar Pelayanan</a></h4>
+                            <h4 class="title"><a href="/permohonan-pelayanan/buat">Daftar Pelayanan</a></h4>
                             <p class="description">Pelajari dan persiapkan kelengkapan dokumen sebelum melakukan Pengajuan Permohonan</p>
                         </div>
                     </div>
@@ -144,7 +144,7 @@
                     <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="fade-up" data-aos-delay="100">
                         <div class="icon-box">
                             <div class="icon"><i class="bx bx-search-alt"></i></div>
-                            <h4 class="title"><a href="">Lacak Permohonan</a></h4>
+                            <h4 class="title"><a href="/lacak-pelayanan">Lacak Permohonan</a></h4>
                             <p class="description">Lacak dan Pantau kemajuan Proses permohonan yang anda ajukan dari manapun kapanpun</p>
                         </div>
                     </div>
@@ -152,7 +152,7 @@
                     <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="fade-up" data-aos-delay="200">
                         <div class="icon-box">
                             <div class="icon"><i class="bx bx-book"></i></div>
-                            <h4 class="title"><a href="">Manual Book</a></h4>
+                            <h4 class="title"><a href="/Manual Book PTSP v2.pdf" target="_blank">Manual Book</a></h4>
                             <p class="description">Pelajari Panduan dan alur proses permohonan Pelayanan Publik melalui Buku Manual yang dapat diunduh</p>
                         </div>
                     </div>
