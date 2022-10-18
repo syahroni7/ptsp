@@ -407,6 +407,7 @@
                     <div class="col-lg-3 col-md-6 footer-links">
                         <h4>Link Terkait</h4>
                         <ul>
+                            <li><i class="bx bx-chevron-right"></i> <a href="https://pesisirselatan.kemenag.go.id/v1">Kemenag Pessel</a></li>
                             <li><i class="bx bx-chevron-right"></i> <a href="https://kemenag.go.id">Kemenag RI</a></li>
                             <li><i class="bx bx-chevron-right"></i> <a href="https://sumbar.kemenag.go.id">Kemenag Provinsi</a></li>
                             <li><i class="bx bx-chevron-right"></i> <a href="https://lpse.kemenag.go.id">LPSE Kemenag</a></li>
@@ -416,7 +417,7 @@
                     <div class="col-lg-3 col-md-6 footer-links">
                         <h4>Link Ekstra</h4>
                         <ul>
-                            <li><i class="bx bx-chevron-right"></i> <a href="https://pesisirselatan.kemenag.go.id/v1">Berita & Artikel</a></li>
+
                             <li><i class="bx bx-chevron-right"></i> <a href="https://datuak.kemenagpessel.com">Datuak Pessel</a></li>
                             <li><i class="bx bx-chevron-right"></i> <a href="https://ppid.kemenagpessel.com">PPID Kemenag Pessel</a></li>
                             <li><i class="bx bx-chevron-right"></i> <a href="https://mtq.kemenagpessel.com">MTQ Kemenag Pessel</a></li>
