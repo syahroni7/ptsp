@@ -26,17 +26,22 @@ class DaftarDisposisiController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
+            $user = Auth::user();
             $username = Auth::user()->username;
-            $daftarDisposisi = DaftarDisposisi::whereHas('recipient', function($q) use($username) {
-                                    $q->where('username', $username);
-                                })
-                                ->with('pelayanan', 'sender', 'recipient')->get();
+            if (!$user->hasRole('super_administrator')) {
+                $daftarDisposisi = DaftarDisposisi::whereHas('recipient', function ($q) use ($username) {
+                    $q->where('username', $username);
+                })
+                                    ->with('pelayanan', 'sender', 'recipient')->get();
+            } else {
+                $daftarDisposisi = DaftarDisposisi::with('pelayanan', 'sender', 'recipient')->get();
+            }
 
             return Datatables::of($daftarDisposisi)
                 ->addIndexColumn()
                 ->addColumn('dari', function ($disposisi) {
                     $dari = '';
-                    if($disposisi->sender) {
+                    if ($disposisi->sender) {
                         $dari = $disposisi->sender->name;
                     } else {
                         $dari = $disposisi->pelayanan->pemohon_nama;
@@ -46,7 +51,7 @@ class DaftarDisposisiController extends Controller
                 })
                 ->addColumn('kepada', function ($disposisi) {
                     $kepada = '';
-                    if($disposisi->recipient) {
+                    if ($disposisi->recipient) {
                         $kepada = $disposisi->recipient->name;
                     } else {
                         $kepada = $disposisi->pelayanan->penerima_nama;
@@ -59,7 +64,7 @@ class DaftarDisposisiController extends Controller
                     // $btn .= '<button id="destroyBtn" type="button" class="btn btn-sm btn-danger btn-xs" data-bs-id_disposisi="'. $disposisi->id_disposisi  .'" data-id_disposisi="'.  $disposisi->id_disposisi  .'"><i class="bi bi-trash-fill"></i></button>';
                     // return $btn;
 
-                    $url = route('daftar-pelayanan.detail', Hashids::encode( $disposisi->id_pelayanan) );
+                    $url = route('daftar-pelayanan.detail', Hashids::encode($disposisi->id_pelayanan));
                     $btn = '<a href="'.$url.'" target="_blank" id="viewBtn" type="button" class="btn btn-sm btn-primary btn-xs"><i class="bi bi-search"></i></a>';
                     return $btn;
                 })
@@ -72,7 +77,6 @@ class DaftarDisposisiController extends Controller
             'br1'  => 'Kelola',
             'br2'  => 'Disposisi Pelayanan',
         ]);
-
     }
 
     public function store(Request $request)
@@ -86,20 +90,19 @@ class DaftarDisposisiController extends Controller
         $data = $request->input();
 
         try {
-
             // Create Disposisi
             $disposisi = new DaftarDisposisi();
             $disposisi->id_pelayanan = $data['id_pelayanan'];
             $disposisi->id_aksi_disposisi = $data['id_aksi_disposisi'];
             $disposisi->urutan_disposisi = $data['urutan_disposisi'];
-            if($data['id_disposisi_parent']) {
+            if ($data['id_disposisi_parent']) {
                 $disposisi->id_disposisi_parent = $data['id_disposisi_parent'];
             }
             $disposisi->keterangan = $data['keterangan'];
             $disposisi->id_sender = Auth::user()->id;
             $disposisi->username_sender = Auth::user()->username;
             $recipient = \App\Models\User::find($data['id_recipient']);
-            if($recipient) {
+            if ($recipient) {
                 $disposisi->id_recipient = $recipient->id;
                 $disposisi->username_recipient = $recipient->username;
             }
@@ -107,7 +110,7 @@ class DaftarDisposisiController extends Controller
             $disposisi->fresh();
             $disposisi->load('pelayanan');
 
-            if($recipient) {
+            if ($recipient) {
                 Notification::send($recipient, new NewPelayananNotification($disposisi));
             }
 
