@@ -149,6 +149,7 @@
                             </div>
 
                         </div>
+
                     </div>
 
 
@@ -206,6 +207,12 @@
                             </div>
                             <div class="card-body">
 
+                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    <i class="bi bi-exclamation-triangle me-1"></i>
+                                    Kosongkan Data Pegawai jika permohonan ingin ditunda / arsip!
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+
                                 <form class="row g-3 mt-2 needs-validation" novalidate id="dForm" method="post" action="{{ route('disposisi-list.store') }}" enctype="multipart/form-data">
                                     {{ csrf_field() }}
 
@@ -214,7 +221,7 @@
                                     <input type="hidden" name="urutan_disposisi" id="urutan_disposisi" value="">
 
                                     <div class="col-md-12 form-group">
-                                        <label for="id_recipient" class="form-label fw-bold">Nama Layanan</label>
+                                        <label for="id_recipient" class="form-label fw-bold">Nama Pejabat / Pegawai</label>
                                         <select name="id_recipient" id="id_recipient" class="form-control select2 custom-select">
                                             <option selected value="">Pilih Pejabat</option>
                                             @foreach ($pegawai as $item)

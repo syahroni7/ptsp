@@ -111,32 +111,40 @@
         @can('menu-layanan')
             <li class="nav-heading">Kelola Master Layanan</li>
             {{-- Kelola Jenis Layanan --}}
-            <li class="nav-item"> <a class="nav-link @if (request()->segment(1) == 'jenis-layanan') @else collapsed @endif" href="{{ route('jenis-layanan.index') }}"> <i class="bi bi-window-dock"></i> <span>Jenis Layanan</span>
-                </a></li>
+            @can('page-layanan-jenis')
+                <li class="nav-item"> <a class="nav-link @if (request()->segment(1) == 'jenis-layanan') @else collapsed @endif" href="{{ route('jenis-layanan.index') }}"> <i class="bi bi-window-dock"></i> <span>Jenis Layanan</span></a></li>
+            @endcan
+
             {{-- Kelola Output Layanan --}}
-            <li class="nav-item"> <a class="nav-link @if (request()->segment(1) == 'output-layanan') @else collapsed @endif" href="{{ route('output-layanan.index') }}"> <i class="bi bi-wallet"></i> <span>Output Layanan</span>
-                </a></li>
+            @can('page-layanan-output')
+                <li class="nav-item"> <a class="nav-link @if (request()->segment(1) == 'output-layanan') @else collapsed @endif" href="{{ route('output-layanan.index') }}"> <i class="bi bi-wallet"></i> <span>Output Layanan</span></a></li>
+            @endcan
+
             {{-- Kelola Daftar Layanan --}}
-            <li class="nav-item"> <a class="nav-link @if (request()->segment(1) == 'daftar-layanan') @else collapsed @endif" href="{{ route('daftar-layanan.index') }}"> <i class="bi bi-vr"></i> <span>Daftar Layanan</span> </a>
-            </li>
-            {{-- Kelola Syarat Layanan --}}
-            <li class="nav-item">
-                <a class="nav-link @if (request()->segment(1) == 'syarat-layanan') @else collapsed @endif" data-bs-target="#syarat-nav" data-bs-toggle="collapse" href="#" aria-expanded="@if (request()->segment(1) == 'syarat-layanan') true @else false @endif">
-                    <i class="bi bi-view-stacked"></i><span>Kelola Syarat</span><i class="bi bi-chevron-down ms-auto"></i>
-                </a>
-                <ul id="syarat-nav" class="nav-content collapse @if (request()->segment(1) == 'syarat-layanan') show @endif" data-bs-parent="#sidebar-nav" style="">
-                    <li>
-                        <a href="{{ route('syarat-layanan-master.index') }}" class="@if (request()->segment(2) == 'master') active @endif">
-                            <i class="bi bi-circle"></i><span>Master Syarat</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('syarat-layanan-list.index') }}" class="@if (request()->segment(2) == 'list') active @endif">
-                            <i class="bi bi-circle"></i><span>Daftar Syarat</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
+            @can('page-layanan-daftar')
+                <li class="nav-item"> <a class="nav-link @if (request()->segment(1) == 'daftar-layanan') @else collapsed @endif" href="{{ route('daftar-layanan.index') }}"> <i class="bi bi-vr"></i> <span>Daftar Layanan</span> </a></li>
+            @endcan
+
+            @can('page-layanan-syarat-master')
+                {{-- Kelola Syarat Layanan --}}
+                <li class="nav-item">
+                    <a class="nav-link @if (request()->segment(1) == 'syarat-layanan') @else collapsed @endif" data-bs-target="#syarat-nav" data-bs-toggle="collapse" href="#" aria-expanded="@if (request()->segment(1) == 'syarat-layanan') true @else false @endif">
+                        <i class="bi bi-view-stacked"></i><span>Kelola Syarat</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="syarat-nav" class="nav-content collapse @if (request()->segment(1) == 'syarat-layanan') show @endif" data-bs-parent="#sidebar-nav" style="">
+                        <li>
+                            <a href="{{ route('syarat-layanan-master.index') }}" class="@if (request()->segment(2) == 'master') active @endif">
+                                <i class="bi bi-circle"></i><span>Master Syarat</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('syarat-layanan-list.index') }}" class="@if (request()->segment(2) == 'list') active @endif">
+                                <i class="bi bi-circle"></i><span>Daftar Syarat</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            @endcan
         @endcan
 
 

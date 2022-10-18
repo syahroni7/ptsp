@@ -54,7 +54,7 @@
         let disposisi = data[1];
         console.log('disposisi');
         console.log(disposisi);
-        var authUsername = '{!! Auth::user()->username !!}';
+        var authUsername = {!! Auth::user()->username !!};
         console.log('authUsername');
         console.log(authUsername);
 

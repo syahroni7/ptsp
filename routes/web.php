@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,57 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/**
+ * Test Excel
+ */
+
+Route::get('/xc', function () {
+    $filename = 'Data Layanan.xlsx';
+    $toPath = public_path('/' . $filename);
+
+    $excel = \Excel::toArray([], $toPath);
+
+    $sheet = 0;
+    $row = 1;
+
+    $sheet = $excel[$sheet];
+    $dataLayanan = [];
+
+    foreach ($sheet as $row => $value) {
+        if ($row > 1) {
+            $namaL = $value[1];
+            $unitL = $value[2];
+            $jenisL = $value[3];
+            $outputL = $value[4];
+            $lamaL = $value[5];
+            $biayaL = $value[6];
+
+            $unit = \App\Models\UnitPengolah::firstOrCreate(['name' =>  $unitL]);
+            $jenis = \App\Models\JenisLayanan::firstOrCreate(['name' =>  $jenisL]);
+            $output = \App\Models\OutputLayanan::firstOrCreate(['name' =>  $outputL]);
+
+            $dataLayanan[] = [
+                'name' => $namaL,
+                'id_unit_pengolah' => $unit->id_unit_pengolah,
+                'id_jenis_layanan' => $jenis->id_jenis_layanan,
+                'id_output_layanan' => $output->id_output_layanan,
+                'lama_layanan' => $lamaL,
+                'biaya_layanan' => $biayaL,
+            ];
+        }
+    }
+
+
+    return $dataLayanan;
+});
+
+Route::get('/enc/{id}', function ($id) {
+    return urlencode(base64_encode($id));
+});
+
+Route::get('/dec/{id}', function ($id) {
+    return urlencode(base64_encode($id));
+});
 
 /**
  * Public Routes
@@ -87,7 +139,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/output-layanan', [\App\Http\Controllers\DataLayanan\OutputLayananController::class, 'index'])->name('output-layanan.index');
         Route::post('/output-layanan/store', [\App\Http\Controllers\DataLayanan\OutputLayananController::class, 'store'])->name('output-layanan.store');
         Route::delete('/output-layanan/destroy/{jenis}', [\App\Http\Controllers\DataLayanan\OutputLayananController::class, 'destroy'])->name('output-layanan.destroy');
+    });
 
+    Route::group(['middleware' => ['role:super_administrator|administrator|staff']], function () {
         /**
          * Daftar Layanan
          */

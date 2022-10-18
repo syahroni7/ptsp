@@ -54,7 +54,7 @@
     <header id="header" class="fixed-top d-flex align-items-center ">
         <div class="container d-flex align-items-center justify-content-between">
 
-            <h1 class="logo"><a href="index.html">SIMPUL SEHATI</a></h1>
+            <h1 class="logo"><a href="/">PTSP ONLINE</a></h1>
             <!-- Uncomment below if you prefer to use an image logo -->
             <!-- <a href=index.html" class="logo"><img src="anyar-assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
@@ -317,13 +317,15 @@
 
                             <form action="" method="post">
                                 <a href="/lacak-pelayanan" class="form-control">Lacak Permohonan Layanan</a>
-                                {{-- <input type="email" name="email"><input type="submit" value="Lacak"> --}}
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
-        </section><!-- End Cta Section -->
+        </section>
+        {{-- <input type="email" name="email"><input type="submit" value="Lacak"> --}}
+
+        <!-- End Cta Section -->
 
         <!-- ======= Contact Section ======= -->
         <section id="contact" class="contact">

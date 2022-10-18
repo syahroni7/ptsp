@@ -46,6 +46,12 @@ class RolesTableSeeder extends Seeder
         $user = User::where('username', 'mardiyana')->first();
         $user->assignRole('operator');
 
+        // Staff
+        $canStaffs = User::whereIn('username', ['197505152005012003', '198006222014112002', '197406142007101001', '198212262005011004', '198003162007102002', '197205062007101002', '197208212000032003', '197706292007102008'])->get();
+        $canStaffs->each(function ($user) {
+            $user->assignRole('staff');
+        });
+
 
         // Permissions
         $permissionMenu1 = Permission::create(['name' => 'menu-dashboard']);
@@ -69,7 +75,7 @@ class RolesTableSeeder extends Seeder
         $permissionPage5_2 = Permission::create(['name' => 'page-main-user-data']);
         $permissionPage5_3 = Permission::create(['name' => 'page-main-user-role']);
         $permissionPage5_4 = Permission::create(['name' => 'page-main-unit_pengolah']);
-        
+
         $permissionPage6_1 = Permission::create(['name' => 'page-layanan-jenis']);
         $permissionPage6_2 = Permission::create(['name' => 'page-layanan-output']);
         $permissionPage6_3 = Permission::create(['name' => 'page-layanan-daftar']);
@@ -121,11 +127,12 @@ class RolesTableSeeder extends Seeder
         ]);
 
         $staff->givePermissionTo([
-            $permissionMenu1, $permissionMenu2, $permissionMenu4,
+            $permissionMenu1, $permissionMenu2, $permissionMenu3, $permissionMenu4, $permissionMenu6,
             $permissionPage1_1,
             $permissionPage2_1, $permissionPage2_2,
             $permissionPage3_1,
             $permissionPage4_1, $permissionPage4_2,
+            $permissionPage6_3, $permissionPage6_4, $permissionPage6_5,
         ]);
     }
 }

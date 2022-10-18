@@ -30,8 +30,7 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ $title }}</h5>
 
-                            <table class='table table-bordered display' id="example"
-                                style="width:100%; font-size:11pt!important;">
+                            <table class='table table-bordered display' id="example" style="width:100%; font-size:11pt!important;">
                                 <thead>
                                     <tr>
                                         <th class="text-center">No</th>

@@ -98,7 +98,7 @@ class UsersTableSeeder extends Seeder
                 'updated_at' => \Carbon\Carbon::now()
             ],
 
-            // Staff
+            // Staff Kepegawaian
             [
                 'name' => 'Anna Yoladevika, SH',
                 'username' => '197505152005012003',
@@ -115,6 +115,7 @@ class UsersTableSeeder extends Seeder
                 'password' => Hash::make('198006222014112002'),
                 'updated_at' => \Carbon\Carbon::now()
             ],
+            // Staff Keuangan
             [
                 'name' => 'Yunefri, S.Kom ',
                 'username' => '197406142007101001',
@@ -123,6 +124,55 @@ class UsersTableSeeder extends Seeder
                 'password' => Hash::make('197406142007101001'),
                 'updated_at' => \Carbon\Carbon::now()
             ],
+            // Staff Penmad
+            [
+                'name' => 'Heru Syafri,A.Ma',
+                'username' => '198212262005011004',
+                'jabatan' => 'Staf',
+                'email' => '198212262005011004@kemenag.go.id',
+                'password' => Hash::make('198212262005011004'),
+                'updated_at' => \Carbon\Carbon::now()
+            ],
+            // Staff Haji
+            [
+                'name' => 'MARDANITA JALPIDA, S.S',
+                'username' => '198003162007102002',
+                'jabatan' => 'Staf',
+                'email' => '198003162007102002@kemenag.go.id',
+                'password' => Hash::make('198003162007102002'),
+                'updated_at' => \Carbon\Carbon::now()
+
+            ],
+            // Staff PAIS
+            [
+                'name' => 'ENDRIZAL, S.Ag',
+                'username' => '197205062007101002',
+                'jabatan' => 'Staf',
+                'email' => '197205062007101002@kemenag.go.id',
+                'password' => Hash::make('197205062007101002'),
+                'updated_at' => \Carbon\Carbon::now()
+
+            ],
+            // Staff Bimas
+            [
+                'name' => 'MARSEHARTI, S.Ag',
+                'username' => '197208212000032003',
+                'jabatan' => 'Staf',
+                'email' => '197208212000032003@kemenag.go.id',
+                'password' => Hash::make('197208212000032003'),
+                'updated_at' => \Carbon\Carbon::now()
+
+            ],
+            // Staff ZaWa
+            [
+                'name' => 'ERMANINGSIH ',
+                'username' => '197706292007102008',
+                'jabatan' => 'Staf',
+                'email' => '197706292007102008@kemenag.go.id',
+                'password' => Hash::make('197706292007102008'),
+                'updated_at' => \Carbon\Carbon::now()
+
+            ]
 
         ];
 
@@ -150,7 +200,7 @@ class UsersTableSeeder extends Seeder
                 'name' => 'Seksi Bimbingan Masyarakat Islam',
             ],
             [
-                'name' => 'Seksi Penyelenggara Syariah Zakat dan Wakaf',
+                'name' => 'Seksi Penyelenggara Zakat dan Wakaf',
             ]
         ];
 
@@ -242,8 +292,7 @@ class UsersTableSeeder extends Seeder
             ],
         ];
 
-
-        DB::table('daftar_jenis_layanan')->insert($jenises);
+        // DB::table('daftar_jenis_layanan')->insert($jenises);
 
 
 
@@ -282,7 +331,9 @@ class UsersTableSeeder extends Seeder
                 ['name' => 'Surat Pesetujuan']
         ];
 
-        DB::table('daftar_output_layanan')->insert($outputs);
+        // DB::table('daftar_output_layanan')->insert($outputs);
+
+
 
         $layanans = [
             [
@@ -359,7 +410,7 @@ class UsersTableSeeder extends Seeder
             ],
         ];
 
-        DB::table('daftar_layanan')->insert($layanans);
+        // DB::table('daftar_layanan')->insert($layanans);
 
 
 
@@ -449,7 +500,8 @@ class UsersTableSeeder extends Seeder
             ['name' => 'Surat Permohonan/Pengantar dari Lembaga Pendidikan'],
         ];
 
-        DB::table('master_syarat_layanan')->insert($syarats);
+        // DB::table('master_syarat_layanan')->insert($syarats);
+
 
 
         $daftarSyarats = [
@@ -474,7 +526,7 @@ class UsersTableSeeder extends Seeder
                 'id_master_syarat_layanan' => 80,
             ],
             [
-                'id_layanan' => 5, 
+                'id_layanan' => 5,
                 'id_master_syarat_layanan' => 81,
             ],
             [
@@ -482,15 +534,15 @@ class UsersTableSeeder extends Seeder
                 'id_master_syarat_layanan' => 18,
             ],
             [
-                'id_layanan' => 6, 
+                'id_layanan' => 6,
                 'id_master_syarat_layanan' => 19,
             ],
             [
-                'id_layanan' => 6, 
+                'id_layanan' => 6,
                 'id_master_syarat_layanan' => 20,
             ],
             [
-                'id_layanan' => 6, 
+                'id_layanan' => 6,
                 'id_master_syarat_layanan' => 21,
             ],
             [
@@ -526,11 +578,11 @@ class UsersTableSeeder extends Seeder
                 'id_master_syarat_layanan' => 3
             ],
             [
-                'id_layanan' => 8, 
+                'id_layanan' => 8,
                 'id_master_syarat_layanan' => 18
             ],
             [
-                'id_layanan' => 8, 
+                'id_layanan' => 8,
                 'id_master_syarat_layanan' => 29
             ],
             [
@@ -538,31 +590,31 @@ class UsersTableSeeder extends Seeder
                 'id_master_syarat_layanan' =>  26
             ],
             [
-                'id_layanan' => 9, 
+                'id_layanan' => 9,
                 'id_master_syarat_layanan' =>  27
             ],
             [
-                'id_layanan' => 9, 
+                'id_layanan' => 9,
                 'id_master_syarat_layanan' =>  28
             ],
             [
-                'id_layanan' => 9, 
+                'id_layanan' => 9,
                 'id_master_syarat_layanan' =>  29
             ],
             [
-                'id_layanan' => 9, 
+                'id_layanan' => 9,
                 'id_master_syarat_layanan' =>  30
             ],
             [
-                'id_layanan' => 9, 
+                'id_layanan' => 9,
                 'id_master_syarat_layanan' =>  31
             ],
             [
-                'id_layanan' => 9, 
+                'id_layanan' => 9,
                 'id_master_syarat_layanan' =>  32
             ],
         ];
 
-        DB::table('daftar_syarat_layanan')->insert($daftarSyarats);
+        // DB::table('daftar_syarat_layanan')->insert($daftarSyarats);
     }
 }
