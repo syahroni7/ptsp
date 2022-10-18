@@ -12,7 +12,7 @@
                 <li><a class="nav-link scrollto @if (request()->segment(1) == 'tentang') active @endif " href="/tentang">Tentang</a></li>
                 <li><a class="nav-link scrollto @if (request()->segment(1) == 'daftar-pelayanan') active @endif " href="/daftar-pelayanan">Daftar Pelayanan</a></li>
                 <li><a class="nav-link scrollto @if (request()->segment(1) == 'lacak-pelayanan') active @endif " href="/lacak-pelayanan">Lacak Pelayanan</a></li>
-                <li><a class="nav-link scrollto" href="#downloadmanualbook">Buku Manual</a></li>
+                <li><a class="nav-link scrollto" href="/Manual Book PTSP v2.pdf" target="_blank">Buku Manual</a></li>
                 <li><a class="nav-link scrollto" href="#contact">HelpDesk</a></li>
                 <li><a class="nav-link scrollto" href="/login">Masuk</a></li>
             </ul>
