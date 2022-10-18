@@ -498,6 +498,8 @@
                                     </li>`;
                         });
                         html += `<ol>`;
+                    } else {
+                        html += '<div class="text-center">.:: Belum ada Data Syarat ::. </div>'
                     }
 
                     box.append(html);
