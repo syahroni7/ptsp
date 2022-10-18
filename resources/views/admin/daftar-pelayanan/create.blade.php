@@ -669,13 +669,20 @@
                         console.log(res);
 
 
+                        var htmlData = '';
 
-                        var htmlData = `<ol>`;
-                        $.each(res.data, function(key, item) {
-                            htmlData += `<li>${item.name}</li>`
-                        });
+                        if (res.data.length > 0) {
+                            htmlData += `<ol>`;
+                            $.each(res.data, function(key, item) {
+                                htmlData += `<li>${item.name}</li>`
+                            });
+                            htmlData += `</ol>`;
+                        } else {
+                            htmlData += '.:: Belum ada Data Syarat ::.';
+                        }
 
-                        htmlData += `</ol>`;
+
+
 
                         $('#message-syarat').html(htmlData);
                         $('.template-syarat').fadeIn("slow");

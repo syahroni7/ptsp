@@ -499,7 +499,7 @@
                         });
                         html += `<ol>`;
                     } else {
-                        html += '<div class="text-center">.:: Belum ada Data Syarat ::. </div>'
+                        html += '<div class="text-center mt-3">.:: Belum ada Data Syarat ::. </div>'
                     }
 
                     box.append(html);
