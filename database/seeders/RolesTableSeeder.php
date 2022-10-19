@@ -115,8 +115,9 @@ class RolesTableSeeder extends Seeder
         ]);
 
         $manager->givePermissionTo([
-            $permissionMenu1, $permissionMenu4,
+            $permissionMenu1, $permissionMenu2, $permissionMenu4,
             $permissionPage1_1,
+            $permissionPage2_1, $permissionPage2_2,
             $permissionPage4_1, $permissionPage4_2,
         ]);
 
