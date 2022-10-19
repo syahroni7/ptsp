@@ -201,7 +201,7 @@ Route::middleware('auth')->group(function () {
 
 
 
-    Route::group(['middleware' => ['role:super_administrator|administrator|operator|staff']], function () {
+    Route::group(['middleware' => ['role:super_administrator|administrator|operator|staff|manager']], function () {
         /**
          * Transaksi Pelayanan
          */
