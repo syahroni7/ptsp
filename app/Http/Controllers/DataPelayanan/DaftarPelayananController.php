@@ -410,6 +410,7 @@ class DaftarPelayananController extends Controller
         $message = '';
 
         try {
+            $pelayanan->disposisi()->delete();
             $pelayanan->delete();
             $success = true;
         } catch (\Exception $e) {

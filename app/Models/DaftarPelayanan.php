@@ -5,9 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Vinkla\Hashids\Facades\Hashids;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
  
 class DaftarPelayanan extends Model
 {
+    use SoftDeletes;
 
     protected $table = "daftar_pelayanan";
 
@@ -44,6 +47,17 @@ class DaftarPelayanan extends Model
     public function getIdxPelayananAttribute()
     {
         return Hashids::encode($this->id_pelayanan);
+    }
+
+    // this is a recommended way to declare event handlers
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function($pelayanan) { // before delete() method call this
+             $pelayanan->disposisi()->delete();
+             $pelayanan->arsip()->delete();
+             // do the rest of the cleanup...
+        });
     }
 
 

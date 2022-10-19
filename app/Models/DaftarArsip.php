@@ -14,5 +14,6 @@ class DaftarArsip extends Model
     protected $primaryKey = 'id_arsip';
  
     protected $guarded = [];
+    
    
 }
