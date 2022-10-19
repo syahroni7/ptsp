@@ -98,6 +98,24 @@ class UsersTableSeeder extends Seeder
                 'updated_at' => \Carbon\Carbon::now()
             ],
 
+            // Umum
+            [
+            'name' => 'Afrison, S.HI',
+                'username' => '197901012007101004',
+                'jabatan' => 'Staf',
+                'email' => '197901012007101004@kemenag.go.id',
+                'password' => Hash::make('197901012007101004'),
+                'updated_at' => \Carbon\Carbon::now()
+            ],
+            [
+                'name' => 'Upik Mike, S.AP',
+                'username' => '198505202014122005',
+                'jabatan' => 'Staf',
+                'email' => '198505202014122005@kemenag.go.id',
+                'password' => Hash::make('198505202014122005'),
+                'updated_at' => \Carbon\Carbon::now()
+            ],
+
             // Staff Kepegawaian
             [
                 'name' => 'Anna Yoladevika, SH',
@@ -124,6 +142,50 @@ class UsersTableSeeder extends Seeder
                 'password' => Hash::make('197406142007101001'),
                 'updated_at' => \Carbon\Carbon::now()
             ],
+            [
+                'name' => 'Del Junefri, SE',
+                'username' => '197606082009121001',
+                'jabatan' => 'Staf',
+                'email' => '197606082009121001@kemenag.go.id',
+                'password' => Hash::make('197606082009121001'),
+                'updated_at' => \Carbon\Carbon::now()
+            ],
+            [
+                'name' => 'Ramadhanera P Madya, SE',
+                'username' => '198705122011012008',
+                'jabatan' => 'Staf',
+                'email' => '198705122011012008@kemenag.go.id',
+                'password' => Hash::make('198705122011012008'),
+                'updated_at' => \Carbon\Carbon::now()
+            ],
+            [
+                'name' => 'Nila Oksana, A. Ma',
+                'username' =>'198210132007102002',
+                'jabatan' => 'Staf',
+                'email' => '198210132007102002@kemenag.go.id',
+                'password' => Hash::make('198210132007102002'),
+                'updated_at' => \Carbon\Carbon::now()
+            ],
+            [
+                'name' => 'Roni Hendra',
+                'username' =>'198212152005011002',
+                'jabatan' => 'Staf',
+                'email' => '198212152005011002@kemenag.go.id',
+                'password' => Hash::make('198212152005011002'),
+                'updated_at' => \Carbon\Carbon::now()
+            ],
+            [
+                'name' => 'Asriwansyah',
+                'username' =>'198204032005011001',
+                'jabatan' => 'Staf',
+                'email' => '198204032005011001@kemenag.go.id',
+                'password' => Hash::make('198204032005011001'),
+                'updated_at' => \Carbon\Carbon::now()
+            ],
+
+
+
+
             // Staff Penmad
             [
                 'name' => 'Heru Syafri,A.Ma',
@@ -131,6 +193,32 @@ class UsersTableSeeder extends Seeder
                 'jabatan' => 'Staf',
                 'email' => '198212262005011004@kemenag.go.id',
                 'password' => Hash::make('198212262005011004'),
+                'updated_at' => \Carbon\Carbon::now()
+            ],
+            [
+                'name' => 'Meiriza Lidya, S.S',
+                'username' => 'Meiriza',
+                'jabatan' => 'Staf',
+                'email' => 'Meiriza@kemenag.go.id',
+                'password' => Hash::make('Meiriza '),
+                'updated_at' => \Carbon\Carbon::now()
+            ],
+            [
+
+                'name' => 'Fauzhi Abdhilah, S.Kom',
+                'username' => 'Fauzhi',
+                'jabatan' => 'Staf',
+                'email' => 'Fauzhi@kemenag.go.id',
+                'password' => Hash::make('Fauzhi'),
+                'updated_at' => \Carbon\Carbon::now()
+            ],
+            [
+
+                'name' => 'Dewi Martaliza, S.AP',
+                'username' => '197903062014122002',
+                'jabatan' => 'Staf',
+                'email' => '197903062014122002@kemenag.go.id',
+                'password' => Hash::make('197903062014122002'),
                 'updated_at' => \Carbon\Carbon::now()
             ],
             // Staff Haji
@@ -141,7 +229,22 @@ class UsersTableSeeder extends Seeder
                 'email' => '198003162007102002@kemenag.go.id',
                 'password' => Hash::make('198003162007102002'),
                 'updated_at' => \Carbon\Carbon::now()
-
+            ],
+            [
+                'name' => 'Liswarti, S.Th I',
+                'username' => '198104122009012004',
+                'jabatan' => 'Staf',
+                'email' => '198104122009012004@kemenag.go.id',
+                'password' => Hash::make('198104122009012004'),
+                'updated_at' => \Carbon\Carbon::now()
+            ],
+            [
+                'name' => 'Martinis, S.Th I',
+                'username' => '197101152007102002',
+                'jabatan' => 'Staf',
+                'email' => '197101152007102002@kemenag.go.id',
+                'password' => Hash::make('197101152007102002'),
+                'updated_at' => \Carbon\Carbon::now()
             ],
             // Staff PAIS
             [
@@ -151,7 +254,14 @@ class UsersTableSeeder extends Seeder
                 'email' => '197205062007101002@kemenag.go.id',
                 'password' => Hash::make('197205062007101002'),
                 'updated_at' => \Carbon\Carbon::now()
-
+            ],
+            [
+                'name' => 'Syafria Norawati, A.Ma',
+                'username' => '19800414 200710 2 006',
+                'jabatan' => 'Staf',
+                'email' => '19800414 200710 2 006@kemenag.go.id',
+                'password' => Hash::make('19800414 200710 2 006'),
+                'updated_at' => \Carbon\Carbon::now()
             ],
             // Staff Bimas
             [
@@ -161,7 +271,22 @@ class UsersTableSeeder extends Seeder
                 'email' => '197208212000032003@kemenag.go.id',
                 'password' => Hash::make('197208212000032003'),
                 'updated_at' => \Carbon\Carbon::now()
-
+            ],
+            [
+                'name' => 'Efnurdawati, S.HI',
+                'username' => '19780929 200501 2 003',
+                'jabatan' => 'Staf',
+                'email' => '19780929 200501 2 003@kemenag.go.id',
+                'password' => Hash::make('19780929 200501 2 003'),
+                'updated_at' => \Carbon\Carbon::now()
+            ],
+            [
+                'name' => 'Afriyasni',
+                'username' => '19650828 198903 2 001',
+                'jabatan' => 'Staf',
+                'email' => '19650828 198903 2 001@kemenag.go.id',
+                'password' => Hash::make('19650828 198903 2 001'),
+                'updated_at' => \Carbon\Carbon::now()
             ],
             // Staff ZaWa
             [
