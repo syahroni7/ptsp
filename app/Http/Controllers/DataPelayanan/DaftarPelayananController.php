@@ -356,7 +356,7 @@ class DaftarPelayananController extends Controller
                 // Create Disposisi
                 $disposisi = new DaftarDisposisi();
                 $disposisi->id_pelayanan = $pelayanan->id_pelayanan;
-                $disposisi->id_aksi_disposisi = 4; // aksi 'ditindaklanjuti'
+                $disposisi->id_aksi_disposisi = 12; // aksi 'mohon_arahan'
                 $disposisi->urutan_disposisi = 1;
                 $recipient = \App\Models\User::whereHas('roles', function ($q) {
                     $q->where('name', 'manager');
