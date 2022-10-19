@@ -388,7 +388,7 @@
 
             $(document).on("click", "#destroyBtn", function() {
                 event.preventDefault();
-                var idJenisLayanan = $(this).data('id_jenis_layanan');
+                var idPelayanan = $(this).data('id_pelayanan');
 
                 swalWithBootstrapButtons.fire({
                     title: 'Apakah anda yakin akan melakukan penghapusan data?',
@@ -400,8 +400,8 @@
                     reverseButtons: true
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        var url = '{{ route('jenis-layanan.destroy', ':id') }}';
-                        url = url.replace(':id', idJenisLayanan);
+                        var url = '{{ route('daftar-pelayanan.destroy', ':id') }}';
+                        url = url.replace(':id', idPelayanan);
                         $.ajax({
                             type: 'DELETE',
                             url: url,
