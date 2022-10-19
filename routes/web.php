@@ -114,6 +114,7 @@ Route::get('/syarat-layanan/list/fetch/{layanan}', [\App\Http\Controllers\DataLa
 Route::post('/daftar-pelayanan/store-landing', [\App\Http\Controllers\DataPelayanan\DaftarPelayananController::class, 'storeLanding'])->name('daftar-pelayanan.store-landing');
 Route::get('/daftar-pelayanan/fetch/{id_pelayanan}', [\App\Http\Controllers\DataPelayanan\DaftarPelayananController::class, 'fetch'])->name('daftar-pelayanan.fetch');
 Route::get('/daftar-pelayanan/search', [\App\Http\Controllers\DataPelayanan\DaftarPelayananController::class, 'search'])->name('daftar-pelayanan.search');
+Route::get('/daftar-pelayanan/destroy/{pelayanan}', [\App\Http\Controllers\DataPelayanan\DaftarPelayananController::class, 'destroy'])->name('daftar-pelayanan.destroy');
 
 Auth::routes();
 

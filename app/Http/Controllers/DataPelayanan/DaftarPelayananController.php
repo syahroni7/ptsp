@@ -402,4 +402,21 @@ class DaftarPelayananController extends Controller
                 'disposisi' => $disposisi,
             ]);
     }
+
+
+    public function destroy(DaftarPelayanan $pelayanan)
+    {
+        $success = false;
+        $message = '';
+
+        try {
+            $pelayanan->delete();
+            $success = true;
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+        }
+
+        return response()
+            ->json(['success' => $success, 'message' => $message]);
+    }
 }
