@@ -257,9 +257,9 @@ class UsersTableSeeder extends Seeder
             ],
             [
                 'name' => 'Syafria Norawati, A.Ma',
-                'username' => '19800414 200710 2 006',
+                'username' => '198004142007102006',
                 'jabatan' => 'Staf',
-                'email' => '19800414 200710 2 006@kemenag.go.id',
+                'email' => '198004142007102006@kemenag.go.id',
                 'password' => Hash::make('19800414 200710 2 006'),
                 'updated_at' => \Carbon\Carbon::now()
             ],
@@ -274,18 +274,18 @@ class UsersTableSeeder extends Seeder
             ],
             [
                 'name' => 'Efnurdawati, S.HI',
-                'username' => '19780929 200501 2 003',
+                'username' => '197809292005012003',
                 'jabatan' => 'Staf',
-                'email' => '19780929 200501 2 003@kemenag.go.id',
-                'password' => Hash::make('19780929 200501 2 003'),
+                'email' => '197809292005012003@kemenag.go.id',
+                'password' => Hash::make('197809292005012003'),
                 'updated_at' => \Carbon\Carbon::now()
             ],
             [
                 'name' => 'Afriyasni',
-                'username' => '19650828 198903 2 001',
+                'username' => '196508281989032001',
                 'jabatan' => 'Staf',
-                'email' => '19650828 198903 2 001@kemenag.go.id',
-                'password' => Hash::make('19650828 198903 2 001'),
+                'email' => '196508281989032001@kemenag.go.id',
+                'password' => Hash::make('196508281989032001'),
                 'updated_at' => \Carbon\Carbon::now()
             ],
             // Staff ZaWa
