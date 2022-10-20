@@ -20,6 +20,7 @@ use DataTables;
 use Auth;
 use DB;
 use Vinkla\Hashids\Facades\Hashids;
+use Carbon\Carbon;
 
 class DaftarPelayananController extends Controller
 {
@@ -98,6 +99,10 @@ class DaftarPelayananController extends Controller
         $disposisi = null;
 
         try {
+            config(['app.locale' => 'id']);
+            Carbon::setLocale('id');
+            date_default_timezone_set('Asia/Jakarta');
+
             $layanan = DaftarLayanan::where('id_layanan', $data['id_layanan'])->first();
             $pelayananCount = DaftarPelayanan::whereYear('created_at', '=', date('Y'))
                                                 ->whereMonth('created_at', '=', date('m'))
@@ -331,7 +336,11 @@ class DaftarPelayananController extends Controller
         $recipient = null;
         $disposisi = null;
 
-        // try {
+        try {
+            config(['app.locale' => 'id']);
+            Carbon::setLocale('id');
+            date_default_timezone_set('Asia/Jakarta');
+
             $layanan = DaftarLayanan::where('id_layanan', $data['id_layanan'])->first();
             $pelayananCount = DaftarPelayanan::whereYear('created_at', '=', date('Y'))
                                                 ->whereMonth('created_at', '=', date('m'))
@@ -402,9 +411,9 @@ class DaftarPelayananController extends Controller
             $success = true;
             $code = 200;
             $message = 'Data Berhasil Disimpan';
-        // } catch (\Throwable $th) {
-        //     $message = $th->getMessage();
-        // }
+        } catch (\Throwable $th) {
+            $message = $th->getMessage();
+        }
 
         return response()
             ->json([
