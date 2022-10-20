@@ -87,7 +87,7 @@
             &copy; Copyright <strong><span>Anyar</span></strong>. All Rights Reserved
         </div>
         <div class="credits">
-            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a> | Developed By <a href="https://github.com/yudapramana">Yuda Pramana</a></div>
+            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a> | <a href="https://github.com/yudapramana">Yuda Pramana</a></div>
     </div>
     </div>
 </footer>

@@ -127,7 +127,7 @@ class DaftarPelayananController extends Controller
                 // Create Disposisi
                 $disposisi = new DaftarDisposisi();
                 $disposisi->id_pelayanan = $pelayanan->id_pelayanan;
-                $disposisi->id_aksi_disposisi = 4; // aksi 'ditindaklanjuti'
+                $disposisi->id_aksi_disposisi = 2; // aksi 'mohon_arahan'
                 $disposisi->urutan_disposisi = 1;
                 $disposisi->id_sender = Auth::user()->id;
                 $disposisi->username_sender = Auth::user()->username;
@@ -352,11 +352,20 @@ class DaftarPelayananController extends Controller
             $pelayanan->save();
             $pelayanan->fresh();
 
+            // Create Arsip
+            $arsip = new \App\Models\DaftarArsip();
+            $arsip->id_pelayanan = $pelayanan['id_pelayanan'];
+            if (isset($data['arsip_masuk_url_register']) && $data['arsip_masuk_url_register'] != 'empty') {
+                $arsip->arsip_masuk_url = $data['arsip_masuk_url_register'];
+                $arsip->created_by_masuk = $data['pemohon_nama'];
+                $arsip->save();
+            }
+
             if ($data['status_pelayanan'] == 'Baru') {
                 // Create Disposisi
                 $disposisi = new DaftarDisposisi();
                 $disposisi->id_pelayanan = $pelayanan->id_pelayanan;
-                $disposisi->id_aksi_disposisi = 12; // aksi 'mohon_arahan'
+                $disposisi->id_aksi_disposisi = 1; // aksi 'permohonan_baru'
                 $disposisi->urutan_disposisi = 1;
                 $recipient = \App\Models\User::whereHas('roles', function ($q) {
                     $q->where('name', 'manager');

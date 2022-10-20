@@ -45,6 +45,9 @@
 
 
     socket.on('sendNotifToClient', (data) => {
+        fetchNotif();
+        fetchSummary();
+
         console.log('data nya apa:');
         console.log(data);
         let recipient = data[0];
@@ -74,7 +77,6 @@
             // audio.setAttribute('src', "{{ url('notification-sound.ogg') }}");
             audio.setAttribute('src', "{{ url('ada-notifikasi-baru.mpeg') }}");
             audio.play();
-            fetchNotif();
         }
 
         let pelayanan = data[1].pelayanan;
@@ -93,7 +95,11 @@
             // audio2.setAttribute('src', "{{ url('notification-sound.ogg') }}");
             audio2.setAttribute('src', "{{ url('ada-notifikasi-baru.mpeg') }}");
             audio2.play();
-            fetchNotif();
+        }
+
+        if (!(typeof table === "undefined")) {
+            console.log('masuk reload tabel');
+            table.ajax.reload(null, false);
         }
 
     });
@@ -114,5 +120,30 @@
                 $('.total-notifikasi').html(res.total_notifikasi)
             }
         });
+    }
+
+    function fetchSummary() {
+        $.ajax({
+            url: "/summary/fetch",
+            type: 'GET',
+            success: function(data) {
+                console.log('data summary/fetch');
+                console.log(data);
+                $.each(data.summary, function(i, item) {
+                    var status = item.status_pelayanan;
+                    var param = '.total-' + status;
+                    $('.total-' + status).html(item.total);
+                });
+            }
+        });
+    }
+
+    if (!(typeof table === "undefined")) {
+
+        table.on('error.dt', function(e, settings, techNote, message) {
+            window.location.href = "/login";
+            console.log('woilah');
+        });
+        console.log('woilah');
     }
 </script>

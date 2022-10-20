@@ -98,6 +98,18 @@ Route::get('/dec/{id}', function ($id) {
     return urlencode(base64_encode($id));
 });
 
+
+Route::get('/summary/fetch', function() {
+    $summary = \App\Models\DaftarPelayanan::select('status_pelayanan', DB::raw('count(*) as total'))
+                                                ->whereYear('created_at', '=', date('Y'))
+                                                ->whereMonth('created_at', '=', date('m'))
+                                                ->groupBy('status_pelayanan')
+                                                ->get();
+
+    return response()
+    ->json([ 'summary' => $summary ]);
+});
+
 /**
  * Public Routes
  */

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\DataDisposisi;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\DaftarDisposisi;
+use App\Models\DaftarPelayanan;
 use DataTables;
 use Vinkla\Hashids\Facades\Hashids;
 use Auth;
@@ -32,9 +33,9 @@ class DaftarDisposisiController extends Controller
                 $daftarDisposisi = DaftarDisposisi::whereHas('recipient', function ($q) use ($username) {
                     $q->where('username', $username);
                 })
-                                    ->with('pelayanan', 'sender', 'recipient')->get();
+                                    ->with('pelayanan', 'sender', 'recipient', 'child.recipient')->orderBy('created_at', 'desc')->get();
             } else {
-                $daftarDisposisi = DaftarDisposisi::with('pelayanan', 'sender', 'recipient')->get();
+                $daftarDisposisi = DaftarDisposisi::with('pelayanan', 'sender', 'recipient', 'child.recipient')->orderBy('created_at', 'desc')->get();
             }
 
             return Datatables::of($daftarDisposisi)
@@ -59,16 +60,61 @@ class DaftarDisposisiController extends Controller
 
                     return $kepada;
                 })
+                ->addColumn('status', function ($disposisi) {
+                    $status = '';
+                    if($disposisi->child && $disposisi->child->id_recipient) {
+                        // $status = '<span class="badge badge-secondary"></span>';
+                        $status = '<span class="badge bg-secondary">sudah diteruskan</span>';
+                    } elseif($disposisi->child && !$disposisi->child->id_recipient){
+                        // $status = '<span class="badge badge-success">selesai</span>';
+                        $status = '<span class="badge bg-success">selesai</span>';
+                    }
+                    else {
+                        // $status = '<span class="badge badge-danger">baru</span>';
+                        $status = '<span class="badge bg-danger">baru</span>';
+                    }
+
+                    return $status;
+                })
+                ->editColumn('created_at', function ($disposisi) {
+                    return $disposisi->created_at->toDateTimeString();
+                })
+                ->addColumn('diteruskanke', function ($disposisi) {
+                    $recipient = '';
+                    if($disposisi->child) {
+                        if($disposisi->child->recipient) {
+                            $recipient = $disposisi->child->recipient->name;
+                        } else {
+                            $recipient = 'a.n';
+                        }
+                    } 
+                    else {
+                        $recipient = 'a.n';
+                    }
+
+                    return $recipient;
+                })
+                ->addColumn('disposisikeluar', function ($disposisi) {
+                    $recipient = '';
+                    if($disposisi->child) {
+                        $recipient = $disposisi->child->aksi_disposisi;
+                    } 
+                    else {
+                        $recipient = 'a.n';
+                    }
+
+                    return $recipient;
+                })
                 ->addColumn('action', function ($disposisi) {
                     // $btn = '<button id="editBtn" type="button" class="btn btn-sm btn-warning btn-xs" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Level / Peran User"><i class="bi bi-pencil-square"></i></button>&nbsp;';
                     // $btn .= '<button id="destroyBtn" type="button" class="btn btn-sm btn-danger btn-xs" data-bs-id_disposisi="'. $disposisi->id_disposisi  .'" data-id_disposisi="'.  $disposisi->id_disposisi  .'"><i class="bi bi-trash-fill"></i></button>';
                     // return $btn;
 
                     $url = route('daftar-pelayanan.detail', Hashids::encode($disposisi->id_pelayanan));
-                    $btn = '<a href="'.$url.'" target="_blank" id="viewBtn" type="button" class="btn btn-sm btn-primary btn-xs"><i class="bi bi-search"></i></a>';
+                    $btn = '<a href="'.$url.'" id="viewBtn" type="button" class="btn btn-sm btn-primary btn-xs"><i class="bi bi-search"></i></a>';
                     return $btn;
                 })
-                ->rawColumns(['action'])
+                ->rawColumns(['action', 'status'])
                 ->make(true);
         }
 
@@ -99,19 +145,27 @@ class DaftarDisposisiController extends Controller
                 $disposisi->id_disposisi_parent = $data['id_disposisi_parent'];
             }
             $disposisi->keterangan = $data['keterangan'];
-            $disposisi->id_sender = Auth::user()->id;
-            $disposisi->username_sender = Auth::user()->username;
+            $user = Auth::user();
+            $disposisi->id_sender = $user->id;
+            $disposisi->username_sender = $user->username;
             $recipient = \App\Models\User::find($data['id_recipient']);
             if ($recipient) {
                 $disposisi->id_recipient = $recipient->id;
                 $disposisi->username_recipient = $recipient->username;
             }
             $disposisi->save();
+
             $disposisi->fresh();
             $disposisi->load('pelayanan');
 
             if ($recipient) {
                 Notification::send($recipient, new NewPelayananNotification($disposisi));
+            }
+
+            $pelayanan = DaftarPelayanan::where('id_pelayanan', $data['id_pelayanan'])->first();
+            if($user->hasRole('manager') && $pelayanan->status_pelayanan == 'Baru') {
+                $pelayanan->status_pelayanan = 'Proses';
+                $pelayanan->save();
             }
 
             $success = 'yeah';

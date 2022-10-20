@@ -45,5 +45,11 @@ class DaftarDisposisi extends Model
     public function getCreatedAtShortAttribute(){
         return Carbon::createFromFormat('Y-m-d H:i:s', $this->attributes['created_at'])->format('j M Y H:i:s');
     }
+
+
+    public function child()
+    {
+        return $this->hasOne(DaftarDisposisi::class, 'id_disposisi_parent', 'id_disposisi');
+    }
    
 }

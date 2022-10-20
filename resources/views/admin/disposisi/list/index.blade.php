@@ -33,13 +33,15 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center" width="5%">No</th>
-                                        <th class="text-center">No. Surat</th>
+                                        <th class="text-center">Status</th>
+                                        <th class="text-center">Waktu Masuk</th>
                                         <th class="text-center">Dari</th>
-                                        <th class="text-center">Tanggal Surat</th>
+                                        {{-- <th class="text-center">Tanggal Surat</th> --}}
                                         <th class="text-center">Perihal</th>
+                                        <th class="text-center">Penerima</th>
+                                        <th class="text-center">Disposisi Masuk</th>
                                         <th class="text-center">Diteruskan Ke-</th>
-                                        <th class="text-center">Waktu Disposisi</th>
-                                        <th class="text-center">Catatan</th>
+                                        <th class="text-center">Disposisi Keluar</th>
                                         <th class="text-center">Aksi</th>
 
                                     </tr>
@@ -125,15 +127,16 @@
                 name: 'DT_RowIndex',
                 className: 'text-center'
             }, {
-                data: 'pelayanan.pemohon_no_surat',
-                name: 'pelayanan.pemohon_no_surat'
+                data: 'status',
+                name: 'status',
+                className: 'text-center'
+            }, {
+                data: 'created_at',
+                name: 'created_at',
+                className: 'text-center'
             }, {
                 data: 'dari',
                 name: 'dari',
-                className: 'text-center'
-            }, {
-                data: 'pelayanan.pemohon_tanggal_surat',
-                name: 'pelayanan.pemohon_tanggal_surat',
                 className: 'text-center'
             }, {
                 data: 'pelayanan.perihal',
@@ -144,12 +147,16 @@
                 name: 'kepada',
                 className: 'text-center'
             }, {
-                data: 'created_at',
-                name: 'created_at',
+                data: 'aksi_disposisi',
+                name: 'aksi_disposisi',
                 className: 'text-center'
             }, {
-                data: 'keterangan',
-                name: 'keterangan',
+                data: 'diteruskanke',
+                name: 'diteruskanke',
+                className: 'text-center'
+            }, {
+                data: 'disposisikeluar',
+                name: 'disposisikeluar',
                 className: 'text-center'
             }, {
                 data: 'action',
@@ -157,6 +164,12 @@
                 className: 'text-center'
             }, ]
         });
+
+        // {
+        //         data: 'pelayanan.pemohon_tanggal_surat',
+        //         name: 'pelayanan.pemohon_tanggal_surat',
+        //         className: 'text-center'
+        //     }, 
 
 
         $(document).ready(function() {
@@ -228,6 +241,8 @@
                                 Swal.fire(
                                     'Great!', 'Data sukses di update!', 'success'
                                 );
+
+                                fetchSummary();
                             } else {
                                 Swal.fire(
                                     'Error!', data.message, 'error'

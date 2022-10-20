@@ -55,99 +55,103 @@
             <div class="form-box">
                 <div class="row">
                     <div class="col-lg-7">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5 class="card-title m-0 p-0"> <i class="bi bi-card-checklist"></i> Detail Pelayanan Publik
-                                </h5>
+                        <div class="accordion card" id="accordionExample">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        <h5 class="card-title m-0 p-0"> <i class="bi bi-card-checklist"></i> Detail Pelayanan Publik
+                                        </h5>
+                                    </button>
+                                </h2>
+                                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <form class="row g-3 mt-2" id="sForm">
+                                            {{ csrf_field() }}
+                                            <div class="col-md-6">
+                                                <label for="search_no_registrasi" class="form-label fw-bold">No Registrasi</label>
+                                                <input class="form-control" name="search_no_registrasi" id="search_no_registrasi" type="text" value="" placeholder="No Registrasi" disabled>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="search_id_layanan" class="form-label fw-bold">Nama Layanan</label>
+                                                <select name="search_id_layanan" id="search_id_layanan" class="form-control select2" disabled="true" width="100%">
+                                                    <option selected="">Pilih Layanan</option>
+                                                    @foreach ($daftar_layanan as $layanan)
+                                                        <option value="{{ $layanan->id_layanan }}">{{ $layanan->unit->name . ' - ' . $layanan->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label for="search_pemohon_no_surat" class="form-label fw-bold">Perihal</label>
+                                                <input class="form-control" name="search_perihal" id="search_perihal" type="text" value="" placeholder="Perihal" disabled>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="search_pemohon_no_surat" class="form-label fw-bold">No. Surat
+                                                    Permohonan</label>
+                                                <input class="form-control" name="search_pemohon_no_surat" id="search_pemohon_no_surat" type="text" placeholder="Nomor Surat" value="" disabled>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="search_pemohon_tanggal_surat" class="form-label fw-bold">Tanggal Surat
+                                                    Permohonan</label>
+                                                <input type="date" class="form-control" name="search_pemohon_tanggal_surat" id="search_pemohon_tanggal_surat" placeholder="Tanggal Surat" disabled>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="search_pemohon_nama" class="form-label fw-bold">Nama Pemohon</label>
+                                                <input class="form-control" name="search_pemohon_nama" id="search_pemohon_nama" type="text" placeholder="Nama Pemohon" value="" disabled>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="search_pemohon_alamat" class="form-label fw-bold">Alamat
+                                                    Pemohon</label>
+                                                <input class="form-control" name="search_pemohon_alamat" id="search_pemohon_alamat" type="text" placeholder="Alamat Pemohon" value="" disabled>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="search_pemohon_no_hp" class="form-label fw-bold">No. HP
+                                                    Pemohon</label>
+                                                <input class="form-control" name="search_pemohon_no_hp" id="search_pemohon_no_hp" type="text" placeholder="Nomor HP Pemohon" value="" disabled>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="search_pengirim_nama" class="form-label fw-bold">Nama Pengirim</label>
+                                                <input class="form-control" name="search_pengirim_nama" id="search_pengirim_nama" type="text" placeholder="Nama Pengirim" value="" disabled>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="search_kelengkapan_syarat" class="form-label fw-bold">Kelengkapan
+                                                    Syarat</label>
+                                                <select name="search_kelengkapan_syarat" id="search_kelengkapan_syarat" class="form-control select2" disabled="true" width="100%">
+                                                    <option selected="">-- Pilih Kelengkapan Syarat --</option>
+                                                    <option value="Sudah Lengkap">Sudah Lengkap</option>
+                                                    <option value="Belum Lengkap">Belum Lengkap</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="search_status_pelayanan" class="form-label fw-bold">Status
+                                                    Pelayanan</label>
+                                                <select name="search_status_pelayanan" id="search_status_pelayanan" class="form-control select2" disabled="true" width="100%">
+                                                    <option selected="">-- Pilih Status Layanan --</option>
+                                                    <option value="Baru">Baru</option>
+                                                    <option value="Proses">Proses</option>
+                                                    <option value="selesai">Selesai</option>
+                                                    <option value="Ambil">Ambil</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-12">
+                                                <label for="search_catatan" class="form-label fw-bold">Catatan</label>
+                                                <textarea class="form-control" style="height: 100px" name="search_catatan" id="search_catatan" disabled="true"></textarea>
+                                            </div>
+
+                                            <div class="card-footer">
+                                                {{-- <button type="button" class="btn btn-primary float-end">Detail</button> --}}
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="card-body">
-
-                                <form class="row g-3 mt-2" id="sForm">
-                                    {{ csrf_field() }}
-                                    <div class="col-md-6">
-                                        <label for="search_no_registrasi" class="form-label fw-bold">No Registrasi</label>
-                                        <input class="form-control" name="search_no_registrasi" id="search_no_registrasi" type="text" value="" placeholder="No Registrasi" disabled>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="search_id_layanan" class="form-label fw-bold">Nama Layanan</label>
-                                        <select name="search_id_layanan" id="search_id_layanan" class="form-control select2" disabled="true" width="100%">
-                                            <option selected="">Pilih Layanan</option>
-                                            @foreach ($daftar_layanan as $layanan)
-                                                <option value="{{ $layanan->id_layanan }}">{{ $layanan->unit->name . ' - ' . $layanan->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <label for="search_pemohon_no_surat" class="form-label fw-bold">Perihal</label>
-                                        <input class="form-control" name="search_perihal" id="search_perihal" type="text" value="" placeholder="Perihal" disabled>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <label for="search_pemohon_no_surat" class="form-label fw-bold">No. Surat
-                                            Permohonan</label>
-                                        <input class="form-control" name="search_pemohon_no_surat" id="search_pemohon_no_surat" type="text" placeholder="Nomor Surat" value="" disabled>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <label for="search_pemohon_tanggal_surat" class="form-label fw-bold">Tanggal Surat
-                                            Permohonan</label>
-                                        <input type="date" class="form-control" name="search_pemohon_tanggal_surat" id="search_pemohon_tanggal_surat" placeholder="Tanggal Surat" disabled>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <label for="search_pemohon_nama" class="form-label fw-bold">Nama Pemohon</label>
-                                        <input class="form-control" name="search_pemohon_nama" id="search_pemohon_nama" type="text" placeholder="Nama Pemohon" value="" disabled>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <label for="search_pemohon_alamat" class="form-label fw-bold">Alamat
-                                            Pemohon</label>
-                                        <input class="form-control" name="search_pemohon_alamat" id="search_pemohon_alamat" type="text" placeholder="Alamat Pemohon" value="" disabled>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <label for="search_pemohon_no_hp" class="form-label fw-bold">No. HP
-                                            Pemohon</label>
-                                        <input class="form-control" name="search_pemohon_no_hp" id="search_pemohon_no_hp" type="text" placeholder="Nomor HP Pemohon" value="" disabled>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <label for="search_pengirim_nama" class="form-label fw-bold">Nama Pengirim</label>
-                                        <input class="form-control" name="search_pengirim_nama" id="search_pengirim_nama" type="text" placeholder="Nama Pengirim" value="" disabled>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <label for="search_kelengkapan_syarat" class="form-label fw-bold">Kelengkapan
-                                            Syarat</label>
-                                        <select name="search_kelengkapan_syarat" id="search_kelengkapan_syarat" class="form-control select2" disabled="true" width="100%">
-                                            <option selected="">-- Pilih Kelengkapan Syarat --</option>
-                                            <option value="Sudah Lengkap">Sudah Lengkap</option>
-                                            <option value="Belum Lengkap">Belum Lengkap</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <label for="search_status_pelayanan" class="form-label fw-bold">Status
-                                            Pelayanan</label>
-                                        <select name="search_status_pelayanan" id="search_status_pelayanan" class="form-control select2" disabled="true" width="100%">
-                                            <option selected="">-- Pilih Status Layanan --</option>
-                                            <option value="Baru">Baru</option>
-                                            <option value="Proses">Proses</option>
-                                            <option value="selesai">Selesai</option>
-                                            <option value="Ambil">Ambil</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-12">
-                                        <label for="search_catatan" class="form-label fw-bold">Catatan</label>
-                                        <textarea class="form-control" style="height: 100px" name="search_catatan" id="search_catatan" disabled="true"></textarea>
-                                    </div>
-
-                                    <div class="card-footer">
-                                        {{-- <button type="button" class="btn btn-primary float-end">Detail</button> --}}
-                                    </div>
-                                </form>
-                            </div>
-
                         </div>
 
                     </div>
@@ -155,49 +159,52 @@
 
                     <div class="col-lg-5">
 
-                        <div class="card">
-                            <div class="card-header">
-                                <h5 class="card-title m-0 p-0"> <i class="bi bi-archive"></i> Arsip Pelayanan
-                                </h5>
-                            </div>
-                            <div class="card-body">
+                        <div class="accordion card" id="accordion2">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne2">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                        <h5 class="card-title m-0 p-0"> <i class="bi bi-archive"></i> Arsip Pelayanan
+                                        </h5>
+                                    </button>
+                                </h2>
+                                <div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingOne2" data-bs-parent="#accordion2">
+                                    <div class="accordion-body">
+                                        <form class="row g-3 mt-2" id="aForm">
+                                            <div class="col-6">
+                                                <label for="search_catatan" class="form-label fw-bold">Arsip Masuk</label>
+                                                <div class="arsip-masuk-box">
+                                                    -
+                                                </div>
+                                            </div>
 
-                                <form class="row g-3 mt-2" id="aForm">
-                                    <div class="col-6">
-                                        <label for="search_catatan" class="form-label fw-bold">Arsip Masuk</label>
-                                        <div class="arsip-masuk-box">
-                                            -
-                                        </div>
+                                            <div class="col-6">
+                                                <label for="search_catatan" class="form-label fw-bold">Arsip Keluar</label>
+                                                <div class="arsip-keluar-box">
+                                                    -
+                                                </div>
+                                            </div>
+                                        </form>
                                     </div>
-
-                                    <div class="col-6">
-                                        <label for="search_catatan" class="form-label fw-bold">Arsip Keluar</label>
-                                        <div class="arsip-keluar-box">
-                                            -
-                                        </div>
-                                    </div>
-                                </form>
-
-
-
+                                </div>
                             </div>
-
                         </div>
 
+                        <div class="accordion card" id="accordion3">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne3">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                                        <h5 class="card-title m-0 p-0"> <i class="bi bi-mailbox"></i> Riwayat Disposisi
+                                        </h5>
+                                    </button>
+                                </h2>
+                                <div id="collapseThree" class="accordion-collapse collapse show" aria-labelledby="headingOne3" data-bs-parent="#accordion3">
+                                    <div class="accordion-body">
+                                        <div class="activity mt-3 disposisi-box">
 
-                        <div class="card">
-                            <div class="card-header">
-                                <h5 class="card-title m-0 p-0"> <i class="bi bi-mailbox"></i> Riwayat Disposisi
-                                </h5>
-                            </div>
-                            <div class="card-body">
-
-                                <div class="activity mt-3 disposisi-box">
-
+                                        </div>
+                                    </div>
                                 </div>
-
                             </div>
-
                         </div>
 
                         <div class="card lembar-disposisi" style="display: none">

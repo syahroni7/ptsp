@@ -156,6 +156,18 @@
                                     <textarea class="form-control" style="height: 100px" name="catatan" id="catatan"></textarea>
                                 </div>
 
+                                <div class="col-md-12 mb-3 arsip-masuk-box">
+                                    <label for="arsip_masuk_url_register" class="form-label fw-bold">Arsip Masuk</label><br>
+                                    {{-- Arsip Box --}}
+                                    <div id="arsip-masuk-filebox" class="masuk-img" style="display: none">
+                                        <img class="img-fluid" id="arsip-masuk-src" src="" alt="" width="200">
+                                    </div>
+                                    {{-- End of Arsip Box --}}
+
+                                    <button id="upload_widget_opener_masuk" type="button" class="btn btn-secondary btn-sm upload_widget_opener_masuk">Upload</button>
+                                    <input type="hidden" id="arsip_masuk_url_register" name="arsip_masuk_url_register" value="empty" required>
+                                </div>
+
                                 <div class="card-footer">
                                     <button id="submitPelayananBtn" type="submit" class="btn btn-primary float-end">Buat Permohonan</button>
                                     <button type="reset" class="btn btn-secondary float-start">Reset</button>
@@ -179,6 +191,8 @@
                                 <button id="cetak-bukti-button" type="button" class="btn btn-warning btn-sm mx-1 float-end" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-cetak_bukti_link="">
                                     Cetak Bukti
                                 </button>
+
+                                {{-- <button id="upload_arsip_masuk" class="btn btn-secondary btn-sm mx-1 float-end" type="button" data-bs-toggle="modal" data-bs-target="#arsipModal" data-title="Edit Data Item Layanan">Upload Arsip</button> --}}
                             </h5>
 
                         </div>
@@ -306,8 +320,47 @@
     <script src="{{ asset('js/select2.min.js') }}"></script>
     <script src="{{ asset('js/sweetalert2@11.js') }}"></script>
     <script src="https://cdn.socket.io/4.5.0/socket.io.min.js" integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k" crossorigin="anonymous"></script>
+    <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
+
 
     <script>
+        // Global Variabel
+        var id_pelayanan = null;
+        var id_arsip = null;
+        var arsip_masuk_url = null;
+        var arsip_keluar_url = null;
+        // Cloudinary Widget
+
+        var widgetMasuk = cloudinary.createUploadWidget({
+            cloudName: 'kemenagpessel',
+            uploadPreset: 'arsip_masuk',
+            theme: 'minimal',
+            multiple: true,
+            max_file_size: 10048576,
+            background: "white"
+        }, (error, result) => {
+            if (!error && result && result.event === "success") {
+                console.log('Info Arsip Masuk: ', result.info);
+                var arsip_masuk_url = result.info.secure_url;
+                console.log('arsip_masuk_url');
+                console.log(arsip_masuk_url);
+                $('#arsip_masuk_url_register').val(arsip_masuk_url);
+                console.log('val');
+                console.log($('#arsip_masuk_url_register').val());
+                console.log('hide masuk');
+
+                $('.upload_widget_opener_masuk').hide();
+                $('.masuk-img').show();
+                $('#arsip-masuk-src').attr("src", arsip_masuk_url);
+
+            }
+        });
+
+        document.getElementById("upload_widget_opener_masuk").addEventListener("click", function() {
+            widgetMasuk.open();
+        }, false);
+
+
         const socket = io('wss://socket.kemenagpessel.com/', {
             foceNew: true,
             transports: ["polling"]
@@ -498,6 +551,21 @@
                 fetchSyarat(id_layanan);
             });
 
+            $(document).on("click", "#upload_arsip_masuk", function(e) {
+                var title = $(this).data('title');
+                $("#judul-modal").html('Upload Arsip Masuk');
+                $('.arsip-masuk-box').show();
+                $('.arsip-keluar-box').hide();
+                console.log('dataPelayanan');
+                console.log(dataPelayanan);
+                var data = dataPelayanan;
+                $('#arsip_id_pelayanan').val(data.id_pelayanan);
+                $('#arsip_no_registrasi').val(data.no_registrasi);
+                $('#arsip_id_layanan').val(data.id_layanan).trigger('change');
+                $('#arsip_perihal').val(data.perihal);
+
+            });
+
         });
 
 
@@ -537,6 +605,13 @@
                             $('.detail-button').attr('href', data.url_detail);
 
                             $('#cetak-bukti-button').attr('data-cetak_bukti_link', data.url_pdf)
+
+                            if (item.arsip) {
+                                if (item.arsip.arsip_masuk_url) {
+                                    $('#upload_arsip_masuk').prop('disabled', true);
+                                    $('#upload_arsip_masuk').props('disabled', true);
+                                }
+                            }
 
                         } else {
                             Swal.fire(

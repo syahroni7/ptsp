@@ -23,35 +23,44 @@ class MasterDisposisiSeeder extends Seeder
         // Mohon Ditindaklanjuti
         // Mohon Ditelaah
         $aksis = [
-            [
-                'name' => 'arsip',
+            [ #1
+                'name' => 'permohonan_baru'
             ],
-            [
-                'name' => 'dimonitor',
+            [ #2
+                'name' => 'mohon_arahan'
             ],
-            [
-                'name' => 'kita_bicarakan',
-            ],
-            [
-                'name' => 'mohon_ditindaklanjuti',
-            ],
-            [
+            [ #3
                 'name' => 'mohon_diedarkan',
             ],
-            [
-                'name' => 'mohon_diketahui',
-            ],
-            [
+            [ #4
+                'name' => 'mohon_diselesaikan',
+            ], 
+            [ #5
                 'name' => 'mohon_diperiksa_atau_ditelaah',
             ],
-            [
-                'name' => 'mohon_dijawab',
+            [ #6
+                'name' => 'untuk_ditindaklanjuti',
             ],
-            [
-                'name' => 'saran_atau_tanggapan',
+            [ #7
+                'name' => 'untuk_diproses',
             ],
-            [
-                'name' => 'mohon_diselesaikan',
+            [ #8
+                'name' => 'untuk_diwakili',
+            ],
+            [ #9
+                'name' => 'untuk_kita_hadiri_bersama',
+            ],
+            [ #10
+                'name' => 'untuk_dihadiri',
+            ],
+            [ #11
+                'name' => 'untuk_diarsipkan',
+            ],
+            [ #12
+                'name' => 'untuk_kita_bicarakan',
+            ],
+            [ #13
+                'name' => 'untuk_diketahui',
             ]
         ];
 
