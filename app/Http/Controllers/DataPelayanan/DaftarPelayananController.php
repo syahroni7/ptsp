@@ -123,6 +123,11 @@ class DaftarPelayananController extends Controller
             $pelayanan->save();
             $pelayanan->fresh();
 
+            // Buat Arsip
+            $arsip = new \App\Models\DaftarArsip();
+            $arsip->id_pelayanan = $pelayanan->id_pelayanan;
+            $arsip->save();
+
             if ($data['status_pelayanan'] == 'Baru') {
                 // Create Disposisi
                 $disposisi = new DaftarDisposisi();
@@ -358,8 +363,8 @@ class DaftarPelayananController extends Controller
             if (isset($data['arsip_masuk_url_register']) && $data['arsip_masuk_url_register'] != 'empty') {
                 $arsip->arsip_masuk_url = $data['arsip_masuk_url_register'];
                 $arsip->created_by_masuk = $data['pemohon_nama'];
-                $arsip->save();
             }
+            $arsip->save();
 
             if ($data['status_pelayanan'] == 'Baru') {
                 // Create Disposisi
