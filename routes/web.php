@@ -111,6 +111,8 @@ Route::get('/summary/fetch', function () {
 });
 
 Route::get('/publik/lacak-pelayanan/{id_pelayanan}/{pemohon_no_hp}', function ($id_pelayanan, $pemohon_no_hp) {
+
+    
     $success = false;
     $message = '';
     $data = null;
