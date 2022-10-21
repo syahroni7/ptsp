@@ -449,37 +449,37 @@
                         console.log('data');
                         console.log(data);
                         if (data.success) {
-                            var item = data.data;
-                            $('#search_id_layanan').val(item.id_layanan).trigger('change');
-                            $('#search_no_registrasi').val(item.no_registrasi);
-                            $('#search_perihal').val(item.perihal);
-                            $('#search_pemohon_no_surat').val(item.pemohon_no_surat);
-                            $('#search_pemohon_tanggal_surat').val(item
+                            var res = data.data;
+                            $('#search_id_layanan').val(res.id_layanan).trigger('change');
+                            $('#search_no_registrasi').val(res.no_registrasi);
+                            $('#search_perihal').val(res.perihal);
+                            $('#search_pemohon_no_surat').val(res.pemohon_no_surat);
+                            $('#search_pemohon_tanggal_surat').val(res
                                 .pemohon_tanggal_surat);
-                            $('#search_pemohon_nama').val(item.pemohon_nama);
-                            $('#search_pemohon_alamat').val(item.pemohon_alamat);
-                            $('#search_pemohon_no_hp').val(item.pemohon_no_hp);
-                            $('#search_pengirim_nama').val(item.pengirim_nama);
-                            $('#search_kelengkapan_syarat').val(item.kelengkapan_syarat)
+                            $('#search_pemohon_nama').val(res.pemohon_nama);
+                            $('#search_pemohon_alamat').val(res.pemohon_alamat);
+                            $('#search_pemohon_no_hp').val(res.pemohon_no_hp);
+                            $('#search_pengirim_nama').val(res.pengirim_nama);
+                            $('#search_kelengkapan_syarat').val(res.kelengkapan_syarat)
                                 .trigger('change');
-                            $('#search_status_pelayanan').val(item.status_pelayanan)
+                            $('#search_status_pelayanan').val(res.status_pelayanan)
                                 .trigger(
                                     'change');
-                            $('#search_catatan').val(item.catatan);
+                            $('#search_catatan').val(res.catatan);
 
 
-                            if (item.arsip) {
-                                if (item.arsip.arsip_masuk_url) {
+                            if (res.arsip) {
+                                if (res.arsip.arsip_masuk_url) {
                                     let arsipBox = $('.arsip-masuk-box');
                                     arsipBox.empty();
-                                    var arsipHTML = `<a href="${item.arsip.arsip_masuk_url}" target="_blank" class="badge bg-primary" type="button" >Lihat Dokumen</a>`;
+                                    var arsipHTML = `<a href="${res.arsip.arsip_masuk_url}" target="_blank" class="badge bg-primary" type="button" >Lihat Dokumen</a>`;
                                     arsipBox.append(arsipHTML);
                                 }
 
-                                if (item.arsip.arsip_keluar_url) {
+                                if (res.arsip.arsip_keluar_url) {
                                     let arsipBox = $('.arsip-keluar-box');
                                     arsipBox.empty();
-                                    var arsipHTML = `<a href="${item.arsip.arsip_keluar_url}" target="_blank" class="badge bg-primary" type="button" >Lihat Dokumen</a>`;
+                                    var arsipHTML = `<a href="${res.arsip.arsip_keluar_url}" target="_blank" class="badge bg-primary" type="button" >Lihat Dokumen</a>`;
                                     arsipBox.append(arsipHTML);
                                 }
                             }
@@ -487,85 +487,57 @@
 
                             let box = $('.disposisi-box');
 
-                            var dHtml = '';
+                            var dHtml = '<ul>';
                             var urutan_disposisi = 0;
-                            var countDisp = item.disposisi.length;
-                            $.each(item.disposisi, function(i, item) {
+                            var countDisp = res.disposisi.length;
+                            $.each(res.disposisi, function(i, item) {
                                 urutan_disposisi++;
                                 var date = item.created_at_short.substring(0, 11);
                                 var time = item.created_at_short.substring(11, 20);
                                 if (item.id_disposisi_parent == null) {
 
-                                    dHtml += `<div class="activity-item d-flex">
-                                            <div class="activite-label">${date} <br /> ${time}</div>
-                                            <i class="bi bi-circle-fill activity-badge text-muted align-self-start"></i>
-                                            <div class="activity-content">
-                                                <div class="disp-name">
-                                                    <span>${item.sender ? item.sender.name : 'Publik'} </span><br><span class="text-muted" style="font-size:smaller;"> ${item.sender ? item.sender.jabatan : 'Masyarakat'}</span><br>
-                                                </div>
-                                                <span>[${item.aksi_disposisi}]</span>
-                                                
-                                            </div>
-                                        </div>`;
+                                    dHtml += `<li class="mb-3"> <div class="disp-name ">
+                                                        <span>${item.sender ? item.sender.name : res.pemohon_nama} </span> | <span class="text-muted" style="font-size:smaller;"> ${item.sender ? item.sender.jabatan : 'Publik'}</span><br>
+                                                    </div>
+                                                    <span>[${item.aksi_disposisi}]</span> | <span class="text-muted" style="font-size:smaller;"> ${date} ${time} </span>
+                                            </li>`;
+
                                     if (countDisp == 1) {
-                                        dHtml += `<div class="activity-item d-flex">
-                                            <div class="activite-label">-</div>
-                                            <i class="bi bi-circle-fill activity-badge text-muted align-self-start"></i>
-                                            <div class="activity-content">
-                                                <div class="disp-name">
-                                                    <span>${item.recipient.name} </span><br><span class="text-muted" style="font-size:smaller;"> ${item.recipient.jabatan}</span><br>
-                                                </div>
-                                                <span class="aksi-disposisi">-</span>
-                                            </div>
-                                        </div>`;
+
+                                        dHtml += `<li class="mb-3"> <div class="disp-name ">
+                                                        <span>${item.recipient.name} </span> | <span class="text-muted" style="font-size:smaller;"> ${item.recipient.jabatan}</span><br>
+                                                    </div>
+                                                    <span>[-]</span> | <span class="text-muted" style="font-size:smaller;"> - </span>
+                                            </li>`;
                                     }
-                                    // <span class="aksi-disposisi">[${item.aksi_disposisi.replace("_", " ")}]</span>
                                 } else {
-                                    dHtml += `<div class="activity-item d-flex">
-                                            <div class="activite-label">${date} <br /> ${time}</div>
-                                            <i class="bi bi-circle-fill activity-badge text-muted align-self-start"></i>
-                                            <div class="activity-content">
-                                                <div class="disp-name">
-                                                    <span>${item.sender.name} </span><br><span class="text-muted" style="font-size:smaller;"> ${item.sender.jabatan}</span><br>
-                                                </div>
-                                                <div class="disp-name mt-1">
-                                                    <span>[${item.aksi_disposisi}]</span><br>
+
+                                    dHtml += `<li class="mb-3"> <div class="disp-name">
+                                                        <span>${item.sender.name} </span> | <span class="text-muted" style="font-size:smaller;"> ${item.sender.jabatan}</span><br>
+                                                    </div>
+                                                    <span>[${item.aksi_disposisi}]</span> | <span class="text-muted" style="font-size:smaller;"> ${date} ${time} </span><br>
                                                     <span class="text-muted" style="font-size:smaller;">${item.keterangan == null ? '' : item.keterangan}</span>
-                                                </div>
-                                                
-                                            </div>
-                                        </div>`;
+                                            </li>`;
+
                                     if (i + 1 == countDisp) {
-                                        // Do Nothing
-                                        // dHtml += `<div class="activity-item d-flex">
-                                    //     <div class="activite-label">-</div>
-                                    //     <i class="bi bi-circle-fill activity-badge text-muted align-self-start"></i>
-                                    //     <div class="activity-content">
-                                    //         <div class="disp-name">
-                                    //             <span>${item.recipient.name} </span><br><span class="text-muted" style="font-size:smaller;"> ${item.recipient.jabatan}</span><br>
-                                    //         </div>
-                                    //         <span class="aksi-disposisi">-</span>
-                                    //     </div>
-                                    // </div>`;
+                                        if (item.recipient) {
+                                            // Do Nothing
+                                            dHtml += `<li class="mb-3"> <div class="disp-name ">
+                                                        <span>${item.recipient.name} </span> | <span class="text-muted" style="font-size:smaller;"> ${item.recipient.jabatan}</span><br>
+                                                    </div>
+                                                    <span>[-]</span> | <span class="text-muted" style="font-size:smaller;"> - </span>
+                                            </li>`;
+                                        }
                                     }
                                 }
 
                             });
 
+                            dHtml += `</ul>`;
+
                             box.empty();
                             box.append(dHtml);
 
-
-                            // Lembar Disposisi
-                            var primary = data.primary;
-                            if (primary.bisa_disposisi) {
-                                $('.lembar-disposisi').show();
-                                $('#id_disposisi_parent').val(primary.disposisiCurr.id_disposisi);
-                                $('#id_pelayanan').val(item.id_pelayanan);
-                                $('#urutan_disposisi').val(urutan_disposisi + 1);
-                            } else {
-                                $('.lembar-disposisi').hide();
-                            }
 
                         } else {
                             Swal.fire(

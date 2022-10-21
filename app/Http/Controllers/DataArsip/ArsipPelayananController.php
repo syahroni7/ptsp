@@ -31,7 +31,7 @@ class ArsipPelayananController extends Controller
                 $pelayanans = DaftarPelayanan::where('status_pelayanan', $status)
                 ->with('layanan', 'unit', 'output', 'jenis', 'arsip')->orderBy('id_pelayanan', 'desc')->take(300)->get();
             } else {
-                $pelayanans = DaftarPelayanan::where('status_pelayanan', 'Baru')->with('layanan', 'unit', 'output', 'jenis', 'arsip')->orderBy('id_pelayanan', 'desc')->take(300)->get();
+                $pelayanans = DaftarPelayanan::with('layanan', 'unit', 'output', 'jenis', 'arsip')->orderBy('id_pelayanan', 'desc')->take(300)->get();
             }
 
 
