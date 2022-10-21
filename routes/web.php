@@ -81,7 +81,7 @@ Route::get('/xc', function () {
         }
     }
 
-    foreach($syaratLayanan as $layanan => $arr) {
+    foreach ($syaratLayanan as $layanan => $arr) {
         $layanan = \App\Models\DaftarLayanan::where('name', $layanan)->first();
         $layanan->syarat()->sync($arr);
     }
@@ -99,7 +99,7 @@ Route::get('/dec/{id}', function ($id) {
 });
 
 
-Route::get('/summary/fetch', function() {
+Route::get('/summary/fetch', function () {
     $summary = \App\Models\DaftarPelayanan::select('status_pelayanan', DB::raw('count(*) as total'))
                                                 ->whereYear('created_at', '=', date('Y'))
                                                 ->whereMonth('created_at', '=', date('m'))
@@ -108,6 +108,47 @@ Route::get('/summary/fetch', function() {
 
     return response()
     ->json([ 'summary' => $summary ]);
+});
+
+Route::get('/publik/lacak-pelayanan/{id_pelayanan}/{pemohon_no_hp}', function ($id_pelayanan, $pemohon_no_hp) {
+    $success = false;
+    $message = '';
+    $data = null;
+
+    try {
+        
+        $pelayanan = \App\Models\DaftarPelayanan::where('id_pelayanan', $id_pelayanan)->firstOrFail();
+
+        // return [
+        //     '$pelayanan->pemohon_no_hp' => $pelayanan->pemohon_no_hp,
+        //     '$pemohon_no_hp' => $pemohon_no_hp,
+        // ];
+
+        if($pelayanan->pemohon_no_hp != $pemohon_no_hp) {
+            throw new \Exception('Data no HP tidak sama dengan yang didaftarkan, harap cek kembali!');
+        }
+
+        $pelayanan->load('layanan', 'layanan.unit', 'layanan.output', 'layanan.jenis', 'disposisi.sender', 'disposisi.recipient', 'disposisi.aksi', 'arsip');
+        $data = $pelayanan;
+
+        $disposisiArr = $pelayanan->disposisi;
+        $disposisiCurr = $disposisiArr->last();
+        $lastRecipientUsername = $disposisiCurr->recipient ? $disposisiCurr->recipient->username : '';
+        $primary = [
+            'disposisiCurr' => $disposisiCurr,
+        ];
+
+        $success = true;
+    } catch (\Exception $e) {
+        $message = $e->getMessage();
+    }
+
+    return response()
+        ->json([
+            'success' => $success,
+            'message' => $message,
+            'data' => $data,
+        ]);
 });
 
 /**

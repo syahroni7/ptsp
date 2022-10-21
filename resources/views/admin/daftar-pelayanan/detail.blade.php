@@ -409,17 +409,19 @@
                                             </div>
                                         </div>`;
                                     if (i + 1 == countDisp) {
-                                        // Do Nothing
-                                        // dHtml += `<div class="activity-item d-flex">
-                                    //     <div class="activite-label">-</div>
-                                    //     <i class="bi bi-circle-fill activity-badge text-muted align-self-start"></i>
-                                    //     <div class="activity-content">
-                                    //         <div class="disp-name">
-                                    //             <span>${item.recipient.name} </span><br><span class="text-muted" style="font-size:smaller;"> ${item.recipient.jabatan}</span><br>
-                                    //         </div>
-                                    //         <span class="aksi-disposisi">-</span>
-                                    //     </div>
-                                    // </div>`;
+                                        if (item.recipient) {
+                                            // Do Nothing
+                                            dHtml += `<div class="activity-item d-flex">
+                                                        <div class="activite-label">-</div>
+                                                        <i class="bi bi-circle-fill activity-badge text-muted align-self-start"></i>
+                                                        <div class="activity-content">
+                                                            <div class="disp-name">
+                                                                <span>${item.recipient.name} </span><br><span class="text-muted" style="font-size:smaller;"> ${item.recipient.jabatan}</span><br>
+                                                            </div>
+                                                            <span class="aksi-disposisi">-</span>
+                                                        </div>
+                                                    </div>`;
+                                        }
                                     }
                                 }
 

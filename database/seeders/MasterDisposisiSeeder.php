@@ -38,6 +38,12 @@ class MasterDisposisiSeeder extends Seeder
             [ #5
                 'name' => 'mohon_diperiksa_atau_ditelaah',
             ],
+            [ #5
+                'name' => 'mohon_diproses',
+            ],
+            [ #5
+                'name' => 'mohon_ditindaklanjuti',
+            ],
             [ #6
                 'name' => 'untuk_ditindaklanjuti',
             ],
