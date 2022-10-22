@@ -89,7 +89,7 @@ class ArsipPelayananController extends Controller
 
         $data = $request->input();
 
-        // try {
+        try {
             $pelayanan = DaftarPelayanan::where('id_pelayanan', $data['id_pelayanan'])->with('arsip')->firstOrFail();
             if ($pelayanan->arsip) {
                 $arsip = $pelayanan->arsip;
@@ -103,6 +103,8 @@ class ArsipPelayananController extends Controller
                     $arsip->update([
                         'arsip_keluar_url' => $data['arsip_keluar_url']
                     ]);
+                    $pelayanan->status_pelayanan = 'Selesai';
+                    $pelayanan->save();
                 }
             } else {
                 $username = Auth::user()->username;
@@ -124,9 +126,9 @@ class ArsipPelayananController extends Controller
             $success = true;
             $code = 200;
             $message = 'Data Berhasil Disimpan';
-        // } catch (\Throwable $th) {
-        //     $message = $th->getMessage();
-        // }
+        } catch (\Throwable $th) {
+            $message = $th->getMessage();
+        }
 
         return response()->json([
             'success' => $success,
