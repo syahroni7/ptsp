@@ -25,7 +25,6 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-
         $statusPelayanan = [
             [
                 'name' => 'Baru',
@@ -51,19 +50,41 @@ class HomeController extends Controller
 
         $pelayananColl = DaftarPelayanan::whereYear('created_at', '=', date('Y'))
                                                 ->whereMonth('created_at', '=', date('m'))
-                                                ->get()
-                                                ->groupBy('status_pelayanan');
+                                                ->with('unit')
+                                                ->get();
 
-                foreach ($statusPelayanan as $key => $item) {
-                    $countItem = isset($pelayananColl[$item['name']]) ? $pelayananColl[$item['name']]->count() : 0;
-                    $statusPelayanan[$key]['total'] = $countItem;
-                }
+        $pByStatus = $pelayananColl->groupBy('status_pelayanan');
+
+        foreach ($statusPelayanan as $key => $item) {
+            $countItem = isset($pByStatus[$item['name']]) ? $pByStatus[$item['name']]->count() : 0;
+            $statusPelayanan[$key]['total'] = $countItem;
+        }
+
+        $sUnit = [];
+        $units = \App\Models\UnitPengolah::all();
+        foreach ($units as $key => $item) {
+            $sUnit[] = [
+                'name' => $item->name,
+                'value' => 0
+            ];
+        }
+
+        $pByUnit = $pelayananColl->groupBy('unit.name');
+
+        if($pByUnit) {
+            foreach ($sUnit as $key => $item) {
+                $countItem = isset($pByUnit[$item['name']]) ? $pByUnit[$item['name']]->count() : 0;
+                $sUnit[$key]['value'] = $countItem;
+            }
+        }
+
 
         return view('admin.home.index', [
             'title'  => 'Halaman Beranda',
             'br1'  => 'Home',
             'br2'  => 'Beranda',
-            'statusPelayanan'  => $statusPelayanan
+            'statusPelayanan'  => $statusPelayanan,
+            'totalByUnit'  => $sUnit
         ]);
     }
 }

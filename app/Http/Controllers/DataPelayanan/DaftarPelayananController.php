@@ -125,6 +125,8 @@ class DaftarPelayananController extends Controller
             $pelayanan->status_pelayanan = $data['status_pelayanan'];
             $pelayanan->catatan = $data['catatan'];
             $pelayanan->created_by = Auth::user()->name;
+            $pelayanan->id_unit_pengolah = $layanan->id_unit_pengolah;
+
             $pelayanan->save();
             $pelayanan->fresh();
 
@@ -362,6 +364,7 @@ class DaftarPelayananController extends Controller
             $pelayanan->kelengkapan_syarat = $data['kelengkapan_syarat'];
             $pelayanan->status_pelayanan = $data['status_pelayanan'];
             $pelayanan->catatan = $data['catatan'];
+            $pelayanan->id_unit_pengolah = $layanan->id_unit_pengolah;
             $pelayanan->created_by = Auth::user() ? Auth::user()->name : 'Sistem';
             $pelayanan->save();
             $pelayanan->fresh();

@@ -297,12 +297,137 @@ class UsersTableSeeder extends Seeder
                 'password' => Hash::make('197706292007102008'),
                 'updated_at' => \Carbon\Carbon::now()
 
-            ]
+            ],
 
+            // New One
+            [
+                'name' => 'SYARIFUDDIN ',
+                'username' => '196503032014111003',
+                'jabatan' => 'Staf',
+                'email' => '196503032014111003@kemenag.go.id',
+                'password' => Hash::make('196503032014111003'),
+                'updated_at' => \Carbon\Carbon::now()
+
+            ],
+            [
+                'name' => 'YUSNETI',
+                'username' => '196702121998032002',
+                'jabatan' => 'Staf',
+                'email' => '196702121998032002@kemenag.go.id',
+                'password' => Hash::make('196702121998032002'),
+                'updated_at' => \Carbon\Carbon::now()
+
+            ],
+            [
+                'name' => 'ASRIL. M',
+                'username' => '196807031989021001',
+                'jabatan' => 'Staf',
+                'email' => '196807031989021001@kemenag.go.id',
+                'password' => Hash::make('196807031989021001'),
+                'updated_at' => \Carbon\Carbon::now()
+
+            ],
+            [
+                'name' => 'AFNIZON, S.AP ',
+                'username' => '197610182009011004',
+                'jabatan' => 'Staf',
+                'email' => '197610182009011004@kemenag.go.id',
+                'password' => Hash::make('197610182009011004'),
+                'updated_at' => \Carbon\Carbon::now()
+
+            ],
+            [
+                'name' => 'KOKO NURHADI YANTO ',
+                'username' => '198305042014111002',
+                'jabatan' => 'Staf',
+                'email' => '198305042014111002@kemenag.go.id',
+                'password' => Hash::make('198305042014111002'),
+                'updated_at' => \Carbon\Carbon::now()
+
+            ],
+            [
+                'name' => 'ZULKIFLI',
+                'username' => '196410112014111002',
+                'jabatan' => 'Staf',
+                'email' => '196410112014111002@kemenag.go.id',
+                'password' => Hash::make('196410112014111002'),
+                'updated_at' => \Carbon\Carbon::now()
+
+            ],
+            [
+                'name' => 'SARIFAH AINI, S.Th I',
+                'username' => '198701032011012010',
+                'jabatan' => 'Staf',
+                'email' => '198701032011012010@kemenag.go.id',
+                'password' => Hash::make('198701032011012010'),
+                'updated_at' => \Carbon\Carbon::now()
+
+            ],
+            [
+                'name' => 'DODY YUSRIYAL',
+                'username' => '198406262007101003',
+                'jabatan' => 'Staf',
+                'email' => '198406262007101003@kemenag.go.id',
+                'password' => Hash::make('198406262007101003'),
+                'updated_at' => \Carbon\Carbon::now()
+
+            ],
+            [
+                'name' => 'RICHO HARDIATNO, S.Pd',
+                'username' => '198312122009011013',
+                'jabatan' => 'Staf',
+                'email' => '198312122009011013@kemenag.go.id',
+                'password' => Hash::make('198312122009011013'),
+                'updated_at' => \Carbon\Carbon::now()
+
+            ],
+            [
+                'name' => 'USRI',
+                'username' => '197505162014111001',
+                'jabatan' => 'Staf',
+                'email' => '197505162014111001@kemenag.go.id',
+                'password' => Hash::make('197505162014111001'),
+                'updated_at' => \Carbon\Carbon::now()
+
+            ],
+            [
+                'name' => 'Jarmil',
+                'username' => '198005152005011007',
+                'jabatan' => 'Staf',
+                'email' => '198005152005011007@kemenag.go.id',
+                'password' => Hash::make('198005152005011007'),
+                'updated_at' => \Carbon\Carbon::now()
+
+            ],
+            [
+                'name' => 'MUCHLIS, S.TP',
+                'username' => '197603152005011006',
+                'jabatan' => 'Staf',
+                'email' => '197603152005011006@kemenag.go.id',
+                'password' => Hash::make('197603152005011006'),
+                'updated_at' => \Carbon\Carbon::now()
+
+            ],
+            [
+                'name' => 'NELDAFINA, A.Md',
+                'username' => '197112252007102002',
+                'jabatan' => 'Staf',
+                'email' => '197112252007102002@kemenag.go.id',
+                'password' => Hash::make('197112252007102002'),
+                'updated_at' => \Carbon\Carbon::now()
+
+            ],
         ];
 
 
-        DB::table('users')->insert($data);
+        // DB::table('users')->insert($data);
+
+        foreach ($data as $key => $item) {
+            \App\Models\User::firstOrCreate(
+                ['username' => $item['username']],
+                $item
+            );
+        }
 
 
         $units = [
@@ -330,7 +455,10 @@ class UsersTableSeeder extends Seeder
         ];
 
 
-        DB::table('daftar_unit_pengolah')->insert($units);
+        // DB::table('daftar_unit_pengolah')->insert($units);
+        foreach ($units as $key => $item) {
+            \App\Models\UnitPengolah::firstOrCreate($item);
+        }
 
 
         $jenises = [

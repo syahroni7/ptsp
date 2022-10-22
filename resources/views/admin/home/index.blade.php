@@ -6,11 +6,17 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css">
 
+    <link href="{{ asset('niceadmin/vendor/boxicons/css/boxicons.min.css') }} " rel="stylesheet">
+    <link href="{{ asset('niceadmin/vendor/quill/quill.snow.css') }} " rel="stylesheet">
+    <link href="{{ asset('niceadmin/vendor/quill/quill.bubble.css') }} " rel="stylesheet">
+    <link href="{{ asset('niceadmin/vendor/remixicon/remixicon.css') }} " rel="stylesheet">
+
 
     <link href="{{ asset('niceadmin/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
 
 
     <style>
+
 
     </style>
 @endsection
@@ -34,7 +40,7 @@
         <section class="section dashboard">
             <div class="row justify-content-center">
                 <div class="col-md-12">
-                    <div class="card">
+                    <div class="card m-0">
 
                         <div class="card-body mb-0 pb-0">
                             @if (session('status'))
@@ -57,12 +63,17 @@
 
                 <!-- Left side columns -->
                 <div class="col-lg-12">
-                    <div class="row box-layanan">
 
+                    <div class="row box-layanan">
+                        <div class="col-12">
+                            <h5 class="card-title">
+                                <span>Berdasarkan Status</span>
+                            </h5>
+                        </div>
                         @foreach ($statusPelayanan as $key => $status)
                             <!-- Item Card -->
                             <div class="col-xxl-3 col-md-6">
-                                <div class="card info-card sales-card">
+                                <div class="card info-card sales-card m-0">
 
                                     <div class="filter">
                                         <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
@@ -101,6 +112,126 @@
 
 
                     </div>
+
+
+
+
+                    <div class="row">
+                        <div class="col-12">
+                            <h5 class="card-title">
+                                <span>Berdasarkan Unit Pengolah</span>
+                            </h5>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-6">
+                            <!-- Website Traffic -->
+                            <div class="card">
+                                <div class="filter">
+                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                        <li class="dropdown-header text-start">
+                                            <h6>Filter</h6>
+                                        </li>
+
+                                        <li><a class="dropdown-item" href="#">Today</a></li>
+                                        <li><a class="dropdown-item" href="#">This Month</a></li>
+                                        <li><a class="dropdown-item" href="#">This Year</a></li>
+                                    </ul>
+                                </div>
+
+                                <div class="card-body pb-0">
+                                    <h5 class="card-title">Chart Pelayanan <span></span></h5>
+
+                                    <div id="trafficChart" style="min-height: 400px;" class="echart"></div>
+
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", () => {
+                                            echarts.init(document.querySelector("#trafficChart")).setOption({
+                                                tooltip: {
+                                                    trigger: 'item'
+                                                },
+                                                legend: {
+                                                    top: '0%',
+                                                },
+                                                series: [{
+                                                    name: 'Total Pelayanan',
+                                                    type: 'pie',
+                                                    radius: ['40%', '70%'],
+                                                    avoidLabelOverlap: true,
+                                                    label: {
+                                                        show: false,
+                                                        position: 'center'
+                                                    },
+                                                    emphasis: {
+                                                        label: {
+                                                            show: true,
+                                                            fontSize: '18',
+                                                            fontWeight: 'bold'
+                                                        }
+                                                    },
+                                                    labelLine: {
+                                                        show: false
+                                                    },
+                                                    data: @json($totalByUnit)
+                                                }]
+                                            });
+                                        });
+                                    </script>
+
+                                </div>
+                            </div><!-- End Website Traffic -->
+                        </div>
+
+                        <div class="col-6">
+                            <!-- Website Traffic -->
+                            <div class="card">
+                                <div class="filter">
+                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                        <li class="dropdown-header text-start">
+                                            <h6>Filter</h6>
+                                        </li>
+
+                                        <li><a class="dropdown-item" href="#">Today</a></li>
+                                        <li><a class="dropdown-item" href="#">This Month</a></li>
+                                        <li><a class="dropdown-item" href="#">This Year</a></li>
+                                    </ul>
+                                </div>
+
+                                <div class="card-body pb-0">
+                                    <h5 class="card-title">Tabel Pelayanan <span></span></h5>
+
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Unit Pengolah</th>
+                                                <th scope="col">Total Layanan</th>
+                                            </tr>
+                                        </thead>
+
+
+                                        <tbody>
+                                            @foreach ($totalByUnit as $key => $item)
+                                                <tr>
+                                                    <td class="text-center">{{ $key + 1 }}</td>
+                                                    <td class="">{{ $item['name'] }}</td>
+                                                    <td class="text-center">{{ $item['value'] }}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div><!-- End Website Traffic -->
+                        </div>
+                    </div>
+
+
+
                 </div><!-- End Left side columns -->
 
 
@@ -122,7 +253,7 @@
     <script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script> --}}
 
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {{-- <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
 
 
 

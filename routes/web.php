@@ -18,6 +18,26 @@ use Illuminate\Support\Facades\Route;
  * Test Excel
  */
 
+Route::get('/mapping', function() {
+    $pels = \App\Models\DaftarPelayanan::with('layanan')->get();
+
+    foreach($pels as $pel) {
+        $layanan = $pel->layanan;
+        $pel->id_unit_pengolah = $layanan->id_unit_pengolah;
+        $pel->save();
+    }
+
+    return 'done';
+});
+
+Route::get('/assign-role', function() {
+    $usersWithoutRoles = \App\Models\User::withCount('roles')->has('roles', 0)->get();
+    foreach ($usersWithoutRoles as $user) {
+        $user->assignRole('staff');
+    }
+
+});
+
 Route::get('/xc', function () {
     // $filename = 'Data Layanan.xlsx';
     // $toPath = public_path('/' . $filename);
