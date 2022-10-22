@@ -65,6 +65,7 @@ class HomeController extends Controller
         foreach ($units as $key => $item) {
             $sUnit[] = [
                 'name' => $item->name,
+                'full_name' => $item->name,
                 'value' => 0
             ];
         }

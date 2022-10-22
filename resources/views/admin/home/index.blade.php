@@ -220,7 +220,7 @@
                                             @foreach ($totalByUnit as $key => $item)
                                                 <tr>
                                                     <td class="text-center">{{ $key + 1 }}</td>
-                                                    <td class="">{{ $item['name'] }}</td>
+                                                    <td class="">{{ $item['full_name'] }}</td>
                                                     <td class="text-center">{{ $item['value'] }}</td>
                                                 </tr>
                                             @endforeach
