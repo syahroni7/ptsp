@@ -154,7 +154,9 @@
                                                     trigger: 'item'
                                                 },
                                                 legend: {
-                                                    top: '0%',
+                                                    top: '5%',
+                                                    left: 'center',
+                                                    position: 'center'
                                                 },
                                                 series: [{
                                                     name: 'Total Pelayanan',

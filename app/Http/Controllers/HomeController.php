@@ -75,6 +75,34 @@ class HomeController extends Controller
             foreach ($sUnit as $key => $item) {
                 $countItem = isset($pByUnit[$item['name']]) ? $pByUnit[$item['name']]->count() : 0;
                 $sUnit[$key]['value'] = $countItem;
+
+                if($sUnit[$key]['name'] == 'Subbagian Tata Usaha'){
+                    $sUnit[$key]['name'] = 'SubbagTU';
+                } 
+
+                if($sUnit[$key]['name'] == 'Seksi Pendidikan Madrasah'){
+                    $sUnit[$key]['name'] = 'Seksi PenMad';
+                } 
+
+                if($sUnit[$key]['name'] == 'Seksi Pendidikan Agama Islam'){
+                    $sUnit[$key]['name'] = 'Seksi PAIs';
+                } 
+
+                if($sUnit[$key]['name'] == 'Seksi Pendidikan Diniyah dan Pondok Pesantren'){
+                    $sUnit[$key]['name'] = 'Seksi PD Pontren';
+                } 
+
+                if($sUnit[$key]['name'] == 'Seksi Penyelenggaraan Haji dan Umrah'){
+                    $sUnit[$key]['name'] = 'Seksi PHU';
+                } 
+
+                if($sUnit[$key]['name'] == 'Seksi Bimbingan Masyarakat Islam'){
+                    $sUnit[$key]['name'] = 'Seksi BiMas';
+                } 
+
+                if($sUnit[$key]['name'] == 'Seksi Penyelenggara Zakat dan Wakaf'){
+                    $sUnit[$key]['name'] = 'Seksi ZaWa';
+                } 
             }
         }
 
