@@ -18,6 +18,15 @@ use Illuminate\Support\Facades\Route;
  * Test Excel
  */
 
+Route::get('/teset', function() {
+    $pels = \App\Models\DaftarPelayanan::with('layanan')->get();
+    return $pels;
+});
+
+Route::get('/mainten', function() {
+    return view('maintenancecop');
+});
+
 Route::get('/mapping', function() {
     $pels = \App\Models\DaftarPelayanan::with('layanan')->get();
 

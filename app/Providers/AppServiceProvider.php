@@ -69,9 +69,9 @@ class AppServiceProvider extends ServiceProvider
                         ]
                 ];
 
-                $pelayananColl = DaftarPelayanan::whereYear('created_at', '=', date('Y'))
-                                                ->whereMonth('created_at', '=', date('m'))
-                                                ->get()
+                // $pelayananColl = DaftarPelayanan::whereYear('created_at', '=', date('Y'))
+                //                                 ->whereMonth('created_at', '=', date('m'))
+                $pelayananColl = DaftarPelayanan::get()
                                                 ->groupBy('status_pelayanan');
 
                 foreach ($statusPelayanan as $key => $item) {

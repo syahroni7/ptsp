@@ -48,9 +48,9 @@ class HomeController extends Controller
             ]
         ];
 
-        $pelayananColl = DaftarPelayanan::whereYear('created_at', '=', date('Y'))
-                                                ->whereMonth('created_at', '=', date('m'))
-                                                ->with('unit')
+        // $pelayananColl = DaftarPelayanan::whereYear('created_at', '=', date('Y'))
+        //                                         ->whereMonth('created_at', '=', date('m'))
+        $pelayananColl = DaftarPelayanan::with('unit')
                                                 ->get();
 
         $pByStatus = $pelayananColl->groupBy('status_pelayanan');
