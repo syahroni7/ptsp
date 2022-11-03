@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/select2-bootstrap-5-theme.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/select2-bootstrap-5-theme.rtl.min.css') }}" />
+    {{-- File Pond --}}
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/filepond/filepond.css') }}">
     <style>
         .breadcrumbs {
             padding: 15px 0;
@@ -156,16 +158,21 @@
                                     <textarea class="form-control" style="height: 100px" name="catatan" id="catatan"></textarea>
                                 </div>
 
-                                <div class="col-md-12 mb-3 arsip-masuk-box">
+                                {{-- <div class="col-md-12 mb-3 arsip-masuk-box">
                                     <label for="arsip_masuk_url_register" class="form-label fw-bold">Arsip Masuk</label><br>
-                                    {{-- Arsip Box --}}
                                     <div id="arsip-masuk-filebox" class="masuk-img" style="display: none">
                                         <img class="img-fluid" id="arsip-masuk-src" src="" alt="" width="200">
                                     </div>
-                                    {{-- End of Arsip Box --}}
 
                                     <button id="upload_widget_opener_masuk" type="button" class="btn btn-secondary btn-sm upload_widget_opener_masuk">Upload</button>
                                     <input type="hidden" id="arsip_masuk_url_register" name="arsip_masuk_url_register" value="empty" required>
+                                </div> --}}
+
+                                <!--  For multiple file uploads  -->
+                                <div class="col-12">
+                                    <label for="pengirim_nama" class="form-label fw-bold">Dokumen Pendukung</label>
+                                    <input type="file" name="data_file[]" multiple required />
+                                    <p class="help-block">{{ $errors->first('data_file.*') }}</p>
                                 </div>
 
                                 <div class="card-footer">
@@ -278,9 +285,18 @@
                                     <textarea class="form-control" style="height: 100px" name="search_catatan" id="search_catatan" disabled="true"></textarea>
                                 </div>
 
-                                <div class="card-footer">
-                                    <a target="_blank" type="button" class="btn btn-primary float-end detail-button">Detail</a>
+                                <!--  For multiple file uploads  -->
+                                <div class="col-12">
+                                    <label for="pengirim_nama" class="form-label fw-bold">Dokumen Pendukung</label>
+
+                                    <div class="dokumen_masuk_box">
+
+                                    </div>
                                 </div>
+
+                                {{-- <div class="card-footer">
+                                    <a target="_blank" type="button" class="btn btn-primary float-end detail-button">Detail</a>
+                                </div> --}}
                             </form>
                         </div>
 
@@ -321,9 +337,55 @@
     <script src="{{ asset('js/sweetalert2@11.js') }}"></script>
     <script src="https://cdn.socket.io/4.5.0/socket.io.min.js" integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k" crossorigin="anonymous"></script>
     <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
+    {{-- File Pond --}}
+    <script src="{{ asset('assets/js/filepond/filepond.js') }}"></script>
 
 
     <script>
+        // Get a reference to the file input element
+        const inputElement = document.querySelector('input[name="data_file[]"]');
+        // Create a FilePond instance
+        const pond = FilePond.create(inputElement);
+
+        // const pond = FilePond.create(inputElement, {
+        //     chunkUploads: true
+        // });
+
+        FilePond.setOptions({
+            server: {
+                process: {
+                    url: '/upload-file/upload',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                },
+                revert: {
+                    url: '/upload-file/destroy/1',
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        '_method': 'DELETE'
+                    }
+                }
+            },
+            onaddfilestart: (file) => {
+                isLoadingCheck();
+            },
+            onprocessfile: (files) => {
+                isLoadingCheck();
+            }
+        });
+
+        function isLoadingCheck() {
+            var isLoading = pond.getFiles().filter(x => x.status !== 5).length !== 0;
+            if (isLoading) {
+                $('#submitPelayananBtn').attr("disabled", "disabled");
+            } else {
+                $('#submitPelayananBtn').removeAttr("disabled");
+            }
+        }
+
+
         // Global Variabel
         var id_pelayanan = null;
         var id_arsip = null;
@@ -356,9 +418,9 @@
             }
         });
 
-        document.getElementById("upload_widget_opener_masuk").addEventListener("click", function() {
-            widgetMasuk.open();
-        }, false);
+        // document.getElementById("upload_widget_opener_masuk").addEventListener("click", function() {
+        //     widgetMasuk.open();
+        // }, false);
 
 
         const socket = io('wss://socket.kemenagpessel.com/', {
@@ -612,6 +674,20 @@
                                     $('#upload_arsip_masuk').props('disabled', true);
                                 }
                             }
+
+                            var boxmasuk = $('.dokumen_masuk_box');
+                            var htmlmasuk = '';
+                            $.each(item.arsip.dokumen_masuk_url, function(key, item) {
+                                htmlmasuk += `<div class="btn btn-outline-dark mx-2 my-1">
+                                                    <u>
+                                                        <a id="string_url" target="_blank" href="${item.file_url}" style="font-size:smaller;">
+                                                            ${item.filename}
+                                                        </a>
+                                                    </u>
+                                                </div>`
+                            });
+
+                            boxmasuk.append(htmlmasuk);
 
                         } else {
                             Swal.fire(

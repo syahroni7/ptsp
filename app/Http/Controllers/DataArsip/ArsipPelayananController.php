@@ -21,6 +21,9 @@ use DataTables;
 use Auth;
 use DB;
 use Vinkla\Hashids\Facades\Hashids;
+use App\Models\TemporaryFile;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class ArsipPelayananController extends Controller
 {
@@ -54,7 +57,53 @@ class ArsipPelayananController extends Controller
 
                     return $btn;
                 })
-                ->rawColumns(['action'])
+                ->addColumn('box_arsip_masuk', function ($layanan) {
+                    $html = '';
+                    if ($layanan->arsip) {
+                        if ($layanan->arsip->dokumen_masuk_url) {
+                            $docs = $layanan->arsip->dokumen_masuk_url;
+                            foreach ($docs as $key => $doc) {
+                                $html .= '<div class="badge bg-light text-light mx-1 my-1">
+                                            <u>
+                                                <a id="string_url" target="_blank" href="'.$doc['file_url'].'" style="font-size:smaller; text-decoration:none!important;">
+                                                    '.$doc['filename'].'
+                                                </a>
+                                            </u>
+                                        </div>';
+                            }
+                        } else {
+                            $html .= '<button id="upload_arsip_masuk" class="badge bg-danger" type="button" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Item Layanan"><i class="bi bi-cloud-upload"></i> Upload dokumen</button>';
+                        }
+                    } else {
+                        $html .= '<button id="upload_arsip_masuk" class="badge bg-danger" type="button" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Item Layanan"><i class="bi bi-cloud-upload"></i> Upload dokumen</button>';
+                    }
+
+                    return $html;
+                })
+                ->addColumn('box_arsip_keluar', function ($layanan) {
+                    $html = '';
+                    if ($layanan->arsip) {
+                        if ($layanan->arsip->dokumen_keluar_url) {
+                            $docs = $layanan->arsip->dokumen_keluar_url;
+                            foreach ($docs as $key => $doc) {
+                                $html .= '<div class="badge bg-light text-light mx-1 my-1">
+                                            <u>
+                                                <a id="string_url" target="_blank" href="'.$doc['file_url'].'" style="font-size:smaller; text-decoration:none!important;">
+                                                    '.$doc['filename'].'
+                                                </a>
+                                            </u>
+                                        </div>';
+                            }
+                        } else {
+                            $html .= '<button id="upload_arsip_keluar" class="badge bg-warning upload-arsip-keluar" type="button" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Item Layanan"><i class="bi bi-cloud-upload"></i>Upload dokumen</button>';
+                        }
+                    } else {
+                        $html .= '<button id="upload_arsip_keluar" class="badge bg-warning upload-arsip-keluar" type="button" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Item Layanan"><i class="bi bi-cloud-upload"></i>Upload dokumen</button>';
+                    }
+
+                    return $html;
+                })
+                ->rawColumns(['action', 'box_arsip_masuk', 'box_arsip_keluar'])
                 ->make(true);
         }
 
@@ -80,6 +129,66 @@ class ArsipPelayananController extends Controller
         ])->render();
     }
 
+    public function rmdir_recursive($dir)
+    {
+        foreach (scandir($dir) as $file) {
+            if ('.' === $file || '..' === $file) {
+                continue;
+            }
+            if (is_dir("$dir/$file")) {
+                $this->rmdir_recursive("$dir/$file");
+            } else {
+                unlink("$dir/$file");
+            }
+        }
+        rmdir($dir);
+    }
+
+
+    protected function _saveFile($pelayanan, $files)
+    {
+        $urlAssets = [];
+        foreach ($files as $file) {
+            $dcd = json_decode($file);
+            $file = $dcd[0];
+            $tempFile = TemporaryFile::where('folder', $file)->first();
+
+
+            if ($tempFile) {
+                $sourcePath = storage_path('app/public/temporary/' . $tempFile->folder);
+                $sourceFile = $sourcePath . '/' . $tempFile->filename;
+                $ext = pathinfo($sourceFile, PATHINFO_EXTENSION);
+
+
+
+                $destinationPath =  storage_path('app/public/files/' . date('Y-m') . '/' . $pelayanan->no_registrasi);
+                $destinationFile = $destinationPath . '/' . $tempFile->filename;
+                $asset = 'storage/files/' . date('Y-m') . '/' . $pelayanan->no_registrasi . '/' . $tempFile->filename;
+
+                if (!Storage::exists($destinationPath)) {
+                    Storage::makeDirectory($destinationPath, 0777, true); //creates directory
+                }
+
+                File::ensureDirectoryExists($destinationPath);
+                File::move($sourceFile, $destinationFile);
+                // Storage::move( $sourceFile, $destinationFile );
+
+                // Delete File and Database
+                $this->rmdir_recursive($sourcePath);
+                $tempFile->delete();
+
+                // getAsset
+                // $urlAssets[] = asset($asset);
+                $urlAssets[] = [
+                    'filename' => $tempFile->filename,
+                    'file_url' => asset($asset),
+                ];
+            }
+        }
+
+        return $urlAssets;
+    }
+
 
     public function store(Request $request)
     {
@@ -88,47 +197,46 @@ class ArsipPelayananController extends Controller
         $code = 400;
 
         $data = $request->input();
+        
 
-        try {
-            $pelayanan = DaftarPelayanan::where('id_pelayanan', $data['id_pelayanan'])->with('arsip')->firstOrFail();
-            if ($pelayanan->arsip) {
-                $arsip = $pelayanan->arsip;
-                if (isset($data['arsip_masuk_url'])) {
-                    $arsip->update([
-                        'arsip_masuk_url' => $data['arsip_masuk_url']
-                    ]);
-                }
+        // try {
+        $pelayanan = DaftarPelayanan::where('id_pelayanan', $data['id_pelayanan'])->with('arsip')->firstOrFail();
+        if ($pelayanan->arsip) {
+            $arsip = $pelayanan->arsip;
 
-                if (isset($data['arsip_keluar_url'])) {
-                    $arsip->update([
-                        'arsip_keluar_url' => $data['arsip_keluar_url']
-                    ]);
-                    $pelayanan->status_pelayanan = 'Selesai';
-                    $pelayanan->save();
-                }
-            } else {
-                $username = Auth::user()->username;
-                $arsip = new DaftarArsip();
-                $arsip->id_pelayanan = $data['id_pelayanan'];
-                if (isset($data['arsip_masuk_url'])) {
-                    $arsip->arsip_masuk_url = $data['arsip_masuk_url'];
-                    $arsip->created_by_masuk = $username;
-                }
+            if (isset($data['data_file'])) {
+                // Save File
+                $files = $request->data_file;
 
-                if (isset($data['arsip_keluar_url'])) {
-                    $arsip->arsip_keluar_url = $data['arsip_keluar_url'];
-                    $arsip->created_by_keluar = $username;
-                }
+                $urlAssets = $this->_saveFile($pelayanan, $files);
 
+                $tipeUpload = $data['tipe_upload'];
+                $arsip->$tipeUpload = $urlAssets;
                 $arsip->save();
             }
+        } else {
+            $username = Auth::user()->username;
+            $arsip = new DaftarArsip();
+            $arsip->id_pelayanan = $data['id_pelayanan'];
 
-            $success = true;
-            $code = 200;
-            $message = 'Data Berhasil Disimpan';
-        } catch (\Throwable $th) {
-            $message = $th->getMessage();
+            if (isset($data['data_file'])) {
+                // Save File
+                $files = $request->data_file;
+
+                $urlAssets = $this->_saveFile($pelayanan, $files);
+
+                $tipeUpload = $data['tipe_upload'];
+                $arsip->$tipeUpload = $urlAssets;
+                $arsip->save();
+            }
         }
+
+        $success = true;
+        $code = 200;
+        $message = 'Data Berhasil Disimpan';
+        // } catch (\Throwable $th) {
+        //     $message = $th->getMessage();
+        // }
 
         return response()->json([
             'success' => $success,

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\DaftarPelayanan;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
@@ -18,19 +19,27 @@ use Illuminate\Support\Facades\Route;
  * Test Excel
  */
 
-Route::get('/teset', function() {
-    $pels = \App\Models\DaftarPelayanan::with('layanan')->get();
-    return $pels;
+Route::post('upload-file/upload', [\App\Http\Controllers\Management\UploadFileController::class, 'upload'])->name('upload-file.upload');
+Route::delete('upload-file/destroy/{id}', [\App\Http\Controllers\Management\UploadFileController::class, 'destroy'])->name('upload-file.destroy');
+
+Route::get('/teset', function () {
+    $pelayanans = DaftarPelayanan::where('id_pelayanan', 173)->with('arsip')->get();
+    foreach ($pelayanans as $pelayanan) {
+        foreach ($pelayanan->arsip->dokumen_masuk_url as $key => $item) {
+            return 'jancoek ' . $item['file_url'];
+        }
+    }
 });
 
-Route::get('/mainten', function() {
-    return view('maintenancecop');
+Route::get('/mainten', function () {
+    // return view('maintenancecop');
+    return view('maintenance');
 });
 
-Route::get('/mapping', function() {
+Route::get('/mapping', function () {
     $pels = \App\Models\DaftarPelayanan::with('layanan')->get();
 
-    foreach($pels as $pel) {
+    foreach ($pels as $pel) {
         $layanan = $pel->layanan;
         $pel->id_unit_pengolah = $layanan->id_unit_pengolah;
         $pel->save();
@@ -39,12 +48,11 @@ Route::get('/mapping', function() {
     return 'done';
 });
 
-Route::get('/assign-role', function() {
+Route::get('/assign-role', function () {
     $usersWithoutRoles = \App\Models\User::withCount('roles')->has('roles', 0)->get();
     foreach ($usersWithoutRoles as $user) {
         $user->assignRole('staff');
     }
-
 });
 
 Route::get('/xc', function () {
@@ -130,24 +138,30 @@ Route::get('/dec/{id}', function ($id) {
 
 Route::get('/summary/fetch', function () {
     $summary = \App\Models\DaftarPelayanan::select('status_pelayanan', DB::raw('count(*) as total'))
-                                                ->whereYear('created_at', '=', date('Y'))
-                                                ->whereMonth('created_at', '=', date('m'))
                                                 ->groupBy('status_pelayanan')
                                                 ->get();
 
+    // ->whereYear('created_at', '=', date('Y'))
+    // ->whereMonth('created_at', '=', date('m'))
+    $username = \Auth::user()->username;
+    $cDisposisi = \App\Models\DaftarDisposisi::whereHas('recipient', function ($q) use ($username) {
+        $q->where('username', $username);
+    })->doesntHave('child')
+    ->count();
+
     return response()
-    ->json([ 'summary' => $summary ]);
+    ->json([
+         'summary' => $summary,
+         'disposisi' => $cDisposisi
+        ]);
 });
 
 Route::get('/publik/lacak-pelayanan/{id_pelayanan}/{pemohon_no_hp}', function ($id_pelayanan, $pemohon_no_hp) {
-
-    
     $success = false;
     $message = '';
     $data = null;
 
     try {
-        
         $pelayanan = \App\Models\DaftarPelayanan::where('id_pelayanan', $id_pelayanan)->firstOrFail();
 
         // return [
@@ -155,7 +169,7 @@ Route::get('/publik/lacak-pelayanan/{id_pelayanan}/{pemohon_no_hp}', function ($
         //     '$pemohon_no_hp' => $pemohon_no_hp,
         // ];
 
-        if($pelayanan->pemohon_no_hp != $pemohon_no_hp) {
+        if ($pelayanan->pemohon_no_hp != $pemohon_no_hp) {
             throw new \Exception('Data no HP tidak sama dengan yang didaftarkan, harap cek kembali!');
         }
 
@@ -200,9 +214,13 @@ Route::get('/daftar-pelayanan/fetch/{id_pelayanan}', [\App\Http\Controllers\Data
 Route::get('/daftar-pelayanan/search', [\App\Http\Controllers\DataPelayanan\DaftarPelayananController::class, 'search'])->name('daftar-pelayanan.search');
 Route::delete('/daftar-pelayanan/destroy/{pelayanan}', [\App\Http\Controllers\DataPelayanan\DaftarPelayananController::class, 'destroy'])->name('daftar-pelayanan.destroy');
 
+Route::get('/change-password', [App\Http\Controllers\HomeController::class, 'showChangePasswordForm'])->name('change-password');
+Route::post('/change-password', [App\Http\Controllers\HomeController::class, 'changePassword'])->name('changePassword');
+
 Auth::routes();
 
-Route::middleware('auth')->group(function () {
+// Route::middleware('auth')->group(function () {
+Route::group(['middleware' => ['auth', 'same_password_with_username']], function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/daftar-pelayanan/detail/{idx}', [\App\Http\Controllers\DataPelayanan\DaftarPelayananController::class, 'detail'])->name('daftar-pelayanan.detail');
 

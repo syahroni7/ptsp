@@ -5,33 +5,68 @@ namespace App\Http\Controllers\Management;
 use App\Models\TemporaryFile;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use RahulHaque\Filepond\Facades\Filepond;
+use Illuminate\Validation\Rule;
 
 class UploadFileController extends Controller
 {
     public function upload(Request $request)
     {
+        // if($request->hasFile('productImage')){
+        //     $productImages = $request->file('productImage');
+        //        foreach ($productImages as $productImage) {
+
+
         if ($request->hasFile('data_file')) {
-            $file = $request->file('data_file');
-            $extension = $file->getClientOriginalExtension();
-            $filename  = $file->getClientOriginalName();
-            $folder    = uniqid() . '-'. now()->timestamp;
-            $file->storeAs('data_file/tmp/' . $folder, $filename);
+            $files = $request->file('data_file');
+            $arrFolder = [];
 
-            TemporaryFile::create([
-                'folder' => $folder,
-                'filename' => $filename,
-            ]);
+            foreach ($files as $file) {
+                $extension = $file->getClientOriginalExtension();
+                $filename  = $file->getClientOriginalName();
+                $folder    = uniqid() . '-'. now()->timestamp;
+                $file->storeAs('/public/temporary/' . $folder, $filename);
 
-            return $folder;
+                TemporaryFile::create([
+                    'folder' => $folder,
+                    'filename' => $filename,
+                ]);
+                $arrFolder[] = $folder;
+            }
+
+            return $arrFolder;
         }
 
         return '';
     }
 
+    // public function upload(Request $request)
+    // {
+
+    //     // Single and multiple file validation
+    //     $this->validate($request, [
+    //         'data_file.*' => Rule::filepond([
+    //             'required',
+    //             'max:2000'
+    //         ])
+    //     ]);
+
+    //     $dataFiles = 'dataFile-' . auth()->id();
+
+    //     dd($request->data_file);
+
+    //     // $fileInfos = Filepond::field($request->data_file)
+    //     //     ->moveTo('data_files/' . $dataFiles);
+
+    //     // return $fileInfos;
+    // }
+
     public function destroy(Request $request, $id)
     {
-        $folder = $request->getContent();
-        $this->rmdir_recursive(storage_path('app/public/data_file/tmp/' . $folder));
+        $folder = json_decode($request->getContent());
+        $folder = $folder[0];
+        
+        $this->rmdir_recursive(storage_path('/app/public/temporary/' . $folder));
 
         $tempFile = TemporaryFile::where('folder', $folder)->first();
         if ($tempFile) {
@@ -42,11 +77,17 @@ class UploadFileController extends Controller
     }
 
 
-    public function rmdir_recursive($dir) {
-        foreach(scandir($dir) as $file) {
-            if ('.' === $file || '..' === $file) continue;
-            if (is_dir("$dir/$file")) $this->rmdir_recursive("$dir/$file");
-            else unlink("$dir/$file");
+    public function rmdir_recursive($dir)
+    {
+        foreach (scandir($dir) as $file) {
+            if ('.' === $file || '..' === $file) {
+                continue;
+            }
+            if (is_dir("$dir/$file")) {
+                $this->rmdir_recursive("$dir/$file");
+            } else {
+                unlink("$dir/$file");
+            }
         }
         rmdir($dir);
     }

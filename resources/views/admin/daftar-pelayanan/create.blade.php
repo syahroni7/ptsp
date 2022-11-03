@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/select2-bootstrap-5-theme.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/select2-bootstrap-5-theme.rtl.min.css') }}" />
+    {{-- File Pond --}}
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/filepond/filepond.css') }}">
 
     <style>
         .responsive-iframe {
@@ -214,8 +216,16 @@
                                         <textarea class="form-control" style="height: 100px" name="catatan" id="catatan"></textarea>
                                     </div>
 
+                                    <!--  For multiple file uploads  -->
+                                    <div class="col-12">
+                                        <label for="pengirim_nama" class="form-label fw-bold">Dokumen Pendukung</label>
+                                        <input type="file" name="data_file[]" multiple required />
+                                        <p class="help-block">{{ $errors->first('data_file.*') }}</p>
+                                    </div>
+
+
                                     <div class="card-footer">
-                                        <button id="submitPelayananBtn" type="submit" class="btn btn-primary float-end">Simpan Data
+                                        <button id="submitPelayananBtn" type="button" class="btn btn-primary float-end">Simpan Data
                                             Pelayanan</button>
                                         <button type="reset" class="btn btn-secondary float-start">Reset</button>
                                     </div>
@@ -239,7 +249,7 @@
 
                                     <a target="_blank" type="button" class="btn btn-primary btn-sm mx-1 float-end detail-button">Detail</a>
 
-                                    <button id="upload_arsip_masuk" class="btn btn-secondary btn-sm mx-1 float-end" type="button" data-bs-toggle="modal" data-bs-target="#arsipModal" data-title="Edit Data Item Layanan">Upload Arsip</button>
+                                    {{-- <button id="upload_arsip_masuk" class="btn btn-secondary btn-sm mx-1 float-end" type="button" data-bs-toggle="modal" data-bs-target="#arsipModal" data-title="Edit Data Item Layanan">Upload Arsip</button> --}}
                                 </h5>
 
                             </div>
@@ -324,6 +334,22 @@
                                         <label for="search_catatan" class="form-label fw-bold">Catatan</label>
                                         <textarea class="form-control" style="height: 100px" name="search_catatan" id="search_catatan" disabled="true"></textarea>
                                     </div>
+                                    <!--  For multiple file uploads  -->
+                                    <div class="col-12">
+                                        <label for="dokumen_masuk" class="form-label fw-bold">Dokumen Pendukung</label>
+
+                                        <div class="dokumen_masuk_box">
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label for="dokumen_keluar" class="form-label fw-bold">Hasil Pelayanan</label>
+
+                                        <div class="dokumen_keluar_box">
+
+                                        </div>
+                                    </div>
 
                                     <div class="card-footer">
                                         <a target="_blank" type="button" class="btn btn-primary float-end detail-button">Detail</a>
@@ -367,8 +393,56 @@
     <script type="text/javascript" language="javascript" src="{{ asset('js/buttons.colVis.min.js') }}"></script>
     <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
 
+    {{-- File Pond --}}
+    <script src="{{ asset('assets/js/filepond/filepond.js') }}"></script>
 
     <script>
+        // Get a reference to the file input element
+        const inputElement = document.querySelector('input[name="data_file[]"]');
+        // Create a FilePond instance
+        const pond = FilePond.create(inputElement);
+
+        // const pond = FilePond.create(inputElement, {
+        //     chunkUploads: true
+        // });
+
+        FilePond.setOptions({
+            server: {
+                process: {
+                    url: '/upload-file/upload',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                },
+                revert: {
+                    url: '/upload-file/destroy/1',
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        '_method': 'DELETE'
+                    }
+                }
+            },
+            onaddfilestart: (file) => {
+                isLoadingCheck();
+            },
+            onprocessfile: (files) => {
+                isLoadingCheck();
+            }
+        });
+
+        function isLoadingCheck() {
+            var isLoading = pond.getFiles().filter(x => x.status !== 5).length !== 0;
+            if (isLoading) {
+                $('#submitPelayananBtn').attr("disabled", "disabled");
+            } else {
+                $('#submitPelayananBtn').removeAttr("disabled");
+            }
+        }
+
+
+
+
         // Global Variabel
         var id_pelayanan = null;
         var id_arsip = null;
@@ -520,6 +594,49 @@
                                     $('#upload_arsip_masuk').props('disabled', true);
                                 }
                             }
+
+                            // $('[name=dokumen_masuk_url]').val(item.arsip.dokumen_masuk_url);
+
+                            var boxmasuk = $('.dokumen_masuk_box');
+                            boxmasuk.empty();
+                            var htmlmasuk = '';
+                            if (item.arsip.dokumen_masuk_url) {
+                                $.each(item.arsip.dokumen_masuk_url, function(key, item) {
+                                    htmlmasuk += `<div class="btn btn-outline-dark mx-2 my-1 text-start">
+                                                    <u>
+                                                        <a id="string_url" target="_blank" href="${item.file_url}" style="font-size:smaller;">
+                                                            ${item.filename}
+                                                        </a>
+                                                    </u>
+                                                </div>`
+                                });
+
+                                boxmasuk.append(htmlmasuk);
+                            } else {
+                                boxmasuk.append('-');
+
+                            }
+
+                            var boxkeluar = $('.dokumen_keluar_box');
+                            boxkeluar.empty();
+                            var htmlkeluar = '';
+                            if (item.arsip.dokumen_keluar_url) {
+                                $.each(item.arsip.dokumen_keluar_url, function(key, item) {
+                                    htmlkeluar += `<div class="btn btn-outline-dark mx-2 my-1 text-start">
+                                                    <u>
+                                                        <a id="string_url" target="_blank" href="${item.file_url}" style="font-size:smaller;">
+                                                            ${item.filename}
+                                                        </a>
+                                                    </u>
+                                                </div>`
+                                });
+
+                                boxkeluar.append(htmlkeluar);
+                            } else {
+                                boxkeluar.append('-');
+                            }
+
+
 
                         } else {
                             Swal.fire(

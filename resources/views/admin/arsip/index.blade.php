@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="{{ asset('css/select2-bootstrap-5-theme.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/select2-bootstrap-5-theme.rtl.min.css') }}" />
 
+    {{-- File Pond --}}
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/filepond/filepond.css') }}">
+
     <style>
         .responsive-iframe {
             position: absolute;
@@ -94,9 +97,52 @@
     <script type="text/javascript" language="javascript" src="{{ asset('js/buttons.colVis.min.js') }}"></script>
     <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
 
+    {{-- File Pond --}}
+    <script src="{{ asset('assets/js/filepond/filepond.js') }}"></script>
+
 
 
     <script>
+        // Get a reference to the file input element
+        const inputElement = document.querySelector('input[name="data_file[]"]');
+        // Create a FilePond instance
+        const pond = FilePond.create(inputElement);
+
+        FilePond.setOptions({
+            server: {
+                process: {
+                    url: '/upload-file/upload',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                },
+                revert: {
+                    url: '/upload-file/destroy/1',
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        '_method': 'DELETE'
+                    }
+                }
+            },
+            onaddfilestart: (file) => {
+                isLoadingCheck();
+            },
+            onprocessfile: (files) => {
+                isLoadingCheck();
+            }
+        });
+
+        function isLoadingCheck() {
+            var isLoading = pond.getFiles().filter(x => x.status !== 5).length !== 0;
+            if (isLoading) {
+                $('#submitBtn').attr("disabled", "disabled");
+            } else {
+                $('#submitBtn').removeAttr("disabled");
+            }
+        }
+
+
         // Global Variabel
         var id_pelayanan = null;
         var id_arsip = null;
@@ -129,9 +175,9 @@
             }
         });
 
-        document.getElementById("upload_widget_opener_masuk").addEventListener("click", function() {
-            widgetMasuk.open();
-        }, false);
+        // document.getElementById("upload_widget_opener_masuk").addEventListener("click", function() {
+        //     widgetMasuk.open();
+        // }, false);
 
 
 
@@ -159,9 +205,9 @@
             }
         });
 
-        document.getElementById("upload_widget_opener_keluar").addEventListener("click", function() {
-            widgetKeluar.open();
-        }, false);
+        // document.getElementById("upload_widget_opener_keluar").addEventListener("click", function() {
+        //     widgetKeluar.open();
+        // }, false);
 
 
 
@@ -230,47 +276,59 @@
                     data: 'perihal',
                     name: 'perihal'
                 }, {
-                    data: 'arsip.arsip_masuk_url',
-                    name: 'arsip.arsip_masuk_url',
-                    // sDefaultContent: '-',
-                    className: 'text-center',
-                    render: function(data, type, row) {
-                        if (row.arsip) {
-                            if (row.arsip.arsip_masuk_url) {
-                                return '<a href="' + row.arsip.arsip_masuk_url + '" target="_blank" class="badge bg-primary" type="button" >lihat</a>';
-                            } else {
-                                return '<button id="upload_arsip_masuk" class="badge bg-secondary" type="button" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Item Layanan"><i class="bi bi-cloud-upload"></i></button>';
-                            }
-
-                        } else {
-                            return '<button id="upload_arsip_masuk" class="badge bg-secondary" type="button" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Item Layanan"><i class="bi bi-cloud-upload"></i></button>';
-                        }
-                    },
+                    data: 'box_arsip_masuk',
+                    name: 'box_arsip_masuk'
                 }, {
-                    data: 'arsip.arsip_keluar_url',
-                    name: 'arsip.arsip_keluar_url',
-                    // sDefaultContent: '-',
-                    className: 'text-center',
-                    render: function(data, type, row) {
-                        if (row.arsip) {
-                            if (row.arsip.arsip_keluar_url) {
-                                return '<a href="' + row.arsip.arsip_keluar_url + '" target="_blank" class="badge bg-primary" type="button">lihat</a>';
-                            } else {
-                                return '<button id="upload_arsip_keluar" class="badge bg-secondary upload-arsip-keluar" type="button" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Item Layanan"><i class="bi bi-cloud-upload"></i></button>';
-                            }
-                        } else {
-                            return '<button id="upload_arsip_keluar" class="badge bg-secondary upload-arsip-keluar" type="button" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Item Layanan"><i class="bi bi-cloud-upload"></i></button>';
-                        }
-                    },
+                    data: 'box_arsip_keluar',
+                    name: 'box_arsip_keluar'
                 }, {
                     data: 'status_pelayanan',
                     name: 'status_pelayanan'
                 },
+
+
                 // {
                 //     data: 'action',
                 //     name: 'action',
                 //     className: 'text-center'
                 // }, 
+
+                // {
+                //     data: 'arsip.arsip_masuk_url',
+                //     name: 'arsip.arsip_masuk_url',
+                //     // sDefaultContent: '-',
+                //     className: 'text-center',
+                //     render: function(data, type, row) {
+                //         if (row.arsip) {
+                //             if (row.arsip.arsip_masuk_url) {
+                //                 return '<a href="' + row.arsip.arsip_masuk_url + '" target="_blank" class="badge bg-primary" type="button" >lihat</a>';
+                //             } else {
+                //                 return '<button id="upload_arsip_masuk" class="badge bg-secondary" type="button" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Item Layanan"><i class="bi bi-cloud-upload"></i></button>';
+                //             }
+
+                //         } else {
+                //             return '<button id="upload_arsip_masuk" class="badge bg-secondary" type="button" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Item Layanan"><i class="bi bi-cloud-upload"></i></button>';
+                //         }
+                //     },
+                // },
+
+                // {
+                //     data: 'arsip.arsip_keluar_url',
+                //     name: 'arsip.arsip_keluar_url',
+                //     // sDefaultContent: '-',
+                //     className: 'text-center',
+                //     render: function(data, type, row) {
+                //         if (row.arsip) {
+                //             if (row.arsip.arsip_keluar_url) {
+                //                 return '<a href="' + row.arsip.arsip_keluar_url + '" target="_blank" class="badge bg-primary" type="button">lihat</a>';
+                //             } else {
+                //                 return '<button id="upload_arsip_keluar" class="badge bg-secondary upload-arsip-keluar" type="button" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Item Layanan"><i class="bi bi-cloud-upload"></i></button>';
+                //             }
+                //         } else {
+                //             return '<button id="upload_arsip_keluar" class="badge bg-secondary upload-arsip-keluar" type="button" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Item Layanan"><i class="bi bi-cloud-upload"></i></button>';
+                //         }
+                //     },
+                // },
             ]
         });
 
@@ -338,6 +396,7 @@
             });
 
             $(document).on("click", "#upload_arsip_masuk", function(e) {
+                pond.removeFiles();
                 var title = $(this).data('title');
                 $("#judul-modal").html('Upload Arsip Masuk');
                 $('.arsip-masuk-box').show();
@@ -349,9 +408,12 @@
                 $('#search_id_layanan').val(data.id_layanan).trigger('change');
                 $('#search_perihal').val(data.perihal);
 
+                $('#tipe_upload').val('dokumen_masuk_url');
+
             });
 
             $(document).on("click", "#upload_arsip_keluar", function(e) {
+                pond.removeFiles();
                 var title = $(this).data('title');
                 $("#judul-modal").html('Upload Arsip Keluar');
                 $('.arsip-masuk-box').hide();
@@ -362,6 +424,8 @@
                 $('#search_no_registrasi').val(data.no_registrasi);
                 $('#search_id_layanan').val(data.id_layanan).trigger('change');
                 $('#search_perihal').val(data.perihal);
+
+                $('#tipe_upload').val('dokumen_keluar_url');
 
             });
 

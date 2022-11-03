@@ -34,30 +34,31 @@
 
 
                         <div class="col-md-12 mb-3 arsip-masuk-box">
-                            <label for="arsip_masuk_url" class="form-label fw-bold">Arsip Masuk</label><br>
-                            {{-- Arsip Box --}}
-                            <div id="arsip-masuk-filebox" class="masuk-img" style="display: none">
-                                <img class="img-fluid" id="arsip-masuk-src" src="" alt="" width="200">
-                            </div>
-                            {{-- End of Arsip Box --}}
 
-                            <button id="upload_widget_opener_masuk" type="button" class="btn btn-secondary btn-sm upload_widget_opener_masuk">Upload</button>
-                            <input type="hidden" id="arsip_masuk_url" name="arsip_masuk_url" value="" required>
+                            <div class="col-12">
+                                <label for="pengirim_nama" class="form-label fw-bold">Dokumen Pendukung</label>
+                            </div>
+
                         </div>
 
                         <div class="col-md-12 mb-3 arsip-keluar-box">
-                            <label for="arsip_keluar_url" class="form-label fw-bold">Arsip Keluar</label><br>
 
-                            {{-- Arsip Box --}}
-                            <div id="arsip-keluar-filebox" class="keluar-img" style="display: none">
-                                <img class="img-fluid" id="arsip-keluar-src" src="" alt="" width="200">
+                            <div class="col-12">
+                                <label for="pengirim_nama" class="form-label fw-bold">Output Layanan</label>
                             </div>
-                            {{-- End of Arsip Box --}}
 
-                            <button id="upload_widget_opener_keluar" type="button" class="btn btn-secondary btn-sm upload_widget_opener_keluar">Upload</button>
-                            <input type="hidden" id="arsip_keluar_url" name="arsip_keluar_url" value="" required>
                         </div>
 
+                        <div class="col-md-12 mb-3 upload-container">
+
+                            <div class="col-12">
+                                <input type="file" name="data_file[]" multiple required />
+                                <p class="help-block">{{ $errors->first('data_file.*') }}</p>
+                            </div>
+
+                        </div>
+
+                        <input type="hidden" name="tipe_upload" id="tipe_upload" value="">
 
                     </div>
                 </div>

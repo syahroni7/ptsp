@@ -21,6 +21,11 @@
 
 
 <script>
+    $(document).ready(function() {
+        fetchNotif();
+        fetchSummary();
+    });
+
     if (window.self == window.top) {
         window.dataLayer = window.dataLayer || [];
     }
@@ -134,6 +139,9 @@
                     var param = '.total-' + status;
                     $('.total-' + status).html(item.total);
                 });
+
+                $('.total-disposisi').html(data.disposisi);
+
             }
         });
     }

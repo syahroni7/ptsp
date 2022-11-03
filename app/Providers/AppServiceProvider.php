@@ -71,15 +71,24 @@ class AppServiceProvider extends ServiceProvider
 
                 // $pelayananColl = DaftarPelayanan::whereYear('created_at', '=', date('Y'))
                 //                                 ->whereMonth('created_at', '=', date('m'))
-                $pelayananColl = DaftarPelayanan::get()
-                                                ->groupBy('status_pelayanan');
 
-                foreach ($statusPelayanan as $key => $item) {
-                    $countItem = isset($pelayananColl[$item['name']]) ? $pelayananColl[$item['name']]->count() : 0;
-                    $statusPelayanan[$key]['total'] = $countItem;
-                }
+
+                
+                // $pelayananColl = DaftarPelayanan::get()
+                //                                 ->groupBy('status_pelayanan');
+
+                // foreach ($statusPelayanan as $key => $item) {
+                //     $countItem = isset($pelayananColl[$item['name']]) ? $pelayananColl[$item['name']]->count() : 0;
+                //     $statusPelayanan[$key]['total'] = $countItem;
+                // }
+
+                // $username = \Auth::user()->username;
+                // $cDisposisi = \App\Models\DaftarDisposisi::whereHas('recipient', function ($q) use ($username) {
+                //     $q->where('username', $username);
+                // })->count();
 
                 $view->with('statusPelayanan', $statusPelayanan);
+                // $view->with('disposisi', $cDisposisi);
             }
         });
     }

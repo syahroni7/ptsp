@@ -287,14 +287,14 @@
                                     <div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingOne2" data-bs-parent="#accordion2">
                                         <div class="accordion-body">
                                             <form class="row g-3 mt-2" id="aForm">
-                                                <div class="col-6">
+                                                <div class="col-12">
                                                     <label for="search_catatan" class="form-label fw-bold">Arsip Masuk</label>
                                                     <div class="arsip-masuk-box">
                                                         -
                                                     </div>
                                                 </div>
 
-                                                <div class="col-6">
+                                                <div class="col-12">
                                                     <label for="search_catatan" class="form-label fw-bold">Arsip Keluar</label>
                                                     <div class="arsip-keluar-box">
                                                         -
@@ -467,22 +467,62 @@
                                     'change');
                             $('#search_catatan').val(res.catatan);
 
+                            let boxmasuk = $('.arsip-masuk-box');
 
-                            if (res.arsip) {
-                                if (res.arsip.arsip_masuk_url) {
-                                    let arsipBox = $('.arsip-masuk-box');
-                                    arsipBox.empty();
-                                    var arsipHTML = `<a href="${res.arsip.arsip_masuk_url}" target="_blank" class="badge bg-primary" type="button" >Lihat Dokumen</a>`;
-                                    arsipBox.append(arsipHTML);
-                                }
+                            boxmasuk.empty();
+                            var htmlmasuk = '';
+                            if (res.arsip.dokumen_masuk_url) {
+                                $.each(res.arsip.dokumen_masuk_url, function(key, item) {
+                                    htmlmasuk += `<div class="btn btn-outline-dark mx-2 my-1 text-start">
+                                                    <u>
+                                                        <a id="string_url" target="_blank" href="${item.file_url}" style="font-size:smaller;">
+                                                            ${item.filename}
+                                                        </a>
+                                                    </u>
+                                                </div>`
+                                });
 
-                                if (res.arsip.arsip_keluar_url) {
-                                    let arsipBox = $('.arsip-keluar-box');
-                                    arsipBox.empty();
-                                    var arsipHTML = `<a href="${res.arsip.arsip_keluar_url}" target="_blank" class="badge bg-primary" type="button" >Lihat Dokumen</a>`;
-                                    arsipBox.append(arsipHTML);
-                                }
+                                boxmasuk.append(htmlmasuk);
+                            } else {
+                                boxmasuk.append('-');
+
                             }
+
+                            var boxkeluar = $('.arsip-keluar-box');
+                            boxkeluar.empty();
+                            var htmlkeluar = '';
+                            if (res.arsip.dokumen_keluar_url) {
+                                $.each(res.arsip.dokumen_keluar_url, function(key, item) {
+                                    htmlkeluar += `<div class="btn btn-outline-dark mx-2 my-1 text-start">
+                                                    <u>
+                                                        <a id="string_url" target="_blank" href="${item.file_url}" style="font-size:smaller;">
+                                                            ${item.filename}
+                                                        </a>
+                                                    </u>
+                                                </div>`
+                                });
+
+                                boxkeluar.append(htmlkeluar);
+                            } else {
+                                boxkeluar.append('-');
+                            }
+
+
+                            // if (res.arsip) {
+                            //     if (res.arsip.arsip_masuk_url) {
+                            //         let arsipBox = $('.arsip-masuk-box');
+                            //         arsipBox.empty();
+                            //         var arsipHTML = `<a href="${res.arsip.arsip_masuk_url}" target="_blank" class="badge bg-primary" type="button" >Lihat Dokumen</a>`;
+                            //         arsipBox.append(arsipHTML);
+                            //     }
+
+                            //     if (res.arsip.arsip_keluar_url) {
+                            //         let arsipBox = $('.arsip-keluar-box');
+                            //         arsipBox.empty();
+                            //         var arsipHTML = `<a href="${res.arsip.arsip_keluar_url}" target="_blank" class="badge bg-primary" type="button" >Lihat Dokumen</a>`;
+                            //         arsipBox.append(arsipHTML);
+                            //     }
+                            // }
 
 
                             let box = $('.disposisi-box');

@@ -52,6 +52,7 @@
                                     <tr>
                                         <th class="text-center">No</th>
                                         <th class="text-center">No Registrasi</th>
+                                        <th class="text-center">Unit Pengolah</th>
                                         <th class="text-center">Nama Layanan</th>
                                         <th class="text-center">Perihal</th>
                                         <th class="text-center">Kelengkapan</th>
@@ -147,6 +148,9 @@
             }, {
                 data: 'no_registrasi',
                 name: 'no_registrasi'
+            }, {
+                data: 'unit.name',
+                name: 'unit.name'
             }, {
                 data: 'layanan.name',
                 name: 'layanan.name'

@@ -62,14 +62,13 @@ class DaftarDisposisiController extends Controller
                 })
                 ->addColumn('status', function ($disposisi) {
                     $status = '';
-                    if($disposisi->child && $disposisi->child->id_recipient) {
+                    if ($disposisi->child && $disposisi->child->id_recipient) {
                         // $status = '<span class="badge badge-secondary"></span>';
                         $status = '<span class="badge bg-secondary">sudah diteruskan</span>';
-                    } elseif($disposisi->child && !$disposisi->child->id_recipient){
+                    } elseif ($disposisi->child && !$disposisi->child->id_recipient) {
                         // $status = '<span class="badge badge-success">selesai</span>';
                         $status = '<span class="badge bg-success">selesai</span>';
-                    }
-                    else {
+                    } else {
                         // $status = '<span class="badge badge-danger">baru</span>';
                         $status = '<span class="badge bg-danger">baru</span>';
                     }
@@ -81,14 +80,13 @@ class DaftarDisposisiController extends Controller
                 })
                 ->addColumn('diteruskanke', function ($disposisi) {
                     $recipient = '';
-                    if($disposisi->child) {
-                        if($disposisi->child->recipient) {
+                    if ($disposisi->child) {
+                        if ($disposisi->child->recipient) {
                             $recipient = $disposisi->child->recipient->name;
                         } else {
                             $recipient = 'a.n';
                         }
-                    } 
-                    else {
+                    } else {
                         $recipient = 'a.n';
                     }
 
@@ -96,10 +94,9 @@ class DaftarDisposisiController extends Controller
                 })
                 ->addColumn('disposisikeluar', function ($disposisi) {
                     $recipient = '';
-                    if($disposisi->child) {
+                    if ($disposisi->child) {
                         $recipient = $disposisi->child->aksi_disposisi;
-                    } 
-                    else {
+                    } else {
                         $recipient = 'a.n';
                     }
 
@@ -160,10 +157,14 @@ class DaftarDisposisiController extends Controller
 
             if ($recipient) {
                 Notification::send($recipient, new NewPelayananNotification($disposisi));
+            } else {
+                $pelayanan = DaftarPelayanan::where('id_pelayanan', $data['id_pelayanan'])->first();
+                $pelayanan->status_pelayanan = 'Selesai';
+                $pelayanan->save();
             }
 
             $pelayanan = DaftarPelayanan::where('id_pelayanan', $data['id_pelayanan'])->first();
-            if($user->hasRole('manager') && $pelayanan->status_pelayanan == 'Baru') {
+            if ($user->hasRole('manager') && $pelayanan->status_pelayanan == 'Baru') {
                 $pelayanan->status_pelayanan = 'Proses';
                 $pelayanan->save();
             }

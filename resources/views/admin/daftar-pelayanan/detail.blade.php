@@ -136,7 +136,7 @@
                                                     <option selected="">-- Pilih Status Layanan --</option>
                                                     <option value="Baru">Baru</option>
                                                     <option value="Proses">Proses</option>
-                                                    <option value="selesai">Selesai</option>
+                                                    <option value="Selesai">Selesai</option>
                                                     <option value="Ambil">Ambil</option>
                                                 </select>
                                             </div>
@@ -154,11 +154,6 @@
                             </div>
                         </div>
 
-                    </div>
-
-
-                    <div class="col-lg-5">
-
                         <div class="accordion card" id="accordion2">
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="headingOne2">
@@ -170,14 +165,14 @@
                                 <div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingOne2" data-bs-parent="#accordion2">
                                     <div class="accordion-body">
                                         <form class="row g-3 mt-2" id="aForm">
-                                            <div class="col-6">
+                                            <div class="col-12">
                                                 <label for="search_catatan" class="form-label fw-bold">Arsip Masuk</label>
                                                 <div class="arsip-masuk-box">
                                                     -
                                                 </div>
                                             </div>
 
-                                            <div class="col-6">
+                                            <div class="col-12">
                                                 <label for="search_catatan" class="form-label fw-bold">Arsip Keluar</label>
                                                 <div class="arsip-keluar-box">
                                                     -
@@ -188,6 +183,13 @@
                                 </div>
                             </div>
                         </div>
+
+                    </div>
+
+
+                    <div class="col-lg-5">
+
+
 
                         <div class="accordion card" id="accordion3">
                             <div class="accordion-item">
@@ -341,21 +343,58 @@
                             $('#search_catatan').val(item.catatan);
 
 
-                            if (item.arsip) {
-                                if (item.arsip.arsip_masuk_url) {
-                                    let arsipBox = $('.arsip-masuk-box');
-                                    arsipBox.empty();
-                                    var arsipHTML = `<a href="${item.arsip.arsip_masuk_url}" target="_blank" class="badge bg-primary" type="button" >Lihat Dokumen</a>`;
-                                    arsipBox.append(arsipHTML);
-                                }
 
-                                if (item.arsip.arsip_keluar_url) {
-                                    let arsipBox = $('.arsip-keluar-box');
-                                    arsipBox.empty();
-                                    var arsipHTML = `<a href="${item.arsip.arsip_keluar_url}" target="_blank" class="badge bg-primary" type="button" >Lihat Dokumen</a>`;
-                                    arsipBox.append(arsipHTML);
-                                }
+
+                            let boxmasuk = $('.arsip-masuk-box');
+
+                            boxmasuk.empty();
+                            var htmlmasuk = '';
+                            if (item.arsip.dokumen_masuk_url) {
+                                $.each(item.arsip.dokumen_masuk_url, function(key, item) {
+                                    htmlmasuk += `<div class="btn btn-outline-dark mx-2 my-1 text-start">
+                                                    <u>
+                                                        <a id="string_url" target="_blank" href="${item.file_url}" style="font-size:smaller;">
+                                                            ${item.filename}
+                                                        </a>
+                                                    </u>
+                                                </div>`
+                                });
+
+                                boxmasuk.append(htmlmasuk);
+                            } else {
+                                boxmasuk.append('-');
+
                             }
+
+                            var boxkeluar = $('.arsip-keluar-box');
+                            boxkeluar.empty();
+                            var htmlkeluar = '';
+                            if (item.arsip.dokumen_keluar_url) {
+                                $.each(item.arsip.dokumen_keluar_url, function(key, item) {
+                                    htmlkeluar += `<div class="btn btn-outline-dark mx-2 my-1 text-start">
+                                                    <u>
+                                                        <a id="string_url" target="_blank" href="${item.file_url}" style="font-size:smaller;">
+                                                            ${item.filename}
+                                                        </a>
+                                                    </u>
+                                                </div>`
+                                });
+
+                                boxkeluar.append(htmlkeluar);
+                            } else {
+                                boxkeluar.append('-');
+                            }
+
+
+
+
+                            // if (item.arsip.arsip_keluar_url) {
+                            //     let arsipBox = $('.arsip-keluar-box');
+                            //     arsipBox.empty();
+                            //     var arsipHTML = `<a href="${item.arsip.arsip_keluar_url}" target="_blank" class="badge bg-primary" type="button" >Lihat Dokumen</a>`;
+                            //     arsipBox.append(arsipHTML);
+                            // }
+
 
 
                             let box = $('.disposisi-box');

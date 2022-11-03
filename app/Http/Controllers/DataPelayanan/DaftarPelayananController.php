@@ -5,6 +5,7 @@ namespace App\Http\Controllers\DataPelayanan;
 use Notification;
 use App\Notifications\NewPelayananNotification;
 
+use App\Models\TemporaryFile;
 use App\Http\Controllers\Controller;
 use App\Models\DaftarDisposisi;
 use Illuminate\Http\Request;
@@ -21,6 +22,8 @@ use Auth;
 use DB;
 use Vinkla\Hashids\Facades\Hashids;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class DaftarPelayananController extends Controller
 {
@@ -39,10 +42,9 @@ class DaftarPelayananController extends Controller
                     // $btn = '<a href="'.$urlPDF.'" target="_blank" id="pdfBtn" type="button" class="btn btn-sm btn-secondary btn-xs"><i class="bi bi-printer"></i></a>';
                     $btn = '<button id="cetak-bukti-button" type="button" class="btn btn-secondary btn-sm mx-1" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-cetak_bukti_link="'.$urlPDF.'"><i class="bi bi-printer"></i></button>';
                     $btn .= '<a href="'.$url.'" target="_blank" id="viewBtn" type="button" class="btn btn-sm btn-primary btn-xs mx-1"><i class="bi bi-journal-check"></i></a>';
-
-                    $btn .= '<button id="editBtn" type="button" class="btn btn-sm btn-warning btn-xs mx-1" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Item Layanan"><i class="bi bi-pencil-square"></i></button>';
                     $user = Auth::user();
-                    if ($user->hasRole('super_administrator') || $user->hasRole('operator')) {
+                    if ($user->hasRole('super_administrator')) {
+                        $btn .= '<button id="editBtn" type="button" class="btn btn-sm btn-warning btn-xs mx-1" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Item Layanan"><i class="bi bi-pencil-square"></i></button>';
                         $btn .= '<button id="destroyBtn" type="button" class="btn btn-sm btn-danger btn-xs mx-1" data-bs-id_pelayanan="'. $layanan->id_pelayanan  .'" data-id_pelayanan="'.  $layanan->id_pelayanan  .'"><i class="bi bi-trash-fill"></i></button>';
                     }
                     return $btn;
@@ -88,6 +90,7 @@ class DaftarPelayananController extends Controller
 
     public function store(Request $request)
     {
+
         $success = false;
         $message = '';
         $code = 400;
@@ -134,6 +137,7 @@ class DaftarPelayananController extends Controller
             $arsip = new \App\Models\DaftarArsip();
             $arsip->id_pelayanan = $pelayanan->id_pelayanan;
             $arsip->save();
+            $arsip->fresh();
 
             if ($data['status_pelayanan'] == 'Baru') {
                 // Create Disposisi
@@ -163,6 +167,52 @@ class DaftarPelayananController extends Controller
                                                 ->groupBy('status_pelayanan')
                                                 ->get();
 
+            // Save File
+            $files = $request->data_file;
+            $urlAssets = [];
+            foreach ($files as $file) {
+                $dcd = json_decode($file);
+                $file = $dcd[0];
+                $tempFile = TemporaryFile::where('folder', $file)->first();
+
+                
+                if ($tempFile) {
+
+                    $sourcePath = storage_path('app/public/temporary/' . $tempFile->folder);
+                    $sourceFile = $sourcePath . '/' . $tempFile->filename;
+                    $ext = pathinfo($sourceFile, PATHINFO_EXTENSION);
+
+
+                    
+                    $destinationPath =  storage_path('app/public/files/' . date('Y-m') . '/' . $pelayanan->no_registrasi);
+                    $destinationFile = $destinationPath . '/' . $tempFile->filename;
+                    $asset = 'storage/files/' . date('Y-m') . '/' . $pelayanan->no_registrasi . '/' . $tempFile->filename;
+
+                    if(!Storage::exists($destinationPath)) {
+                        Storage::makeDirectory($destinationPath, 0777, true); //creates directory
+                    }
+
+                    File::ensureDirectoryExists($destinationPath);
+                    File::move($sourceFile, $destinationFile);
+                    // Storage::move( $sourceFile, $destinationFile );
+                    
+                    // Delete File and Database
+                    $this->rmdir_recursive($sourcePath);
+                    $tempFile->delete();
+
+
+                    // getAsset 
+                    // $urlAssets[] = asset($asset);
+                    $urlAssets[] = [
+                        'filename' => $tempFile->filename,
+                        'file_url' => asset($asset),
+                    ];
+                }
+            }
+
+            $arsip->dokumen_masuk_url = $urlAssets;
+            $arsip->save();
+
             $success = true;
             $code = 200;
             $message = 'Data Berhasil Disimpan';
@@ -177,9 +227,23 @@ class DaftarPelayananController extends Controller
                 'data' => $newData,
                 'summary' => $summary,
                 'recipient' => $recipient,
-                'disposisi' => $disposisi,
-                'totalNotifikasi' => $recipient->unreadNotifications->count()
+                'disposisi' => $disposisi
             ]);
+    }
+
+    public function rmdir_recursive($dir)
+    {
+        foreach (scandir($dir) as $file) {
+            if ('.' === $file || '..' === $file) {
+                continue;
+            }
+            if (is_dir("$dir/$file")) {
+                $this->rmdir_recursive("$dir/$file");
+            } else {
+                unlink("$dir/$file");
+            }
+        }
+        rmdir($dir);
     }
 
     public function update(Request $request)
@@ -310,7 +374,7 @@ class DaftarPelayananController extends Controller
 
 
         $daftarLayanan = DaftarLayanan::all();
-        $pegawai = User::all();
+        $pegawai = User::all()->except(Auth::id());
         $aksi = MasterAksiDisposisi::all();
 
 
@@ -377,6 +441,7 @@ class DaftarPelayananController extends Controller
                 $arsip->created_by_masuk = $data['pemohon_nama'];
             }
             $arsip->save();
+            $arsip->fresh();
 
             if ($data['status_pelayanan'] == 'Baru') {
                 // Create Disposisi
@@ -410,6 +475,52 @@ class DaftarPelayananController extends Controller
                                                 ->whereMonth('created_at', '=', date('m'))
                                                 ->groupBy('status_pelayanan')
                                                 ->get();
+
+            // Save File
+            $files = $request->data_file;
+            $urlAssets = [];
+            foreach ($files as $file) {
+                $dcd = json_decode($file);
+                $file = $dcd[0];
+                $tempFile = TemporaryFile::where('folder', $file)->first();
+
+                
+                if ($tempFile) {
+
+                    $sourcePath = storage_path('app/public/temporary/' . $tempFile->folder);
+                    $sourceFile = $sourcePath . '/' . $tempFile->filename;
+                    $ext = pathinfo($sourceFile, PATHINFO_EXTENSION);
+
+
+                    
+                    $destinationPath =  storage_path('app/public/files/' . date('Y-m') . '/' . $pelayanan->no_registrasi);
+                    $destinationFile = $destinationPath . '/' . $tempFile->filename;
+                    $asset = 'storage/files/' . date('Y-m') . '/' . $pelayanan->no_registrasi . '/' . $tempFile->filename;
+
+                    if(!Storage::exists($destinationPath)) {
+                        Storage::makeDirectory($destinationPath, 0777, true); //creates directory
+                    }
+
+                    File::ensureDirectoryExists($destinationPath);
+                    File::move($sourceFile, $destinationFile);
+                    // Storage::move( $sourceFile, $destinationFile );
+                    
+                    // Delete File and Database
+                    $this->rmdir_recursive($sourcePath);
+                    $tempFile->delete();
+
+
+                    // getAsset 
+                    // $urlAssets[] = asset($asset);
+                    $urlAssets[] = [
+                        'filename' => $tempFile->filename,
+                        'file_url' => asset($asset),
+                    ];
+                }
+            }
+
+            $arsip->dokumen_masuk_url = $urlAssets;
+            $arsip->save();
 
             $success = true;
             $code = 200;
