@@ -74,7 +74,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-md-6">
                             <!-- Website Traffic -->
                             <div class="card">
                                 <div class="filter">
@@ -118,7 +118,7 @@
                             </div><!-- End Website Traffic -->
                         </div>
 
-                        <div class="col-6">
+                        <div class="col-md-6">
                             <!-- Website Traffic -->
                             <div class="card">
                                 <div class="filter">
