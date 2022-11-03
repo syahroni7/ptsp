@@ -339,13 +339,19 @@
     <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
     {{-- File Pond --}}
     <script src="{{ asset('assets/js/filepond/filepond.js') }}"></script>
+    <script src="{{ asset('assets/js/filepond/validate-filepond.js') }}"></script>
 
 
     <script>
+        // Register the plugin
+        FilePond.registerPlugin(FilePondPluginFileValidateType);
+
         // Get a reference to the file input element
         const inputElement = document.querySelector('input[name="data_file[]"]');
         // Create a FilePond instance
-        const pond = FilePond.create(inputElement);
+        const pond = FilePond.create(inputElement, {
+            acceptedFileTypes: ['application/pdf'],
+        });
 
         // const pond = FilePond.create(inputElement, {
         //     chunkUploads: true
