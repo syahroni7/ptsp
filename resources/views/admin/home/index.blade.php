@@ -50,7 +50,7 @@
                             @endif
 
                             <h5 class="card-title">
-                                Hola {{ Auth::user()->name }}, {{ __('You are logged in!') }}
+                                {{ $greeting }} {{ Auth::user()->name }}, {{ __('Anda telah Login!') }}
                             </h5>
 
 
@@ -63,6 +63,125 @@
 
                 <!-- Left side columns -->
                 <div class="col-lg-12">
+
+
+                    <div class="row">
+                        <div class="col-12">
+                            <h5 class="card-title">
+                                <span>Berdasarkan Unit Pengolah</span>
+                            </h5>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <!-- Website Traffic -->
+                            <div class="card">
+                                <div class="filter">
+                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                        <li class="dropdown-header text-start">
+                                            <h6>Filter</h6>
+                                        </li>
+
+                                        <li><a class="dropdown-item" href="#">Today</a></li>
+                                        <li><a class="dropdown-item" href="#">This Month</a></li>
+                                        <li><a class="dropdown-item" href="#">This Year</a></li>
+                                    </ul>
+                                </div>
+
+                                <div class="card-body pb-0">
+                                    <h5 class="card-title">Tabel Pelayanan <span></span></h5>
+
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Unit Pengolah</th>
+                                                <th scope="col">Total Layanan</th>
+                                            </tr>
+                                        </thead>
+
+
+                                        <tbody>
+                                            @foreach ($totalByUnit as $key => $item)
+                                                <tr>
+                                                    <td class="text-center">{{ $key + 1 }}</td>
+                                                    <td class="">{{ $item['full_name'] }}</td>
+                                                    <td class="text-center">{{ $item['value'] }}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div><!-- End Website Traffic -->
+                        </div>
+
+                        <div class="col-6">
+                            <!-- Website Traffic -->
+                            <div class="card">
+                                <div class="filter">
+                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                        <li class="dropdown-header text-start">
+                                            <h6>Filter</h6>
+                                        </li>
+
+                                        <li><a class="dropdown-item" href="#">Today</a></li>
+                                        <li><a class="dropdown-item" href="#">This Month</a></li>
+                                        <li><a class="dropdown-item" href="#">This Year</a></li>
+                                    </ul>
+                                </div>
+
+                                <div class="card-body pb-0">
+                                    <h5 class="card-title">Chart Pelayanan <span></span></h5>
+
+                                    <div id="trafficChart" style="min-height: 350px;" class="echart"></div>
+
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", () => {
+                                            echarts.init(document.querySelector("#trafficChart")).setOption({
+                                                tooltip: {
+                                                    trigger: 'item'
+                                                },
+                                                legend: {
+                                                    top: '5%',
+                                                    left: 'center',
+                                                    position: 'center'
+                                                },
+                                                series: [{
+                                                    name: 'Total Pelayanan',
+                                                    type: 'pie',
+                                                    radius: ['40%', '70%'],
+                                                    avoidLabelOverlap: true,
+                                                    label: {
+                                                        show: false,
+                                                        position: 'center'
+                                                    },
+                                                    emphasis: {
+                                                        label: {
+                                                            show: true,
+                                                            fontSize: '18',
+                                                            fontWeight: 'bold'
+                                                        }
+                                                    },
+                                                    labelLine: {
+                                                        show: false
+                                                    },
+                                                    data: @json($totalByUnit)
+                                                }]
+                                            });
+                                        });
+                                    </script>
+
+                                </div>
+                            </div><!-- End Website Traffic -->
+                        </div>
+
+
+                    </div>
+
 
                     <div class="row box-layanan">
                         <div class="col-12">
@@ -116,121 +235,10 @@
 
 
 
-                    <div class="row">
-                        <div class="col-12">
-                            <h5 class="card-title">
-                                <span>Berdasarkan Unit Pengolah</span>
-                            </h5>
-                        </div>
-                    </div>
 
 
-                    <div class="row">
-                        <div class="col-6">
-                            <!-- Website Traffic -->
-                            <div class="card">
-                                <div class="filter">
-                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                        <li class="dropdown-header text-start">
-                                            <h6>Filter</h6>
-                                        </li>
-
-                                        <li><a class="dropdown-item" href="#">Today</a></li>
-                                        <li><a class="dropdown-item" href="#">This Month</a></li>
-                                        <li><a class="dropdown-item" href="#">This Year</a></li>
-                                    </ul>
-                                </div>
-
-                                <div class="card-body pb-0">
-                                    <h5 class="card-title">Chart Pelayanan <span></span></h5>
-
-                                    <div id="trafficChart" style="min-height: 400px;" class="echart"></div>
-
-                                    <script>
-                                        document.addEventListener("DOMContentLoaded", () => {
-                                            echarts.init(document.querySelector("#trafficChart")).setOption({
-                                                tooltip: {
-                                                    trigger: 'item'
-                                                },
-                                                legend: {
-                                                    top: '5%',
-                                                    left: 'center',
-                                                    position: 'center'
-                                                },
-                                                series: [{
-                                                    name: 'Total Pelayanan',
-                                                    type: 'pie',
-                                                    radius: ['40%', '70%'],
-                                                    avoidLabelOverlap: true,
-                                                    label: {
-                                                        show: false,
-                                                        position: 'center'
-                                                    },
-                                                    emphasis: {
-                                                        label: {
-                                                            show: true,
-                                                            fontSize: '18',
-                                                            fontWeight: 'bold'
-                                                        }
-                                                    },
-                                                    labelLine: {
-                                                        show: false
-                                                    },
-                                                    data: @json($totalByUnit)
-                                                }]
-                                            });
-                                        });
-                                    </script>
-
-                                </div>
-                            </div><!-- End Website Traffic -->
-                        </div>
-
-                        <div class="col-6">
-                            <!-- Website Traffic -->
-                            <div class="card">
-                                <div class="filter">
-                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                        <li class="dropdown-header text-start">
-                                            <h6>Filter</h6>
-                                        </li>
-
-                                        <li><a class="dropdown-item" href="#">Today</a></li>
-                                        <li><a class="dropdown-item" href="#">This Month</a></li>
-                                        <li><a class="dropdown-item" href="#">This Year</a></li>
-                                    </ul>
-                                </div>
-
-                                <div class="card-body pb-0">
-                                    <h5 class="card-title">Tabel Pelayanan <span></span></h5>
-
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">#</th>
-                                                <th scope="col">Unit Pengolah</th>
-                                                <th scope="col">Total Layanan</th>
-                                            </tr>
-                                        </thead>
 
 
-                                        <tbody>
-                                            @foreach ($totalByUnit as $key => $item)
-                                                <tr>
-                                                    <td class="text-center">{{ $key + 1 }}</td>
-                                                    <td class="">{{ $item['full_name'] }}</td>
-                                                    <td class="text-center">{{ $item['value'] }}</td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-
-                                </div>
-                            </div><!-- End Website Traffic -->
-                        </div>
-                    </div>
 
 
 

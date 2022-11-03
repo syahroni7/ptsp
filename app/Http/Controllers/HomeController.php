@@ -62,7 +62,7 @@ class HomeController extends Controller
             $statusPelayanan[$key]['total'] = $countItem;
         }
 
-        
+
 
         $sUnit = [];
         $units = \App\Models\UnitPengolah::all();
@@ -76,38 +76,38 @@ class HomeController extends Controller
 
         $pByUnit = $pelayananColl->groupBy('unit.name');
 
-        if($pByUnit) {
+        if ($pByUnit) {
             foreach ($sUnit as $key => $item) {
                 $countItem = isset($pByUnit[$item['name']]) ? $pByUnit[$item['name']]->count() : 0;
                 $sUnit[$key]['value'] = $countItem;
 
-                if($sUnit[$key]['name'] == 'Subbagian Tata Usaha'){
+                if ($sUnit[$key]['name'] == 'Subbagian Tata Usaha') {
                     $sUnit[$key]['name'] = 'SubbagTU';
-                } 
+                }
 
-                if($sUnit[$key]['name'] == 'Seksi Pendidikan Madrasah'){
+                if ($sUnit[$key]['name'] == 'Seksi Pendidikan Madrasah') {
                     $sUnit[$key]['name'] = 'Seksi PenMad';
-                } 
+                }
 
-                if($sUnit[$key]['name'] == 'Seksi Pendidikan Agama Islam'){
+                if ($sUnit[$key]['name'] == 'Seksi Pendidikan Agama Islam') {
                     $sUnit[$key]['name'] = 'Seksi PAIs';
-                } 
+                }
 
-                if($sUnit[$key]['name'] == 'Seksi Pendidikan Diniyah dan Pondok Pesantren'){
+                if ($sUnit[$key]['name'] == 'Seksi Pendidikan Diniyah dan Pondok Pesantren') {
                     $sUnit[$key]['name'] = 'Seksi PD Pontren';
-                } 
+                }
 
-                if($sUnit[$key]['name'] == 'Seksi Penyelenggaraan Haji dan Umrah'){
+                if ($sUnit[$key]['name'] == 'Seksi Penyelenggaraan Haji dan Umrah') {
                     $sUnit[$key]['name'] = 'Seksi PHU';
-                } 
+                }
 
-                if($sUnit[$key]['name'] == 'Seksi Bimbingan Masyarakat Islam'){
+                if ($sUnit[$key]['name'] == 'Seksi Bimbingan Masyarakat Islam') {
                     $sUnit[$key]['name'] = 'Seksi BiMas';
-                } 
+                }
 
-                if($sUnit[$key]['name'] == 'Seksi Penyelenggara Zakat dan Wakaf'){
+                if ($sUnit[$key]['name'] == 'Seksi Penyelenggara Zakat dan Wakaf') {
                     $sUnit[$key]['name'] = 'Seksi ZaWa';
-                } 
+                }
             }
         }
 
@@ -116,7 +116,8 @@ class HomeController extends Controller
             'br1'  => 'Home',
             'br2'  => 'Beranda',
             'summaryPelayanan'  => $statusPelayanan,
-            'totalByUnit'  => $sUnit
+            'totalByUnit'  => $sUnit,
+            'greeting' => $this->_getGreeting()
         ]);
     }
 
@@ -125,6 +126,27 @@ class HomeController extends Controller
         return view('auth.changepassword', [
             'title' => 'Ubah Password'
         ]);
+    }
+
+    public function _getGreeting()
+    {
+        $greeting = '';
+        $b = time();
+        $hour = date("G", $b);
+
+        if ($hour>=0 && $hour<=11) {
+            $greeting = "Selamat Pagi ";
+        } elseif ($hour >=12 && $hour<=14) {
+            $greeting = "Selamat Siang ";
+        } elseif ($hour >=15 && $hour<=17) {
+            $greeting = "Selamat Sore ";
+        } elseif ($hour >=17 && $hour<=18) {
+            $greeting = "Selamat Petang ";
+        } elseif ($hour >=19 && $hour<=23) {
+            $greeting = "Selamat Malam ";
+        }
+
+        return $greeting;
     }
 
     public function changePassword(Request $request)
