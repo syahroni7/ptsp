@@ -70,7 +70,7 @@
                                 <span>Berdasarkan Status</span>
                             </h5>
                         </div>
-                        @foreach ($statusPelayanan as $key => $status)
+                        @foreach ($summaryPelayanan as $key => $status)
                             <!-- Item Card -->
                             <div class="col-xxl-3 col-md-6">
                                 <div class="card info-card sales-card m-0">

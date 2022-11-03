@@ -62,6 +62,8 @@ class HomeController extends Controller
             $statusPelayanan[$key]['total'] = $countItem;
         }
 
+        
+
         $sUnit = [];
         $units = \App\Models\UnitPengolah::all();
         foreach ($units as $key => $item) {
@@ -109,12 +111,11 @@ class HomeController extends Controller
             }
         }
 
-
         return view('admin.home.index', [
             'title'  => 'Halaman Beranda',
             'br1'  => 'Home',
             'br2'  => 'Beranda',
-            'statusPelayanan'  => $statusPelayanan,
+            'summaryPelayanan'  => $statusPelayanan,
             'totalByUnit'  => $sUnit
         ]);
     }
