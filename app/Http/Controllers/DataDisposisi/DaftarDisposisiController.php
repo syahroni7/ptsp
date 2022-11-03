@@ -160,6 +160,8 @@ class DaftarDisposisiController extends Controller
             } else {
                 $pelayanan = DaftarPelayanan::where('id_pelayanan', $data['id_pelayanan'])->first();
                 $pelayanan->status_pelayanan = 'Selesai';
+                $username = Auth::user()->name;
+                $pelayanan->updated_by = $username;
                 $pelayanan->save();
             }
 

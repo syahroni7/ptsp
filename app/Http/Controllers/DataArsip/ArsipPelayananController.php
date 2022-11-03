@@ -229,7 +229,6 @@ class ArsipPelayananController extends Controller
                     $arsip->save();
                 }
             } else {
-                $username = Auth::user()->username;
                 $arsip = new DaftarArsip();
                 $arsip->id_pelayanan = $data['id_pelayanan'];
 
@@ -254,6 +253,8 @@ class ArsipPelayananController extends Controller
             // Ubah Pelayanan ke Selesai
             if ($data['tipe_upload'] == 'dokumen_keluar_url') {
                 $pelayanan->status_pelayanan = 'Selesai';
+                $username = Auth::user()->name;
+                $pelayanan->updated_by = $username;
                 $pelayanan->save();
             }
 
