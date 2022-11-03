@@ -99,6 +99,7 @@
 
     {{-- File Pond --}}
     <script src="{{ asset('assets/js/filepond/filepond.js') }}"></script>
+    <script src="{{ asset('assets/js/filepond/validate-filepond.js') }}"></script>
 
 
 
@@ -106,7 +107,9 @@
         // Get a reference to the file input element
         const inputElement = document.querySelector('input[name="data_file[]"]');
         // Create a FilePond instance
-        const pond = FilePond.create(inputElement);
+        const pond = FilePond.create(inputElement, {
+            acceptedFileTypes: ['application/pdf'],
+        });
 
         FilePond.setOptions({
             server: {

@@ -23,12 +23,28 @@ Route::post('upload-file/upload', [\App\Http\Controllers\Management\UploadFileCo
 Route::delete('upload-file/destroy/{id}', [\App\Http\Controllers\Management\UploadFileController::class, 'destroy'])->name('upload-file.destroy');
 
 Route::get('/teset', function () {
-    $pelayanans = DaftarPelayanan::where('id_pelayanan', 173)->with('arsip')->get();
-    foreach ($pelayanans as $pelayanan) {
-        foreach ($pelayanan->arsip->dokumen_masuk_url as $key => $item) {
-            return 'jancoek ' . $item['file_url'];
-        }
-    }
+    $pelayanan = DaftarPelayanan::where('id_pelayanan', 173)->with('arsip')->first();
+    $arsip = $pelayanan->arsip;
+    $dokumenMasuk = $arsip->dokumen_masuk_url;
+
+    $dokumenBaru = [
+        [
+        'filename' => 'nuna',
+        'file_url' => 'https://' . rand(10, 99999) . '.com',
+        ],
+        [
+            'filename' => 'nuna2',
+            'file_url' => 'https://' . rand(10, 99999) . '.com',
+        ]
+    ];
+
+    $dokumenMasuk = array_merge($dokumenMasuk, $dokumenBaru);
+    $arsip->dokumen_masuk_url = $dokumenMasuk;
+    $arsip->save();
+
+    $arsip->fresh();
+
+    return $arsip;
 });
 
 Route::get('/mainten', function () {

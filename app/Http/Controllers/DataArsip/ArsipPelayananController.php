@@ -71,6 +71,10 @@ class ArsipPelayananController extends Controller
                                             </u>
                                         </div>';
                             }
+                            $user = Auth::user();
+                            if ($user->hasRole('super_administrator') || $user->hasRole('operator')) {
+                                $html .= '<button id="upload_arsip_masuk" class="badge bg-primary" type="button" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Item Layanan"><i class="bi bi-plus"></i> Tambah</button>';
+                            }
                         } else {
                             $html .= '<button id="upload_arsip_masuk" class="badge bg-danger" type="button" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Item Layanan"><i class="bi bi-cloud-upload"></i> Upload dokumen</button>';
                         }
@@ -93,6 +97,10 @@ class ArsipPelayananController extends Controller
                                                 </a>
                                             </u>
                                         </div>';
+                            }
+                            $user = Auth::user();
+                            if ($user->hasRole('super_administrator') || $user->hasRole('operator')) {
+                                $html .= '<button id="upload_arsip_keluar" class="badge bg-primary upload-arsip-keluar" type="button" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Item Layanan"><i class="bi bi-plus"></i>Tambah</button>';
                             }
                         } else {
                             $html .= '<button id="upload_arsip_keluar" class="badge bg-warning upload-arsip-keluar" type="button" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Item Layanan"><i class="bi bi-cloud-upload"></i>Upload dokumen</button>';
@@ -197,46 +205,64 @@ class ArsipPelayananController extends Controller
         $code = 400;
 
         $data = $request->input();
-        
 
-        // try {
-        $pelayanan = DaftarPelayanan::where('id_pelayanan', $data['id_pelayanan'])->with('arsip')->firstOrFail();
-        if ($pelayanan->arsip) {
-            $arsip = $pelayanan->arsip;
 
-            if (isset($data['data_file'])) {
-                // Save File
-                $files = $request->data_file;
+        try {
+            $pelayanan = DaftarPelayanan::where('id_pelayanan', $data['id_pelayanan'])->with('arsip')->firstOrFail();
+            if ($pelayanan->arsip) {
+                $arsip = $pelayanan->arsip;
 
-                $urlAssets = $this->_saveFile($pelayanan, $files);
+                if (isset($data['data_file'])) {
+                    // Save File
+                    $files = $request->data_file;
+                    // Get URL Assets
+                    $urlAssets = $this->_saveFile($pelayanan, $files);
 
-                $tipeUpload = $data['tipe_upload'];
-                $arsip->$tipeUpload = $urlAssets;
-                $arsip->save();
+                    $tipeUpload = $data['tipe_upload'];
+                    if ($arsip->$tipeUpload) {
+                        $dokumenArr = $arsip->$tipeUpload;
+                        $mergedArr = array_merge($dokumenArr, $urlAssets);
+                        $arsip->$tipeUpload = $mergedArr;
+                    } else {
+                        $arsip->$tipeUpload = $urlAssets;
+                    }
+                    $arsip->save();
+                }
+            } else {
+                $username = Auth::user()->username;
+                $arsip = new DaftarArsip();
+                $arsip->id_pelayanan = $data['id_pelayanan'];
+
+                if (isset($data['data_file'])) {
+                    // Save File
+                    $files = $request->data_file;
+                    // Get URL Assets
+                    $urlAssets = $this->_saveFile($pelayanan, $files);
+
+                    $tipeUpload = $data['tipe_upload'];
+                    if ($arsip->$tipeUpload) {
+                        $dokumenArr = $arsip->$tipeUpload;
+                        $mergedArr = array_merge($dokumenArr, $urlAssets);
+                        $arsip->$tipeUpload = $mergedArr;
+                    } else {
+                        $arsip->$tipeUpload = $urlAssets;
+                    }
+                    $arsip->save();
+                }
             }
-        } else {
-            $username = Auth::user()->username;
-            $arsip = new DaftarArsip();
-            $arsip->id_pelayanan = $data['id_pelayanan'];
 
-            if (isset($data['data_file'])) {
-                // Save File
-                $files = $request->data_file;
-
-                $urlAssets = $this->_saveFile($pelayanan, $files);
-
-                $tipeUpload = $data['tipe_upload'];
-                $arsip->$tipeUpload = $urlAssets;
-                $arsip->save();
+            // Ubah Pelayanan ke Selesai
+            if ($data['tipe_upload'] == 'dokumen_keluar_url') {
+                $pelayanan->status_pelayanan = 'Selesai';
+                $pelayanan->save();
             }
+
+            $success = true;
+            $code = 200;
+            $message = 'Data Berhasil Disimpan';
+        } catch (\Throwable $th) {
+            $message = $th->getMessage();
         }
-
-        $success = true;
-        $code = 200;
-        $message = 'Data Berhasil Disimpan';
-        // } catch (\Throwable $th) {
-        //     $message = $th->getMessage();
-        // }
 
         return response()->json([
             'success' => $success,
