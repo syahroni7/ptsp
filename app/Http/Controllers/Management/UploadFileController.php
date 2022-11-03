@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use RahulHaque\Filepond\Facades\Filepond;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class UploadFileController extends Controller
 {
@@ -22,6 +24,14 @@ class UploadFileController extends Controller
             $arrFolder = [];
 
             foreach ($files as $file) {
+
+                $destinationPath =  storage_path('app/public/temporary');
+                if(!Storage::exists($destinationPath)) {
+                    Storage::makeDirectory($destinationPath, 0777, true); //creates directory
+                }
+                File::ensureDirectoryExists($destinationPath);
+
+
                 $extension = $file->getClientOriginalExtension();
                 $filename  = $file->getClientOriginalName();
                 $folder    = uniqid() . '-'. now()->timestamp;
