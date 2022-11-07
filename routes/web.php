@@ -19,6 +19,11 @@ use Illuminate\Support\Facades\Route;
  * Test Excel
  */
 
+Route::get('message/send/{to}/{text}', [\App\Http\Controllers\MessageController::class, 'sendMessage'])->name('message.send');
+
+Route::get('phone_number/set', [\App\Http\Controllers\MessageController::class, 'setPhoneNumber'])->name('phonenumber.set');
+Route::post('phone_number/store', [\App\Http\Controllers\MessageController::class, 'storePhoneNumber'])->name('phonenumber.store');
+
 Route::post('upload-file/upload', [\App\Http\Controllers\Management\UploadFileController::class, 'upload'])->name('upload-file.upload');
 Route::delete('upload-file/destroy/{id}', [\App\Http\Controllers\Management\UploadFileController::class, 'destroy'])->name('upload-file.destroy');
 
@@ -223,8 +228,6 @@ Route::get('/lacak-pelayanan', [\App\Http\Controllers\LandingController::class, 
 Route::get('/permohonan-pelayanan/buat/{idx_layanan?}', [\App\Http\Controllers\LandingController::class, 'create'])->name('landing.buat-pelayanan');
 Route::get('/syarat-layanan/list/fetch/{layanan}', [\App\Http\Controllers\DataLayanan\ListSyaratLayananController::class, 'fetch'])->name('syarat-layanan-list.fetch');
 
-
-
 Route::post('/daftar-pelayanan/store-landing', [\App\Http\Controllers\DataPelayanan\DaftarPelayananController::class, 'storeLanding'])->name('daftar-pelayanan.store-landing');
 Route::get('/daftar-pelayanan/fetch/{id_pelayanan}', [\App\Http\Controllers\DataPelayanan\DaftarPelayananController::class, 'fetch'])->name('daftar-pelayanan.fetch');
 Route::get('/daftar-pelayanan/search', [\App\Http\Controllers\DataPelayanan\DaftarPelayananController::class, 'search'])->name('daftar-pelayanan.search');
@@ -236,7 +239,9 @@ Route::post('/change-password', [App\Http\Controllers\HomeController::class, 'ch
 Auth::routes();
 
 // Route::middleware('auth')->group(function () {
-Route::group(['middleware' => ['auth', 'same_password_with_username']], function () {
+Route::group(['middleware' => ['auth', 'same_password_with_username', 'phone_number']], function () {
+    Route::get('/profile', [\App\Http\Controllers\ProfileController::class, 'index'])->name('profile.index');
+    Route::post('/profile/update', [\App\Http\Controllers\ProfileController::class, 'updateProfile'])->name('profile.update');
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/daftar-pelayanan/detail/{idx}', [\App\Http\Controllers\DataPelayanan\DaftarPelayananController::class, 'detail'])->name('daftar-pelayanan.detail');
 

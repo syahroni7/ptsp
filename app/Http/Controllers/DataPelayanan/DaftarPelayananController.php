@@ -24,6 +24,8 @@ use Vinkla\Hashids\Facades\Hashids;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use App\Http\Controllers\MessageController;
+use Illuminate\Support\Facades\Http;
 
 class DaftarPelayananController extends Controller
 {
@@ -157,6 +159,8 @@ class DaftarPelayananController extends Controller
                 $disposisi->load('pelayanan');
 
                 Notification::send($recipient, new NewPelayananNotification($disposisi));
+                // Send Message
+                // MessageController::sendMessage('6282298476941', 'Ada Order Masuk:  #' . $pelayanan->no_registrasi .'. Perihal: ' . $pelayanan->perihal );
             }
 
             $newData = $pelayanan;

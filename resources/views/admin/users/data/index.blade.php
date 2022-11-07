@@ -30,13 +30,13 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ $title }}</h5>
 
-                            <table class='table table-bordered display' id="example"
-                                style="width:100%; font-size:11pt!important;">
+                            <table class='table table-bordered display' id="example" style="width:100%; font-size:11pt!important;">
                                 <thead>
                                     <tr>
                                         <th class="text-center">No</th>
                                         <th class="text-center">Nama Lengkap</th>
                                         <th class="text-center">NIP / Username</th>
+                                        <th class="text-center">No HP</th>
                                         <th class="text-center">Email</th>
                                         <th class="text-center">Peran User</th>
                                         <th class="text-center">Block</th>
@@ -146,6 +146,9 @@
                 data: 'username',
                 name: 'username'
             }, {
+                data: 'no_hp',
+                name: 'no_hp'
+            }, {
                 data: 'email',
                 name: 'email'
             }, {
@@ -211,6 +214,7 @@
                 $('#name').val(data.name);
                 $('#username').val(data.username);
                 $('#email').val(data.email);
+                $('#no_hp').val(data.no_hp);
                 // $('#block').val(data.block);
                 // $('#status').val(data.status);
 
@@ -260,13 +264,14 @@
                                 Swal.fire(
                                     'Great!', 'Data sukses di update!', 'success'
                                 );
+                                $('#fForm')[0].reset();
+                                $('#id_user').val('');
                             } else {
                                 Swal.fire(
                                     'Error!', data.message, 'error'
                                 );
                             }
-                            $('#fForm')[0].reset();
-                            $('#id_user').val('');
+
                         }, 200);
 
                     },

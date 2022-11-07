@@ -8,6 +8,7 @@ use App\Models\User;
 use DateTime;
 use DataTables;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -20,10 +21,9 @@ class UserController extends Controller
     {
         $this->middleware('auth');
     }
-    
+
     public function index(Request $request)
     {
-
         if ($request->ajax()) {
             $users = User::with('roles')->get();
 
@@ -74,24 +74,33 @@ class UserController extends Controller
         $data = $request->input();
 
         try {
+            $validator = Validator::make($request->all(), [
+                'no_hp' => 'required|numeric|min:10',
+            ], [
+                'no_hp.required' => 'No HP diperlukan untuk diisi',
+                'no_hp.numeric' => 'No HP harus nomor saja',
+                'no_hp.min' => 'No HP harus lebih dari 10 digit',
+            ]);
+
             if ($data['id_user'] == '') {
                 $user = new User();
                 $user->name = $data['name'];
                 $user->username = $data['username'];
                 $user->email = $data['email'];
+                $user->no_hp = $data['no_hp'];
                 $user->password = Hash::make($data['password']);
                 $user->save();
-                
             } else {
                 $user = User::findOrFail($data['id_user']);
-                
+
                 unset($data['id_user']);
                 $user->name = $data['name'];
                 $user->username = $data['username'];
                 $user->email = $data['email'];
+                $user->no_hp = $data['no_hp'];
                 $user->block = $data['block'];
                 $user->status = $data['status'];
-                if($data['password'] != '') {
+                if ($data['password'] != '') {
                     $data['password'] = Hash::make($data['password']);
                     $user->password = $data['password'];
                 } else {
@@ -102,10 +111,16 @@ class UserController extends Controller
 
             $user->fresh();
             $user->syncRoles($data['roles']);
+            
 
-            $success = 'yeah';
             $code = 200;
-            $message = 'Data Berhasil Disimpan';
+            if ($validator->fails()) {
+                $message = $validator->errors()->first();
+            } else {
+                $success = 'yeah';
+                $message = 'Data Berhasil Disimpan';
+    
+            }
         } catch (\Throwable $th) {
             $message = $th->getMessage();
         }
@@ -123,7 +138,6 @@ class UserController extends Controller
         $message = '';
 
         try {
-
             $user->delete();
             $success = true;
         } catch (\Exception $e) {

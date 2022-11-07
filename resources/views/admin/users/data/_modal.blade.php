@@ -1,6 +1,5 @@
 <!-- Tambah Group -->
-<div class="modal fade" id="fModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
-    data-bs-backdrop="static" data-bs-keyboard="false">
+<div class="modal fade" id="fModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
         <form id="fForm" method="post" action="{{ route('user-data.store') }}" enctype="multipart/form-data">
             {{ csrf_field() }}
@@ -40,12 +39,18 @@
                             </div>
 
                             <div class="row mb-3">
+                                <label for="inputText" class="col-sm-3 col-form-label">No HP</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="no_hp" name="no_hp">
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
                                 <label class="col-sm-3 col-form-label">Peran Pengguna</label>
                                 <div class="col-sm-9">
                                     @foreach ($all_roles as $role)
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="roles"
-                                                name="roles[]" value="{{ $role }}">
+                                            <input class="form-check-input" type="checkbox" id="roles" name="roles[]" value="{{ $role }}">
                                             <label class="form-check-label">{{ $role }}</label>
                                         </div>
                                     @endforeach
@@ -65,15 +70,13 @@
                                 <label for="inputText" class="col-sm-3 col-form-label">Block</label>
                                 <div class="col-sm-9">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="block" id="block1"
-                                            value="yes" checked="">
+                                        <input class="form-check-input" type="radio" name="block" id="block1" value="yes" checked="">
                                         <label class="form-check-label" for="block1">
                                             Yes
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="block" id="block1"
-                                            value="no" checked="">
+                                        <input class="form-check-input" type="radio" name="block" id="block1" value="no" checked="">
                                         <label class="form-check-label" for="block1">
                                             No
                                         </label>
@@ -85,15 +88,13 @@
                                 <label for="inputText" class="col-sm-3 col-form-label">Status</label>
                                 <div class="col-sm-9">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="status" id="status1"
-                                            value="active" checked="">
+                                        <input class="form-check-input" type="radio" name="status" id="status1" value="active" checked="">
                                         <label class="form-check-label" for="status1">
                                             Aktif
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="status" id="status1"
-                                            value="inactive" checked="">
+                                        <input class="form-check-input" type="radio" name="status" id="status1" value="inactive" checked="">
                                         <label class="form-check-label" for="status1">
                                             Tidak Aktif
                                         </label>
