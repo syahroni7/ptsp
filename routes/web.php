@@ -67,6 +67,11 @@ Route::get('/notfound', function () {
     return view('notfound');
 });
 
+Route::get('/dberror', function () {
+    // return view('maintenancecop');
+    return view('dberror');
+});
+
 Route::get('/mapping', function () {
     $pels = \App\Models\DaftarPelayanan::with('layanan')->get();
 
