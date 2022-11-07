@@ -83,8 +83,8 @@ class DaftarDisposisiController extends Controller
                 ->editColumn('pelayanan_perihal', function ($disposisi) {
                     $html = '';
                     $html .= '<span>'.$disposisi->pelayanan->perihal.  '</span><br>';
-                    $html .='<span class="text-muted">Oleh: '.$disposisi->pelayanan->pemohon_nama.  '</span><br>';
-                    $html .= '<span class="text-muted">Alamat: '.$disposisi->pelayanan->pemohon_alamat.  '</span><br>';
+                    $html .='<span class="text-muted" style="font-size:smaller!important;">Oleh: '.$disposisi->pelayanan->pemohon_nama.  '</span><br>';
+                    $html .= '<span class="text-muted" style="font-size:smaller!important;">Alamat: '.$disposisi->pelayanan->pemohon_alamat.  '</span><br>';
                     return $html;
                 })
                 ->addColumn('diteruskanke', function ($disposisi) {
