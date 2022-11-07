@@ -80,6 +80,13 @@ class DaftarDisposisiController extends Controller
                 ->editColumn('created_at', function ($disposisi) {
                     return $disposisi->created_at->toDateTimeString();
                 })
+                ->editColumn('pelayanan_perihal', function ($disposisi) {
+                    $html = '';
+                    $html .= '<span>'.$disposisi->pelayanan->perihal.  '</span><br>';
+                    $html .='<span class="text-muted">Oleh: '.$disposisi->pelayanan->pemohon_nama.  '</span><br>';
+                    $html .= '<span class="text-muted">Alamat: '.$disposisi->pelayanan->pemohon_alamat.  '</span><br>';
+                    return $html;
+                })
                 ->addColumn('diteruskanke', function ($disposisi) {
                     $recipient = '';
                     if ($disposisi->child) {
@@ -113,7 +120,7 @@ class DaftarDisposisiController extends Controller
                     $btn = '<a href="'.$url.'" id="viewBtn" type="button" class="btn btn-sm btn-primary btn-xs"><i class="bi bi-search"></i></a>';
                     return $btn;
                 })
-                ->rawColumns(['action', 'status'])
+                ->rawColumns(['action', 'status', 'pelayanan_perihal'])
                 ->make(true);
         }
 

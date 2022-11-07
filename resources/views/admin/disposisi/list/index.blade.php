@@ -139,9 +139,8 @@
                 name: 'dari',
                 className: 'text-center'
             }, {
-                data: 'pelayanan.perihal',
-                name: 'pelayanan.perihal',
-                className: 'text-center'
+                data: 'pelayanan_perihal',
+                name: 'pelayanan_perihal',
             }, {
                 data: 'kepada',
                 name: 'kepada',
