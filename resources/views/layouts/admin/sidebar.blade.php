@@ -53,7 +53,7 @@
                                 @php $linkDisposisi = trim(route('disposisi-list.index', strtolower('baru'))) @endphp
                             @endif
 
-                            <a href="{{ $linkDisposisi }}" class="disposisi-status menu-disposisi-baru @if (request()->segment(3) == strtolower('baru')) active @endif" data-status_disposisi="baru">
+                            <a href="{{ $linkDisposisi }}" class="disposisi-status disposisi-baru @if (request()->segment(3) == strtolower('baru')) active @endif" data-status_disposisi="baru">
                                 <i class="bi bi-circle"></i>
                                 <span style="width: 100% !important">
                                     Baru
@@ -65,7 +65,7 @@
                         </li>
 
                         <li>
-                            <a href="{{ $linkDisposisi }}" class="disposisi-status menu-disposisi-selesai @if (request()->segment(3) == strtolower('selesai')) active @endif" data-status_disposisi="selesai">
+                            <a href="{{ $linkDisposisi }}" class="disposisi-status disposisi-selesai @if (request()->segment(3) == strtolower('selesai')) active @endif" data-status_disposisi="selesai">
                                 <i class="bi bi-circle"></i>
                                 <span style="width: 100% !important">
                                     Selesai
