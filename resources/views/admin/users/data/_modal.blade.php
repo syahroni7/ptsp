@@ -15,8 +15,18 @@
                     <div class="row card-body">
                         <div class="col-12">
 
-
                             <input type="hidden" name="id_user" id="id_user" value="">
+
+                            <div class="row mb-3">
+                                <label for="inputText" class="col-sm-3 col-form-label">Pas Foto</label>
+                                <div class="col-sm-9 profile">
+                                    <div class="profile-edit">
+                                        <img class="profile-edit" id="profile_photo_src" src="#" alt="Profile">
+                                    </div>
+                                </div>
+                            </div>
+
+
                             <div class="row mb-3">
                                 <label for="inputText" class="col-sm-3 col-form-label">Nama Lengkap</label>
                                 <div class="col-sm-9">

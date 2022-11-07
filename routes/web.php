@@ -62,6 +62,11 @@ Route::get('/suspended', function () {
     return view('suspended');
 });
 
+Route::get('/notfound', function () {
+    // return view('maintenancecop');
+    return view('notfound');
+});
+
 Route::get('/mapping', function () {
     $pels = \App\Models\DaftarPelayanan::with('layanan')->get();
 

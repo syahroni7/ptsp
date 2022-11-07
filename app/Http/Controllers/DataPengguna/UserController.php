@@ -43,6 +43,26 @@ class UserController extends Controller
                     $btn .= '</ul>';
                     return $btn;
                 })
+                ->addColumn('foto', function ($user) {
+                    
+                    $profilePhoto = $user->profile_photo;
+                    if($profilePhoto)  {
+                        $html = '<div class="profile-edit">
+                        <img class="profile-edit" id="profile_photo_jst" src="'.$profilePhoto.'" alt="None">
+                    </div>';
+                    } else {
+                        $html = '-';
+                    }
+                    
+
+                    return $html;
+                })
+                ->addColumn('contact', function ($user) {
+
+                    $html = '<span>'.$user->no_hp.  '</span><br>';
+                    $html .='<span class="text-muted" style="font-size:smaller!important;">'.$user->email.  '</span>';
+                    return $html;
+                })
                 ->editColumn('block_html', function ($user) {
                     $indicator = $user->block == 'no' ? 'bg-primary' : 'bg-danger';
                     return '<span class="badge ' . $indicator . '">' . strtoupper($user->block) . '</span>';
@@ -51,7 +71,7 @@ class UserController extends Controller
                     $indicator = $user->status == 'active' ? 'bg-success' : 'bg-danger';
                     return '<span class="badge ' . $indicator . '">' . strtoupper($user->status) . '</span>';
                 })
-                ->rawColumns(['action', 'roles_detail', 'block_html', 'status_html'])
+                ->rawColumns(['action', 'roles_detail', 'block_html', 'status_html', 'foto', 'contact'])
                 ->make(true);
         }
 

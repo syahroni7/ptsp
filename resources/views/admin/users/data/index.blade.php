@@ -8,6 +8,20 @@
     <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/select2-bootstrap-5-theme.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/select2-bootstrap-5-theme.rtl.min.css') }}" />
+
+    <style>
+        .profile .profile-edit img {
+            max-width: 120px;
+        }
+
+        #profile_photo_src {
+            max-width: 120px;
+        }
+
+        .profile-edit {
+            max-width: 120px;
+        }
+    </style>
 @endsection
 
 
@@ -36,9 +50,9 @@
                                         <th class="text-center">No</th>
                                         <th class="text-center">Nama Lengkap</th>
                                         <th class="text-center">NIP / Username</th>
-                                        <th class="text-center">No HP</th>
-                                        <th class="text-center">Email</th>
+                                        <th class="text-center">Kontak</th>
                                         <th class="text-center">Peran User</th>
+                                        <th class="text-center">Foto</th>
                                         <th class="text-center">Block</th>
                                         <th class="text-center">Status</th>
                                         <th class="text-center">Aksi</th>
@@ -146,14 +160,14 @@
                 data: 'username',
                 name: 'username'
             }, {
-                data: 'no_hp',
-                name: 'no_hp'
-            }, {
-                data: 'email',
-                name: 'email'
+                data: 'contact',
+                name: 'contact'
             }, {
                 data: 'roles_detail',
                 name: 'roles_detail'
+            }, {
+                data: 'foto',
+                name: 'foto'
             }, {
                 data: 'block_html',
                 name: 'block_html',
@@ -186,6 +200,8 @@
                 table.columns.adjust();
             });
 
+            table.columns.adjust();
+
 
             $(document).on("click", "#addBtn", function() {
                 $('.edit-state').hide();
@@ -210,6 +226,9 @@
                 console.log(data);
                 console.log(title);
                 $("#id_user").val(data.id);
+                console.log('data.profile_picture')
+                console.log(data.profile_photo)
+                $('#profile_photo_src').attr("src", data.profile_photo);
 
                 $('#name').val(data.name);
                 $('#username').val(data.username);
