@@ -166,8 +166,24 @@ class DaftarPelayananController extends Controller
                 $disposisi->load('pelayanan');
 
                 Notification::send($recipient, new NewPelayananNotification($disposisi));
+
+
                 // Send Message
-                // MessageController::sendMessage('6282298476941', 'Ada Order Masuk:  #' . $pelayanan->no_registrasi .'. Perihal: ' . $pelayanan->perihal );
+                $detailUrl = route('daftar-pelayanan.detail', $pelayanan->idx_pelayanan);
+                $text = '```Yth, \n';
+                $text .= '' . $recipient->name . ' \n';
+                $text .= 'Ada Disposisi Baru \n \n';
+                $text .= '==========================\n';
+                $text .= 'No. Reg : '. $pelayanan->no_registrasi.'\n';
+                $text .= 'Perihal : '. $pelayanan->perihal .'\n';
+                $text .= 'Pemohon : '. $pelayanan->pemohon_nama .'\n';
+                $text .= 'Alamat  : '. $pelayanan->pemohon_alamat .'\n';
+                $text .= '==========================';
+                $text .= '\n \n';
+                $text .= 'Rincian Pelayanan dapat dilihat pada link dibawah ``` \n \n';
+                $text .= '' . $detailUrl . '';
+                
+                MessageController::sendMessage('6282298476941', $text);
             }
 
             $newData = $pelayanan;
