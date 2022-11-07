@@ -11,6 +11,33 @@
             @endcan
         @endcan
 
+        @can('menu-disposisi')
+            <li class="nav-heading">Kelola Disposisi</li>
+
+            @can('page-disposisi-list')
+                <li class="nav-item">
+                    <a class="nav-link pe-0 @if (request()->segment(1) == 'disposisi' && request()->segment(2) == 'list') @else collapsed @endif" href="{{ route('disposisi-list.index') }}"><i class="bi bi-list-task"></i>
+                        <span style="width: 100% !important">
+                            Daftar Disposisi
+                            <div class="float-end">
+                                <span class="badge total-disposisi bg-danger">-</span>
+                            </div>
+                        </span>
+                    </a>
+                </li>
+            @endcan
+
+            @can('page-disposisi-master')
+                <li class="nav-item">
+                    <a class="nav-link @if (request()->segment(1) == 'disposisi' && request()->segment(2) == 'master') @else collapsed @endif" href="{{ route('disposisi-master.index') }}"><i class="bi bi-mailbox"></i>
+                        <span>Master Disposisi</span>
+                    </a>
+                </li>
+            @endcan
+
+
+        @endcan
+
         @can('menu-pelayanan')
             <li class="nav-heading">Kelola Pelayanan</li>
 
@@ -60,29 +87,7 @@
 
 
 
-        @can('menu-disposisi')
-            <li class="nav-heading">Kelola Disposisi</li>
-            @can('page-disposisi-master')
-                <li class="nav-item">
-                    <a class="nav-link @if (request()->segment(1) == 'disposisi' && request()->segment(2) == 'master') @else collapsed @endif" href="{{ route('disposisi-master.index') }}"><i class="bi bi-mailbox"></i>
-                        <span>Master Disposisi</span>
-                    </a>
-                </li>
-            @endcan
 
-            @can('page-disposisi-list')
-                <li class="nav-item">
-                    <a class="nav-link pe-0 @if (request()->segment(1) == 'disposisi' && request()->segment(2) == 'list') @else collapsed @endif" href="{{ route('disposisi-list.index') }}"><i class="bi bi-list-task"></i>
-                        <span style="width: 100% !important">
-                            Daftar Disposisi
-                            <div class="float-end">
-                                <span class="badge total-disposisi bg-danger">-</span>
-                            </div>
-                        </span>
-                    </a>
-                </li>
-            @endcan
-        @endcan
 
 
         @can('menu-main')
