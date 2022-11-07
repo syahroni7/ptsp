@@ -32,8 +32,10 @@ class DaftarDisposisiController extends Controller
             if (!$user->hasRole('super_administrator')) {
                 $daftarDisposisi = DaftarDisposisi::whereHas('recipient', function ($q) use ($username) {
                     $q->where('username', $username);
-                })->doesntHave('child')
+                })
                                     ->with('pelayanan', 'sender', 'recipient', 'child.recipient')->orderBy('created_at', 'desc')->get();
+
+                                    // ->doesntHave('child')
             } else {
                 $daftarDisposisi = DaftarDisposisi::with('pelayanan', 'sender', 'recipient', 'child.recipient')->orderBy('created_at', 'desc')->get();
             }
