@@ -623,7 +623,7 @@
                                     socket.emit('sendNotifToServer', notifData);
                                     // }
                                     searchData('{{ $id_pelayanan }}');
-
+                                    fetchSummary();
                                 } else {
                                     Swal.fire(
                                         'Perhatian!', data.message,
