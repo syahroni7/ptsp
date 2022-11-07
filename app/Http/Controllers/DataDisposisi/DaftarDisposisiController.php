@@ -53,6 +53,8 @@ class DaftarDisposisiController extends Controller
                 } else {
                     $query = $query->has('child');
                 }
+
+                $daftarDisposisi = $query->get();
             }
 
             return Datatables::of($daftarDisposisi)
