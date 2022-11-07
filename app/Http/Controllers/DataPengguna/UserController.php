@@ -48,8 +48,8 @@ class UserController extends Controller
                     $profilePhoto = $user->profile_photo;
                     if($profilePhoto)  {
                         $html = '<div class="profile-edit">
-                        <img class="profile-edit" id="profile_photo_jst" src="'.$profilePhoto.'" alt="None">
-                    </div>';
+                                    <img class="profile-edit" id="profile_photo_jst" src="'.$profilePhoto.'" alt="None">
+                                </div>';
                     } else {
                         $html = '-';
                     }
@@ -58,9 +58,13 @@ class UserController extends Controller
                     return $html;
                 })
                 ->addColumn('contact', function ($user) {
-
-                    $html = '<span>'.$user->no_hp.  '</span><br>';
+                    $noHP = $user->no_hp ? $user->no_hp : '<span class="text-danger" style="font-size:smaller!important;">Belum Set No HP</span>';
+                    $html = '<span>' . $noHP .  '</span><br>';
                     $html .='<span class="text-muted" style="font-size:smaller!important;">'.$user->email.  '</span>';
+
+                    if(Hash::check($user->username, $user->password)){
+                        $html .= '<br><span class="text-danger" style="font-size:smaller!important;">Belum Ganti Password</span>';
+                    }
                     return $html;
                 })
                 ->editColumn('block_html', function ($user) {
