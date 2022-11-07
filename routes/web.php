@@ -57,6 +57,11 @@ Route::get('/mainten', function () {
     return view('maintenance');
 });
 
+Route::get('/suspended', function () {
+    // return view('maintenancecop');
+    return view('suspended');
+});
+
 Route::get('/mapping', function () {
     $pels = \App\Models\DaftarPelayanan::with('layanan')->get();
 

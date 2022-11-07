@@ -155,8 +155,8 @@
                 data: 'layanan.name',
                 name: 'layanan.name'
             }, {
-                data: 'perihal',
-                name: 'perihal'
+                data: 'pelayanan_perihal',
+                name: 'pelayanan_perihal',
             }, {
                 data: 'kelengkapan_syarat',
                 name: 'kelengkapan_syarat'
