@@ -57,6 +57,8 @@
                                         <th class="text-center">No Registrasi</th>
                                         <th class="text-center">Nama Layanan</th>
                                         <th class="text-center">Perihal</th>
+                                        <th class="text-center">Pemohon</th>
+                                        <th class="text-center">Alamat</th>
                                         <th class="text-center">Arsip Masuk</th>
                                         <th class="text-center">Arsip Keluar</th>
                                         <th class="text-center">Status</th>
@@ -278,6 +280,12 @@
                 }, {
                     data: 'perihal',
                     name: 'perihal'
+                }, {
+                    data: 'pemohon_nama',
+                    name: 'pemohon_nama'
+                }, {
+                    data: 'pemohon_alamat',
+                    name: 'pemohon_alamat'
                 }, {
                     data: 'box_arsip_masuk',
                     name: 'box_arsip_masuk'
