@@ -24,20 +24,35 @@ class DaftarDisposisiController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(Request $request)
+    public function index(Request $request, $status)
     {
         if ($request->ajax()) {
             $user = Auth::user();
             $username = Auth::user()->username;
             if (!$user->hasRole('super_administrator')) {
-                $daftarDisposisi = DaftarDisposisi::whereHas('recipient', function ($q) use ($username) {
-                    $q->where('username', $username);
-                })
-                                    ->with('pelayanan', 'sender', 'recipient', 'child.recipient')->orderBy('created_at', 'desc')->get();
 
-                                    // ->doesntHave('child')
+                $query =  new DaftarDisposisi();
+                $query = $query->whereHas('recipient', function ($q) use ($username) {
+                    $q->where('username', $username);
+                })->with('pelayanan', 'sender', 'recipient', 'child.recipient')->orderBy('created_at', 'desc');
+
+                if($status == 'baru') {
+                    $query = $query->doesntHave('child');
+                } else {
+                    $query = $query->has('child');
+                }
+
+                $daftarDisposisi = $query->get();
+
             } else {
-                $daftarDisposisi = DaftarDisposisi::with('pelayanan', 'sender', 'recipient', 'child.recipient')->orderBy('created_at', 'desc')->get();
+                $query =  new DaftarDisposisi();
+                $query = $query->with('pelayanan', 'sender', 'recipient', 'child.recipient')->orderBy('created_at', 'desc');
+
+                if($status == 'baru') {
+                    $query = $query->doesntHave('child');
+                } else {
+                    $query = $query->has('child');
+                }
             }
 
             return Datatables::of($daftarDisposisi)
@@ -128,6 +143,7 @@ class DaftarDisposisiController extends Controller
             'title'  => 'Daftar Disposisi',
             'br1'  => 'Kelola',
             'br2'  => 'Disposisi Pelayanan',
+            'status'  => $status,
         ]);
     }
 

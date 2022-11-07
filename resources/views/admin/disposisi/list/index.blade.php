@@ -170,9 +170,35 @@
         //         className: 'text-center'
         //     }, 
 
+        $(document).on("click", ".disposisi-status", function() {
+
+            // New Algorithm
+            var status = $(this).data('status_disposisi');
+
+            $('body').block({
+                message: `Loading...`
+            });
+
+            setTimeout(function() {
+                $('body').unblock();
+                $('.html-status').html(ucwords(status));
+
+                $('li a.disposisi-status').removeClass('active')
+
+                $('.disposisi-' + status).addClass('active');
+                table.ajax.url('/disposisi/list/' + status).load();
+            }, 500);
+
+        });
+
+        function ucwords(str) {
+            return (str + '').replace(/^([a-z])|\s+([a-z])/g, function($1) {
+                return $1.toUpperCase();
+            });
+        }
 
         $(document).ready(function() {
-            table.ajax.url('/disposisi/list').load();
+            table.ajax.url('/disposisi/list/{{ $status }}').load();
 
             table.buttons().container()
                 .appendTo('#example_wrapper .col-md-6:eq(0)');

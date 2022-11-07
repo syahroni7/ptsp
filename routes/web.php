@@ -352,7 +352,7 @@ Route::group(['middleware' => ['auth', 'same_password_with_username', 'phone_num
         /**
          * Daftar Disposisi
          */
-        Route::get('/disposisi/list', [\App\Http\Controllers\DataDisposisi\DaftarDisposisiController::class, 'index'])->name('disposisi-list.index');
+        Route::get('/disposisi/list/{status}', [\App\Http\Controllers\DataDisposisi\DaftarDisposisiController::class, 'index'])->name('disposisi-list.index');
         Route::post('/disposisi/list/store', [\App\Http\Controllers\DataDisposisi\DaftarDisposisiController::class, 'store'])->name('disposisi-list.store');
         Route::delete('/disposisi/list/destroy/{aksi}', [\App\Http\Controllers\DataDisposisi\DaftarDisposisiController::class, 'destroy'])->name('disposisi-list.destroy');
     });
