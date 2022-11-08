@@ -178,6 +178,13 @@
                                                     -
                                                 </div>
                                             </div>
+
+                                            <div class="col-12">
+                                                <label for="search_catatan" class="form-label fw-bold text-danger">Arsip Lama</label>
+                                                <div class="arsip-lama-box">
+                                                    -
+                                                </div>
+                                            </div>
                                         </form>
                                     </div>
                                 </div>
@@ -383,6 +390,15 @@
                                 boxkeluar.append(htmlkeluar);
                             } else {
                                 boxkeluar.append('-');
+                            }
+
+
+                            //
+                            let boxlama = $('.arsip-lama-box');
+                            if (item.arsip.arsip_masuk_url) {
+                                boxlama.empty();
+                                var arsipHTML = `<a href="${item.arsip.arsip_masuk_url}" target="_blank" class="badge bg-primary" type="button" >Lihat Dokumen</a>`;
+                                boxlama.append(arsipHTML);
                             }
 
 
