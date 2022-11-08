@@ -488,13 +488,14 @@ class DaftarPelayananController extends Controller
                 $disposisi->load('pelayanan');
 
                 Notification::send($recipient, new NewPelayananNotification($disposisi));
-
+                event(new \App\Events\DispositionProcessed($pelayanan, $recipient));
 
                 // Send Notif to Operator
                 $operator = \App\Models\User::whereHas('roles', function ($q) {
                     $q->where('name', 'operator');
                 })->first();
                 Notification::send($operator, new NewPelayananNotification($disposisi));
+                event(new \App\Events\DispositionProcessed($pelayanan, $operator));
             }
 
             $newData = $pelayanan;
