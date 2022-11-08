@@ -96,6 +96,8 @@
 
 
     <script>
+        var id_unit_pengolah_filter = 0;
+        var status = '{{ $status }}';
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -122,6 +124,39 @@
                 ['10 rows', '25 rows', '50 rows', 'Show all']
             ],
             iDisplayLength: 50,
+            ajax: '/daftar-pelayanan/list/' + status + '?id_unit_pengolah_filter=' + id_unit_pengolah_filter,
+            initComplete: function(settings, json) {
+                console.log(json)
+
+                table.buttons().container()
+                    .appendTo('#example_wrapper .col-md-6:eq(0)');
+
+                $(json.html_filter).appendTo('#example_wrapper .col-md-6:eq(0) .dt-buttons');
+
+                $('.select2-filter').select2({
+                    theme: 'bootstrap-5',
+                });
+
+                // $(document).on('change', '#id_unit_pengolah_filter', function(e) {
+                $(document).on('select2:select', '.id_unit_pengolah_filter', function(e) {
+                    console.log('data filter')
+
+                    id_unit_pengolah_filter = $(this).val();
+                    console.log('id_unit_pengolah_filter')
+                    console.log(id_unit_pengolah_filter)
+                    table.ajax.url('/daftar-pelayanan/list/' + status + '?id_unit_pengolah_filter=' + id_unit_pengolah_filter).load(false);
+                });
+
+                //     console.log('json')
+                //     console.log(json)
+                // $(json.html_filter).appendTo(".dt-buttons"); //example is our table id
+                // $(".dataTables_filter label").addClass("pull-right");
+                // $(document).on('change', '#usulan-status', function(e) {
+                //     status = $(this).val();
+                //     console.log('status');
+
+                // });
+            },
             buttons: [
                 'pageLength',
                 {
@@ -173,7 +208,7 @@
         $(document).on("click", ".menu-status", function() {
 
             // New Algorithm
-            var status = $(this).data('status_pelayanan');
+            status = $(this).data('status_pelayanan');
 
             $('body').block({
                 message: `Loading...`
@@ -186,7 +221,7 @@
                 $('li a.menu-status').removeClass('active')
 
                 $('.menu-' + status).addClass('active');
-                table.ajax.url('/daftar-pelayanan/list/' + status).load();
+                table.ajax.url('/daftar-pelayanan/list/' + status + '?id_unit_pengolah_filter=' + id_unit_pengolah_filter).load();
             }, 500);
 
 
@@ -206,7 +241,7 @@
                 $('#cetak-bukti-link').attr('src', cetakBuktiLink);
             });
 
-            table.ajax.url('/daftar-pelayanan/list/{{ $status }}').load();
+            // table.ajax.url('/daftar-pelayanan/list/{{ $status }}' + '?id_unit_pengolah_filter=' + id_unit_pengolah_filter).load();
 
             table.buttons().container()
                 .appendTo('#example_wrapper .col-md-6:eq(0)');

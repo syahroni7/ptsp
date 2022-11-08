@@ -32,11 +32,17 @@ class DaftarPelayananController extends Controller
     public function index(Request $request, $status)
     {
         if ($request->ajax()) {
-            // $layanans = DaftarPelayanan::with('layanan', 'unit', 'output', 'jenis')->get();
-            $pelayanans = DaftarPelayanan::where('status_pelayanan', $status)
-            ->with('layanan', 'unit', 'output', 'jenis')->orderBy('id_pelayanan', 'desc')->take(300)->get();
+            $idUnit = $request->id_unit_pengolah_filter;
+            $query = new DaftarPelayanan();
+            $query = $query->where('status_pelayanan', $status);
+            if ($idUnit != 0) {
+                $query = $query->where('id_unit_pengolah', $idUnit);
+            }
+            $query = $query->with('layanan', 'unit', 'output', 'jenis')->orderBy('id_pelayanan', 'desc');
 
-            return Datatables::of($pelayanans)
+            $pelayanans = $query->take(300)->get();
+
+            $datatable = Datatables::of($pelayanans)
                 ->addIndexColumn()
                 ->addColumn('action', function ($layanan) {
                     $url = route('daftar-pelayanan.detail', Hashids::encode($layanan->id_pelayanan));
@@ -58,8 +64,26 @@ class DaftarPelayananController extends Controller
                     $html .= '<span class="text-muted" style="font-size:smaller!important;">Alamat: '.$layanan->pemohon_alamat.  '</span><br>';
                     return $html;
                 })
-                ->rawColumns(['action', 'pelayanan_perihal'])
-                ->make(true);
+                ->rawColumns(['action', 'pelayanan_perihal']);
+
+
+            $units = UnitPengolah::all();
+
+            $html_filter = '<div class="btn-group" style="margin-left:5px;">
+                                <select class="form-control select2-filter id_unit_pengolah_filter" id="id_unit_pengolah_filter">
+                                    <option value="0">Semua Unit Pengolah</option>';
+            foreach ($units as $key => $item) {
+                $html_filter .= '<option value="' . $item->id_unit_pengolah . '">' . $item->name . '</option>';
+            }
+            $html_filter .= '  </select>
+                            </div>';
+
+
+            $datatable->with([
+                'html_filter' => $html_filter
+            ]);
+
+            return $datatable->make(true);
         }
 
         $jenis_all = JenisLayanan::all();
@@ -99,7 +123,6 @@ class DaftarPelayananController extends Controller
 
     public function store(Request $request)
     {
-
         $success = false;
         $message = '';
         $code = 400;
@@ -182,7 +205,7 @@ class DaftarPelayananController extends Controller
                 $text .= '\n \n';
                 $text .= 'Rincian Pelayanan dapat dilihat pada link dibawah ``` \n \n';
                 $text .= '' . $detailUrl . '';
-                
+
                 // MessageController::sendMessage('6282298476941', $text);
 
                 event(new \App\Events\DispositionProcessed($pelayanan, $recipient));
@@ -204,33 +227,32 @@ class DaftarPelayananController extends Controller
                 $file = $dcd[0];
                 $tempFile = TemporaryFile::where('folder', $file)->first();
 
-                
-                if ($tempFile) {
 
+                if ($tempFile) {
                     $sourcePath = storage_path('app/public/temporary/' . $tempFile->folder);
                     $sourceFile = $sourcePath . '/' . $tempFile->filename;
                     $ext = pathinfo($sourceFile, PATHINFO_EXTENSION);
 
 
-                    
+
                     $destinationPath =  storage_path('app/public/files/' . date('Y-m') . '/' . $pelayanan->no_registrasi);
                     $destinationFile = $destinationPath . '/' . $tempFile->filename;
                     $asset = 'storage/files/' . date('Y-m') . '/' . $pelayanan->no_registrasi . '/' . $tempFile->filename;
 
-                    if(!Storage::exists($destinationPath)) {
+                    if (!Storage::exists($destinationPath)) {
                         Storage::makeDirectory($destinationPath, 0777, true); //creates directory
                     }
 
                     File::ensureDirectoryExists($destinationPath);
                     File::move($sourceFile, $destinationFile);
                     // Storage::move( $sourceFile, $destinationFile );
-                    
+
                     // Delete File and Database
                     $this->rmdir_recursive($sourcePath);
                     $tempFile->delete();
 
 
-                    // getAsset 
+                    // getAsset
                     // $urlAssets[] = asset($asset);
                     $urlAssets[] = [
                         'filename' => $tempFile->filename,
@@ -514,33 +536,32 @@ class DaftarPelayananController extends Controller
                 $file = $dcd[0];
                 $tempFile = TemporaryFile::where('folder', $file)->first();
 
-                
-                if ($tempFile) {
 
+                if ($tempFile) {
                     $sourcePath = storage_path('app/public/temporary/' . $tempFile->folder);
                     $sourceFile = $sourcePath . '/' . $tempFile->filename;
                     $ext = pathinfo($sourceFile, PATHINFO_EXTENSION);
 
 
-                    
+
                     $destinationPath =  storage_path('app/public/files/' . date('Y-m') . '/' . $pelayanan->no_registrasi);
                     $destinationFile = $destinationPath . '/' . $tempFile->filename;
                     $asset = 'storage/files/' . date('Y-m') . '/' . $pelayanan->no_registrasi . '/' . $tempFile->filename;
 
-                    if(!Storage::exists($destinationPath)) {
+                    if (!Storage::exists($destinationPath)) {
                         Storage::makeDirectory($destinationPath, 0777, true); //creates directory
                     }
 
                     File::ensureDirectoryExists($destinationPath);
                     File::move($sourceFile, $destinationFile);
                     // Storage::move( $sourceFile, $destinationFile );
-                    
+
                     // Delete File and Database
                     $this->rmdir_recursive($sourcePath);
                     $tempFile->delete();
 
 
-                    // getAsset 
+                    // getAsset
                     // $urlAssets[] = asset($asset);
                     $urlAssets[] = [
                         'filename' => $tempFile->filename,
