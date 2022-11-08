@@ -32,8 +32,8 @@ class SendWhatsappNotifiation
 
         $detailUrl = route('daftar-pelayanan.detail', $event->pelayanan->idx_pelayanan);
         $text = '```.:= PTSP KEMENAG PESSEL =:. \n';
-        $text = '\n';
-        $text = 'Yth, \n';
+        $text .= '\n';
+        $text .= 'Yth, \n';
         $text .= '' . $event->recipient->name . ' \n';
         $text .= 'Ada Disposisi Baru \n \n';
         $text .= '==========================\n';
