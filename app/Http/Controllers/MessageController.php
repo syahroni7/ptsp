@@ -47,7 +47,7 @@ class MessageController extends Controller
         }
     }
 
-    public function sendMessage($to, $text)
+    public static function sendMessage($to, $text)
     {
         $key = '2d6e70264e5039366475c6b6b7b86393f4182b1166940df0';
         $response = Http::withHeaders([

@@ -183,7 +183,9 @@ class DaftarPelayananController extends Controller
                 $text .= 'Rincian Pelayanan dapat dilihat pada link dibawah ``` \n \n';
                 $text .= '' . $detailUrl . '';
                 
-                MessageController::sendMessage('6282298476941', $text);
+                // MessageController::sendMessage('6282298476941', $text);
+
+                event(new \App\Events\DispositionProcessed($pelayanan, $recipient));
             }
 
             $newData = $pelayanan;
