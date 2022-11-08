@@ -81,6 +81,17 @@ class HomeController extends Controller
                 $countItem = isset($pByUnit[$item['name']]) ? $pByUnit[$item['name']]->count() : 0;
                 $sUnit[$key]['value'] = $countItem;
 
+                if(isset($pByUnit[$item['name']])) {
+                    $byStat = $pByUnit[$item['name']]->groupBy('status_pelayanan');
+                    $sUnit[$key]['Baru'] = isset($byStat['Baru']) ? $byStat['Baru']->count() : 0;
+                    $sUnit[$key]['Proses'] = isset($byStat['Proses']) ? $byStat['Proses']->count() : 0;
+                    $sUnit[$key]['Selesai'] = isset($byStat['Selesai']) ? $byStat['Selesai']->count() : 0;
+                } else {
+                    $sUnit[$key]['Baru'] = 0;
+                    $sUnit[$key]['Proses'] = 0;
+                    $sUnit[$key]['Selesai'] = 0;
+                }
+
                 if ($sUnit[$key]['name'] == 'Subbagian Tata Usaha') {
                     $sUnit[$key]['name'] = 'SubbagTU';
                 }
@@ -110,6 +121,8 @@ class HomeController extends Controller
                 }
             }
         }
+
+        // return $sUnit;
 
         return view('admin.home.index', [
             'title'  => 'Halaman Beranda',

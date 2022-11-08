@@ -149,7 +149,10 @@
                                             <tr>
                                                 <th scope="col">#</th>
                                                 <th scope="col">Unit Pengolah</th>
-                                                <th scope="col">Total Layanan</th>
+                                                <th scope="col" class="text-center">Baru</th>
+                                                <th scope="col" class="text-center">Proses</th>
+                                                <th scope="col" class="text-center">Selesai</th>
+                                                <th scope="col" class="text-center">Total</th>
                                             </tr>
                                         </thead>
 
@@ -158,7 +161,10 @@
                                             @foreach ($totalByUnit as $key => $item)
                                                 <tr>
                                                     <td class="text-center">{{ $key + 1 }}</td>
-                                                    <td class="">{{ $item['full_name'] }}</td>
+                                                    <td class="">{{ $item['name'] }}</td>
+                                                    <td class="text-center">{{ $item['Baru'] }}</td>
+                                                    <td class="text-center">{{ $item['Proses'] }}</td>
+                                                    <td class="text-center">{{ $item['Selesai'] }}</td>
                                                     <td class="text-center">{{ $item['value'] }}</td>
                                                 </tr>
                                             @endforeach
