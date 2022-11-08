@@ -75,7 +75,8 @@
                         </div>
                         @foreach ($summaryPelayanan as $key => $status)
                             <!-- Item Card -->
-                            <div class="col-xxl-3 col-md-6">
+                            {{-- <div class="col-xxl-3 col-md-6"> --}}
+                            <div class="col-6">
                                 <div class="card info-card sales-card m-0">
 
                                     <div class="filter">
