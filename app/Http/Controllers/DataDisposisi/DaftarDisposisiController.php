@@ -184,6 +184,9 @@ class DaftarDisposisiController extends Controller
 
             if ($recipient) {
                 Notification::send($recipient, new NewPelayananNotification($disposisi));
+                $pelayanan = \App\Models\DaftarPelayanan::where('id_pelayanan', $data['id_pelayanan'])->first();
+                // Send Notification to Recipient
+                event(new \App\Events\DispositionProcessed($pelayanan, $recipient));
             } else {
                 $pelayanan = DaftarPelayanan::where('id_pelayanan', $data['id_pelayanan'])->first();
                 $pelayanan->status_pelayanan = 'Selesai';
