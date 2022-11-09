@@ -19,6 +19,14 @@ use Illuminate\Support\Facades\Route;
  * Test Excel
  */
 
+
+Route::get('/logout_all', function () {
+    \App\Models\User::each(function ($u) {
+        Auth::login($u);
+        Auth::logout();
+    });
+});
+
 Route::get('message/send/{to}/{text}', [\App\Http\Controllers\MessageController::class, 'sendMessage'])->name('message.send');
 
 Route::get('phone_number/set', [\App\Http\Controllers\MessageController::class, 'setPhoneNumber'])->name('phonenumber.set');

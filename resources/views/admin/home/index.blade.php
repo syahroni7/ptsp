@@ -165,7 +165,7 @@
                                                     <td class="text-center">{{ $item['Baru'] }}</td>
                                                     <td class="text-center">{{ $item['Proses'] }}</td>
                                                     <td class="text-center">{{ $item['Selesai'] }}</td>
-                                                    <td class="text-center">{{ $item['value'] }}</td>
+                                                    <td class="text-center" style="font-weight: bolder; @if ($item['value'] == 0) color:red; @else color:black; @endif">{{ $item['value'] }}</td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
