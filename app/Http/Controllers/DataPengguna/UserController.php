@@ -9,6 +9,7 @@ use DateTime;
 use DataTables;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Auth;
 
 class UserController extends Controller
 {
@@ -30,8 +31,14 @@ class UserController extends Controller
             return Datatables::of($users)
                 ->addIndexColumn()
                 ->addColumn('action', function ($user) {
-                    $btn = '<button id="editBtn" type="button" class="btn btn-sm btn-warning btn-xs" data-bs-toggle="modal" data-bs-target="#fModal" data-bs-title="Edit Data Pengguna" data-title="Edit Data Pengguna"><i class="bi bi-pencil-square"></i></button>&nbsp;';
-                    $btn .= '<button id="destroyBtn" type="button" class="btn btn-sm btn-danger btn-xs" data-bs-user_id="'. $user->id  .'" data-user_id="'.  $user->id  .'"><i class="bi bi-trash-fill"></i></button>';
+                    $user = Auth::user();
+                    $btn = '';
+                    if ($user->hasRole('super_administrator')) {
+                        $btn .= '<button id="editBtn" type="button" class="btn btn-sm btn-warning btn-xs" data-bs-toggle="modal" data-bs-target="#fModal" data-bs-title="Edit Data Pengguna" data-title="Edit Data Pengguna"><i class="bi bi-pencil-square"></i></button>&nbsp;';
+                        $btn .= '<button id="destroyBtn" type="button" class="btn btn-sm btn-danger btn-xs" data-bs-user_id="'. $user->id  .'" data-user_id="'.  $user->id  .'"><i class="bi bi-trash-fill"></i></button>';
+                    } else {
+                        $btn = '[-]';
+                    }
                     return $btn;
                 })
                 ->addColumn('roles_detail', function ($user) {
@@ -44,16 +51,15 @@ class UserController extends Controller
                     return $btn;
                 })
                 ->addColumn('foto', function ($user) {
-                    
                     $profilePhoto = $user->profile_photo;
-                    if($profilePhoto)  {
+                    if ($profilePhoto) {
                         $html = '<div class="profile-edit">
                                     <img class="profile-edit" id="profile_photo_jst" src="'.$profilePhoto.'" alt="None">
                                 </div>';
                     } else {
                         $html = '-';
                     }
-                    
+
 
                     return $html;
                 })
@@ -62,7 +68,7 @@ class UserController extends Controller
                     $html = '<span>' . $noHP .  '</span><br>';
                     $html .='<span class="text-muted" style="font-size:smaller!important;">'.$user->email.  '</span>';
 
-                    if(Hash::check($user->username, $user->password)){
+                    if (Hash::check($user->username, $user->password)) {
                         $html .= '<br><span class="text-danger" style="font-size:smaller!important;">Belum Ganti Password</span>';
                     }
                     return $html;
@@ -135,7 +141,7 @@ class UserController extends Controller
 
             $user->fresh();
             $user->syncRoles($data['roles']);
-            
+
 
             $code = 200;
             if ($validator->fails()) {
@@ -143,7 +149,6 @@ class UserController extends Controller
             } else {
                 $success = 'yeah';
                 $message = 'Data Berhasil Disimpan';
-    
             }
         } catch (\Throwable $th) {
             $message = $th->getMessage();

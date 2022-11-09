@@ -268,7 +268,7 @@ Route::group(['middleware' => ['auth', 'same_password_with_username', 'phone_num
     Route::get('/notifications/fetch', [\App\Http\Controllers\NotificationController::class, 'fetch'])->name('notification.fetch');
     Route::get('/notifications/detail/{id}', [\App\Http\Controllers\NotificationController::class, 'detail'])->name('notification.detail');
 
-    Route::group(['middleware' => ['role:super_administrator|administrator']], function () {
+    Route::group(['middleware' => ['role:super_administrator|administrator|manager']], function () {
         /**
          * User
          */

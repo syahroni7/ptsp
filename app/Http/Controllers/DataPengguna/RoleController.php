@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use DataTables;
 use Illuminate\Support\Arr;
-
+use Auth;
 
 class RoleController extends Controller
 {
@@ -24,14 +24,13 @@ class RoleController extends Controller
 
     public function index(Request $request)
     {
-
         if ($request->ajax()) {
             $roles = Role::with('permissions')->get();
 
             return Datatables::of($roles)
                 ->addIndexColumn()
-                ->addColumn('role_permissions', function($role) {
-                    $data = $role->permissions->groupBy(function($data) {
+                ->addColumn('role_permissions', function ($role) {
+                    $data = $role->permissions->groupBy(function ($data) {
                         return substr($data->name, 0, 4);
                     });
 
@@ -40,17 +39,23 @@ class RoleController extends Controller
                     $html = '';
                     foreach ($raw as $key => $perm) {
                         $data = Arr::pluck($perm, 'name');
-                        if($key == 'page' && count($data) != 0) {
-                            $html .= '<br /><br />';    
+                        if ($key == 'page' && count($data) != 0) {
+                            $html .= '<br /><br />';
                         }
-                        $html .= ucwords($key) . ': ' . implode (", ", $data);
+                        $html .= ucwords($key) . ': ' . implode(", ", $data);
                     }
 
                     return $html;
                 })
                 ->addColumn('action', function ($role) {
-                    $btn = '<button id="editBtn" type="button" class="btn btn-sm btn-warning btn-xs" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Level / Peran User"><i class="bi bi-pencil-square"></i></button>&nbsp;';
-                    $btn .= '<button id="destroyBtn" type="button" class="btn btn-sm btn-danger btn-xs" data-bs-role_id="'. $role->id  .'" data-role_id="'.  $role->id  .'"><i class="bi bi-trash-fill"></i></button>';
+                    $user = Auth::user();
+                    $btn = '';
+                    if ($user->hasRole('super_administrator')) {
+                        $btn .= '<button id="editBtn" type="button" class="btn btn-sm btn-warning btn-xs" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Level / Peran User"><i class="bi bi-pencil-square"></i></button>&nbsp;';
+                        $btn .= '<button id="destroyBtn" type="button" class="btn btn-sm btn-danger btn-xs" data-bs-role_id="'. $role->id  .'" data-role_id="'.  $role->id  .'"><i class="bi bi-trash-fill"></i></button>';
+                    } else {
+                        $btn = '[-]';
+                    }
                     return $btn;
                 })
                 ->rawColumns(['action', 'role_permissions'])
@@ -64,13 +69,12 @@ class RoleController extends Controller
             'br2'  => 'Data Level / Peran Pengguna',
             'permissions'  => $permissions
         ]);
-
-        
     }
 
-    private function _getPermission(){
+    private function _getPermission()
+    {
         $permissions = Permission::all();
-        $data = $permissions->groupBy(function($data) {
+        $data = $permissions->groupBy(function ($data) {
             return substr($data->name, 0, 4);
         });
         return $data;
@@ -86,7 +90,7 @@ class RoleController extends Controller
 
         try {
             if ($data['id_role'] == '') {
-                $role = Role::create(['name' => $data['name']]);   
+                $role = Role::create(['name' => $data['name']]);
             } else {
                 $role = Role::findOrFail($data['id_role']);
                 $role->name = $data['name'];
@@ -116,7 +120,6 @@ class RoleController extends Controller
         $message = '';
 
         try {
-
             $role->delete();
             $success = true;
         } catch (\Exception $e) {
@@ -126,5 +129,4 @@ class RoleController extends Controller
         return response()
             ->json(['success' => $success, 'message' => $message]);
     }
-
 }

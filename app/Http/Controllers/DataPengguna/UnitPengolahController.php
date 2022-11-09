@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\UnitPengolah;
 use DataTables;
+use Auth;
 
 class UnitPengolahController extends Controller
 {
@@ -21,15 +22,20 @@ class UnitPengolahController extends Controller
 
     public function index(Request $request)
     {
-
         if ($request->ajax()) {
             $units = UnitPengolah::all();
 
             return Datatables::of($units)
                 ->addIndexColumn()
                 ->addColumn('action', function ($unit) {
-                    $btn = '<button id="editBtn" type="button" class="btn btn-sm btn-warning btn-xs" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Level / Peran User"><i class="bi bi-pencil-square"></i></button>&nbsp;';
-                    $btn .= '<button id="destroyBtn" type="button" class="btn btn-sm btn-danger btn-xs" data-bs-id_unit_pengolah="'. $unit->id_unit_pengolah  .'" data-id_unit_pengolah="'.  $unit->id_unit_pengolah  .'"><i class="bi bi-trash-fill"></i></button>';
+                    $user = Auth::user();
+                    $btn = '';
+                    if ($user->hasRole('super_administrator')) {
+                        $btn .= '<button id="editBtn" type="button" class="btn btn-sm btn-warning btn-xs" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Level / Peran User"><i class="bi bi-pencil-square"></i></button>&nbsp;';
+                        $btn .= '<button id="destroyBtn" type="button" class="btn btn-sm btn-danger btn-xs" data-bs-id_unit_pengolah="'. $unit->id_unit_pengolah  .'" data-id_unit_pengolah="'.  $unit->id_unit_pengolah  .'"><i class="bi bi-trash-fill"></i></button>';
+                    } else {
+                        $btn = 'no action';
+                    }
                     return $btn;
                 })
                 ->rawColumns(['action'])
@@ -41,7 +47,6 @@ class UnitPengolahController extends Controller
             'br1'  => 'Kelola',
             'br2'  => 'Unit Pengolah',
         ]);
-
     }
 
     public function store(Request $request)
@@ -54,7 +59,7 @@ class UnitPengolahController extends Controller
 
         try {
             if ($data['id_unit_pengolah'] == '') {
-                UnitPengolah::create(['name' => $data['name']]);   
+                UnitPengolah::create(['name' => $data['name']]);
             } else {
                 $unit = UnitPengolah::findOrFail($data['id_unit_pengolah']);
                 $unit->name = $data['name'];
@@ -81,7 +86,6 @@ class UnitPengolahController extends Controller
         $message = '';
 
         try {
-
             $unit->delete();
             $success = true;
         } catch (\Exception $e) {
@@ -91,5 +95,4 @@ class UnitPengolahController extends Controller
         return response()
             ->json(['success' => $success, 'message' => $message]);
     }
-
 }

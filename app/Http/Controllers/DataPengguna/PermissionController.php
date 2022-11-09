@@ -6,6 +6,7 @@ use Spatie\Permission\Models\Permission;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DataTables;
+use Auth;
 
 class PermissionController extends Controller
 {
@@ -21,15 +22,20 @@ class PermissionController extends Controller
 
     public function index(Request $request)
     {
-
         if ($request->ajax()) {
             $permissions = Permission::all();
 
             return Datatables::of($permissions)
                 ->addIndexColumn()
                 ->addColumn('action', function ($permission) {
-                    $btn = '<button id="editBtn" type="button" class="btn btn-sm btn-warning btn-xs" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Level / Peran User"><i class="bi bi-pencil-square"></i></button>&nbsp;';
-                    $btn .= '<button id="destroyBtn" type="button" class="btn btn-sm btn-danger btn-xs" data-bs-permission_id="'. $permission->id  .'" data-permission_id="'.  $permission->id  .'"><i class="bi bi-trash-fill"></i></button>';
+                    $user = Auth::user();
+                    $btn = '';
+                    if ($user->hasRole('super_administrator')) {
+                        $btn .= '<button id="editBtn" type="button" class="btn btn-sm btn-warning btn-xs" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Level / Peran User"><i class="bi bi-pencil-square"></i></button>&nbsp;';
+                        $btn .= '<button id="destroyBtn" type="button" class="btn btn-sm btn-danger btn-xs" data-bs-permission_id="'. $permission->id  .'" data-permission_id="'.  $permission->id  .'"><i class="bi bi-trash-fill"></i></button>';
+                    } else {
+                        $btn = '[-]';
+                    }
                     return $btn;
                 })
                 ->rawColumns(['action'])
@@ -41,7 +47,6 @@ class PermissionController extends Controller
             'br1'  => 'Kelola',
             'br2'  => 'Izin Akses',
         ]);
-
     }
 
     public function store(Request $request)
@@ -54,7 +59,7 @@ class PermissionController extends Controller
 
         try {
             if ($data['id_permission'] == '') {
-                Permission::create(['name' => $data['name']]);   
+                Permission::create(['name' => $data['name']]);
             } else {
                 $unit = Permission::findOrFail($data['id_permission']);
                 $unit->name = $data['name'];

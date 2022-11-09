@@ -51,6 +51,7 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center">No</th>
+                                        <th class="text-center">Dibuat</th>
                                         <th class="text-center">No Registrasi</th>
                                         <th class="text-center">Unit Pengolah</th>
                                         <th class="text-center">Nama Layanan</th>
@@ -180,6 +181,9 @@
                 data: 'DT_RowIndex',
                 name: 'DT_RowIndex',
                 className: 'text-center'
+            }, {
+                data: 'created_at',
+                name: 'created_at'
             }, {
                 data: 'no_registrasi',
                 name: 'no_registrasi'

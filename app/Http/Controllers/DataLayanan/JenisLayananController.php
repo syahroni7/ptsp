@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\JenisLayanan;
 use DataTables;
+use Auth;
 
 class JenisLayananController extends Controller
 {
@@ -21,15 +22,20 @@ class JenisLayananController extends Controller
 
     public function index(Request $request)
     {
-
         if ($request->ajax()) {
             $jenises = JenisLayanan::all();
 
             return Datatables::of($jenises)
                 ->addIndexColumn()
                 ->addColumn('action', function ($jenis) {
-                    $btn = '<button id="editBtn" type="button" class="btn btn-sm btn-warning btn-xs" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Level / Peran User"><i class="bi bi-pencil-square"></i></button>&nbsp;';
-                    $btn .= '<button id="destroyBtn" type="button" class="btn btn-sm btn-danger btn-xs" data-bs-id_jenis_layanan="'. $jenis->id_jenis_layanan  .'" data-id_jenis_layanan="'.  $jenis->id_jenis_layanan  .'"><i class="bi bi-trash-fill"></i></button>';
+                    $user = Auth::user();
+                    $btn = '';
+                    if ($user->hasRole('super_administrator')) {
+                        $btn .= '<button id="editBtn" type="button" class="btn btn-sm btn-warning btn-xs" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Level / Peran User"><i class="bi bi-pencil-square"></i></button>&nbsp;';
+                        $btn .= '<button id="destroyBtn" type="button" class="btn btn-sm btn-danger btn-xs" data-bs-id_jenis_layanan="'. $jenis->id_jenis_layanan  .'" data-id_jenis_layanan="'.  $jenis->id_jenis_layanan  .'"><i class="bi bi-trash-fill"></i></button>';
+                    } else {
+                        $btn = 'no action';
+                    }
                     return $btn;
                 })
                 ->rawColumns(['action'])
@@ -41,7 +47,6 @@ class JenisLayananController extends Controller
             'br1'  => 'Kelola',
             'br2'  => 'Jenis Layanan',
         ]);
-
     }
 
     public function store(Request $request)
@@ -54,7 +59,7 @@ class JenisLayananController extends Controller
 
         try {
             if ($data['id_jenis_layanan'] == '') {
-                JenisLayanan::create(['name' => $data['name']]);   
+                JenisLayanan::create(['name' => $data['name']]);
             } else {
                 $unit = JenisLayanan::findOrFail($data['id_jenis_layanan']);
                 $unit->name = $data['name'];
