@@ -48,8 +48,8 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center">No</th>
-                                        <th class="text-center">Nama Lengkap</th>
-                                        <th class="text-center">NIP / Username</th>
+                                        <th class="text-center">Nama Lengkap / NIP</th>
+                                        <th class="text-center">Terakhir Login</th>
                                         <th class="text-center">Kontak</th>
                                         <th class="text-center">Peran User</th>
                                         <th class="text-center">Foto</th>
@@ -157,8 +157,8 @@
                 data: 'name',
                 name: 'name'
             }, {
-                data: 'username',
-                name: 'username'
+                data: 'last_login_at',
+                name: 'last_login_at'
             }, {
                 data: 'contact',
                 name: 'contact'
