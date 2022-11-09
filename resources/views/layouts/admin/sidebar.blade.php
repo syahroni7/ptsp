@@ -11,6 +11,41 @@
             @endcan
         @endcan
 
+
+        @can('menu-main')
+            <li class="nav-heading">Kelola Data Utama</li>
+            @can('page-main-permission')
+                {{-- Kelola Izin Akses --}}
+                <li class="nav-item"><a class="nav-link @if (request()->segment(1) == 'permissions') @else collapsed @endif" href="{{ route('permissions.index') }}"><i class="bi bi-credit-card-2-front"></i><span>Kelola Izin
+                            Akses</span></a></li>
+            @endcan
+
+            {{-- Kelola Pengguna --}}
+            <li class="nav-item">
+                <a class="nav-link @if (request()->segment(1) == 'users') @else collapsed @endif" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#" aria-expanded="@if (request()->segment(1) == 'users') true @else false @endif">
+                    <i class="bi bi-person"></i><span>Kelola Pengguna</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="forms-nav" class="nav-content collapse @if (request()->segment(1) == 'users') show @endif" data-bs-parent="#sidebar-nav" style="">
+                    <li>
+                        <a href="{{ route('user-data.index') }}" class="@if (request()->segment(2) == 'data') active @endif">
+                            <i class="bi bi-circle"></i><span>Daftar Pengguna</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('user-roles.index') }}" class="@if (request()->segment(2) == 'roles') active @endif">
+                            <i class="bi bi-circle"></i><span>Daftar Peran</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            {{-- Kelola Unit Pengolah --}}
+            <li class="nav-item"><a class="nav-link @if (request()->segment(1) == 'unit-pengolah') @else collapsed @endif" href="{{ route('unit-pengolah.index') }}"><i class="bi bi-file-person"></i><span>Kelola Unit
+                        Pengolah</span></a></li>
+        @endcan
+
+
+
         {{-- @can('menu-disposisi')
             <li class="nav-heading">Kelola Disposisi</li>
 
@@ -140,37 +175,7 @@
 
 
 
-        @can('menu-main')
-            <li class="nav-heading">Kelola Data Utama</li>
-            @can('page-main-permission')
-                {{-- Kelola Izin Akses --}}
-                <li class="nav-item"><a class="nav-link @if (request()->segment(1) == 'permissions') @else collapsed @endif" href="{{ route('permissions.index') }}"><i class="bi bi-credit-card-2-front"></i><span>Kelola Izin
-                            Akses</span></a></li>
-            @endcan
 
-            {{-- Kelola Pengguna --}}
-            <li class="nav-item">
-                <a class="nav-link @if (request()->segment(1) == 'users') @else collapsed @endif" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#" aria-expanded="@if (request()->segment(1) == 'users') true @else false @endif">
-                    <i class="bi bi-person"></i><span>Kelola Pengguna</span><i class="bi bi-chevron-down ms-auto"></i>
-                </a>
-                <ul id="forms-nav" class="nav-content collapse @if (request()->segment(1) == 'users') show @endif" data-bs-parent="#sidebar-nav" style="">
-                    <li>
-                        <a href="{{ route('user-data.index') }}" class="@if (request()->segment(2) == 'data') active @endif">
-                            <i class="bi bi-circle"></i><span>Daftar Pengguna</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('user-roles.index') }}" class="@if (request()->segment(2) == 'roles') active @endif">
-                            <i class="bi bi-circle"></i><span>Daftar Peran</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-
-            {{-- Kelola Unit Pengolah --}}
-            <li class="nav-item"><a class="nav-link @if (request()->segment(1) == 'unit-pengolah') @else collapsed @endif" href="{{ route('unit-pengolah.index') }}"><i class="bi bi-file-person"></i><span>Kelola Unit
-                        Pengolah</span></a></li>
-        @endcan
 
 
 
