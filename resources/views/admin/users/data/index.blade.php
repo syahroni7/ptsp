@@ -154,8 +154,8 @@
                 name: 'DT_RowIndex',
                 className: 'text-center'
             }, {
-                data: 'name',
-                name: 'name'
+                data: 'name_username',
+                name: 'name_username'
             }, {
                 data: 'last_login_at',
                 name: 'last_login_at'

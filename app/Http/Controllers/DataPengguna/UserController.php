@@ -81,7 +81,7 @@ class UserController extends Controller
                     $indicator = $user->status == 'active' ? 'bg-success' : 'bg-danger';
                     return '<span class="badge ' . $indicator . '">' . strtoupper($user->status) . '</span>';
                 })
-                ->editColumn('name', function ($user) {
+                ->addcolumn('name_username', function ($user) {
                     $html = $user->name .'<br>';
                     $html .= '<span class="text-muted" style="font-size:smaller!important;">'.$user->username.  '</span>';
                     return $html;
@@ -91,7 +91,7 @@ class UserController extends Controller
                     $html .= '<br><span class="text-muted" style="font-size:smaller!important;">'.$user->last_login_ip.  '</span>';
                     return $html;
                 })
-                ->rawColumns(['action', 'roles_detail', 'block_html', 'status_html', 'foto', 'contact', 'name', 'last_login_at'])
+                ->rawColumns(['action', 'roles_detail', 'block_html', 'status_html', 'foto', 'contact', 'name_username', 'last_login_at'])
                 ->make(true);
         }
 
