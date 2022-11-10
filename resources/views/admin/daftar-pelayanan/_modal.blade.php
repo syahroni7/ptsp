@@ -69,7 +69,7 @@
                         <div class="col-md-6 mb-3">
                             <label for="search_kelengkapan_syarat" class="form-label fw-bold">Kelengkapan
                                 Syarat</label>
-                            <select name="kelengkapan_syarat" id="search_kelengkapan_syarat" class="form-control select2">
+                            <select name="kelengkapan_syarat" id="search_kelengkapan_syarat" class="form-control select2" disabled="disabled">
                                 <option selected="">-- Pilih Kelengkapan Syarat --</option>
                                 <option value="Sudah Lengkap">Sudah Lengkap</option>
                                 <option value="Belum Lengkap">Belum Lengkap</option>
@@ -79,7 +79,7 @@
                         <div class="col-md-6">
                             <label for="search_status_pelayanan" class="form-label fw-bold">Status
                                 Pelayanan</label>
-                            <select name="status_pelayanan" id="search_status_pelayanan" class="form-control select2">
+                            <select name="status_pelayanan" id="search_status_pelayanan" class="form-control select2" disabled="disabled">
                                 <option selected="">-- Pilih Status Layanan --</option>
                                 <option value="Baru">Baru</option>
                                 <option value="Proses">Proses</option>

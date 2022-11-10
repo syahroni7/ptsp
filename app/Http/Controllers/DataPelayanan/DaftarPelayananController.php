@@ -52,8 +52,11 @@ class DaftarPelayananController extends Controller
                     $btn .= '<a href="'.$url.'" target="_blank" id="viewBtn" type="button" class="btn btn-sm btn-primary btn-xs mx-1"><i class="bi bi-journal-check"></i></a>';
                     $user = Auth::user();
                     if ($user->hasRole('super_administrator')) {
-                        $btn .= '<button id="editBtn" type="button" class="btn btn-sm btn-warning btn-xs mx-1" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Item Layanan"><i class="bi bi-pencil-square"></i></button>';
                         $btn .= '<button id="destroyBtn" type="button" class="btn btn-sm btn-danger btn-xs mx-1" data-bs-id_pelayanan="'. $layanan->id_pelayanan  .'" data-id_pelayanan="'.  $layanan->id_pelayanan  .'"><i class="bi bi-trash-fill"></i></button>';
+                    }
+
+                    if ($user->hasRole('super_administrator') || $user->hasRole('operator')) {
+                        $btn .= '<button id="editBtn" type="button" class="btn btn-sm btn-warning btn-xs mx-1" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Item Layanan"><i class="bi bi-pencil-square"></i></button>';
                     }
                     return $btn;
                 })
@@ -321,8 +324,8 @@ class DaftarPelayananController extends Controller
             $pelayanan->pengirim_nama = $data['pengirim_nama'];
             $pelayanan->pemohon_alamat = $data['pemohon_alamat'];
             $pelayanan->pemohon_no_hp = $data['pemohon_no_hp'];
-            $pelayanan->kelengkapan_syarat = $data['kelengkapan_syarat'];
-            $pelayanan->status_pelayanan = $data['status_pelayanan'];
+            // $pelayanan->kelengkapan_syarat = $data['kelengkapan_syarat'];
+            // $pelayanan->status_pelayanan = $data['status_pelayanan'];
             $pelayanan->catatan = $data['catatan'];
             $pelayanan->save();
             $pelayanan->fresh();
