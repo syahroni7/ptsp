@@ -118,6 +118,37 @@
             },
             placeholder: 'Cari Item Syarat Layanan',
             minimumInputLength: 3,
+            formatNoMatches: function(text) {
+                console.log('not matches')
+                // Add the AJAX behavior to the anchor, but do it asynchronously
+                // This way we give time to select2 to render the layout before we configure it
+                // setTimeout(function() {
+                //     $('#' + id + '-ajax-anchor').on('click', function(e) {
+                //         var target = $(e.target);
+
+                //         $.ajax({
+                //                 url: target.attr('href'),
+                //                 type: 'POST',
+                //                 dataType: 'json',
+                //                 data: {
+                //                     name: text
+                //                 },
+                //             })
+                //             .done(function(response) {
+                //                 /*
+                //                     Need help here !!
+                //                     1) Add the response to the list
+                //                     2) Select it
+                //                     3) Close
+                //                 */
+                //             });
+
+                //         e.preventDefault();
+                //     });
+                // }, 1);
+
+                return "Tidak Ditemukan, <a id='" + id + "-ajax-anchor' href='" + url + "'>Tambahkan</a>";
+            },
         });
 
 

@@ -360,11 +360,12 @@
                                 $.each(item.arsip.dokumen_masuk_url, function(key, item) {
                                     htmlmasuk += `<div class="btn btn-outline-dark mx-2 my-1 text-start">
                                                     <u>
-                                                        <a id="string_url" target="_blank" href="${item.file_url}" style="font-size:smaller;">
+                                                        <a id="string_url"  href="${item.file_url}" style="font-size:smaller;">
                                                             ${item.filename}
                                                         </a>
                                                     </u>
                                                 </div>`
+                                    // target="_blank"
                                 });
 
                                 boxmasuk.append(htmlmasuk);
@@ -380,11 +381,12 @@
                                 $.each(item.arsip.dokumen_keluar_url, function(key, item) {
                                     htmlkeluar += `<div class="btn btn-outline-dark mx-2 my-1 text-start">
                                                     <u>
-                                                        <a id="string_url" target="_blank" href="${item.file_url}" style="font-size:smaller;">
+                                                        <a id="string_url"  href="${item.file_url}" style="font-size:smaller;">
                                                             ${item.filename}
                                                         </a>
                                                     </u>
                                                 </div>`
+                                    // target="_blank"
                                 });
 
                                 boxkeluar.append(htmlkeluar);
@@ -397,11 +399,12 @@
                             let boxlama = $('.arsip-lama-box');
                             if (item.arsip.arsip_masuk_url) {
                                 boxlama.empty();
-                                var arsipHTML = `<a href="${item.arsip.arsip_masuk_url}" target="_blank" class="badge bg-primary" type="button" >Lihat Dokumen</a>`;
+                                var arsipHTML = `<a href="${item.arsip.arsip_masuk_url}"  class="badge bg-primary" type="button" >Lihat Dokumen</a>`;
                                 boxlama.append(arsipHTML);
                             }
 
 
+                            // target="_blank"
 
 
                             // if (item.arsip.arsip_keluar_url) {

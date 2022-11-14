@@ -3,6 +3,7 @@
 use App\Models\DaftarPelayanan;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +20,20 @@ use Illuminate\Support\Facades\Route;
  * Test Excel
  */
 
+Route::get('/xdown/{view}', function ($view) {
+    Artisan::call('down', ['--secret' => 'devmode', '--render' => 'errors.'.$view]);
+
+    return 'Web Down with command view: '. $view;
+});
+
+Route::get('/xup', function () {
+    Artisan::call('up');
+    return 'Web Up';
+});
+
+Route::get('/render/{view}', function ($view) {
+    return view($view);
+});
 
 Route::get('/logout_all', function () {
     \App\Models\User::each(function ($u) {
