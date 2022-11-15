@@ -117,7 +117,7 @@
                 cache: true
             },
             placeholder: 'Cari Item Syarat Layanan',
-            minimumInputLength: 3,
+            minimumInputLength: 5,
             "language": {
                 "noResults": function(res, data) {
                     // console.log(res, data);
