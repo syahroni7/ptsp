@@ -54,8 +54,8 @@ class DaftarPelayananController extends Controller
                     if ($user->hasRole('super_administrator')) {
                         $btn .= '<button id="destroyBtn" type="button" class="btn btn-sm btn-danger btn-xs mx-1" data-bs-id_pelayanan="'. $layanan->id_pelayanan  .'" data-id_pelayanan="'.  $layanan->id_pelayanan  .'"><i class="bi bi-trash-fill"></i></button>';
                     }
-
-                    if ($user->hasRole('super_administrator') || $user->hasRole('operator')) {
+                    // || $user->hasRole('operator')
+                    if ($user->hasRole('super_administrator')) {
                         $btn .= '<button id="editBtn" type="button" class="btn btn-sm btn-warning btn-xs mx-1" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Item Layanan"><i class="bi bi-pencil-square"></i></button>';
                     }
                     return $btn;
@@ -317,6 +317,7 @@ class DaftarPelayananController extends Controller
             $pelayanan = DaftarPelayanan::where('id_pelayanan', $data['id_pelayanan'])->first();
 
             // Create Pelayanan
+            $pelayanan->id_layanan = $data['id_layanan'];
             $pelayanan->perihal = $data['perihal'];
             $pelayanan->pemohon_nama = $data['pemohon_nama'];
             $pelayanan->pemohon_no_surat = $data['pemohon_no_surat'];

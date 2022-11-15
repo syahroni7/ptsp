@@ -38,6 +38,33 @@
             </nav>
         </div>
         <section class="section dashboard">
+
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <h5 style="font-weight: bolder;">Pengumuman update PTSP versi terbaru!</h5>
+                <h6 style="font-weight: bolder;"># 14 - 18 November 2022</h6>
+                <ol>
+                    <li>Fitur untuk penyelesaian Pelayanan hanya dapat dilakukan setelah melakukan upload dokumen hasil pelayanan</li>
+                    <li>Fitur Kelola Pengguna. Digunakan untuk Monitoring, Control dan Evaluasi sehingga lebih diperketat melalui sistem kontrol pengguna oleh Pimpinan</li>
+                </ol>
+
+                <h6 style="font-weight: bolder;"># 07 - 11 November 2022</h6>
+                <ol>
+                    <li>Penambahan Fitur Force Reset Password</li>
+                    <li>Penambahan Fitur Force Set Nomor HP</li>
+                    <li>Penambahan Fitur Integrasi pada Whatsapp</li>
+                    <li>Penambahan Modul Profil dengan fitur update data profil dan foto</li>
+                </ol>
+
+                <h6 style="font-weight: bolder;"># 01 - 04 November 2022</h6>
+                <ol>
+                    <li>Fitur Upload Multiple File dengan batasan format PDF</li>
+                    <li>Perbaikan Fitur Arsip untuk menampilkan File Arsip dari Fitur Multiple File Upload</li>
+                    <li>Penambahan Pie Chart dan Ringkasan Pelayanan per unit pada Dashboard</li>
+                </ol>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+
             <div class="row justify-content-center">
                 <div class="col-md-12">
                     <div class="card m-0">

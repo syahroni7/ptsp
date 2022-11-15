@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="{{ asset('css/select2-bootstrap-5-theme.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/select2-bootstrap-5-theme.rtl.min.css') }}" />
 
+    {{-- File Pond --}}
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/filepond/filepond.css') }}">
+
     <style>
         *:focus {
             outline: 0px;
@@ -167,14 +170,21 @@
                                         <form class="row g-3 mt-2" id="aForm">
                                             <div class="col-12">
                                                 <label for="search_catatan" class="form-label fw-bold">Arsip Masuk</label>
-                                                <div class="arsip-masuk-box">
+                                                <div class="arsip-masuk-box-upload">
+                                                    <button id="upload_arsip_masuk" class="btn btn-danger btn-sm upload-arsip-masuk" type="button" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Item Layanan"><i class="bi bi-cloud-upload"></i> Upload dokumen</button>
+                                                </div>
+
+                                                <div class="arsip-masuk-output">
                                                     -
                                                 </div>
                                             </div>
 
                                             <div class="col-12">
                                                 <label for="search_catatan" class="form-label fw-bold">Arsip Keluar</label>
-                                                <div class="arsip-keluar-box">
+                                                <div class="arsip-keluar-box-upload">
+                                                    <button id="upload_arsip_keluar" class="btn btn-warning btn-sm upload-arsip-keluar" type="button" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Item Layanan"><i class="bi bi-cloud-upload"></i>Upload dokumen</button>
+                                                </div>
+                                                <div class="arsip-keluar-output">
                                                     -
                                                 </div>
                                             </div>
@@ -247,7 +257,7 @@
                                     </div>
 
                                     <div class="col-md-12 form-group">
-                                        <label for="id_aksi_disposisi" class="form-label fw-bold">Aksi Disposisi</label>
+                                        <label for="id_aksi_disposisi" class="form-label fw-bold">Instruksi Disposisi</label>
                                         <select name="id_aksi_disposisi" id="id_aksi_disposisi" class="form-control select2 custom-select">
                                             <option selected value="">-- Pilih Disposisi --</option>
                                             @foreach ($aksi as $item)
@@ -283,6 +293,8 @@
             {{-- </div> --}}
         </section>
 
+        @include('admin.daftar-pelayanan._fmodal')
+
     </main>
 
 
@@ -306,10 +318,94 @@
     <script type="text/javascript" language="javascript" src="{{ asset('js/buttons.html5.min.js') }}"></script>
     <script type="text/javascript" language="javascript" src="{{ asset('js/buttons.print.min.js') }}"></script>
     <script type="text/javascript" language="javascript" src="{{ asset('js/buttons.colVis.min.js') }}"></script>
+    <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
 
+
+    {{-- File Pond --}}
+    <script src="{{ asset('assets/js/filepond/filepond.js') }}"></script>
+    <script src="{{ asset('assets/js/filepond/validate-filepond.js') }}"></script>
 
 
     <script>
+        // Get a reference to the file input element
+        const inputElement = document.querySelector('input[name="data_file[]"]');
+        // Create a FilePond instance
+        const pond = FilePond.create(inputElement, {
+            acceptedFileTypes: ['application/pdf'],
+        });
+
+        FilePond.setOptions({
+            server: {
+                process: {
+                    url: '/upload-file/upload',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                },
+                revert: {
+                    url: '/upload-file/destroy/1',
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        '_method': 'DELETE'
+                    }
+                }
+            },
+            onaddfilestart: (file) => {
+                isLoadingCheck();
+            },
+            onprocessfile: (files) => {
+                isLoadingCheck();
+            }
+        });
+
+
+        function isLoadingCheck() {
+            var isLoading = pond.getFiles().filter(x => x.status !== 5).length !== 0;
+            if (isLoading) {
+                $('#submitBtn').attr("disabled", "disabled");
+            } else {
+                $('#submitBtn').removeAttr("disabled");
+            }
+        }
+
+
+        $(document).on("click", "#upload_arsip_masuk", function(e) {
+            pond.removeFiles();
+            var title = $(this).data('title');
+            $("#judul-modal").html('Upload Arsip Masuk');
+            $('.arsip-masuk-box').show();
+            $('.arsip-keluar-box').hide();
+            console.log('GlobalData');
+            console.log(globalData);
+            $('#modal_id_pelayanan').val(globalData.id_pelayanan);
+            $('#modal_no_registrasi').val(globalData.no_registrasi);
+            $('#modal_id_layanan').val(globalData.id_layanan).trigger('change');
+            $('#modal_perihal').val(globalData.perihal);
+
+            $('#tipe_upload').val('dokumen_masuk_url');
+
+        });
+
+        $(document).on("click", "#upload_arsip_keluar", function(e) {
+            pond.removeFiles();
+            var title = $(this).data('title');
+            $("#judul-modal").html('Upload Arsip Keluar');
+            $('.arsip-masuk-box').hide();
+            $('.arsip-keluar-box').show();
+            console.log('GlobalData');
+            console.log(globalData);
+            $('#modal_id_pelayanan').val(globalData.id_pelayanan);
+            $('#modal_no_registrasi').val(globalData.no_registrasi);
+            $('#modal_id_layanan').val(globalData.id_layanan).trigger('change');
+            $('#modal_perihal').val(globalData.perihal);
+
+            $('#tipe_upload').val('dokumen_keluar_url');
+
+        });
+
+        var globalData = null;
+
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -331,13 +427,15 @@
                         console.log('data');
                         console.log(data);
                         if (data.success) {
+
                             var item = data.data;
+                            globalData = item;
+
                             $('#search_id_layanan').val(item.id_layanan).trigger('change');
                             $('#search_no_registrasi').val(item.no_registrasi);
                             $('#search_perihal').val(item.perihal);
                             $('#search_pemohon_no_surat').val(item.pemohon_no_surat);
-                            $('#search_pemohon_tanggal_surat').val(item
-                                .pemohon_tanggal_surat);
+                            $('#search_pemohon_tanggal_surat').val(item.pemohon_tanggal_surat);
                             $('#search_pemohon_nama').val(item.pemohon_nama);
                             $('#search_pemohon_alamat').val(item.pemohon_alamat);
                             $('#search_pemohon_no_hp').val(item.pemohon_no_hp);
@@ -352,7 +450,8 @@
 
 
 
-                            let boxmasuk = $('.arsip-masuk-box');
+                            let boxmasuk = $('.arsip-masuk-output');
+                            let masukUpload = $('.arsip-masuk-box-upload');
 
                             boxmasuk.empty();
                             var htmlmasuk = '';
@@ -369,12 +468,17 @@
                                 });
 
                                 boxmasuk.append(htmlmasuk);
+                                boxmasuk.show();
+                                masukUpload.hide();
                             } else {
                                 boxmasuk.append('-');
+                                boxmasuk.hide();
+                                masukUpload.show();
 
                             }
 
-                            var boxkeluar = $('.arsip-keluar-box');
+                            var boxkeluar = $('.arsip-keluar-output');
+                            let keluarUpload = $('.arsip-keluar-box-upload');
                             boxkeluar.empty();
                             var htmlkeluar = '';
                             if (item.arsip.dokumen_keluar_url) {
@@ -390,8 +494,12 @@
                                 });
 
                                 boxkeluar.append(htmlkeluar);
+                                boxkeluar.show();
+                                keluarUpload.hide();
                             } else {
                                 boxkeluar.append('-');
+                                boxkeluar.hide();
+                                keluarUpload.show();
                             }
 
 
@@ -413,8 +521,6 @@
                             //     var arsipHTML = `<a href="${item.arsip.arsip_keluar_url}" target="_blank" class="badge bg-primary" type="button" >Lihat Dokumen</a>`;
                             //     arsipBox.append(arsipHTML);
                             // }
-
-
 
                             let box = $('.disposisi-box');
 
@@ -684,5 +790,76 @@
             });
 
         });
+
+        $("#submitBtn").on("click", function(event) {
+            event.preventDefault();
+
+            $('.modalBox').block({
+                message: null
+            });
+
+            $('#submitBtn').prop("disabled", true);
+
+            var formdata = $("#fForm")
+                .serialize(); // here $(this) refere to the form its submitting
+            console.log(formdata);
+
+            url = $('#fForm').attr('action');
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: formdata, // here $(this) refers to the ajax object not form
+                dataType: 'json', // let's set the expected response format
+                success: function(data) {
+                    setTimeout(function() {
+                        $('#submitBtn').prop("disabled", false);
+                        $('.modalBox').unblock();
+                        console.log(data);
+                        if (data.success) {
+                            $('#fModal').modal('hide');
+                            Swal.fire(
+                                'Great!', 'Data sukses di update!', 'success'
+                            );
+                            if (!(typeof socket === "undefined")) {
+                                socket.emit('sendSummaryToServer', data.summary);
+                            }
+
+                            searchData('{{ $id_pelayanan }}');
+                        } else {
+                            Swal.fire(
+                                'Error!', data.message, 'error'
+                            );
+                        }
+                        $('#fForm')[0].reset();
+                        $('#id_jenis_layanan').val('');
+                    }, 200);
+
+                },
+                error: function(err) {
+                    if (err.status ==
+                        422) { // when status code is 422, it's a validation issue
+                        console.log(err.responseJSON);
+                        // you can loop through the errors object and show it to the user
+                        console.warn(err.responseJSON.errors);
+                        // display errors on each form field
+                        $('.ajax-invalid').remove();
+                        $.each(err.responseJSON.errors, function(i, error) {
+                            var el = $(document).find('[name="' + i + '"]');
+                            el.after($('<span class="ajax-invalid" style="color: red;">' +
+                                error[0] + '</span>'));
+                        });
+                    } else if (err.status == 403) {
+                        Swal.fire(
+                            'Unauthorized!', 'You are unauthorized to do the action',
+                            'warning'
+                        );
+
+                    }
+                }
+            });
+        });
     </script>
+
+
+
 @endsection

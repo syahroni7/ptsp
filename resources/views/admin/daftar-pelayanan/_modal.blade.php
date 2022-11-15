@@ -20,7 +20,7 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="search_id_layanan" class="form-label fw-bold">Nama Layanan</label>
-                            <select name="id_layanan" id="search_id_layanan" class="form-control select2" disabled="true">
+                            <select name="id_layanan" id="search_id_layanan" class="form-control select2">
                                 <option selected="">Pilih Layanan</option>
                                 @foreach ($daftar_layanan as $layanan)
                                     <option value="{{ $layanan->id_layanan }}">{{ $layanan->name }}</option>
