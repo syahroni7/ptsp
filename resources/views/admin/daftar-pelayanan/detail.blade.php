@@ -170,19 +170,19 @@
                                         <form class="row g-3 mt-2" id="aForm">
                                             <div class="col-12">
                                                 <label for="search_catatan" class="form-label fw-bold">Arsip Masuk</label>
-                                                <div class="arsip-masuk-box-upload">
-                                                    <button id="upload_arsip_masuk" class="btn btn-danger btn-sm upload-arsip-masuk" type="button" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Item Layanan"><i class="bi bi-cloud-upload"></i> Upload dokumen</button>
-                                                </div>
-
                                                 <div class="arsip-masuk-output">
                                                     -
+                                                </div>
+
+                                                <div class="arsip-masuk-box-upload">
+                                                    <span id="upload_arsip_masuk" class="badge bg-primary me-1 text-start upload-arsip-masuk" type="button" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Item Layanan"><i class="bi bi-archive"></i> Upload</span>
                                                 </div>
                                             </div>
 
                                             <div class="col-12">
                                                 <label for="search_catatan" class="form-label fw-bold">Arsip Keluar</label>
                                                 <div class="arsip-keluar-box-upload">
-                                                    <button id="upload_arsip_keluar" class="btn btn-warning btn-sm upload-arsip-keluar" type="button" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Item Layanan"><i class="bi bi-cloud-upload"></i>Upload dokumen</button>
+                                                    <span id="upload_arsip_keluar" class="badge bg-primary me-1 text-start upload-arsip-keluar" type="button" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Item Layanan"><i class="bi bi-archive"></i> Upload</span>
                                                 </div>
                                                 <div class="arsip-keluar-output">
                                                     -
@@ -370,7 +370,7 @@
         }
 
 
-        $(document).on("click", "#upload_arsip_masuk", function(e) {
+        $(document).on("click", ".upload-arsip-masuk", function(e) {
             pond.removeFiles();
             var title = $(this).data('title');
             $("#judul-modal").html('Upload Arsip Masuk');
@@ -387,7 +387,7 @@
 
         });
 
-        $(document).on("click", "#upload_arsip_keluar", function(e) {
+        $(document).on("click", ".upload-arsip-keluar", function(e) {
             pond.removeFiles();
             var title = $(this).data('title');
             $("#judul-modal").html('Upload Arsip Keluar');
@@ -457,15 +457,16 @@
                             var htmlmasuk = '';
                             if (item.arsip.dokumen_masuk_url) {
                                 $.each(item.arsip.dokumen_masuk_url, function(key, item) {
-                                    htmlmasuk += `<div class="btn btn-outline-dark mx-2 my-1 text-start">
-                                                    <u>
-                                                        <a id="string_url"  href="${item.file_url}" style="font-size:smaller;">
+                                    htmlmasuk += `<div class="badge bg-secondary me-1 text-start">
+                                                        <a id="string_url"  href="${item.file_url}" style="font-size:smaller;" class="text-white">
                                                             ${item.filename}
                                                         </a>
-                                                    </u>
                                                 </div>`
                                     // target="_blank"
                                 });
+                                if (item.status_pelayanan != 'Selesai') {
+                                    htmlmasuk += `<span id="upload_arsip_masuk" class="badge bg-primary me-1 text-start upload-arsip-masuk" type="button" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Item Layanan"><i class="bi bi-folder-plus"></i> Tambah</span>`;
+                                }
 
                                 boxmasuk.append(htmlmasuk);
                                 boxmasuk.show();
@@ -483,12 +484,10 @@
                             var htmlkeluar = '';
                             if (item.arsip.dokumen_keluar_url) {
                                 $.each(item.arsip.dokumen_keluar_url, function(key, item) {
-                                    htmlkeluar += `<div class="btn btn-outline-dark mx-2 my-1 text-start">
-                                                    <u>
-                                                        <a id="string_url"  href="${item.file_url}" style="font-size:smaller;">
+                                    htmlkeluar += `<div class="badge bg-secondary me-1 text-start">
+                                                        <a id="string_url"  href="${item.file_url}" style="font-size:smaller;" class="text-white">
                                                             ${item.filename}
                                                         </a>
-                                                    </u>
                                                 </div>`
                                     // target="_blank"
                                 });
