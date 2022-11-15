@@ -106,6 +106,9 @@
 
 
     <script>
+        // Register the plugin
+        FilePond.registerPlugin(FilePondPluginFileValidateType);
+
         // Get a reference to the file input element
         const inputElement = document.querySelector('input[name="data_file[]"]');
         // Create a FilePond instance

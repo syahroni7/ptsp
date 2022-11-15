@@ -37,6 +37,20 @@
             min-width: 90px !important;
             text-align: right !important;
         }
+
+        .responsive-iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .modal-print {
+            min-height: 700px !important;
+        }
     </style>
 @endsection
 
@@ -327,6 +341,9 @@
 
 
     <script>
+        // Register the plugin
+        FilePond.registerPlugin(FilePondPluginFileValidateType);
+
         // Get a reference to the file input element
         const inputElement = document.querySelector('input[name="data_file[]"]');
         // Create a FilePond instance
@@ -458,7 +475,7 @@
                             if (item.arsip.dokumen_masuk_url) {
                                 $.each(item.arsip.dokumen_masuk_url, function(key, item) {
                                     htmlmasuk += `<div class="badge bg-secondary me-1 text-start">
-                                                        <a id="string_url"  href="${item.file_url}" style="font-size:smaller;" class="text-white">
+                                                        <a id="string_url"  href="javascript:void(0)" style="font-size:smaller;" class="text-white cetak-bukti-button" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-cetak_bukti_link="${item.file_url}">
                                                             ${item.filename}
                                                         </a>
                                                 </div>`
@@ -485,7 +502,7 @@
                             if (item.arsip.dokumen_keluar_url) {
                                 $.each(item.arsip.dokumen_keluar_url, function(key, item) {
                                     htmlkeluar += `<div class="badge bg-secondary me-1 text-start">
-                                                        <a id="string_url"  href="${item.file_url}" style="font-size:smaller;" class="text-white">
+                                                        <a id="string_url"  href="javascript:void(0)" style="font-size:smaller;" class="text-white cetak-bukti-button" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-cetak_bukti_link="${item.file_url}">
                                                             ${item.filename}
                                                         </a>
                                                 </div>`
@@ -647,6 +664,11 @@
         });
 
         $(document).ready(function() {
+
+            $(document).on("click", ".cetak-bukti-button", function() {
+                var cetakBuktiLink = $(this).data('cetak_bukti_link');
+                $('#cetak-bukti-link').attr('src', cetakBuktiLink);
+            });
 
             searchData('{{ $id_pelayanan }}');
 
