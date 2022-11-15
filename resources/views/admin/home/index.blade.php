@@ -170,33 +170,35 @@
 
                                 <div class="card-body pb-0">
                                     <h5 class="card-title">Tabel Pelayanan <span></span></h5>
+                                    <div class="table-responsive">
 
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">#</th>
-                                                <th scope="col">Unit Pengolah</th>
-                                                <th scope="col" class="text-center">Baru</th>
-                                                <th scope="col" class="text-center">Proses</th>
-                                                <th scope="col" class="text-center">Selesai</th>
-                                                <th scope="col" class="text-center">Total</th>
-                                            </tr>
-                                        </thead>
-
-
-                                        <tbody>
-                                            @foreach ($totalByUnit as $key => $item)
+                                        <table class="table">
+                                            <thead>
                                                 <tr>
-                                                    <td class="text-center">{{ $key + 1 }}</td>
-                                                    <td class="">{{ $item['name'] }}</td>
-                                                    <td class="text-center">{{ $item['Baru'] }}</td>
-                                                    <td class="text-center">{{ $item['Proses'] }}</td>
-                                                    <td class="text-center">{{ $item['Selesai'] }}</td>
-                                                    <td class="text-center" style="font-weight: bolder; @if ($item['value'] == 0) color:red; @else color:black; @endif">{{ $item['value'] }}</td>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">Unit Pengolah</th>
+                                                    <th scope="col" class="text-center">Baru</th>
+                                                    <th scope="col" class="text-center">Proses</th>
+                                                    <th scope="col" class="text-center">Selesai</th>
+                                                    <th scope="col" class="text-center">Total</th>
                                                 </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+                                            </thead>
+
+
+                                            <tbody>
+                                                @foreach ($totalByUnit as $key => $item)
+                                                    <tr>
+                                                        <td class="text-center">{{ $key + 1 }}</td>
+                                                        <td class="">{{ $item['name'] }}</td>
+                                                        <td class="text-center">{{ $item['Baru'] }}</td>
+                                                        <td class="text-center">{{ $item['Proses'] }}</td>
+                                                        <td class="text-center">{{ $item['Selesai'] }}</td>
+                                                        <td class="text-center" style="font-weight: bolder; @if ($item['value'] == 0) color:red; @else color:black; @endif">{{ $item['value'] }}</td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
 
                                 </div>
                             </div><!-- End Website Traffic -->
