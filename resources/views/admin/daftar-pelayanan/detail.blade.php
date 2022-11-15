@@ -476,7 +476,7 @@
                                 $.each(item.arsip.dokumen_masuk_url, function(key, item) {
                                     var item_url_secure = item.file_url.replace("http:", "https:");
                                     htmlmasuk += `<div class="badge bg-secondary me-1 text-start">
-                                                        <a id="string_url"  href="javascript:void(0)" style="font-size:smaller;" class="text-white cetak-bukti-button" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-cetak_bukti_link="${item_url_secure}">
+                                                        <a id="string_url"  href="javascript:void(0)" style="font-size:smaller;" class="text-white cetak-bukti-button" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-cetak_bukti_link="${item_url_secure}" data-file_name="${item.filename}">
                                                             ${item.filename}
                                                         </a>
                                                 </div>`
@@ -504,7 +504,7 @@
                                 $.each(item.arsip.dokumen_keluar_url, function(key, item) {
                                     var item_url_secure = item.file_url.replace("http:", "https:");
                                     htmlkeluar += `<div class="badge bg-secondary me-1 text-start">
-                                                        <a id="string_url"  href="javascript:void(0)" style="font-size:smaller;" class="text-white cetak-bukti-button" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-cetak_bukti_link="${item_url_secure}">
+                                                        <a id="string_url"  href="javascript:void(0)" style="font-size:smaller;" class="text-white cetak-bukti-button" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-cetak_bukti_link="${item_url_secure}" data-file_name="${item.filename}">
                                                             ${item.filename}
                                                         </a>
                                                 </div>`
@@ -669,7 +669,9 @@
 
             $(document).on("click", ".cetak-bukti-button", function() {
                 var cetakBuktiLink = $(this).data('cetak_bukti_link');
+                var fileName = $(this).data('file_name');
                 $('#cetak-bukti-link').attr('src', cetakBuktiLink);
+                $('.cetak-title').html(fileName);
             });
 
             searchData('{{ $id_pelayanan }}');
