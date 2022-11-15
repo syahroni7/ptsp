@@ -140,7 +140,10 @@
 
             $.ajax({
                 type: 'PUT',
-                url: `/syarat-layanan/list/add/${id_layanan}/${syaratName}`,
+                url: `/syarat-layanan/list/add/${id_layanan}/`,
+                data: {
+                    syarat_name: syaratName
+                },
                 dataType: 'json', // let's set the expected response format
                 success: function(data) {
                     setTimeout(function() {

@@ -358,7 +358,7 @@ Route::group(['middleware' => ['auth', 'same_password_with_username', 'phone_num
 
         Route::post('/syarat-layanan/list/store', [\App\Http\Controllers\DataLayanan\ListSyaratLayananController::class, 'store'])->name('syarat-layanan-list.store');
         Route::put('/syarat-layanan/list/put/{id_layanan}/{id_master_syarat_layanan}', [\App\Http\Controllers\DataLayanan\ListSyaratLayananController::class, 'put'])->name('syarat-layanan-list.put');
-        Route::put('/syarat-layanan/list/add/{id_layanan}/{name}', [\App\Http\Controllers\DataLayanan\ListSyaratLayananController::class, 'add'])->name('syarat-layanan-list.add');
+        Route::put('/syarat-layanan/list/add/{id_layanan}/{name?}', [\App\Http\Controllers\DataLayanan\ListSyaratLayananController::class, 'add'])->name('syarat-layanan-list.add');
         Route::delete('/syarat-layanan/list/destroy/{id_layanan}/{id_master_syarat_layanan}', [\App\Http\Controllers\DataLayanan\ListSyaratLayananController::class, 'destroy'])->name('syarat-layanan-list.destroy');
     });
 

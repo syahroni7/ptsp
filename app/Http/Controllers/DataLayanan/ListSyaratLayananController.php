@@ -175,12 +175,15 @@ class ListSyaratLayananController extends Controller
             ->json(['success' => $success, 'message' => $message]);
     }
 
-    public function add($id_layanan, $name)
+    public function add(Request $request, $id_layanan, $name = null)
     {
+
+        
         $success = false;
         $message = '';
 
-        // try {
+        try {
+            $name = $name ? $name : $request->syarat_name;
             $findM = MasterSyaratLayanan::where('name', $name)->first();
             if(!$findM){
                 $findM = new MasterSyaratLayanan();
@@ -204,9 +207,9 @@ class ListSyaratLayananController extends Controller
             }
 
             $success = true;
-        // } catch (\Exception $e) {
-        //     $message = $e->getMessage();
-        // }
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+        }
 
         return response()
             ->json(['success' => $success, 'message' => $message]);
