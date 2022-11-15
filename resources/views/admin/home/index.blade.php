@@ -45,6 +45,7 @@
                 <ol>
                     <li>Fitur untuk penyelesaian Pelayanan hanya dapat dilakukan setelah melakukan upload dokumen hasil pelayanan</li>
                     <li>Fitur Kelola Pengguna. Digunakan untuk Monitoring, Control dan Evaluasi sehingga lebih diperketat melalui sistem kontrol pengguna oleh Pimpinan</li>
+                    <li>Perbaikan dan Penambahan pada fitur upload multiple File</li>
                 </ol>
 
                 <h6 style="font-weight: bolder;"># 07 - 11 November 2022</h6>
