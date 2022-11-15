@@ -174,4 +174,41 @@ class ListSyaratLayananController extends Controller
         return response()
             ->json(['success' => $success, 'message' => $message]);
     }
+
+    public function add($id_layanan, $name)
+    {
+        $success = false;
+        $message = '';
+
+        // try {
+            $findM = MasterSyaratLayanan::where('name', $name)->first();
+            if(!$findM){
+                $findM = new MasterSyaratLayanan();
+                $findM->name = $name;
+                $findM->save();
+            }
+            $findM->fresh();
+            $id_master_syarat_layanan = $findM->id_master_syarat_layanan;
+
+            $syarat = SyaratLayanan::where([
+                'id_layanan' => $id_layanan,
+                'id_master_syarat_layanan' => $id_master_syarat_layanan,
+            ])->withTrashed()
+            ->first();
+
+            $layanan = DaftarLayanan::find($id_layanan);
+            if ($syarat) {
+                $syarat->restore();
+            } else {
+                $layanan->syarat()->attach($id_master_syarat_layanan);
+            }
+
+            $success = true;
+        // } catch (\Exception $e) {
+        //     $message = $e->getMessage();
+        // }
+
+        return response()
+            ->json(['success' => $success, 'message' => $message]);
+    }
 }

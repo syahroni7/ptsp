@@ -118,38 +118,71 @@
             },
             placeholder: 'Cari Item Syarat Layanan',
             minimumInputLength: 3,
-            formatNoMatches: function(text) {
-                console.log('not matches')
-                // Add the AJAX behavior to the anchor, but do it asynchronously
-                // This way we give time to select2 to render the layout before we configure it
-                // setTimeout(function() {
-                //     $('#' + id + '-ajax-anchor').on('click', function(e) {
-                //         var target = $(e.target);
-
-                //         $.ajax({
-                //                 url: target.attr('href'),
-                //                 type: 'POST',
-                //                 dataType: 'json',
-                //                 data: {
-                //                     name: text
-                //                 },
-                //             })
-                //             .done(function(response) {
-                //                 /*
-                //                     Need help here !!
-                //                     1) Add the response to the list
-                //                     2) Select it
-                //                     3) Close
-                //                 */
-                //             });
-
-                //         e.preventDefault();
-                //     });
-                // }, 1);
-
-                return "Tidak Ditemukan, <a id='" + id + "-ajax-anchor' href='" + url + "'>Tambahkan</a>";
+            "language": {
+                "noResults": function(res, data) {
+                    // console.log(res, data);
+                    return "Tidak ditemukan <a class='btn btn-sm btn-danger add-new-syarat'>Tambahkan</a>";
+                }
             },
+            escapeMarkup: function(markup) {
+                // console.log('markup');
+                // console.log(markup);
+                return markup;
+            }
         });
+
+        $(document).on('click', '.add-new-syarat', function(e) {
+            console.log('add new syarat clicked');
+            var syaratName = $('.select2-search__field').val();
+            console.log('data');
+            console.log(syaratName);
+            var id_layanan = $('#id_layanan').val();
+
+            $.ajax({
+                type: 'PUT',
+                url: `/syarat-layanan/list/add/${id_layanan}/${syaratName}`,
+                dataType: 'json', // let's set the expected response format
+                success: function(data) {
+                    setTimeout(function() {
+                        console.log(data);
+                        if (!data.success) {
+                            Swal.fire(
+                                'Error!', data.message, 'error'
+                            );
+                        }
+
+                        jsonTbl.ajax.reload(null, false);
+                        table.ajax.reload(null, false);
+                        $('#jsonTbl').unblock();
+                    }, 100);
+
+                },
+                error: function(err) {
+                    if (err.status ==
+                        422) { // when status code is 422, it's a validation issue
+                        console.log(err.responseJSON);
+                        // you can loop through the errors object and show it to the user
+                        console.warn(err.responseJSON.errors);
+                        // display errors on each form field
+                        $('.ajax-invalid').remove();
+                        $.each(err.responseJSON.errors, function(i, error) {
+                            var el = $(document).find('[name="' + i + '"]');
+                            el.after($('<span class="ajax-invalid" style="color: red;">' +
+                                error[0] + '</span>'));
+                        });
+                    } else if (err.status == 403) {
+                        Swal.fire(
+                            'Unauthorized!',
+                            'You are unauthorized to do the action',
+                            'warning'
+                        );
+
+                    }
+                }
+            });
+        });
+
+
 
 
         var table = $('#example').DataTable({
@@ -240,8 +273,9 @@
             }, ]
         });
 
+        // pageLength: 5,
         var jsonTbl = $('#jsonTbl').DataTable({
-            pageLength: 5,
+            paging: false,
             orderable: false,
             sort: false,
             order: false,
