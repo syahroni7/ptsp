@@ -143,7 +143,7 @@
 
                                         <div class="col-12">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" name="remember" value="true" id="rememberMe">
+                                                <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
                                                 <label class="form-check-label" for="rememberMe">Ingat Saya</label>
                                             </div>
                                         </div>
