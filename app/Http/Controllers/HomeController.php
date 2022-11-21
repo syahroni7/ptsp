@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TotalLayananPerHari;
+use App\Models\TotalLayananPerMinggu;
 use App\Models\DaftarLayanan;
 use Illuminate\Http\Request;
 use App\Models\DaftarPelayanan;
@@ -81,7 +83,7 @@ class HomeController extends Controller
                 $countItem = isset($pByUnit[$item['name']]) ? $pByUnit[$item['name']]->count() : 0;
                 $sUnit[$key]['value'] = $countItem;
 
-                if(isset($pByUnit[$item['name']])) {
+                if (isset($pByUnit[$item['name']])) {
                     $byStat = $pByUnit[$item['name']]->groupBy('status_pelayanan');
                     $sUnit[$key]['Baru'] = isset($byStat['Baru']) ? $byStat['Baru']->count() : 0;
                     $sUnit[$key]['Proses'] = isset($byStat['Proses']) ? $byStat['Proses']->count() : 0;
@@ -124,12 +126,42 @@ class HomeController extends Controller
 
         // return $sUnit;
 
+        $total = TotalLayananPerMinggu::where('cron_status', 'executed')->take(8)->get();
+
+        $series [] = [
+            'name' => 'Total Pelayanan',
+            'data' => $total->pluck('total_pelayanan')
+        ];
+
+        $categories = $total->pluck('week_range');
+
+        $dataWeekly = [
+            'series' => $series,
+            'categories' => $categories
+        ];
+
+        $totalD = TotalLayananPerHari::where('cron_status', 'executed')->get();
+
+        $seriesD [] = [
+            'name' => 'Total Pelayanan',
+            'data' => $totalD->pluck('total_pelayanan')
+        ];
+
+        $categoriesD = $totalD->pluck('date');
+
+        $dataDaily = [
+            'series' => $seriesD,
+            'categories' => $categoriesD
+        ];
+
         return view('admin.home.index', [
             'title'  => 'Halaman Beranda',
             'br1'  => 'Home',
             'br2'  => 'Beranda',
             'summaryPelayanan'  => $statusPelayanan,
             'totalByUnit'  => $sUnit,
+            'dataWeekly'  => $dataWeekly,
+            'dataDaily'  => $dataDaily,
             'greeting' => $this->_getGreeting()
         ]);
     }

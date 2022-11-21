@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\TotalLayananPerHari;
+use App\Models\TotalLayananPerMinggu;
 use App\Models\DaftarPelayanan;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +21,115 @@ use Illuminate\Support\Facades\Artisan;
 /**
  * Test Excel
  */
+
+Route::get('/summary/daily', function () {
+    $totalD = TotalLayananPerHari::where('cron_status', 'executed')->get();
+
+    $seriesD [] = [
+        'name' => 'Total Pelayanan',
+        'data' => $totalD->pluck('total_pelayanan')
+    ];
+
+    $categoriesD = $totalD->pluck('date');
+
+    $dataD = [
+        'series' => $seriesD,
+        'categories' => $categoriesD
+    ];
+
+    return $dataD;
+});
+Route::get('/summary/weekly', function () {
+    $total = TotalLayananPerMinggu::where('cron_status', 'executed')->take(8)->get();
+
+    $series [] = [
+        'name' => 'Total Pelayanan',
+        'data' => $total->pluck('total_pelayanan')
+    ];
+
+    $categories = $total->pluck('week_range');
+
+    $data = [
+        'series' => $series,
+        'categories' => $categories
+    ];
+
+    return $data;
+});
+
+Route::get('/summary-run/weekly', function () {
+    $pelayanans = DaftarPelayanan::all();
+
+    foreach ($pelayanans as $pelayanan) {
+        $createdAt = $pelayanan->created_at;
+        $year = $createdAt->year;
+        $weekOfYear = $createdAt->weekOfYear;
+
+        $total = TotalLayananPerMinggu::firstOrCreate([
+            'year' => $year,
+            'week_of_year' => $weekOfYear,
+        ]);
+    }
+
+    $total = TotalLayananPerMinggu::where('cron_status', 'queue')->get();
+
+    foreach ($total as $tot) {
+        $date = \Carbon\Carbon::now();
+        $date->setISODate($tot->year, $tot->week_of_year);
+        $from = $date->startOfWeek()->format('Y-m-d H:i:s');
+        $to = $date->endOfWeek()->format('Y-m-d H:i:s');
+
+        $totalPelayanan = DaftarPelayanan::whereBetween('created_at', [$from, $to])->count();
+
+        $tot->total_pelayanan = $totalPelayanan;
+
+        $today = \Carbon\Carbon::now();
+        if ($today->between($from,$to)) {
+            $tot->cron_status = 'queue';
+        } else {
+            $tot->cron_status = 'executed';
+        }
+        $tot->save();
+    }
+
+    return 'Summary Weekly already Run';
+});
+
+Route::get('/summary-run/daily', function () {
+    $pelayanans = DaftarPelayanan::all();
+
+    foreach ($pelayanans as $pelayanan) {
+        $createdAt = $pelayanan->created_at;
+        $year = $createdAt->year;
+        $month = $createdAt->month;
+        $day = $createdAt->day;
+        $weekOfYear = $createdAt->weekOfYear;
+
+        $total = TotalLayananPerHari::firstOrCreate([
+            'year' => $year,
+            'month' => $month,
+            'day' => $day,
+            'date' => $createdAt->format('Y-m-d'),
+        ]);
+    }
+
+    $total = TotalLayananPerHari::where('cron_status', 'queue')->get();
+
+    foreach ($total as $tot) {
+        $totalPelayanan = DaftarPelayanan::whereDate('created_at', $tot->date)->count();
+        $tot->total_pelayanan = $totalPelayanan;
+
+        $dateNow = \Carbon\Carbon::now()->format('Y-m-d');
+        if ($dateNow == $tot->date) {
+            $tot->cron_status = 'queue';
+        } else {
+            $tot->cron_status = 'executed';
+        }
+        $tot->save();
+    }
+
+    return 'Summary Daily already Run';
+});
 
 Route::get('/xdown/{view}', function ($view) {
     Artisan::call('down', ['--secret' => 'devmode', '--render' => 'errors.'.$view]);

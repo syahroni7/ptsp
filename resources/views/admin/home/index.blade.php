@@ -155,7 +155,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <!-- Website Traffic -->
-                            <div class="card">
+                            <div class="card m-0">
                                 <div class="filter">
                                     <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
@@ -207,7 +207,7 @@
 
                         <div class="col-md-6">
                             <!-- Website Traffic -->
-                            <div class="card">
+                            <div class="card m-0">
                                 <div class="filter">
                                     <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
@@ -270,6 +270,188 @@
                     </div>
 
 
+                    <div class="row">
+                        <div class="col-12">
+                            <h5 class="card-title">
+                                <span>Berdasarkan Timeline</span>
+                            </h5>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+
+                        <div class="col-lg-6">
+                            <!-- Reports -->
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+
+                                        <div class="filter">
+                                            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                                <li class="dropdown-header text-start">
+                                                    <h6>Filter</h6>
+                                                </li>
+
+                                                <li><a class="dropdown-item" href="#">Today</a></li>
+                                                <li><a class="dropdown-item" href="#">This Month</a></li>
+                                                <li><a class="dropdown-item" href="#">This Year</a></li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="card-body">
+                                            <h5 class="card-title">Laporan <span>/ Mingguan</span></h5>
+
+                                            <!-- Line Chart -->
+                                            <div id="reportsChart"></div>
+
+                                            <script>
+                                                document.addEventListener("DOMContentLoaded", () => {
+                                                    new ApexCharts(document.querySelector("#reportsChart"), {
+                                                        series: @json($dataWeekly['series']),
+                                                        chart: {
+                                                            height: 350,
+                                                            type: 'area',
+                                                            toolbar: {
+                                                                show: false
+                                                            },
+                                                        },
+                                                        markers: {
+                                                            size: 4
+                                                        },
+                                                        colors: ['#4154f1', '#2eca6a', '#ff771d'],
+                                                        fill: {
+                                                            type: "gradient",
+                                                            gradient: {
+                                                                shadeIntensity: 1,
+                                                                opacityFrom: 0.3,
+                                                                opacityTo: 0.4,
+                                                                stops: [0, 90, 100]
+                                                            }
+                                                        },
+                                                        dataLabels: {
+                                                            enabled: false
+                                                        },
+                                                        stroke: {
+                                                            curve: 'smooth',
+                                                            width: 2
+                                                        },
+                                                        xaxis: {
+                                                            // type: 'datetime',
+                                                            categories: @json($dataWeekly['categories'])
+                                                        },
+                                                        tooltip: {
+                                                            x: {
+                                                                format: 'dd/MM/yy HH:mm'
+                                                            },
+                                                        }
+                                                    }).render();
+                                                });
+                                            </script>
+                                            <!-- End Line Chart -->
+
+                                        </div>
+
+                                    </div>
+                                </div><!-- End Reports -->
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <!-- Reports -->
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+
+                                        <div class="filter">
+                                            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                                <li class="dropdown-header text-start">
+                                                    <h6>Filter</h6>
+                                                </li>
+
+                                                <li><a class="dropdown-item" href="#">Today</a></li>
+                                                <li><a class="dropdown-item" href="#">This Month</a></li>
+                                                <li><a class="dropdown-item" href="#">This Year</a></li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="card-body">
+                                            <h5 class="card-title">Laporan <span>/ Harian</span></h5>
+
+                                            <!-- Line Chart -->
+                                            <div id="dailyChart"></div>
+
+                                            <script>
+                                                document.addEventListener("DOMContentLoaded", () => {
+                                                    new ApexCharts(document.querySelector("#dailyChart"), {
+                                                        series: @json($dataDaily['series']),
+                                                        chart: {
+                                                            type: 'area',
+                                                            stacked: false,
+                                                            height: 350,
+                                                            zoom: {
+                                                                type: 'x',
+                                                                enabled: true,
+                                                                autoScaleYaxis: true
+                                                            },
+                                                            toolbar: {
+                                                                autoSelected: 'zoom'
+                                                            }
+                                                        },
+                                                        dataLabels: {
+                                                            enabled: false
+                                                        },
+                                                        markers: {
+                                                            size: 0,
+                                                        },
+                                                        // title: {
+                                                        //     text: 'Total Pelayanan per Hari',
+                                                        //     align: 'left'
+                                                        // },
+                                                        fill: {
+                                                            type: 'gradient',
+                                                            gradient: {
+                                                                shadeIntensity: 1,
+                                                                inverseColors: false,
+                                                                opacityFrom: 0.5,
+                                                                opacityTo: 0,
+                                                                stops: [0, 90, 100]
+                                                            },
+                                                        },
+                                                        dataLabels: {
+                                                            enabled: false
+                                                        },
+                                                        stroke: {
+                                                            curve: 'smooth',
+                                                            width: 2
+                                                        },
+                                                        xaxis: {
+                                                            type: 'datetime',
+                                                            categories: @json($dataDaily['categories'])
+                                                        },
+                                                        tooltip: {
+                                                            x: {
+                                                                format: 'dd/MM/yy HH:mm'
+                                                            },
+                                                        }
+                                                    }).render();
+                                                });
+                                            </script>
+                                            <!-- End Line Chart -->
+
+                                        </div>
+
+                                    </div>
+                                </div><!-- End Reports -->
+                            </div>
+                        </div>
+
+
+                    </div>
 
 
 
