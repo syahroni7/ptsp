@@ -475,7 +475,7 @@ Route::group(['middleware' => ['auth', 'same_password_with_username', 'phone_num
 
 
 
-    Route::group(['middleware' => ['role:super_administrator|administrator|operator|staff|manager']], function () {
+    Route::group(['middleware' => ['role:super_administrator|administrator|operator|staff|manager|supervisor']], function () {
         /**
          * Transaksi Pelayanan
          */

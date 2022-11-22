@@ -269,7 +269,7 @@
                                         <option selected="">-- Pilih Status Layanan --</option>
                                         <option value="Baru">Baru</option>
                                         <option value="Proses">Proses</option>
-                                        <option value="selesai">Selesai</option>
+                                        <option value="Selesai">Selesai</option>
                                         <option value="Ambil">Ambil</option>
                                     </select>
                                 </div>
