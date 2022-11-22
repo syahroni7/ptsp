@@ -43,7 +43,8 @@ class SendWhatsappNotifiation
         $text .= 'Alamat  : '. $event->pelayanan->pemohon_alamat .'\n';
         $text .= '==========================';
         $text .= '\n \n';
-        $text .= 'Rincian Pelayanan dapat dilihat pada link dibawah ``` \n \n';
+        $text .= 'Rincian Pelayanan dapat dilihat pada link dibawah. \n \n';
+        $text .= 'Harap Menyimpan nomor ini dengan Nama KemenagPessel agar dapat klik Link dibawah. ``` \n \n';
         $text .= '' . $detailUrl . '';
 
         Log::info('Message: ');
