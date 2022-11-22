@@ -189,13 +189,17 @@ class DaftarDisposisiController extends Controller
                 event(new \App\Events\DispositionProcessed($pelayanan, $recipient));
             } 
             
-            // else {
-            //     $pelayanan = DaftarPelayanan::where('id_pelayanan', $data['id_pelayanan'])->first();
-            //     $pelayanan->status_pelayanan = 'Selesai';
-            //     $username = Auth::user()->name;
-            //     $pelayanan->updated_by = $username;
-            //     $pelayanan->save();
-            // }
+            else {
+                $pelayanan = DaftarPelayanan::where('id_pelayanan', $data['id_pelayanan'])->first();
+                $instruksi = $disposisi->aksi->name;
+                if(str_contains($instruksi, 'telah')) {
+                    $pelayanan->status_pelayanan = 'Selesai';
+                }
+
+                $username = Auth::user()->name;
+                $pelayanan->updated_by = $username;
+                $pelayanan->save();
+            }
 
             $pelayanan = DaftarPelayanan::where('id_pelayanan', $data['id_pelayanan'])->first();
             if ($user->hasRole('manager') && $pelayanan->status_pelayanan == 'Baru') {
