@@ -64,7 +64,7 @@ class ArsipPelayananController extends Controller
                             $docs = $layanan->arsip->dokumen_masuk_url;
                             foreach ($docs as $key => $doc) {
                                 $html .= '<div class="badge bg-secondary me-1 text-start">
-                                            <a id="string_url"  href="javascript:void(0)" style="font-size:smaller;" class="text-white cetak-bukti-button" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-cetak_bukti_link="'.$doc['file_url'].'" data-file_name="'.$doc['filename'].'">
+                                            <a id="string_url"  href="javascript:void(0)" style="font-size:smaller;" class="text-white cetak-bukti-button" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-cetak_bukti_link="'. str_replace('http:', 'https:', $doc['file_url']) .'" data-file_name="'.$doc['filename'].'">
                                                 '.$doc['filename'].'
                                             </a>
                                         </div>';
@@ -93,7 +93,7 @@ class ArsipPelayananController extends Controller
                             $docs = $layanan->arsip->dokumen_keluar_url;
                             foreach ($docs as $key => $doc) {
                                 $html .= '<div class="badge bg-secondary me-1 text-start">
-                                            <a id="string_url"  href="javascript:void(0)" style="font-size:smaller;" class="text-white cetak-bukti-button" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-cetak_bukti_link="'.$doc['file_url'].'" data-file_name="'.$doc['filename'].'">
+                                            <a id="string_url"  href="javascript:void(0)" style="font-size:smaller;" class="text-white cetak-bukti-button" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-cetak_bukti_link="'. str_replace('http:', 'https:', $doc['file_url']) .'" data-file_name="'.$doc['filename'].'">
                                                 '.$doc['filename'].'
                                             </a>
                                         </div>';
