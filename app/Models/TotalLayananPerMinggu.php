@@ -27,12 +27,14 @@ class TotalLayananPerMinggu extends Model
 
         $toDFY = $date->endOfWeek(Carbon::SUNDAY)->format('d M Y');
 
-        if($fromF == $toF) {
-            return $fromD . ' - ' . $toDFY;
-        } else {
-            $fromDF = $date->startOfWeek(Carbon::MONDAY)->format('d M');
-            return $fromDF . ' - ' . $toDFY;
-        }
+        // if($fromF == $toF) {
+        //     return $fromD . ' - ' . $toDFY;
+        // } else {
+        //     $fromDF = $date->startOfWeek(Carbon::MONDAY)->format('d M');
+        //     return $fromDF . ' - ' . $toDFY;
+        // }
+
+        return $toDFY;
     }
     
    

@@ -126,7 +126,7 @@ class HomeController extends Controller
 
         // return $sUnit;
 
-        $total = TotalLayananPerMinggu::where('cron_status', 'executed')->take(8)->get();
+        $total = TotalLayananPerMinggu::orderBy('id_total_layanan_perminggu')->take(8)->get();
 
         $series [] = [
             'name' => 'Total Pelayanan',
@@ -140,7 +140,7 @@ class HomeController extends Controller
             'categories' => $categories
         ];
 
-        $totalD = TotalLayananPerHari::where('cron_status', 'executed')->get();
+        $totalD = TotalLayananPerHari::get();
 
         $seriesD [] = [
             'name' => 'Total Pelayanan',
