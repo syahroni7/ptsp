@@ -63,13 +63,15 @@ class ArsipPelayananController extends Controller
                         if ($layanan->arsip->dokumen_masuk_url) {
                             $docs = $layanan->arsip->dokumen_masuk_url;
                             foreach ($docs as $key => $doc) {
-                                $html .= '<div class="badge bg-light text-light mx-1 my-1">
-                                            <u>
-                                                <a id="string_url" target="_blank" href="'.$doc['file_url'].'" style="font-size:smaller; text-decoration:none!important;">
-                                                    '.$doc['filename'].'
-                                                </a>
-                                            </u>
+                                $html .= '<div class="badge bg-secondary me-1 text-start">
+                                            <a id="string_url"  href="javascript:void(0)" style="font-size:smaller;" class="text-white cetak-bukti-button" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-cetak_bukti_link="'.$doc['file_url'].'" data-file_name="'.$doc['filename'].'">
+                                                '.$doc['filename'].'
+                                            </a>
                                         </div>';
+
+                                        // <a id="string_url" target="_blank" href="'.$doc['file_url'].'" style="font-size:smaller; text-decoration:none!important;">
+                                        //             '.$doc['filename'].'
+                                        //         </a>
                             }
                             $user = Auth::user();
                             if ($user->hasRole('super_administrator') || $user->hasRole('operator')) {
@@ -90,12 +92,10 @@ class ArsipPelayananController extends Controller
                         if ($layanan->arsip->dokumen_keluar_url) {
                             $docs = $layanan->arsip->dokumen_keluar_url;
                             foreach ($docs as $key => $doc) {
-                                $html .= '<div class="badge bg-light text-light mx-1 my-1">
-                                            <u>
-                                                <a id="string_url" target="_blank" href="'.$doc['file_url'].'" style="font-size:smaller; text-decoration:none!important;">
-                                                    '.$doc['filename'].'
-                                                </a>
-                                            </u>
+                                $html .= '<div class="badge bg-secondary me-1 text-start">
+                                            <a id="string_url"  href="javascript:void(0)" style="font-size:smaller;" class="text-white cetak-bukti-button" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-cetak_bukti_link="'.$doc['file_url'].'" data-file_name="'.$doc['filename'].'">
+                                                '.$doc['filename'].'
+                                            </a>
                                         </div>';
                             }
                             $user = Auth::user();

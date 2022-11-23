@@ -26,6 +26,10 @@
         .bukti-daftar {
             min-height: 700px !important;
         }
+
+        .modal-print {
+            min-height: 700px !important;
+        }
     </style>
 @endsection
 
@@ -379,9 +383,11 @@
 
 
 
-            $(document).on("click", "#cetak-bukti-button", function() {
+            $(document).on("click", ".cetak-bukti-button", function() {
                 var cetakBuktiLink = $(this).data('cetak_bukti_link');
+                var fileName = $(this).data('file_name');
                 $('#cetak-bukti-link').attr('src', cetakBuktiLink);
+                $('.cetak-title').html(fileName);
             });
 
             table.ajax.url('/arsip-pelayanan').load();

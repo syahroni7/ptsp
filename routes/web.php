@@ -22,6 +22,45 @@ use Illuminate\Support\Facades\Artisan;
  * Test Excel
  */
 
+Route::get('/message-warning/send', function () {
+    
+
+    $no_hp = ['081267750055', '082289337241', '081275811997', '085265171049', '081363107032', '085274047000', '082294297733'];
+
+
+    $text = '```.:= PTSP KEMENAG PESSEL =:. \n';
+    $text .= '\n';
+    $text .= 'Yth, \n';
+    $text .= 'Bapak / Ibu Pegawai Kementerian Agama Kabupaten Pesisir Selatan. ';
+    $text .= 'Agar dapat melakukan update data pada PTSP Online dengan melakukan login menggunakan: \n \n';
+    $text .= '==========================\n';
+    $text .= 'Username : NIP \n';
+    $text .= 'Password : NIP \n';
+    $text .= 'Loginuri : ```https://ptsp.kemenagpessel.com/login ``` \n';
+    $text .= '==========================';
+    $text .= '\n \n';
+    $text .= 'Link untuk login dapat dilihat pada url yang disematkan dibawah ini atau diatas. \n \n```';
+    $text .= 'https://ptsp.kemenagpessel.com/login \n\n';
+
+    $text .= '```Harap nomor ini untuk disimpan agar bisa mengakses link diatas. Terima Kasih atas Perhatiannya```';
+
+    foreach ($no_hp as $hp) {
+        \App\Http\Controllers\MessageController::sendMessage($hp, $text);
+    }
+
+
+    
+
+    // Log::info('Message: ');
+    // Log::info($text);
+    // Log::info('=======================================');
+    // \App\Http\Controllers\MessageController::sendMessage($event->recipient->no_hp, $text);
+    // Log::info('Messsage Sent');
+    // Log::info('=======================================');
+
+
+});
+
 Route::get('/summary/daily', function () {
     $totalD = TotalLayananPerHari::where('cron_status', 'executed')->get();
 
