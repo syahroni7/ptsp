@@ -112,6 +112,7 @@
 
 
         var table = $('#example').DataTable({
+            processing: true,
             orderable: false,
             sort: false,
             order: false,

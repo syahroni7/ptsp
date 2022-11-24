@@ -318,6 +318,10 @@ class DaftarPelayananController extends Controller
 
             // Create Pelayanan
             $pelayanan->id_layanan = $data['id_layanan'];
+            $layanan = DaftarLayanan::find($data['id_layanan']);
+            $pelayanan->id_unit_pengolah = $layanan->id_unit_pengolah;
+            $pelayanan->id_jenis_layanan = $layanan->id_jenis_layanan;
+            $pelayanan->id_output_layanan = $layanan->id_output_layanan;
             $pelayanan->perihal = $data['perihal'];
             $pelayanan->pemohon_nama = $data['pemohon_nama'];
             $pelayanan->pemohon_no_surat = $data['pemohon_no_surat'];

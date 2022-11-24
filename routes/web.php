@@ -22,6 +22,12 @@ use Illuminate\Support\Facades\Artisan;
  * Test Excel
  */
 
+Route::get('/message-warning/send/test', function () {
+
+
+});
+
+
 Route::get('/message-warning/send', function () {
     
 
