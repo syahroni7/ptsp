@@ -83,7 +83,8 @@ class UserController extends Controller
                 })
                 ->addcolumn('name_username', function ($user) {
                     $html = $user->name .'<br>';
-                    $html .= '<span class="text-muted" style="font-size:smaller!important;">'.$user->username.  '</span>';
+                    $html .= '<span class="text-muted" style="font-size:smaller!important;">'.$user->username.  '</span> <br>';
+                    $html .= '<span class="text-muted" style="font-size:smaller!important;">'.$user->age.  '</span>';
                     return $html;
                 })
                 ->editColumn('last_login_at', function ($user) {
