@@ -30,12 +30,13 @@ class LayananController extends Controller
         $this->middleware('auth');
     }
 
-    protected function _echoDate( $start, $end ){
+    protected function _echoDate($start, $end)
+    {
         $start    = (new DateTime($start))->modify('first day of this month');
         $end      = (new DateTime($end))->modify('first day of this month');
         $interval = DateInterval::createFromDateString('1 month');
         $period   = new DatePeriod($start, $interval, $end);
-        
+
         $ret = [];
         foreach ($period as $dt) {
             $ret[] = [
@@ -47,15 +48,15 @@ class LayananController extends Controller
         return array_reverse($ret);
     }
 
-    public function index(Request $request, $item) {
-
+    public function index(Request $request, $item)
+    {
         $pelayananS = DaftarPelayanan::orderBy('created_at', 'asc')->first();
         $pelayananE = DaftarPelayanan::orderBy('created_at', 'desc')->first();
 
         $start = $pelayananS->created_at;
         $end = $pelayananE->created_at;
 
-        
+
 
         $range = $this->_echoDate($start, $end);
 
@@ -99,9 +100,9 @@ class LayananController extends Controller
                                         ', [$year, $month]);
 
 
-                                        // ON YEAR(b.created_at) = 2022 AND MONTH(b.created_at) = 11
+        // ON YEAR(b.created_at) = 2022 AND MONTH(b.created_at) = 11
 
-                            
+
 
         $daftarpelayanangrouped = collect($daftarpelayanan)->groupBy('unit');
 
@@ -122,7 +123,7 @@ class LayananController extends Controller
 
         PDF::SetMargins(0, 0, 0, 0);
         PDF::SetLeftMargin(0);
-        PDF::SetTopMargin(7);
+        PDF::SetTopMargin(11);
         PDF::SetRightMargin(0);
         PDF::SetAutoPageBreak(true, 0);
         PDF::AddPage('P', 'A4');
@@ -146,7 +147,7 @@ class LayananController extends Controller
         $col4 = 40;
         $spacing = 10;
         $x = 10;
-        $y = 30;
+        $y = 37;
         PDF::SetXY($x, $y);
         PDF::SetFont('times', 'B', 11);
         PDF::SetFillColor(215, 235, 255);
@@ -164,7 +165,7 @@ class LayananController extends Controller
             foreach ($pelayanan as $k => $item) {
                 $y += $spacing;
 
-                if ($y >= 280) {
+                if ($y >= 260) {
                     PDF::SetFont('times', 'B', 13);
                     PDF::AddPage('P', 'A4');
                     $yearMonthUpper = strtoupper($yearMonth);
@@ -176,8 +177,18 @@ class LayananController extends Controller
 
                     // print a block of text using Write()
                     PDF::Write(0, $txt, '', 0, 'C', true, 0, false, false, 0);
-                    $y = 30;
+                    $y = 37;
+
+                    PDF::SetXY($x, $y);
+                    PDF::SetFont('times', 'B', 11);
+                    PDF::SetFillColor(215, 235, 255);
+                    PDF::MultiCell($col1, 10, 'No', 1, 'C', true, 0, '', '', true, 0, false, true, 10, 'M');
+                    PDF::MultiCell($col2, 10, 'Unit Pengolah', 1, 'C', true, 0, '', '', true, 0, false, true, 10, 'M');
+                    PDF::MultiCell($col3, 10, 'Daftar Pelayanan', 1, 'C', true, 0, '', '', true, 0, false, true, 10, 'M');
+                    PDF::MultiCell($col4, 10, 'Jumlah Pengguna Layanan', 1, 'C', true, 0, '', '', true, 0, false, true, 10, 'M');
+                    $y += $spacing;
                 }
+
                 PDF::SetFont('times', '', 11);
                 if ($item->id_unit == 1 || $item->id_unit == 2) {
                     $heightCol = 10;
@@ -189,7 +200,7 @@ class LayananController extends Controller
                 PDF::Ln($spacing);
                 PDF::setXY($x, $y);
 
-                if($item->total == 0) {
+                if ($item->total == 0) {
                     // PDF::SetFillColor(255, 0, 0);
                     PDF::SetFillColor(220, 20, 60);
                     PDF::MultiCell($col1, $heightCol, $counter, 1, 'C', true, 0, '', '', true, 0, false, true, $heightCol, 'M');
@@ -202,7 +213,7 @@ class LayananController extends Controller
                     PDF::MultiCell($col3, $heightCol, $item->layanan, 1, 'L', false, 0, '', '', true, 0, false, true, $heightCol, 'M');
                     PDF::MultiCell($col4, $heightCol, $item->total, 1, 'C', false, 0, '', '', true, 0, false, true, $heightCol, 'M');
                 }
-                
+
                 $totalLayanan += $item->total;
                 $counter++;
             }
@@ -211,7 +222,7 @@ class LayananController extends Controller
         if ($y >= 280) {
             PDF::SetFont('times', 'B', 13);
             PDF::AddPage('P', 'A4');
-            $y = 30;
+            $y = 37;
         }
         $y += $spacing;
         PDF::SetFont('times', 'B', 11);
