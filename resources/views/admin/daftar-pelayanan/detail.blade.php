@@ -504,7 +504,7 @@
                                 $.each(item.arsip.dokumen_keluar_url, function(key, item) {
                                     var item_url_secure = item.file_url.replace("http:", "https:");
                                     htmlkeluar += `<div class="badge bg-secondary me-1 text-start">
-                                                        <a id="string_url"  href="javascript:void(0)" style="font-size:smaller;" class="text-white cetak-bukti-button" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-cetak_bukti_link="${item_url_secure}" data-file_name="${item.filename}">
+                                                        <a id="string_url"  href="javascript:void(0)" style="font-size:smaller;" class="text-white cetak-bukti-button" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-cetak_bukti_link="https://docs.google.com/gview?embedded=true&url=${item_url_secure}" data-file_name="${item.filename}">
                                                             ${item.filename}
                                                         </a>
                                                 </div>`
