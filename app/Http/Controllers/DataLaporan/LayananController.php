@@ -113,7 +113,7 @@ class LayananController extends Controller
         PDF::SetAuthor('Pramana Yuda Sayeti');
         $date = Carbon::createFromDate($year, $month);
         $yearMonth = $date->locale('id')->monthName . ' ' .$date->year;
-        $judul = 'Laporan Bulanan PTSP Periode ' . $yearMonth;
+        $judul = 'Laporan Bulanan PTSP Online Periode ' . $yearMonth;
         PDF::SetTitle($judul);
         PDF::SetSubject($judul);
         PDF::SetKeywords('PTSP, Pelayanan Publik, ');
