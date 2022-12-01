@@ -22,11 +22,6 @@ use Illuminate\Support\Facades\Artisan;
  * Test Excel
  */
 
-Route::get('/message-warning/send/test', function () {
-
-
-});
-
 
 Route::get('/message-warning/send', function () {
     
@@ -448,6 +443,13 @@ Route::group(['middleware' => ['auth', 'same_password_with_username', 'phone_num
     Route::get('/notifications/detail/{id}', [\App\Http\Controllers\NotificationController::class, 'detail'])->name('notification.detail');
 
     Route::group(['middleware' => ['role:super_administrator|administrator|manager']], function () {
+
+        /**
+         * Laporan
+         */
+        Route::get('/laporan-layanan/index/{item}', [\App\Http\Controllers\DataLaporan\LayananController::class, 'index'])->name('laporan-layanan.index');
+        Route::get('/laporan-layanan/create/{year}/{month}', [\App\Http\Controllers\DataLaporan\LayananController::class, 'create'])->name('laporan-layanan.create');
+
         /**
          * User
          */

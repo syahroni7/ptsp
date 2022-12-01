@@ -218,6 +218,16 @@
             @endcan
         @endcan
 
+        @can('menu-report')
+            <li class="nav-heading">Kelola Laporan</li>
+            {{-- Kelola Jenis Layanan --}}
+            @can('page-report-layanan')
+                <li class="nav-item"> <a class="nav-link @if (request()->segment(1) == 'laporan-layanan') @else collapsed @endif" href="{{ route('laporan-layanan.index', 'layanan') }}"> <i class="bi bi-book"></i> <span>Laporan Layanan</span></a></li>
+            @endcan
+        @endcan
+
+
+
 
 
 
