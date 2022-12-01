@@ -221,6 +221,18 @@ class LayananController extends Controller
         PDF::MultiCell($col4, $heightCol, $totalLayanan, 1, 'C', false, 0, '', '', true, 0, false, true, $heightCol, 'M');
 
 
+        $spacing = 20;
+        $y += $spacing;
+        PDF::SetFont('times', '', 12);
+        PDF::Ln($spacing);
+        PDF::setXY($x, $y);
+        PDF::MultiCell($col1 + $col2 + $col3 - 20, $heightCol, '', 0, 'R', 0, 0, '', '', true, 0, false, true, $heightCol, 'M');
+
+        $dateString =  $year .'-'. $month . '-01';
+        $date = Carbon::createFromFormat('Y-m-d', $dateString);
+        $lastMonth = $date->endOfMonth();
+        $stringD = $lastMonth->format('d F Y');
+        PDF::MultiCell($col4 +20, 0, 'Painan,  '.$stringD.'<br> Administrator Sistem <br /> <br /> <br /> <br /> <br /> Pramana Yuda Sayeti, S.Kom', 0, 'C', false, 0, '', '', true, 0, true, true, 40, 'T');
 
         PDF::Output($judul . '.pdf', 'I');
     }
