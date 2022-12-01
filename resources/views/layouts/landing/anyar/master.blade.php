@@ -6,8 +6,28 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <title>@yield('title')</title>
-    <meta content="" name="description">
-    <meta content="" name="keywords">
+    <meta name="description" content="PTSP KemenagPessel - PTSP Kementerian Agama Kabupaten Pesisir Selatan" />
+    <meta name="keywords" content="PTSP, PTSP ONLINE, Pelayanan Publik" />
+    <meta name="author" content="Pramana Yuda Sayeti" />
+    <meta name="robots" content="all" />
+    <meta name="revisit-after" content="1 Days" />
+    <meta property="og:locale" content="id-ID" />
+    <meta property="og:site_name" content="PTSP ONLINE KEMENAGPESSEL" />
+    <meta property="og:image" content="https://pesisirselatan.kemenag.go.id/v1/uploads/logo/logo_5f315af825f0d.png" />
+    <meta property="og:image:width" content="180" />
+    <meta property="og:image:height" content="50" />
+    <meta property="og:type" content=website />
+    <meta property="og:title" content="PTSP ONLINE - Kemenag Pesisir Selatan" />
+    <meta property="og:description" content="Pelayanan Publik Terpadu Satu Pintu Berbasis Web (ONLINE) Kementerian Agama Kabupaten Pesisir Selatan" />
+    <meta property="og:url" content="https://ptsp.kemenagpessel.com" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="PTSP ONLINE Kemenag Pesisir Selatan" />
+    <meta name="twitter:title" content="PTSP ONLINE - Kemenag Pesisir Selatan" />
+    <meta name="twitter:description" content="Pelayanan Publik Terpadu Satu Pintu Berbasis Web (ONLINE) Kementerian Agama Kabupaten Pesisir Selatan" />
+    <meta name="twitter:image" content="https://pesisirselatan.kemenag.go.id/v1/uploads/logo/logo_5f315af825f0d.png" />
+    <link rel="canonical" href="https://ptsp.kemenagpessel.com" />
+    <link rel="alternate" hreflang="en-US" href="https://ptsp.kemenagpessel.com" />
+    <link rel="shortcut icon" type="image/png" href="https://pesisirselatan.kemenag.go.id/v1/uploads/logo/logo_5f315af825f0d2.png" />
 
     @include('layouts.landing.anyar.styles')
 
