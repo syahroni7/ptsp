@@ -7,7 +7,7 @@
 
     <title>PTSP ONLINE Kemenagpessel</title>
     <meta name="description" content="PTSP KemenagPessel - PTSP Kementerian Agama Kabupaten Pesisir Selatan" />
-    <meta name="keywords" content="PTSP, PTSP ONLINE, Pelayanan Publik" />
+    <meta name="keywords" content="PTSP Kemenagpessel, PTSP Kemenag Pesisir Selatan, PTSP ONLINE, Pelayanan Publik" />
     <meta name="author" content="Pramana Yuda Sayeti" />
     <meta name="robots" content="all" />
     <meta name="revisit-after" content="1 Days" />
