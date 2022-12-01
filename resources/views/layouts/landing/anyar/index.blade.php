@@ -49,6 +49,8 @@
     <!-- Template Main CSS File -->
     <link href="{{ asset('anyar-assets/css/style.css') }}" rel="stylesheet">
 
+    <meta name="google-site-verification" content="L2cqB0zMI-5ZcuG_lEwKsOfrKOt7MbkYxUq6y5jcUf0" />
+
     <style>
         #header {
             top: 0px !important;
