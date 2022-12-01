@@ -30,6 +30,12 @@ class PDFController extends Controller
         PDF::SetRightMargin(0);
         PDF::SetAutoPageBreak(true, 0);
 
+        // QRCODE
+        $urlDetail = route('landing.detail-pelayanan', $pelayanan->idx_pelayanan);
+        // $qrcode = base64_encode(\QrCode::format('svg')->size(167)->errorCorrection('H')->generate($url_for_view));
+
+        // ENDQRCODE
+
 
         PDF::AddPage('L', 'A4');
 
@@ -352,6 +358,27 @@ class PDFController extends Controller
             PDF::MultiCell($col2, 0, $unit_pengolah, 1, 'L', false, 0, '', '', true, 0, false, true, 40, 'T');
             PDF::Ln($spacing);
 
+            $style = array(
+                'border' => 2,
+                'vpadding' => 'auto',
+                'hpadding' => 'auto',
+                'fgcolor' => array(0,0,0),
+                'bgcolor' => false, //array(255,255,255)
+                'module_width' => 1, // width of a single module in points
+                'module_height' => 1 // height of a single module in points
+            );
+
+            // Unit Pengolah
+            PDF::SetFont('times', 'B', 9);
+            if ($i == 0) {
+                PDF::write2DBarcode($urlDetail, 'QRCODE,L', $columnStart1+2, 175, 17, 17, $style);
+                PDF::Text($columnStart1, 169, 'Scan QRCode');
+            } else {
+                PDF::write2DBarcode($urlDetail, 'QRCODE,L', $columnStart2+2, 175, 17, 17, $style);
+                PDF::Text($columnStart2, 169, 'Scan QRCode');
+            }
+
+
             // Unit Pengolah
             if ($i == 0) {
                 PDF::setX($columnStart1+70);
@@ -360,7 +387,9 @@ class PDFController extends Controller
             }
             PDF::SetFont('times', 'B', 9);
 
-
+            
+            
+            
             PDF::MultiCell($col1 + 20, 0, 'Petugas Penerima <br /> <br /> <br /> <br /> <br /> '. $petugas_penerima, 0, 'C', false, 0, '', '', true, 0, true, true, 40, 'T');
 
             $yHorizontal = 197;

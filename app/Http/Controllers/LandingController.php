@@ -52,4 +52,13 @@ class LandingController extends Controller
             'daftar_layanan'  => $daftarLayanan,
         ]);
     }
+
+    public function detailPelayanan($idx) {
+        $daftarLayanan = \App\Models\DaftarLayanan::all();
+        return view('landing.detail-pelayanan.index', [
+            'title' => 'Detail Permohonan Pelayanan',
+            'daftar_layanan'  => $daftarLayanan,
+            'idx_pelayanan'  => $idx,
+        ]);
+    }
 }
