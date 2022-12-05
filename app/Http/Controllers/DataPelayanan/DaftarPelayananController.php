@@ -118,7 +118,7 @@ class DaftarPelayananController extends Controller
 
     public function create()
     {
-        $daftarLayanan = DaftarLayanan::all();
+        $daftarLayanan = DaftarLayanan::whereHas('syarat')->get();
         return view('admin.daftar-pelayanan.create', [
             'title'  => 'Input - Lacak Pelayanan Publik',
             'br1'  => 'Input - Lacak',
