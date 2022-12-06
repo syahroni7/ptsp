@@ -22,7 +22,9 @@ class LandingController extends Controller
             $id_layanan = $arr[0];
         }
 
-        $daftarLayanan = DaftarLayanan::whereHas('syarat')->get();
+        $daftarLayanan = \App\Models\DaftarLayanan::all();
+        // $daftarLayanan = DaftarLayanan::whereHas('syarat')->get();
+
         return view('landing.buat-pelayanan.index', [
             'daftar_layanan'  => $daftarLayanan,
             'id_layanan' => $id_layanan,
