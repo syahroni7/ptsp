@@ -494,7 +494,7 @@ Route::group(['middleware' => ['auth', 'same_password_with_username', 'phone_num
         Route::delete('/output-layanan/destroy/{jenis}', [\App\Http\Controllers\DataLayanan\OutputLayananController::class, 'destroy'])->name('output-layanan.destroy');
     });
 
-    Route::group(['middleware' => ['role:super_administrator|administrator|staff']], function () {
+    Route::group(['middleware' => ['role:super_administrator|administrator|staff|operator']], function () {
         /**
          * Daftar Layanan
          */
