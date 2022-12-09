@@ -62,6 +62,42 @@ Route::get('/message-warning/send', function () {
 
 });
 
+Route::get('/test/smsptsp', function () {
+    
+
+    Log::info('=======================================');
+    Log::info('Ready For Send Message');
+
+    $pelayanan = \App\Models\DaftarPelayanan::orderBy('created_at', 'desc')->first();
+    $user = \App\Models\User::where('username', '199407292022031002')->first();
+
+    $event = [
+        'pelayanan' => $pelayanan,
+        'recipient' => $user
+    ];
+
+    $detailUrl = route('daftar-pelayanan.detail', $event['pelayanan']->idx_pelayanan);
+    $text = '```.:= PTSP KMGPESSEL =:. \n';
+    $text .= '\n';
+    $text .= 'Yth, \n';
+    $text .= '' . $event['recipient']->name . ' \n';
+    $text .= 'Ada Disposisi Baru \n \n';
+    $text .= '====================\n';
+    $text .= 'No. Reg : '. $event['pelayanan']->no_registrasi.'\n';
+    $text .= 'Perihal : '. $event['pelayanan']->perihal .'\n';
+    $text .= 'Pemohon : '. $event['pelayanan']->pemohon_nama .'\n';
+    $text .= 'Alamat  : '. $event['pelayanan']->pemohon_alamat .'\n';
+    $text .= '====================';
+    $text .= '\n \n';
+    $text .= 'Rincian Pelayanan dapat dilihat pada link dibawah. \n \n';
+    $text .= 'Harap Menyimpan nomor ini dengan Nama KemenagPessel agar dapat klik Link dibawah. ``` \n \n';
+    $text .= '' . $detailUrl . '';
+
+
+    \App\Http\Controllers\MessageController::sendMessage($event['recipient']->no_hp, $text);
+
+});
+
 Route::get('/summary/daily', function () {
     $totalD = TotalLayananPerHari::where('cron_status', 'executed')->get();
 
