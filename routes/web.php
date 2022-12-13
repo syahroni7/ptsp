@@ -99,7 +99,8 @@ Route::get('/test/smsptsp', function () {
 });
 
 Route::get('/summary/daily', function () {
-    $totalD = TotalLayananPerHari::where('cron_status', 'executed')->get();
+    $totalD = TotalLayananPerHari::get();
+    // $totalD = TotalLayananPerHari::where('cron_status', 'executed')->get();
 
     $seriesD [] = [
         'name' => 'Total Pelayanan',
@@ -116,7 +117,8 @@ Route::get('/summary/daily', function () {
     return $dataD;
 });
 Route::get('/summary/weekly', function () {
-    $total = TotalLayananPerMinggu::where('cron_status', 'executed')->take(8)->get();
+    // $total = TotalLayananPerMinggu::where('cron_status', 'executed')->take(8)->get();
+    $total = TotalLayananPerMinggu::take(8)->get();
 
     $series [] = [
         'name' => 'Total Pelayanan',
