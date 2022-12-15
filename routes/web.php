@@ -170,7 +170,23 @@ Route::get('/summary-run/weekly', function () {
         $tot->save();
     }
 
-    return 'Summary Weekly already Run';
+
+    // Get Data
+    $total = TotalLayananPerMinggu::take(8)->get();
+
+    $series [] = [
+        'name' => 'Total Pelayanan',
+        'data' => $total->pluck('total_pelayanan')
+    ];
+
+    $categories = $total->pluck('week_range');
+
+    $data = [
+        'series' => $series,
+        'categories' => $categories
+    ];
+
+    return $data;
 });
 
 Route::get('/summary-run/daily', function () {
@@ -206,7 +222,24 @@ Route::get('/summary-run/daily', function () {
         $tot->save();
     }
 
-    return 'Summary Daily already Run';
+    // return 'Summary Daily already Run';
+
+    $totalD = TotalLayananPerHari::get();
+    // $totalD = TotalLayananPerHari::where('cron_status', 'executed')->get();
+
+    $seriesD [] = [
+        'name' => 'Total Pelayanan',
+        'data' => $totalD->pluck('total_pelayanan')
+    ];
+
+    $categoriesD = $totalD->pluck('date');
+
+    $dataD = [
+        'series' => $seriesD,
+        'categories' => $categoriesD
+    ];
+
+    return $dataD;
 });
 
 Route::get('/xdown/{view}', function ($view) {

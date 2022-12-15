@@ -39,7 +39,7 @@
         </div>
         <section class="section dashboard">
 
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <div class="alert alert-warning alert-dismissible fade" role="alert" style="display: none">
                 <h5 style="font-weight: bolder;">Pengumuman update PTSP versi terbaru!</h5>
                 <h6 style="font-weight: bolder;"># 14 - 18 November 2022</h6>
                 <ol>
@@ -302,14 +302,14 @@
                                         </div>
 
                                         <div class="card-body">
-                                            <h5 class="card-title">Laporan <span>/ Mingguan</span></h5>
+                                            <h5 class="card-title">Laporan <span>/ Mingguan</span> <span class="badge bg-primary text-white update-mingguan" style="font-size: 7pt !important; cursor:pointer;">update</span></h5>
 
                                             <!-- Line Chart -->
                                             <div id="reportsChart"></div>
 
                                             <script>
                                                 document.addEventListener("DOMContentLoaded", () => {
-                                                    new ApexCharts(document.querySelector("#reportsChart"), {
+                                                    var chartMingguan = new ApexCharts(document.querySelector("#reportsChart"), {
                                                         series: @json($dataWeekly['series']),
                                                         chart: {
                                                             height: 350,
@@ -347,7 +347,24 @@
                                                                 format: 'dd/MM/yy HH:mm'
                                                             },
                                                         }
-                                                    }).render();
+                                                    });
+
+                                                    chartMingguan.render();
+
+                                                    $(document).on('click', '.update-mingguan', function(e) {
+
+                                                        console.log('update mingguan triggered');
+                                                        $.getJSON('/summary-run/weekly', function(response) {
+                                                            // chartMingguan.updateSeries(response.series)
+                                                            chartMingguan.updateOptions({
+                                                                series: response.series,
+                                                                xaxis: {
+                                                                    categories: response.categories
+                                                                },
+                                                            });
+                                                            chartMingguan.updateSeries(response.series)
+                                                        });
+                                                    });
                                                 });
                                             </script>
                                             <!-- End Line Chart -->
@@ -380,14 +397,14 @@
                                         </div>
 
                                         <div class="card-body">
-                                            <h5 class="card-title">Laporan <span>/ Harian</span></h5>
+                                            <h5 class="card-title">Laporan <span>/ Harian</span><span class="badge bg-primary text-white update-harian" style="font-size: 7pt !important; cursor:pointer;">update</span></h5>
 
                                             <!-- Line Chart -->
                                             <div id="dailyChart"></div>
 
                                             <script>
                                                 document.addEventListener("DOMContentLoaded", () => {
-                                                    new ApexCharts(document.querySelector("#dailyChart"), {
+                                                    var chartHarian = new ApexCharts(document.querySelector("#dailyChart"), {
                                                         series: @json($dataDaily['series']),
                                                         chart: {
                                                             type: 'area',
@@ -438,7 +455,23 @@
                                                                 format: 'dd/MM/yy HH:mm'
                                                             },
                                                         }
-                                                    }).render();
+                                                    });
+
+                                                    chartHarian.render();
+
+                                                    $(document).on('click', '.update-harian', function(e) {
+
+                                                        console.log('update harian triggered');
+                                                        $.getJSON('/summary-run/daily', function(response) {
+                                                            chartHarian.updateOptions({
+                                                                series: response.series,
+                                                                xaxis: {
+                                                                    categories: response.categories
+                                                                },
+                                                            });
+                                                            chartHarian.updateSeries(response.series)
+                                                        });
+                                                    });
                                                 });
                                             </script>
                                             <!-- End Line Chart -->
