@@ -126,7 +126,8 @@ class HomeController extends Controller
 
         // return $sUnit;
 
-        $total = TotalLayananPerMinggu::orderBy('id_total_layanan_perminggu')->take(8)->get();
+        $total = TotalLayananPerMinggu::orderBy('id_total_layanan_perminggu', 'DESC')->take(8)->get();
+        $total = $total->sortBy("id_total_layanan_perminggu");
 
         $series [] = [
             'name' => 'Total Pelayanan',
