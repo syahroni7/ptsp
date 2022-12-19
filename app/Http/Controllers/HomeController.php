@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\DaftarPelayanan;
 use Illuminate\Support\Facades\Hash;
 use Auth;
+use DB;
 
 class HomeController extends Controller
 {
@@ -155,6 +156,20 @@ class HomeController extends Controller
             'categories' => $categoriesD
         ];
 
+        // Coba-coba
+
+        $daftarpelayanan = DB::select('
+        SELECT c.id_unit_pengolah as id_unit, c.name as unit, a.name as layanan, COALESCE(count(b.id_pelayanan)) as total
+        FROM daftar_layanan as a
+        LEFT JOIN daftar_pelayanan as b ON a.id_layanan = b.id_layanan
+        LEFT JOIN daftar_unit_pengolah as c ON a.id_unit_pengolah = c.id_unit_pengolah
+        GROUP BY c.id_unit_pengolah, c.name, a.name
+        ORDER BY c.id_unit_pengolah ASC');
+        $daftarpelayanangrouped = collect($daftarpelayanan)->groupBy('unit');
+        // return $daftarpelayanangrouped;
+
+        // end of Coba-coba
+
         return view('admin.home.index', [
             'title'  => 'Halaman Beranda',
             'br1'  => 'Home',
@@ -163,6 +178,7 @@ class HomeController extends Controller
             'totalByUnit'  => $sUnit,
             'dataWeekly'  => $dataWeekly,
             'dataDaily'  => $dataDaily,
+            'daftarpelayanangrouped'  => $daftarpelayanangrouped,
             'greeting' => $this->_getGreeting()
         ]);
     }
