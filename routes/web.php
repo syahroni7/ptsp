@@ -173,7 +173,8 @@ Route::get('/summary-run/weekly', function () {
 
 
     // Get Data
-    $total = TotalLayananPerMinggu::take(8)->get();
+    $total = TotalLayananPerMinggu::orderBy('id_total_layanan_perminggu', 'DESC')->take(8)->get();
+    $total = $total->sortBy("id_total_layanan_perminggu");
 
     $series [] = [
         'name' => 'Total Pelayanan',
