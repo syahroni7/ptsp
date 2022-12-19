@@ -173,15 +173,15 @@ Route::get('/summary-run/weekly', function () {
 
 
     // Get Data
-    $total = TotalLayananPerMinggu::orderBy('id_total_layanan_perminggu', 'DESC')->take(8)->get();
-    $total = $total->sortBy("id_total_layanan_perminggu");
+    $totalM = TotalLayananPerMinggu::orderBy('id_total_layanan_perminggu', 'DESC')->take(8)->get();
+    $totalM = $totalM->sortBy("id_total_layanan_perminggu");
 
     $series [] = [
         'name' => 'Total Pelayanan',
-        'data' => $total->pluck('total_pelayanan')
+        'data' => $totalM->pluck('total_pelayanan')
     ];
 
-    $categories = $total->pluck('week_range');
+    $categories = $totalM->pluck('week_range');
 
     $data = [
         'series' => $series,
