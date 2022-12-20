@@ -109,8 +109,11 @@
                                 <div class="card-body pb-0">
                                     <h5 class="card-title">Tabel Rekapitulasi <span></span></h5>
                                     <div class="table-responsive">
+                                        <button id="convert">
+                                            Convert to image
+                                        </button>
 
-                                        <table class="table">
+                                        <table class="table table-bordered" id="myTable">
 
                                             @foreach ($fixData as $key => $item)
                                                 @if ($key == 'header')
@@ -186,6 +189,18 @@
                                         </table>
                                     </div>
 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-start">
+                        <div class="col-md-4">
+                            <div class="card m-0">
+                                <div class="card-body pb-0">
+                                    <div id="result">
+                                        <!-- Result will appear be here -->
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -669,6 +684,8 @@
 
 
 
+
+
         </section>
     </main>
 
@@ -677,7 +694,26 @@
 
 @section('_scripts')
 
+    <script type="text/javascript" src="https://github.com/niklasvh/html2canvas/releases/download/0.5.0-alpha1/html2canvas.js"></script>
 
+    <script>
+        //convert table to image            
+        function convertToImage() {
+            window.scrollTo(0, 0);
+            var resultDiv = document.getElementById("result");
+            html2canvas(document.getElementById("myTable"), {
+                scale: 4,
+                dpi: 600,
+                onrendered: function(canvas) {
+                    var img = canvas.toDataURL("image/png");
+                    result.innerHTML = '<a download="Rekapitulasi Hasil.png" href="' + img + '">test</a>';
+                }
+            });
+        }
+        //click event
+        var convertBtn = document.getElementById("convert");
+        convertBtn.addEventListener('click', convertToImage);
+    </script>
     {{-- <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
     <script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
