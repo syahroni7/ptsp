@@ -95,6 +95,101 @@
                 <!-- Left side columns -->
                 <div class="col-lg-12">
 
+                    <div class="row">
+                        <div class="col-12">
+                            <h5 class="card-title">
+                                <span>Rekapitulasi Layanan per Unit</span>
+                            </h5>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-start">
+                        <div class="col-md-8">
+                            <div class="card m-0">
+                                <div class="card-body pb-0">
+                                    <h5 class="card-title">Tabel Rekapitulasi <span></span></h5>
+                                    <div class="table-responsive">
+
+                                        <table class="table">
+
+                                            @foreach ($fixData as $key => $item)
+                                                @if ($key == 'header')
+                                                    <thead>
+                                                        <tr>
+                                                            @foreach ($item as $k => $sub)
+                                                                @if ($k == 0)
+                                                                    <th scope="col">{{ $sub }}</th>
+                                                                @else
+                                                                    <th scope="col" class="text-center">{{ $sub }}</th>
+                                                                @endif
+                                                            @endforeach
+                                                        </tr>
+                                                    </thead>
+                                                @endif
+
+                                                @if ($key != 'header')
+                                                    <tbody>
+                                                        <tr>
+                                                            @foreach ($item as $k => $sub)
+                                                                @if ($k == 0)
+                                                                    <td scope="col">{{ $sub }}</td>
+                                                                @else
+                                                                    <td scope="col" class="text-center">{{ $sub }}</td>
+                                                                @endif
+                                                            @endforeach
+                                                        </tr>
+                                                    </tbody>
+                                                @endif
+                                            @endforeach
+
+                                            {{-- <thead>
+                                                <tr>
+                                                    <th scope="col">No</th>
+                                                    <th scope="col">Unit Pengolah</th>
+                                                    <th scope="col">Daftar Pelayanan</th>
+                                                    <th scope="col" class="text-center">Jumlah Layanan</th>
+                                                </tr>
+                                            </thead>
+
+
+                                            <tbody>
+                                                @php
+                                                    $counter = 1;
+                                                    $sum = 0;
+                                                @endphp
+                                                @foreach ($daftarpelayanangrouped as $unit => $pelayanan)
+                                                    @php $sumeach = 0; @endphp
+                                                    @foreach ($pelayanan as $k => $item)
+                                                        <tr style="@if ($item->total == 0) background-color:red!important; border-color:red!important; @endif">
+                                                            <td class="text-center">{{ $counter }}</td>
+                                                            <td>{{ $unit }}</td>
+                                                            <td>{{ $item->layanan }}</td>
+                                                            <td class="text-center">{{ $item->total }}</td>
+                                                        </tr>
+                                                        @php
+                                                            $counter++;
+                                                            $sum += $item->total;
+                                                            $sumeach += $item->total;
+                                                        @endphp
+                                                    @endforeach
+                                                    <tr style="@if ($item->total == 0) background-color:green!important; border-color:green!important; @endif">
+                                                        <td class="text-end text-right fw-bold" colspan="3">Total Layanan {{ $unit }}</td>
+                                                        <td class="text-center fw-bold">{{ $sumeach }}</td>
+                                                    </tr>
+                                                    @php $sumeach = 0; @endphp
+                                                @endforeach
+                                                <tr>
+                                                    <td class="text-end text-right fw-bolder" colspan="3">Total Semua</td>
+                                                    <td class="text-center fw-bolder">{{ $sum }}</td>
+                                                </tr>
+                                            </tbody> --}}
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     {{-- Baris Tabel Pelayanan --}}
 

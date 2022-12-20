@@ -10,6 +10,9 @@ use App\Models\DaftarPelayanan;
 use Illuminate\Support\Facades\Hash;
 use Auth;
 use DB;
+use DateTime;
+use DateInterval;
+use DatePeriod;
 
 class HomeController extends Controller
 {
@@ -21,6 +24,26 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+    }
+
+    protected function _getPeriodRange($start, $end)
+    {
+        $start    = (new DateTime($start))->modify('first day of this month');
+        $end      = (new DateTime($end))->modify('first day of this month');
+        $interval = DateInterval::createFromDateString('1 month');
+        $period   = new DatePeriod($start, $interval, $end);
+
+        $ret = [];
+        foreach ($period as $dt) {
+            $ret[] = [
+                'title' => $dt->format("F Y"),
+                'year' => $dt->format("Y"),
+                'month' => $dt->format("m"),
+            ];
+        }
+
+        // return array_reverse($ret);
+        return $ret;
     }
 
     /**
@@ -156,7 +179,7 @@ class HomeController extends Controller
             'categories' => $categoriesD
         ];
 
-        // Coba-coba
+        
 
         $daftarpelayanan = DB::select('
         SELECT c.id_unit_pengolah as id_unit, c.name as unit, a.name as layanan, COALESCE(count(b.id_pelayanan)) as total
@@ -167,6 +190,55 @@ class HomeController extends Controller
         ORDER BY c.id_unit_pengolah ASC');
         $daftarpelayanangrouped = collect($daftarpelayanan)->groupBy('unit');
         // return $daftarpelayanangrouped;
+
+        // return $daftarpelayanan;
+
+        // Coba-coba
+
+        $pelayananS = DaftarPelayanan::orderBy('created_at', 'asc')->first();
+        $pelayananE = DaftarPelayanan::orderBy('created_at', 'desc')->first();
+
+        $start = $pelayananS->created_at;
+        $end = $pelayananE->created_at;
+        $range = $this->_getPeriodRange($start, $end);
+
+        $collData = [];
+        foreach($range as $item) {
+            $getData = DB::select("
+            SELECT b.id_unit_pengolah, b.name, COALESCE(COUNT(a.id_pelayanan)) as total_layanan
+            FROM daftar_unit_pengolah as b
+            LEFT JOIN daftar_pelayanan as a ON b.id_unit_pengolah = a.id_unit_pengolah AND MONTH(a.created_at) = ? AND YEAR(a.created_at) = ?
+            GROUP BY b.id_unit_pengolah, b.name
+            ORDER BY b.id_unit_pengolah", [$item['month'], $item['year']]);
+            $collData[$item['title']] = $getData;
+        }
+
+        $fixData = [];
+        $fixData['header'][] = 'Nama Unit';
+
+        // return $collData;
+        $counter = 1;
+        foreach ($collData as $bulan => $item) {
+            $fixData['header'][] = $bulan;
+            foreach($item as $k => $coll) {
+                if(!isset($fixData[$coll->name])) {
+                    $fixData[$coll->name][] = $coll->name;
+                    $fixData[$coll->name][] = $coll->total_layanan;
+                } else {
+                    $fixData[$coll->name][] = $coll->total_layanan;
+                }
+                
+                $counter++;
+            }
+        }
+        // return $fixData;
+
+
+        // DATE_FORMAT(a.created_at,'%M %Y') as bulan
+        
+
+        // $dataPelayananColl = collect($collLayanan)->groupBy('unit');
+
 
         // end of Coba-coba
 
@@ -179,6 +251,7 @@ class HomeController extends Controller
             'dataWeekly'  => $dataWeekly,
             'dataDaily'  => $dataDaily,
             'daftarpelayanangrouped'  => $daftarpelayanangrouped,
+            'fixData'  => $fixData,
             'greeting' => $this->_getGreeting()
         ]);
     }
