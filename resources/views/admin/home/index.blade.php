@@ -699,7 +699,6 @@
     <script>
         //convert table to image            
         function convertToImage() {
-            window.scrollTo(0, 0);
             var resultDiv = document.getElementById("result");
             html2canvas(document.getElementById("myTable"), {
                 scale: 4,
