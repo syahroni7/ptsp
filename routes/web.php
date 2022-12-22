@@ -22,10 +22,37 @@ use Illuminate\Support\Facades\Artisan;
  * Test Excel
  */
 
+Route::get('/qrcodesistem', function () {
+    // Set document information
+    PDF::SetCreator('Pramana Yuda Sayeti');
+    PDF::SetAuthor('Pramana Yuda Sayeti');
+
+    PDF::SetMargins(0, 0, 0, 0);
+    PDF::SetLeftMargin(0);
+    PDF::SetTopMargin(0);
+    PDF::SetRightMargin(0);
+    PDF::SetAutoPageBreak(true, 0);
+
+    PDF::AddPage('L', 'A4');
+
+
+    $style = array(
+       'border' => 0,
+       'vpadding' => 'auto',
+       'hpadding' => 'auto',
+       'fgcolor' => array(0,0,0),
+       'bgcolor' => false, //array(255,255,255)
+       'module_width' => 1, // width of a single module in points
+       'module_height' => 1 // height of a single module in points
+    );
+
+    $urlDetail = 'https://ptsp.kemenagpessel.com';
+    PDF::write2DBarcode($urlDetail, 'QRCODE,L', 10, 10, 100, 100, $style);
+
+    PDF::Output('example_010.pdf', 'I');
+});
 
 Route::get('/message-warning/send', function () {
-    
-
     $no_hp = ['081267750055', '082289337241', '081275811997', '085265171049', '081363107032', '085274047000', '082294297733'];
 
 
@@ -50,7 +77,7 @@ Route::get('/message-warning/send', function () {
     }
 
 
-    
+
 
     // Log::info('Message: ');
     // Log::info($text);
@@ -58,13 +85,9 @@ Route::get('/message-warning/send', function () {
     // \App\Http\Controllers\MessageController::sendMessage($event->recipient->no_hp, $text);
     // Log::info('Messsage Sent');
     // Log::info('=======================================');
-
-
 });
 
 Route::get('/test/smsptsp', function () {
-    
-
     Log::info('=======================================');
     Log::info('Ready For Send Message');
 
@@ -95,7 +118,6 @@ Route::get('/test/smsptsp', function () {
 
 
     \App\Http\Controllers\MessageController::sendMessage($event['recipient']->no_hp, $text);
-
 });
 
 Route::get('/summary/daily', function () {
@@ -163,7 +185,7 @@ Route::get('/summary-run/weekly', function () {
         $tot->total_pelayanan = $totalPelayanan;
 
         $today = \Carbon\Carbon::now();
-        if ($today->between($from,$to)) {
+        if ($today->between($from, $to)) {
             $tot->cron_status = 'queue';
         } else {
             $tot->cron_status = 'executed';
@@ -517,7 +539,6 @@ Route::group(['middleware' => ['auth', 'same_password_with_username', 'phone_num
     Route::get('/notifications/detail/{id}', [\App\Http\Controllers\NotificationController::class, 'detail'])->name('notification.detail');
 
     Route::group(['middleware' => ['role:super_administrator|administrator|manager']], function () {
-
         /**
          * Laporan
          */

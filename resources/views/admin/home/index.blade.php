@@ -651,7 +651,7 @@
                                                             $sumeach += $item->total;
                                                         @endphp
                                                     @endforeach
-                                                    <tr style="@if ($item->total == 0) background-color:green!important; border-color:green!important; @endif">
+                                                    <tr style="background-color:green!important; border-color:green!important;">
                                                         <td class="text-end text-right fw-bold" colspan="3">Total Layanan {{ $unit }}</td>
                                                         <td class="text-center fw-bold">{{ $sumeach }}</td>
                                                     </tr>
