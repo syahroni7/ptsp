@@ -36,7 +36,8 @@ class HomeController extends Controller
         $ret = [];
         foreach ($period as $dt) {
             $ret[] = [
-                'title' => $dt->format("F Y"),
+                'title' => $dt->format("M Y"),
+                'title_old' => $dt->format("F Y"),
                 'year' => $dt->format("Y"),
                 'month' => $dt->format("m"),
             ];
