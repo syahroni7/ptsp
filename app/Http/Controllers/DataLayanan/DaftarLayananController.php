@@ -9,6 +9,7 @@ use App\Models\JenisLayanan;
 use App\Models\OutputLayanan;
 use App\Models\UnitPengolah;
 use DataTables;
+use Auth;
 
 class DaftarLayananController extends Controller
 {
