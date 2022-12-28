@@ -24,15 +24,21 @@ class DaftarLayananController extends Controller
 
     public function index(Request $request)
     {
-
         if ($request->ajax()) {
             $layanans = DaftarLayanan::with('unit', 'output', 'jenis')->get();
 
             return Datatables::of($layanans)
                 ->addIndexColumn()
                 ->addColumn('action', function ($layanan) {
-                    $btn = '<button id="editBtn" type="button" class="btn btn-sm btn-warning btn-xs" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Item Layanan"><i class="bi bi-pencil-square"></i></button>&nbsp;';
-                    $btn .= '<button id="destroyBtn" type="button" class="btn btn-sm btn-danger btn-xs" data-bs-id_layanan="'. $layanan->id_layanan  .'" data-id_layanan="'.  $layanan->id_layanan  .'"><i class="bi bi-trash-fill"></i></button>';
+                    $user = Auth::user();
+                    $btn = '';
+                    if ($user->hasRole('super_administrator')) {
+                        $btn = '<button id="editBtn" type="button" class="btn btn-sm btn-warning btn-xs" data-bs-toggle="modal" data-bs-target="#fModal" data-title="Edit Data Item Layanan"><i class="bi bi-pencil-square"></i></button>&nbsp;';
+                        $btn .= '<button id="destroyBtn" type="button" class="btn btn-sm btn-danger btn-xs" data-bs-id_layanan="'. $layanan->id_layanan  .'" data-id_layanan="'.  $layanan->id_layanan  .'"><i class="bi bi-trash-fill"></i></button>';
+                    } else {
+                        $btn = 'no action';
+                    }
+
                     return $btn;
                 })
                 ->rawColumns(['action'])
@@ -55,7 +61,6 @@ class DaftarLayananController extends Controller
             'br2'  => 'Daftar Layanan',
             'dd'   => $dd
         ]);
-
     }
 
     public function store(Request $request)
