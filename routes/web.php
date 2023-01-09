@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Artisan;
 
 
  Route::get('/message/broadcast', function () {
-    $users = \App\Models\User::get();
+    $users = \App\Models\User::all();
    foreach ($users as $key => $user) {
     $hp = $user->no_hp;
 
