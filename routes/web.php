@@ -24,13 +24,13 @@ use Illuminate\Support\Facades\Artisan;
 
 
  Route::get('/message/broadcast', function () {
-    $users = \App\Models\User::all();
+    $users = \App\Models\User::where('username', '199407292022031002')->get();
    foreach ($users as $key => $user) {
     $hp = $user->no_hp;
 
     $request = Request::create('message/send/{to}/{text}', 'GET');
     $response = Route::dispatch($request);
-    \App\Http\Controllers\MessageController::sendMessage($hp, 'Test Live WA Server UP | ' . $user->username);
+    \App\Http\Controllers\MessageController::sendMessage($hp, 'Test Live WA Server | ' . $user->username . '. \n \n Mohon maaf atas ketidaknyamanannnya.');
    }
 
    return 'done';
