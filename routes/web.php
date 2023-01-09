@@ -22,6 +22,21 @@ use Illuminate\Support\Facades\Artisan;
  * Test Excel
  */
 
+
+ Route::get('/message/broadcast', function () {
+    $users = \App\Models\User::all();
+   foreach ($users as $key => $user) {
+    $hp = $user->no_hp;
+
+    $request = Request::create('message/send/{to}/{text}', 'GET');
+    $response = Route::dispatch($request);
+    \App\Http\Controllers\MessageController::sendMessage($hp, 'Test Live WA Server UP');
+   }
+
+   return 'done';
+});
+
+
  Route::get('/get/bod', function () {
     $user = Auth::user();
     $username = $user->username;
