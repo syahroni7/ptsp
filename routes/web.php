@@ -22,6 +22,22 @@ use Illuminate\Support\Facades\Artisan;
  * Test Excel
  */
 
+ Route::get('/get/bod', function () {
+    $user = Auth::user();
+    $username = $user->username;
+
+    $is_nip = is_numeric($username[0]) ? true : false;
+
+    if($is_nip) {
+        $bod = substr($username, 0, 8);
+        $birthDate = substr($bod, 0, 4) . '-' . substr($bod, 4, 2) . '-' . substr($bod, 6, 2);
+        $user->bod = $birthDate;
+        $user->save();
+    }
+    $user->refresh();
+    return $user;
+});
+ 
 Route::get('/qrcodesistem', function () {
     // Set document information
     PDF::SetCreator('Pramana Yuda Sayeti');
