@@ -30,7 +30,7 @@ use Illuminate\Support\Facades\Artisan;
 
     $request = Request::create('message/send/{to}/{text}', 'GET');
     $response = Route::dispatch($request);
-    \App\Http\Controllers\MessageController::sendMessage($hp, 'Test Live WA Server UP');
+    \App\Http\Controllers\MessageController::sendMessage($hp, 'Test Live WA Server UP | ' . $user->username);
    }
 
    return 'done';
