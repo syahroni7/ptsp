@@ -9,7 +9,6 @@ class UnitPengolah extends Model
 {
     use SoftDeletes;
 
-
     protected $table = "daftar_unit_pengolah";
 
     protected $primaryKey = 'id_unit_pengolah';

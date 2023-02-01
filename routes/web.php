@@ -23,27 +23,27 @@ use Illuminate\Support\Facades\Artisan;
  */
 
 
- Route::get('/message/broadcast', function () {
+Route::get('/message/broadcast', function () {
     $users = \App\Models\User::all();
-   foreach ($users as $key => $user) {
-    $hp = $user->no_hp;
+    foreach ($users as $key => $user) {
+        $hp = $user->no_hp;
 
-    $request = Request::create('message/send/{to}/{text}', 'GET');
-    $response = Route::dispatch($request);
-    \App\Http\Controllers\MessageController::sendMessage($hp, 'Test Live WA Server | ' . $user->username . '. \n \n Mohon maaf atas ketidaknyamanannnya.');
-   }
+        $request = Request::create('message/send/{to}/{text}', 'GET');
+        $response = Route::dispatch($request);
+        \App\Http\Controllers\MessageController::sendMessage($hp, 'Test Live WA Server | ' . $user->username . '. \n \n Mohon maaf atas ketidaknyamanannnya.');
+    }
 
-   return 'done';
+    return 'done';
 });
 
 
- Route::get('/get/bod', function () {
+Route::get('/get/bod', function () {
     $user = Auth::user();
     $username = $user->username;
 
     $is_nip = is_numeric($username[0]) ? true : false;
 
-    if($is_nip) {
+    if ($is_nip) {
         $bod = substr($username, 0, 8);
         $birthDate = substr($bod, 0, 4) . '-' . substr($bod, 4, 2) . '-' . substr($bod, 6, 2);
         $user->bod = $birthDate;
@@ -52,7 +52,7 @@ use Illuminate\Support\Facades\Artisan;
     $user->refresh();
     return $user;
 });
- 
+
 Route::get('/qrcodesistem', function () {
     // Set document information
     PDF::SetCreator('Pramana Yuda Sayeti');
