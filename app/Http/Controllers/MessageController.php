@@ -54,7 +54,10 @@ class MessageController extends Controller
         // $key = '62b43197820d9af033b958937ad66856ef6c2bc5c5a1ca7a';
         // $key = 'aaaa';
 
-        $key = env('WOOWA_APL_KEY', null);
+        // $key = env('WOOWA_APL_KEY', null);
+
+        $key = '9cea0140a1de5ac6bf06a7bcd41bd9b3d432bc2067c5c076';
+
         $response = Http::withHeaders([
             'Content-Type' => 'application/json'
         ])->withOptions(([
