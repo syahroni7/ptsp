@@ -52,11 +52,13 @@ class MessageController extends Controller
         // $key = '2d6e70264e5039366475c6b6b7b86393f4182b1166940df0';
         // $key = 'abdae9a2e1e3ac95053cdfa54b19a5719f3dc7984f5e3333';
         // $key = '62b43197820d9af033b958937ad66856ef6c2bc5c5a1ca7a';
+        // $key = '9cea0140a1de5ac6bf06a7bcd41bd9b3d432bc2067c5c076';
         // $key = 'aaaa';
 
         // $key = env('WOOWA_APL_KEY', null);
 
-        $key = '9cea0140a1de5ac6bf06a7bcd41bd9b3d432bc2067c5c076';
+        
+        $key = 'cb389c39afa1c9e10ed8080ce7e885e9348476d2cb5a0cff';
 
         $response = Http::withHeaders([
             'Content-Type' => 'application/json'
