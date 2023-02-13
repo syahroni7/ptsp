@@ -15,7 +15,7 @@ class TotalLayananPerMinggu extends Model
  
     protected $guarded = [];
 
-    protected $appends = ['week_range'];
+    protected $appends = ['week_range', 'week_end_date'];
 
     public function getWeekRangeAttribute(){
         $date = \Carbon\Carbon::now(); 
@@ -35,6 +35,14 @@ class TotalLayananPerMinggu extends Model
         // }
 
         return $toDFY;
+    }
+
+    public function getWeekEndDateAttribute() {
+        $date = \Carbon\Carbon::now(); 
+        $date->setISODate($this->year,$this->week_of_year); 
+        $toF = $date->endOfWeek(Carbon::SUNDAY);
+
+        return $toF->toDateString();
     }
     
    

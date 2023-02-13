@@ -151,7 +151,8 @@ class HomeController extends Controller
 
         // return $sUnit;
 
-        $total = TotalLayananPerMinggu::orderBy('id_total_layanan_perminggu', 'DESC')->take(8)->get();
+        // $total = TotalLayananPerMinggu::orderBy('id_total_layanan_perminggu', 'DESC')->take(8)->get();
+        $total = TotalLayananPerMinggu::orderBy('id_total_layanan_perminggu', 'DESC')->get();
         $total = $total->sortBy("id_total_layanan_perminggu");
 
         $series [] = [
@@ -159,7 +160,9 @@ class HomeController extends Controller
             'data' => $total->pluck('total_pelayanan')
         ];
 
-        $categories = $total->pluck('week_range');
+        // $categories = $total->pluck('week_range');
+        $categories = $total->pluck('week_end_date');
+        // return $categories;
 
         $dataWeekly = [
             'series' => $series,

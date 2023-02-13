@@ -316,9 +316,14 @@
                                                         chart: {
                                                             height: 350,
                                                             type: 'area',
-                                                            toolbar: {
-                                                                show: false
+                                                            zoom: {
+                                                                type: 'x',
+                                                                enabled: true,
+                                                                autoScaleYaxis: true
                                                             },
+                                                            toolbar: {
+                                                                autoSelected: 'zoom'
+                                                            }
                                                         },
                                                         markers: {
                                                             size: 4
@@ -341,7 +346,7 @@
                                                             width: 2
                                                         },
                                                         xaxis: {
-                                                            // type: 'datetime',
+                                                            type: 'datetime',
                                                             categories: @json($dataWeekly['categories'])
                                                         },
                                                         tooltip: {
