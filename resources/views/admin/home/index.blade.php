@@ -351,7 +351,9 @@
                                                         },
                                                         tooltip: {
                                                             x: {
-                                                                format: 'dd/MM/yy HH:mm'
+                                                                // format: 'dd/MM/yy HH:mm'
+                                                                // format: 'dd-MM-YYYY HH:mm'
+                                                                format: "dd MMM yyyy"
                                                             },
                                                         }
                                                     });
@@ -459,7 +461,7 @@
                                                         },
                                                         tooltip: {
                                                             x: {
-                                                                format: 'dd/MM/yy HH:mm'
+                                                                format: "dd MMM yyyy"
                                                             },
                                                         }
                                                     });
