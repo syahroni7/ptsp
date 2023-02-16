@@ -95,6 +95,36 @@
                 <!-- Left side columns -->
                 <div class="col-lg-12">
 
+                    {{-- undone disp --}}
+
+                    <div class="row box-layanan">
+                        <div class="col-md-12">
+                            <h5 class="card-title">
+                                <span>Total Disposisi Belum Selesai</span>
+                            </h5>
+                        </div>
+                        <div class="col-md-12">
+
+                            <div class="card">
+                                <div class="card-body mt-4">
+
+                                    @foreach ($undoneDisp as $item)
+                                        <span class="badge bg-secondary mb-2 btn-sm">
+                                            {{ $item['name'] }} <span class="badge bg-white text-primary">{{ $item['count'] }}</span>
+                                        </span>
+                                    @endforeach
+
+
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+                    {{-- undone disp --}}
 
 
                     <div class="row box-layanan">

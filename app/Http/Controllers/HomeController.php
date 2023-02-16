@@ -183,7 +183,7 @@ class HomeController extends Controller
             'categories' => $categoriesD
         ];
 
-        
+
 
         $daftarpelayanan = DB::select('
         SELECT c.id_unit_pengolah as id_unit, c.name as unit, a.name as layanan, COALESCE(count(b.id_pelayanan)) as total
@@ -207,7 +207,7 @@ class HomeController extends Controller
         $range = $this->_getPeriodRange($start, $end);
 
         $collData = [];
-        foreach($range as $item) {
+        foreach ($range as $item) {
             $getData = DB::select("
             SELECT b.id_unit_pengolah, b.name, COALESCE(COUNT(a.id_pelayanan)) as total_layanan
             FROM daftar_unit_pengolah as b
@@ -224,14 +224,14 @@ class HomeController extends Controller
         $counter = 1;
         foreach ($collData as $bulan => $item) {
             $fixData['header'][] = $bulan;
-            foreach($item as $k => $coll) {
-                if(!isset($fixData[$coll->name])) {
+            foreach ($item as $k => $coll) {
+                if (!isset($fixData[$coll->name])) {
                     $fixData[$coll->name][] = $coll->name;
                     $fixData[$coll->name][] = $coll->total_layanan;
                 } else {
                     $fixData[$coll->name][] = $coll->total_layanan;
                 }
-                
+
                 $counter++;
             }
         }
@@ -239,18 +239,39 @@ class HomeController extends Controller
 
 
         // DATE_FORMAT(a.created_at,'%M %Y') as bulan
-        
+
 
         // $dataPelayananColl = collect($collLayanan)->groupBy('unit');
 
 
         // end of Coba-coba
 
+
+        $disposisiNotDone = \App\Models\DaftarDisposisi::whereDoesntHave('child')
+                    ->whereNotNull('id_aksi_disposisi')
+                    ->whereNotNull('id_recipient')
+                    ->with('recipient')
+                    ->get();
+
+
+        $grouped =  $disposisiNotDone->groupBy('recipient.name');
+
+        $res = [];
+        foreach ($grouped as $key => $value) {
+            $res[] = [
+                'name' => $key,
+                'count' => count($value)
+            ];
+        }
+
+        $undoneDisp = $res;
+
         return view('admin.home.index', [
             'title'  => 'Halaman Beranda',
             'br1'  => 'Home',
             'br2'  => 'Beranda',
             'summaryPelayanan'  => $statusPelayanan,
+            'undoneDisp'  => $undoneDisp,
             'totalByUnit'  => $sUnit,
             'dataWeekly'  => $dataWeekly,
             'dataDaily'  => $dataDaily,

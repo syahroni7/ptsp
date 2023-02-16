@@ -23,14 +23,52 @@ use Illuminate\Support\Facades\Artisan;
  */
 
 
+Route::get('/disposisi/undone', function () {
+    // $diposisis = \App\Models\DaftarDisposisi::whereDoesntHave('child')->get();
+    // $disposisiNotDone = \App\Models\DaftarDisposisi::whereDoesntHave('child')
+    //                 ->whereNotNull('id_aksi_disposisi')
+    //                 ->whereNotNull('id_recipient')
+    //                 ->with('recipient')
+    //                 ->get();
+
+    // $diposisiDone = \App\Models\DaftarDisposisi::whereDoesntHave('child')
+    //                 ->whereNotNull('id_aksi_disposisi')
+    //                 ->whereNull('id_recipient')
+    //                 ->count();
+
+    // $data = [
+    //     'disposisiNotDone' => $disposisiNotDone,
+    //     'diposisiDone' => $diposisiDone
+    // ];
+
+    $disposisiNotDone = \App\Models\DaftarDisposisi::whereDoesntHave('child')
+                    ->whereNotNull('id_aksi_disposisi')
+                    ->whereNotNull('id_recipient')
+                    ->with('recipient')
+                    ->get();
+
+
+    $grouped =  $disposisiNotDone->groupBy('recipient.name');
+
+    $res = [];
+    foreach ($grouped as $key => $value) {
+        $res[] = [
+            'name' => $key,
+            'count' => count($value)
+        ];
+    }
+
+    return $res;
+});
+
 Route::get('/message/broadcast', function () {
     $user = \App\Models\User::first();
     // foreach ($users as $key => $user) {
-        $hp = $user->no_hp;
+    $hp = $user->no_hp;
 
-        $request = Request::create('message/send/{to}/{text}', 'GET');
-        $response = Route::dispatch($request);
-        \App\Http\Controllers\MessageController::sendMessage($hp, 'Test Live WA Server | ' . $user->username . '. \n \n Mohon maaf atas ketidaknyamanannnya.');
+    $request = Request::create('message/send/{to}/{text}', 'GET');
+    $response = Route::dispatch($request);
+    \App\Http\Controllers\MessageController::sendMessage($hp, 'Test Live WA Server | ' . $user->username . '. \n \n Mohon maaf atas ketidaknyamanannnya.');
     // }
 
     return 'done';
@@ -372,17 +410,17 @@ Route::get('/dberror', function () {
     return view('dberror');
 });
 
-Route::get('/mapping', function () {
-    $pels = \App\Models\DaftarPelayanan::with('layanan')->get();
+// Route::get('/mapping', function () {
+//     $pels = \App\Models\DaftarPelayanan::with('layanan')->get();
 
-    foreach ($pels as $pel) {
-        $layanan = $pel->layanan;
-        $pel->id_unit_pengolah = $layanan->id_unit_pengolah;
-        $pel->save();
-    }
+//     foreach ($pels as $pel) {
+//         $layanan = $pel->layanan;
+//         $pel->id_unit_pengolah = $layanan->id_unit_pengolah;
+//         $pel->save();
+//     }
 
-    return 'done';
-});
+//     return 'done';
+// });
 
 Route::get('/assign-role', function () {
     $usersWithoutRoles = \App\Models\User::withCount('roles')->has('roles', 0)->get();
