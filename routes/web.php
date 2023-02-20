@@ -48,17 +48,36 @@ Route::get('/disposisi/undone', function () {
                     ->get();
 
 
-    $grouped =  $disposisiNotDone->groupBy('recipient.name');
+    $grouped =  $disposisiNotDone->groupBy('recipient.name_phone');
 
     $res = [];
     foreach ($grouped as $key => $value) {
-        $res[] = [
-            'name' => $key,
-            'count' => count($value)
-        ];
+        $exp = explode('_', $key);
+
+        if($exp[1] != "") {
+            $res[] = [
+                'name' => $exp[0],
+                'no_hp' => $exp[1],
+                'count' => count($value)
+            ];
+        }
+        
     }
 
-    return $res;
+    foreach ($res as $key => $data) {
+        $text = '```Yth, \n';
+        $text .= '' . $data['name'] . ' \n';
+    
+        $text .= 'Anda masih memiliki sejumlah * '. $data['count'] .' Disposisi * yang belum diselesaikan. Agar disposisi dapat diselesaikan. \n \n';
+        $text .= 'Terima Kasih atas perhatiannya.';
+        $text .= '\n \n';
+        $text .= 'Link PTSP KEMENAG PESSEL ``` \n \n';
+        $text .= 'https://ptsp.kemengapessel.com';
+
+        \App\Http\Controllers\MessageController::sendMessage($data['no_hp'], $text);
+    }
+
+    return 'done';
 });
 
 Route::get('/message/broadcast', function () {

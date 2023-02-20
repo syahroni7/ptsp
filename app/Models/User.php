@@ -46,7 +46,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected $appends = ['age'];
+    protected $appends = ['age', 'name_phone'];
 
     public function getAgeAttribute(){
         $rawBD = strlen($this->attributes['username']) == 18 ? substr($this->attributes['username'], 0, 8) : null;
@@ -56,5 +56,9 @@ class User extends Authenticatable
             return $interval->format("%Y Tahun, %M Bulan, %d Hari");
         }
         return 'undetected';
+    }
+
+    public function getNamePhoneAttribute() {
+        return $this->attributes['name'] . '_'.  $this->attributes['no_hp'];
     }
 }
