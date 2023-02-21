@@ -47,8 +47,10 @@
                         <div class="card-body">
                             <h5 class="card-title">{!! $title !!} {!! $html_status !!}</h5>
 
-                            <div class="row mb-3" id="filter_wrapper">
+                            <div class="alert alert-primary">
+                                <div class="row" id="filter_wrapper">
 
+                                </div>
                             </div>
 
 
