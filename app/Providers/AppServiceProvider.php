@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 use Carbon\Carbon;
 use Config;
 use DB;
+use Auth;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -39,14 +40,17 @@ class AppServiceProvider extends ServiceProvider
         date_default_timezone_set('Asia/Jakarta');
 
         View::composer('*', function ($view) {
-            $user = auth()->user();
+            // $user = auth()->user();
+            $user = Auth::user();
             if ($user) {
                 // $statusPelayanan['danger'] = 'baru';
                 // $statusPelayanan['secondary'] = 'proses';
                 // $statusPelayanan['primary'] = 'selesai';
                 // $statusPelayanan['success'] = 'ambil';
 
-                $statusPelayanan = [
+
+                if ($user->hasRole('super_administrator') || $user->hasRole('operator')) {
+                    $statusPelayanan = [
                         [
                             'name' => 'Baru',
                             'color' => 'danger',
@@ -72,13 +76,37 @@ class AppServiceProvider extends ServiceProvider
                             'color' => 'info',
                             'total' => 0,
                         ]
-                ];
+                    ];
+                } else {
+                    $statusPelayanan = [
+                        [
+                            'name' => 'Baru',
+                            'color' => 'danger',
+                            'total' => 0,
+                        ],
+                        [
+                            'name' => 'Proses',
+                            'color' => 'secondary',
+                            'total' => 0,
+                        ],
+                        [
+                            'name' => 'Selesai',
+                            'color' => 'primary',
+                            'total' => 0,
+                        ],
+                        [
+                            'name' => 'Ambil',
+                            'color' => 'success',
+                            'total' => 0,
+                        ]
+                    ];
+                }
 
                 // $pelayananColl = DaftarPelayanan::whereYear('created_at', '=', date('Y'))
                 //                                 ->whereMonth('created_at', '=', date('m'))
 
 
-                
+
                 // $pelayananColl = DaftarPelayanan::get()
                 //                                 ->groupBy('status_pelayanan');
 
