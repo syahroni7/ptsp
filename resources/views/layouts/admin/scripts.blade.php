@@ -140,7 +140,7 @@
                     var param = '.total-' + status;
                     $('.total-' + status).html(item.total);
 
-                    totalSemua += item.total;
+                    totalSemua += parseInt(item.total);
 
                 });
 
