@@ -538,8 +538,8 @@ Route::get('/summary/fetch', function () {
     // ->whereMonth('created_at', '=', date('m'))
     $username = \Auth::user()->username;
     $cDisposisi = \App\Models\DaftarDisposisi::whereHas('recipient', function ($q) use ($username) {
-        $q->where('username', $username);
-    })->doesntHave('child')
+                    $q->where('username', $username);
+                })->doesntHave('child')
     ->count();
 
     return response()

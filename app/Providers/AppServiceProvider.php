@@ -66,6 +66,11 @@ class AppServiceProvider extends ServiceProvider
                             'name' => 'Ambil',
                             'color' => 'success',
                             'total' => 0,
+                        ],
+                        [
+                            'name' => 'Semua',
+                            'color' => 'info',
+                            'total' => 0,
                         ]
                 ];
 

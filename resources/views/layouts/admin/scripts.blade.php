@@ -134,11 +134,17 @@
             success: function(data) {
                 console.log('data summary/fetch');
                 console.log(data);
+                var totalSemua = 0;
                 $.each(data.summary, function(i, item) {
                     var status = item.status_pelayanan;
                     var param = '.total-' + status;
                     $('.total-' + status).html(item.total);
+
+                    totalSemua += item.total;
+
                 });
+
+                $('.total-Semua').html(totalSemua);
 
                 $('.total-disposisi').html(data.disposisi);
 
