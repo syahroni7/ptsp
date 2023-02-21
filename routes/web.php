@@ -605,6 +605,7 @@ Route::post('/daftar-pelayanan/store-landing', [\App\Http\Controllers\DataPelaya
 Route::get('/daftar-pelayanan/fetch/{id_pelayanan}', [\App\Http\Controllers\DataPelayanan\DaftarPelayananController::class, 'fetch'])->name('daftar-pelayanan.fetch');
 Route::get('/daftar-pelayanan/search', [\App\Http\Controllers\DataPelayanan\DaftarPelayananController::class, 'search'])->name('daftar-pelayanan.search');
 Route::delete('/daftar-pelayanan/destroy/{pelayanan}', [\App\Http\Controllers\DataPelayanan\DaftarPelayananController::class, 'destroy'])->name('daftar-pelayanan.destroy');
+Route::get('/daftar-pelayanan/collect/{id_unit_pengolah}', [\App\Http\Controllers\DataPelayanan\DaftarPelayananController::class, 'collect'])->name('daftar-pelayanan.collect');
 
 Route::get('/change-password', [App\Http\Controllers\HomeController::class, 'showChangePasswordForm'])->name('change-password');
 Route::post('/change-password', [App\Http\Controllers\HomeController::class, 'changePassword'])->name('changePassword');

@@ -33,14 +33,20 @@ class DaftarPelayananController extends Controller
     {
         if ($request->ajax()) {
             $idUnit = $request->id_unit_pengolah_filter;
+            $idLayanan = $request->id_layanan_filter;
             $query = new DaftarPelayanan();
             $query = $query->where('status_pelayanan', $status);
             if ($idUnit != 0) {
                 $query = $query->where('id_unit_pengolah', $idUnit);
             }
+
+            if ($idLayanan != 0) {
+                $query = $query->where('id_layanan', $idLayanan);
+            }
+
             $query = $query->with('layanan', 'unit', 'output', 'jenis')->orderBy('id_pelayanan', 'desc');
 
-            $pelayanans = $query->take(300)->get();
+            $pelayanans = $query->take(500)->get();
 
             $datatable = Datatables::of($pelayanans)
                 ->addIndexColumn()
@@ -75,13 +81,26 @@ class DaftarPelayananController extends Controller
 
             $units = UnitPengolah::all();
 
-            $html_filter = '<div class="btn-group" style="margin-left:5px;">
+            $html_filter = '<div class="col-md-6">
+                                <label for="unit_pengolah" class="form-label fw-bold">Unit Pengolah</label>
+
                                 <select class="form-control select2-filter id_unit_pengolah_filter" id="id_unit_pengolah_filter">
                                     <option value="0">Semua Unit Pengolah</option>';
             foreach ($units as $key => $item) {
                 $html_filter .= '<option value="' . $item->id_unit_pengolah . '">' . $item->name . '</option>';
             }
             $html_filter .= '  </select>
+
+                            </div>';
+
+            $html_filter .= '<div class="col-md-6 box-daftar-pelayanan">
+                                <label for="id_layanan_filter" class="form-label fw-bold">Daftar Pelayanan</label>
+
+                                <select class="form-control select2-filter id_layanan_filter" id="id_layanan_filter">
+                                    <option value="0">Semua Pelayanan</option>';
+
+            $html_filter .= '  </select>
+
                             </div>';
 
 
@@ -619,5 +638,14 @@ class DaftarPelayananController extends Controller
 
         return response()
             ->json(['success' => $success, 'message' => $message]);
+    }
+
+
+    public function collect($id_unit_pengolah)
+    {
+        $pelayanan = DaftarLayanan::where('id_unit_pengolah', $id_unit_pengolah)->get();
+        return Datatables::of($pelayanan)
+        ->addIndexColumn()
+        ->make(true);
     }
 }

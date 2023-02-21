@@ -47,6 +47,11 @@
                         <div class="card-body">
                             <h5 class="card-title">{!! $title !!} {!! $html_status !!}</h5>
 
+                            <div class="row mb-3" id="filter_wrapper">
+
+                            </div>
+
+
                             <table class='table table-bordered display' id="example" style="width:100%; font-size:11pt!important;">
                                 <thead>
                                     <tr>
@@ -98,6 +103,7 @@
 
     <script>
         var id_unit_pengolah_filter = 0;
+        var id_layanan_filter = 0;
         var status = '{{ $status }}';
         $.ajaxSetup({
             headers: {
@@ -126,14 +132,15 @@
                 ['10 rows', '25 rows', '50 rows', 'Show all']
             ],
             iDisplayLength: 50,
-            ajax: '/daftar-pelayanan/list/' + status + '?id_unit_pengolah_filter=' + id_unit_pengolah_filter,
+            ajax: '/daftar-pelayanan/list/' + status + '?id_unit_pengolah_filter=' + id_unit_pengolah_filter + '&id_layanan_filter=' + id_layanan_filter,
             initComplete: function(settings, json) {
                 console.log(json)
 
                 table.buttons().container()
                     .appendTo('#example_wrapper .col-md-6:eq(0)');
 
-                $(json.html_filter).appendTo('#example_wrapper .col-md-6:eq(0) .dt-buttons');
+                // $(json.html_filter).appendTo('#example_wrapper .col-md-6:eq(0) .dt-buttons');
+                $(json.html_filter).appendTo('#filter_wrapper');
 
                 $('.select2-filter').select2({
                     theme: 'bootstrap-5',
@@ -144,9 +151,22 @@
                     console.log('data filter')
 
                     id_unit_pengolah_filter = $(this).val();
+                    id_layanan_filter = $('.id_layanan_filter').val();
+
+
                     console.log('id_unit_pengolah_filter')
                     console.log(id_unit_pengolah_filter)
-                    table.ajax.url('/daftar-pelayanan/list/' + status + '?id_unit_pengolah_filter=' + id_unit_pengolah_filter).load(false);
+                    table.ajax.url('/daftar-pelayanan/list/' + status + '?id_unit_pengolah_filter=' + id_unit_pengolah_filter + '&id_layanan_filter=' + id_layanan_filter).load(false);
+                    fetchDaftarLayanan(id_unit_pengolah_filter);
+                });
+
+                $(document).on('select2:select', '.id_layanan_filter', function(e) {
+                    console.log('data filter')
+
+                    id_unit_pengolah_filter = $('.id_unit_pengolah_filter').val();
+                    id_layanan_filter = $(this).val();
+
+                    table.ajax.url('/daftar-pelayanan/list/' + status + '?id_unit_pengolah_filter=' + id_unit_pengolah_filter + '&id_layanan_filter=' + id_layanan_filter).load(false);
                 });
 
                 //     console.log('json')
@@ -239,7 +259,47 @@
         }
 
 
+        function fetchDaftarLayanan(id_unit_pengolah) {
+
+            $('.box-daftar-pelayanan').block({
+                message: '',
+            });
+
+            setTimeout(function() {
+                $.ajax({
+                    url: '/daftar-pelayanan/collect/' + id_unit_pengolah,
+                    method: 'get'
+                }).done(function(res) {
+                    console.log('res');
+                    console.log(res);
+
+
+                    var htmlData = '';
+
+                    if (res.data.length > 0) {
+                        htmlData += ``;
+                        htmlData += `<option value="0">Semua Pelayanan</option>`;
+                        $.each(res.data, function(key, item) {
+                            // htmlData += `<li>${item.name}</li>`;
+                            htmlData += `<option value="${item.id_layanan}">${item.name}</option>`;
+                        });
+                        htmlData += ``;
+                    } else {
+                        // htmlData += '.:: Belum ada Data Syarat ::.';
+                        htmlData += `<option value="">Belum Ada Data Syarat</option>`;
+                    }
+
+                    $('#id_layanan_filter').html(htmlData);
+                    $('.box-daftar-pelayanan').fadeIn("slow");
+                    $('.box-daftar-pelayanan').unblock();
+                });
+
+            }, 300)
+        }
+
         $(document).ready(function() {
+
+
 
             $(document).on("click", "#cetak-bukti-button", function() {
                 var cetakBuktiLink = $(this).data('cetak_bukti_link');
