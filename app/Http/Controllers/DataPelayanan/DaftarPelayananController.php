@@ -35,7 +35,7 @@ class DaftarPelayananController extends Controller
             $idUnit = $request->id_unit_pengolah_filter;
             $idLayanan = $request->id_layanan_filter;
             $query = new DaftarPelayanan();
-            if ($status != 'Semua' || $status != 'semua') {
+            if ($status != 'Semua') {
                 $query = $query->where('status_pelayanan', $status);
             }
             if ($idUnit != 0) {
