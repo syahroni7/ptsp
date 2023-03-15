@@ -79,7 +79,7 @@
                         <div class="col-md-6">
                             <label for="search_status_pelayanan" class="form-label fw-bold">Status
                                 Pelayanan</label>
-                            <select name="status_pelayanan" id="search_status_pelayanan" class="form-control select2" disabled="disabled">
+                            <select name="status_pelayanan" id="search_status_pelayanan" class="form-control select2" @if (!Auth::user()->hasRole('super_administrator')) disabled="disabled" @endif>
                                 <option selected="">-- Pilih Status Layanan --</option>
                                 <option value="Baru">Baru</option>
                                 <option value="Proses">Proses</option>

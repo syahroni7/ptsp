@@ -38,6 +38,7 @@ class DaftarPelayananController extends Controller
             if ($status != 'Semua') {
                 $query = $query->where('status_pelayanan', $status);
             }
+
             if ($idUnit != 0) {
                 $query = $query->where('id_unit_pengolah', $idUnit);
             }
@@ -358,7 +359,9 @@ class DaftarPelayananController extends Controller
             $pelayanan->pemohon_alamat = $data['pemohon_alamat'];
             $pelayanan->pemohon_no_hp = $data['pemohon_no_hp'];
             // $pelayanan->kelengkapan_syarat = $data['kelengkapan_syarat'];
-            // $pelayanan->status_pelayanan = $data['status_pelayanan'];
+            if (isset($data['status_pelayanan'])) {
+                $pelayanan->status_pelayanan = $data['status_pelayanan'];
+            }
             $pelayanan->catatan = $data['catatan'];
             $pelayanan->save();
             $pelayanan->fresh();
