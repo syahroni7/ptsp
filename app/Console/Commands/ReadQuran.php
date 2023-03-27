@@ -3,6 +3,8 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Log;
+use Illuminate\Support\Facades\Http;
 
 class ReadQuran extends Command
 {
@@ -37,23 +39,40 @@ class ReadQuran extends Command
      */
     public function handle()
     {
+        $users = \App\Models\User::get();
 
-        $user = \App\Models\User::first();
-        $to = $user->no_hp;
-        $img_url = "https://res.cloudinary.com/kemenagpessel/image/upload/v1679931788/arsip_masuk/fl0hkd7bulf3rq3ypdsl.png";
-        
-        $text = '```.=== Daily Reminder ===.';
-        $text = '```.==== KemenagPessel ====.\n \n';
-    
-        $text .= 'Sudahkah Bapak / Ibu membaca Al-Qur\'an hari ini? \n \n';
-        $text .= 'Dan orang yang membaca Al-Qur’an, sedang ia masih terbata-bata lagi berat dalam membacanya, maka ia akan mendapatkan dua pahala. \n \n';
+        $img_url = "http://res.cloudinary.com/kemenagpessel/image/upload/v1679931788/arsip_masuk/fl0hkd7bulf3rq3ypdsl.png";
 
-        $text .= 'Jika sudah, silahkan mengisi Form yang sudah disediakan di bawah ini dan akan di Share Laporannya setiap minggu di hari Senin. \n \n';
-        $text .= 'Terima Kasih atas perhatiannya.';
-        $text .= '\n \n';
-        $text .= 'Link SEHAT-QU (SETIAP HARI TADARUS AL-QURAN ``` \n \n';
-        $text .= 'https://bit.ly/sehat_quran_kemenagpessel';
+        // $text = '=== Daily Reminder ===. \n';
+        // $text .= '.==== KemenagPessel ====. \n \n ```';
 
-        \App\Http\Controllers\MessageController::sendMessageWithImage($to, $text, $img_url);
+        // $text .= 'Sudahkah Bapak / Ibu membaca Al-Qur\'an hari ini? \n \n';
+        // $text .= 'Dan orang yang membaca Al-Qur’an, sedang ia masih terbata-bata lagi berat dalam membacanya, maka ia akan mendapatkan dua pahala. \n \n';
+
+        // $text .= 'Jika sudah, silahkan mengisi Form yang sudah disediakan di bawah ini dan akan di Share Laporannya setiap minggu di hari Senin. \n \n';
+        // $text .= 'Terima Kasih atas perhatiannya.';
+        // $text .= '\n \n';
+        // $text .= 'Link SEHAT-QU (SETIAP HARI TADARUS AL-QURAN \n \n';
+        // $text .= 'https://bit.ly/sehat_quran_kemenagpessel';
+
+        $text = '*.:| Daily Reminder - KemenagPessel |:.*
+
+Sudahkah Bapak / Ibu *membaca Al-Qur\'an* hari ini? 
+
+_Dan orang yang membaca Al-Qur’an, sedang ia masih terbata-bata lagi berat dalam membacanya, maka ia akan mendapatkan *dua pahala*. - (HR. Bukhari Muslim)_
+
+Jika sudah, silahkan mengisi *Formulir* yang sudah disediakan di bawah ini dan akan di Share Laporannya setiap minggu di hari Senin.
+Terima Kasih atas perhatiannya.
+
+Link Formulir *SEHAT-QU* (SETIAP HARI TADARUS AL-QURAN):
+https://bit.ly/sehat_quran_kemenagpessel
+
+_#Kerjasama_Kolektifitas_Komitmen_';
+
+
+        foreach ($users as $key => $user) {
+            $to = $user->no_hp;
+            \App\Http\Controllers\MessageController::sendMessageWithImage($to, $text, $img_url);
+        }
     }
 }

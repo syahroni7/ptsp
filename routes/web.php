@@ -377,6 +377,7 @@ Route::get('/logout_all', function () {
 });
 
 Route::get('message/send/{to}/{text}', [\App\Http\Controllers\MessageController::class, 'sendMessage'])->name('message.send');
+Route::get('message/send-image/{to}/{text}/{img_url?}', [\App\Http\Controllers\MessageController::class, 'sendMessageWithImage'])->name('message.send.image');
 
 Route::get('phone_number/set', [\App\Http\Controllers\MessageController::class, 'setPhoneNumber'])->name('phonenumber.set');
 Route::post('phone_number/store', [\App\Http\Controllers\MessageController::class, 'storePhoneNumber'])->name('phonenumber.store');

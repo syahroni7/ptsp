@@ -37,9 +37,7 @@ class MessageController extends Controller
             return redirect()->back()
                 ->withErrors($validator)
                 ->withInput();
-                
         } else {
-
             $user = Auth::user();
             $user->no_hp = $data['no_hp'];
             $user->save();
@@ -58,7 +56,7 @@ class MessageController extends Controller
 
         // $key = env('WOOWA_APL_KEY', null);
 
-        
+
         $key = '4402c795bd22dc1fdf1927f5a5d5f680aa79f74f2a983c75';
 
         $response = Http::withHeaders([
@@ -90,9 +88,10 @@ class MessageController extends Controller
         }
     }
 
-    public static function sendMessageWithImage($to, $text, $img_url)
+    public static function sendMessageWithImage($to, $text, $img_url = null)
     {
-        $key = 'cb389c39afa1c9e10ed8080ce7e885e9348476d2cb5a0cff';
+        $img_url = "http://res.cloudinary.com/kemenagpessel/image/upload/v1679931788/arsip_masuk/fl0hkd7bulf3rq3ypdsl.png";
+        $key = '4402c795bd22dc1fdf1927f5a5d5f680aa79f74f2a983c75';
 
         if ($img_url == '') {
             Log::info('masuk send_text_only');
