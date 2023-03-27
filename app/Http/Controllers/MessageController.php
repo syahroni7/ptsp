@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Auth;
 use Illuminate\Support\Facades\Validator;
+use Log;
 
 class MessageController extends Controller
 {
@@ -73,6 +74,58 @@ class MessageController extends Controller
             'key' => $key,
             'skip_link' => true,
         ]);
+
+        if ($response->successful()) {
+            return response()->json([
+                'code' => 200,
+                'status' => 'OK',
+                'message' => 'Sent Successfully'
+            ]);
+        } else {
+            return response()->json([
+                'code' => 400,
+                'status' => 'Warning',
+                'message' => 'There is a problem with the server'
+            ]);
+        }
+    }
+
+    public static function sendMessageWithImage($to, $text, $img_url)
+    {
+        $key = 'cb389c39afa1c9e10ed8080ce7e885e9348476d2cb5a0cff';
+
+        if ($img_url == '') {
+            Log::info('masuk send_text_only');
+            $response = Http::withHeaders([
+                'Content-Type' => 'application/json'
+            ])->withOptions(([
+                'debug' => false,
+                'connect_timeout' => false,
+                'timeout' => false,
+                'verify' => false
+            ]))->post('http://116.203.191.58/api/send_message', [
+                'phone_no' => $to,
+                'message' => $text,
+                'key' => $key
+            ]);
+        } else {
+            Log::info('masuk send_image_url');
+            $response = Http::withHeaders([
+                'Content-Type' => 'application/json'
+            ])->withOptions(([
+                'debug' => false,
+                'connect_timeout' => false,
+                'timeout' => false,
+                'verify' => false
+            ]))->post('http://116.203.191.58/api/send_image_url', [
+                'phone_no'  => $to,
+                'message'   => $text,
+                'key'       => $key,
+                "url"       => $img_url
+            ]);
+        }
+
+        Log::info($response);
 
         if ($response->successful()) {
             return response()->json([
