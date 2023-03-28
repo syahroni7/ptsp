@@ -22,6 +22,15 @@ use Illuminate\Support\Facades\Artisan;
  * Test Excel
  */
 
+Route::get('/operator', function() {
+    $pelayanan = \App\Models\DaftarPelayanan::all();
+    $created_by = $pelayanan->pluck('created_by');
+
+
+    $data = array_count_values($created_by->toArray());
+    return $data;
+
+});
 
 Route::get('/disposisi/undone', function () {
     // $diposisis = \App\Models\DaftarDisposisi::whereDoesntHave('child')->get();
