@@ -568,9 +568,17 @@
                                                         <tr>
                                                             @foreach ($item as $k => $sub)
                                                                 @if ($k == 0)
-                                                                    <td scope="col">{{ $sub }}</td>
+                                                                    @if ($sub == 'Total')
+                                                                        <td class="text-right text-end fw-bold" scope="col">Total Perbulan</td>
+                                                                    @else
+                                                                        <td scope="col">{{ $sub }}</td>
+                                                                    @endif
                                                                 @else
-                                                                    <td scope="col" class="text-center">{{ $sub }}</td>
+                                                                    @if ($key == 'Total')
+                                                                        <td scope="col" class="text-end fw-bold">{{ $sub }}</td>
+                                                                    @else
+                                                                        <td scope="col" class="text-end">{{ $sub }}</td>
+                                                                    @endif
                                                                 @endif
                                                             @endforeach
                                                         </tr>

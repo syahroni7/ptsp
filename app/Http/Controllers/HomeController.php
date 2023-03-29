@@ -220,6 +220,8 @@ class HomeController extends Controller
         $fixData = [];
         $fixData['header'][] = 'Nama Unit';
 
+
+
         // return $collData;
         $counter = 1;
         foreach ($collData as $bulan => $item) {
@@ -235,8 +237,15 @@ class HomeController extends Controller
                 $counter++;
             }
         }
-        // return $fixData;
 
+        $totalperBulan = [];
+        $totalperBulan[] = 'Total';
+        foreach ($collData as $bulan => $item) {
+            $totalperBulan[] = array_sum(array_column($item, 'total_layanan'));
+        }
+
+        $fixData['Total'] = $totalperBulan;
+        // return $fixData;
 
         // DATE_FORMAT(a.created_at,'%M %Y') as bulan
 
