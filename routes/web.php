@@ -22,7 +22,18 @@ use Illuminate\Support\Facades\Artisan;
  * Test Excel
  */
 
-Route::get('/operator', function() {
+Route::get('/change/access/{type}', function($type) {
+    $type =  \DB::table('access_type')->where('id_access_type', 1)
+    ->update(['name' => $type]);
+    return 'Config has been changed';
+});
+
+Route::get('/get/access/type', function() {
+    $type =  \DB::table('access_type')->first();
+    return 'get config access: ' . $type;
+});
+
+ Route::get('/operator', function() {
     $pelayanan = \App\Models\DaftarPelayanan::all();
     $created_by = $pelayanan->pluck('created_by');
 

@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use App\Http\Controllers\MessageController;
 use Illuminate\Support\Facades\Http;
+use Config;
 
 class DaftarPelayananController extends Controller
 {
@@ -52,7 +53,26 @@ class DaftarPelayananController extends Controller
             if ($status == 'Semua' || $status == 'semua') {
                 $pelayanans = $query->get();
             } else {
-                $pelayanans = $query->take(500)->get();
+                $type = DB::table('access_type')->first();
+                return $type;
+
+                switch ($type) {
+                    case 'ZERO':
+                        $pelayanans = collect([]);
+                        break;
+
+                    case 'MINIMAL':
+                        $pelayanans = $query->take(1)->get();
+                        break;
+
+                    case 'STANDARD':
+                        $pelayanans = $query->take(500)->get();
+                        break;
+
+                    default:
+                        # code...
+                        break;
+                }
             }
 
 
