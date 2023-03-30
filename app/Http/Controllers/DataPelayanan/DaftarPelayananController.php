@@ -53,8 +53,8 @@ class DaftarPelayananController extends Controller
             if ($status == 'Semua' || $status == 'semua') {
                 $pelayanans = $query->get();
             } else {
-                $type = DB::table('access_type')->first();
-                return $type;
+                $access_type = DB::table('access_type')->first();
+                $type = $access_type->name;
 
                 switch ($type) {
                     case 'ZERO':
