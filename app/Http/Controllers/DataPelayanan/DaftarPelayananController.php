@@ -70,7 +70,7 @@ class DaftarPelayananController extends Controller
                         break;
 
                     default:
-                        # code...
+                        $pelayanans = $query->take(500)->get();
                         break;
                 }
             }
