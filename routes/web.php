@@ -398,6 +398,8 @@ Route::get('/logout_all', function () {
 
 Route::get('message/send/{to}/{text}', [\App\Http\Controllers\MessageController::class, 'sendMessage'])->name('message.send');
 Route::get('message/send-image/{to}/{text}/{img_url?}', [\App\Http\Controllers\MessageController::class, 'sendMessageWithImage'])->name('message.send.image');
+Route::get('message/send-button/{to}/{text}/{url?}', [\App\Http\Controllers\MessageController::class, 'sendMessageWithButton'])->name('message.send.button');
+
 
 Route::get('phone_number/set', [\App\Http\Controllers\MessageController::class, 'setPhoneNumber'])->name('phonenumber.set');
 Route::post('phone_number/store', [\App\Http\Controllers\MessageController::class, 'storePhoneNumber'])->name('phonenumber.store');
@@ -430,9 +432,20 @@ Route::get('/teset', function () {
     return $arsip;
 });
 
+Route::get('/errors/{param}', function ($param) {
+    // return view('maintenancecop');
+    return view('errors.' . $param);
+});
+
+
 Route::get('/mainten', function () {
     // return view('maintenancecop');
     return view('maintenance');
+});
+
+Route::get('/integrity', function () {
+    // return view('maintenancecop');
+    return view('integrity');
 });
 
 Route::get('/suspended', function () {

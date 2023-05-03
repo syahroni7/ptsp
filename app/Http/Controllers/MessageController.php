@@ -140,4 +140,54 @@ class MessageController extends Controller
             ]);
         }
     }
+
+    public static function sendMessageWithButton($to, $text, $url = null)
+    {
+        $img_url = "http://res.cloudinary.com/kemenagpessel/image/upload/v1679931788/arsip_masuk/fl0hkd7bulf3rq3ypdsl.png";
+        $url = "https://sikm.kemenagpessel.com/isi-survey";
+        $key = '4402c795bd22dc1fdf1927f5a5d5f680aa79f74f2a983c75';
+
+        Log::info('masuk send_image_url');
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json'
+        ])->withOptions(([
+            'debug' => false,
+            'connect_timeout' => false,
+            'timeout' => false,
+            'verify' => false
+        ]))->post('http://116.203.191.58/api/send_button', [
+            "phone_no"  => $to,
+            "key"       => $key,
+            "title"     => "Favorite Web",
+            "body"      => "Below the button favorite website in the world",
+            "footer"    => "This is the end",
+            "button"    => json_encode(
+                [
+                    [
+                        "body" => "Google",
+                    ],
+                    [
+                        "body" => "Detik",
+                    ],
+                ],
+                1
+            ),
+        ]);
+
+        Log::info($response);
+
+        if ($response->successful()) {
+            return response()->json([
+                'code' => 200,
+                'status' => 'OK',
+                'message' => 'Sent Successfully'
+            ]);
+        } else {
+            return response()->json([
+                'code' => 400,
+                'status' => 'Warning',
+                'message' => 'There is a problem with the server'
+            ]);
+        }
+    }
 }
