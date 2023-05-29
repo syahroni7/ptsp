@@ -150,23 +150,25 @@ class MessageController extends Controller
         Log::info('masuk send_image_url');
         $response = Http::withHeaders([
             'Content-Type' => 'application/json'
-        ])->post('http://116.203.191.58/api/send_button', [
+        ])->withOptions(([
+            'debug' => false,
+            'connect_timeout' => false,
+            'timeout' => false,
+            'verify' => false
+        ]))->post('http://116.203.191.58/api/send_button', [
             "phone_no"  => $to,
             "key"       => $key,
             "title"     => "Favorite Web",
             "body"      => "Below the button favorite website in the world",
             "footer"    => "This is the end",
-            "button"    => json_encode(
+            "button"    => json_encode([
                 [
-                    [
-                        "body" => "Google",
-                    ],
-                    [
-                        "body" => "Detik",
-                    ],
+                    "body" => "Google",
                 ],
-                1
-            ),
+                [
+                    "body" => "Detik",
+                ],
+            ],1),
         ]);
 
         Log::info($response);
