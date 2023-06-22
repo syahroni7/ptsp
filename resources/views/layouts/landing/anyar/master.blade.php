@@ -74,6 +74,7 @@
         }, 500));
 
     </script>
+    <script src="https://code.responsivevoice.org/responsivevoice.js?key=zJWb4A6g"></script>
 </body>
 
 </html>
