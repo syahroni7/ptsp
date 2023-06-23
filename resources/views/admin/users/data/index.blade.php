@@ -11,15 +11,15 @@
 
 <style>
     .profile .profile-edit img {
-        max-width: 150px;
+        max-width: 120px;
     }
 
     #profile_photo_src {
-        max-width: 150px;
+        max-width: 120px;
     }
 
     .profile-edit {
-        max-width: 150px;
+        max-width: 120px;
     }
 
 </style>
@@ -101,6 +101,11 @@
     });
 
 
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
     var table = $('#example').DataTable({
         orderable: false
         , sort: false
@@ -334,8 +339,7 @@
                 , reverseButtons: true
             }).then((result) => {
                 if (result.isConfirmed) {
-                    var url = '{{ route('
-                    user - data.destroy ', ': id ') }}';
+                    var url = "{{ route('user-data.destroy', ':id') }}";
                     url = url.replace(':id', userId);
                     $.ajax({
                         type: 'DELETE'
