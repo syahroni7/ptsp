@@ -60,7 +60,7 @@
     @yield('_scripts')
 
 
-    <script defer>
+    {{-- <script defer>
         document.addEventListener('load', function(d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0];
             if (d.getElementById(id)) return;
@@ -73,7 +73,7 @@
             window.EquallyAi && (clearInterval(intervalId), window.EquallyAi = new EquallyAi)
         }, 500));
 
-    </script>
+    </script> --}}
     <script src="https://code.responsivevoice.org/responsivevoice.js?key=zJWb4A6g"></script>
 </body>
 
