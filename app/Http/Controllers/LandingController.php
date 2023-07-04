@@ -39,6 +39,13 @@ class LandingController extends Controller
         ]);
     }
 
+    public function aksesibilitas()
+    {
+        return view('landing.aksesibilitas.index', [
+            'title' => 'Pelayanan Ramah Kelompok Rentan'
+        ]);
+    }
+
     public function daftarPelayanan() {
         $units = \App\Models\UnitPengolah::with('layanan')->get();
         return view('landing.daftar-pelayanan.index', [

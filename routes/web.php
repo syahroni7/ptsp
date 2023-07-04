@@ -628,6 +628,7 @@ Route::get('/publik/lacak-pelayanan/{id_pelayanan}/{pemohon_no_hp}', function ($
  */
 Route::get('/', [\App\Http\Controllers\LandingController::class, 'index'])->name('landing.index');
 Route::get('/tentang', [\App\Http\Controllers\LandingController::class, 'tentang'])->name('landing.tentang');
+Route::get('/aksesibilitas', [\App\Http\Controllers\LandingController::class, 'aksesibilitas'])->name('landing.aksesibilitas');
 Route::get('/daftar-pelayanan', [\App\Http\Controllers\LandingController::class, 'daftarPelayanan'])->name('landing.daftar-pelayanan');
 Route::get('/lacak-pelayanan', [\App\Http\Controllers\LandingController::class, 'lacakPelayanan'])->name('landing.lacak-pelayanan');
 Route::get('/detail-pelayanan/{idx}', [\App\Http\Controllers\LandingController::class, 'detailPelayanan'])->name('landing.detail-pelayanan');
