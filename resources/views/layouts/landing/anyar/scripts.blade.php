@@ -17,3 +17,5 @@
 <script src="{{ asset('js/sweetalert2@11.js') }}"></script>
 <script src="{{ asset('js/jquery.blockUI.js') }}"></script>
 <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
+
+<script src='https://code.responsivevoice.org/responsivevoice.js'></script>
