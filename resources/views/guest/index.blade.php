@@ -27,7 +27,7 @@
 
 @section('content')
 
-<main id="main" class="main">
+<main id="main" class="main m-0">
     <div class="pagetitle">
         <h1>{{ $title }}</h1>
         <nav>
