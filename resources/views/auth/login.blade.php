@@ -83,6 +83,7 @@
             z-index: 2;
             width: 80%;
         }
+
     </style>
 </head>
 
@@ -123,9 +124,9 @@
                                                 <input type="text" name="username" class="form-control" id="yourUsername" required>
                                                 {{-- <div class="invalid-feedback">Please enter your username.</div> --}}
                                                 @error('username')
-                                                    <div class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </div>
+                                                <div class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </div>
                                                 @enderror
                                             </div>
                                         </div>
@@ -135,9 +136,9 @@
                                             <input type="password" name="password" class="form-control" id="yourPassword" required>
                                             {{-- <div class="invalid-feedback">Please enter your password!</div> --}}
                                             @error('password')
-                                                <div class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </div>
+                                            <div class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </div>
                                             @enderror
                                         </div>
 

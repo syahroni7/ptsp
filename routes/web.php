@@ -645,6 +645,9 @@ Route::get('/daftar-pelayanan/collect/{id_unit_pengolah}', [\App\Http\Controller
 Route::get('/change-password', [App\Http\Controllers\HomeController::class, 'showChangePasswordForm'])->name('change-password');
 Route::post('/change-password', [App\Http\Controllers\HomeController::class, 'changePassword'])->name('changePassword');
 
+Route::get('/guest', [App\Http\Controllers\HomeController::class, 'guest'])->name('guest');
+
+
 Auth::routes();
 
 // Route::middleware('auth')->group(function () {
