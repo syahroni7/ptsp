@@ -68,29 +68,6 @@
         </div>
 
 
-        <div class="row justify-content-center">
-            <div class="col-md-12">
-                <div class="card m-0">
-
-                    <div class="card-body mb-0 pb-0">
-                        @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                        @endif
-
-                        <h5 class="card-title">
-                            {{ $greeting }}
-
-                        </h5>
-
-
-
-
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <div class="row">
 

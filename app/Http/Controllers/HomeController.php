@@ -581,9 +581,9 @@ class HomeController extends Controller
         }
 
         return view('guest.index', [
-            'title'  => 'Halaman Beranda',
+            'title'  => 'Statistik Pelayanan Informasi Publik secara Terpadu Satu Pintu',
             'br1'  => 'Home',
-            'br2'  => 'Beranda',
+            'br2'  => 'Statistik Pelayanan',
             'summaryPelayanan'  => $statusPelayanan,
             'undoneDisp'  => $undoneDisp,
             'totalByUnit'  => $sUnit,
