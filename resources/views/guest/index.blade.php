@@ -83,7 +83,7 @@
                     </div>
                     @foreach ($summaryPelayanan as $key => $status)
                     <!-- Item Card -->
-                    <div class="col-xxl-3 col-xs-3 col-xxs-3 col-md-6">
+                    <div class="col-xxl-3 col-xs-3 col-xxs-3 col-md-12">
                         <div class="card info-card sales-card m-0">
 
                             <div class="filter">
@@ -139,7 +139,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <!-- Website Traffic -->
                         <div class="card m-0">
                             <div class="filter">
@@ -193,7 +193,7 @@
                         </div><!-- End Website Traffic -->
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <!-- Website Traffic -->
                         <div class="card m-0">
                             <div class="filter">
@@ -274,7 +274,7 @@
                 <div class="row">
 
 
-                    <div class="col-lg-6">
+                    <div class="col-lg-12">
                         <!-- Reports -->
 
                         <div class="row">
@@ -379,7 +379,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-6">
+                    <div class="col-lg-12">
                         <!-- Reports -->
 
                         <div class="row">
