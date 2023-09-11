@@ -580,7 +580,7 @@ class HomeController extends Controller
             $undoneDisp = $res;
         }
 
-        return view('admin.home.index', [
+        return view('guest.index', [
             'title'  => 'Halaman Beranda',
             'br1'  => 'Home',
             'br2'  => 'Beranda',
