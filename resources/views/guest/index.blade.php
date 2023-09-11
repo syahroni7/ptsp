@@ -193,7 +193,7 @@
                         </div><!-- End Website Traffic -->
                     </div>
 
-                    <div class="col-md-12">
+                    <div class="col-md-12 mt-2">
                         <!-- Website Traffic -->
                         <div class="card m-0">
                             <div class="filter">
@@ -507,7 +507,7 @@
                 </div>
 
                 <div class="row justify-content-start">
-                    <div class="col-md-8">
+                    <div class="col-md-12">
                         <div class="card m-0">
                             <div class="card-body pb-0">
                                 <h5 class="card-title">Tabel Rekapitulasi <span></span></h5>
