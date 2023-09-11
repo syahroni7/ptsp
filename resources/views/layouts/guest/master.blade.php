@@ -36,9 +36,7 @@
             <img src="{{ asset('assets/images/logo/loader.png') }}" width="85px" alt="">
         </div>
     </div>
-    @include('layouts.guest.header')
 
-    @include('layouts.guest.sidebar')
 
     @yield('content')
 
