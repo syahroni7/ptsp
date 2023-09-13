@@ -14,7 +14,9 @@
 <script src="{{ asset('js/additional-methods.min.js') }}"></script>
 <script src="{{ asset('js/messages_id.min.js') }}"></script>
 
-<script src="https://cdn.socket.io/4.5.0/socket.io.min.js" integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k" crossorigin="anonymous"></script>
+<script src="https://cdn.socket.io/4.5.0/socket.io.min.js"
+    integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k" crossorigin="anonymous">
+</script>
 
 
 
@@ -49,65 +51,7 @@
     });
 
 
-    socket.on('sendNotifToClient', (data) => {
-        fetchNotif();
-        fetchSummary();
-
-        console.log('data nya apa:');
-        console.log(data);
-        let recipient = data[0];
-        console.log('recipient');
-        console.log(recipient);
-
-        let disposisi = data[1];
-        console.log('disposisi');
-        console.log(disposisi);
-        var authUsername = '{!! Auth::user()->username !!}';
-
-        console.log('authUsername');
-        console.log(authUsername);
-
-        console.log('recipient.username');
-        console.log(recipient.username);
-
-        console.log('recipient.username == authUsername');
-        console.log(recipient.username == authUsername);
-
-        if (recipient.username == parseInt(authUsername)) {
-            let penampung_audio = document.createElement('div');
-            penampung_audio.setAttribute('id', 'penampung_audio-' + authUsername);
-            let audio = document.createElement('audio');
-            penampung_audio.appendChild(audio);
-            audio.setAttribute('muted', "muted");
-            // audio.setAttribute('src', "{{ url('notification-sound.ogg') }}");
-            audio.setAttribute('src', "{{ url('ada-notifikasi-baru.mpeg') }}");
-            audio.play();
-        }
-
-        let pelayanan = data[1].pelayanan;
-        let noRegis = pelayanan.no_registrasi;
-        console.log('noRegis')
-        console.log(noRegis)
-        let front = noRegis.substr(0, 2);
-        console.log('front')
-        console.log(front)
-        if (front == '01' && authUsername == 'mardiyana') {
-            let penampung_audio2 = document.createElement('div');
-            penampung_audio2.setAttribute('id', 'penampung-operator-' + authUsername + front);
-            let audio2 = document.createElement('audio');
-            penampung_audio2.appendChild(audio2);
-            audio2.setAttribute('muted', "muted");
-            // audio2.setAttribute('src', "{{ url('notification-sound.ogg') }}");
-            audio2.setAttribute('src', "{{ url('ada-notifikasi-baru.mpeg') }}");
-            audio2.play();
-        }
-
-        if (!(typeof table === "undefined")) {
-            console.log('masuk reload tabel');
-            table.ajax.reload(null, false);
-        }
-
-    });
+   
     // }
 
     fetchNotif();
