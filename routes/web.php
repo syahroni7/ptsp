@@ -380,6 +380,10 @@ Route::get('/xdown/{view}', function ($view) {
     return 'Web Down with command view: '. $view;
 });
 
+Route::get('/view_error/{view}', function ($view) {
+    return view('errors'. $view);
+});
+
 Route::get('/xup', function () {
     Artisan::call('up');
     return 'Web Up';
