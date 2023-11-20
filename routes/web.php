@@ -381,8 +381,7 @@ Route::get('/xdown/{view}', function ($view) {
 });
 
 Route::get('/view_error/{view}', function ($view) {
-    return $view;
-    return view('errors'. $view);
+    return view('errors.'. $view);
 });
 
 Route::get('/xup', function () {
