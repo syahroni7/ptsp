@@ -100,6 +100,7 @@ Route::get('/disposisi/undone', function () {
 
 Route::get('/message/broadcast', function () {
     $users = \App\Models\User::all();
+    
     foreach ($users as $key => $user) {
         $hp = $user->no_hp;
 
