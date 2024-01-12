@@ -22,25 +22,24 @@ use Illuminate\Support\Facades\Artisan;
  * Test Excel
  */
 
-Route::get('/change/access/{type}', function($type) {
+Route::get('/change/access/{type}', function ($type) {
     $type =  \DB::table('access_type')->where('id_access_type', 1)
-    ->update(['name' => $type]);
+        ->update(['name' => $type]);
     return 'Config has been changed';
 });
 
-Route::get('/get/access/type', function() {
+Route::get('/get/access/type', function () {
     $type =  \DB::table('access_type')->first();
     return 'get config access: ' . $type;
 });
 
- Route::get('/operator', function() {
+Route::get('/operator', function () {
     $pelayanan = \App\Models\DaftarPelayanan::all();
     $created_by = $pelayanan->pluck('created_by');
 
 
     $data = array_count_values($created_by->toArray());
     return $data;
-
 });
 
 Route::get('/disposisi/undone', function () {
@@ -62,10 +61,10 @@ Route::get('/disposisi/undone', function () {
     // ];
 
     $disposisiNotDone = \App\Models\DaftarDisposisi::whereDoesntHave('child')
-                    ->whereNotNull('id_aksi_disposisi')
-                    ->whereNotNull('id_recipient')
-                    ->with('recipient')
-                    ->get();
+        ->whereNotNull('id_aksi_disposisi')
+        ->whereNotNull('id_recipient')
+        ->with('recipient')
+        ->get();
 
 
     $grouped =  $disposisiNotDone->groupBy('recipient.name_phone');
@@ -74,21 +73,20 @@ Route::get('/disposisi/undone', function () {
     foreach ($grouped as $key => $value) {
         $exp = explode('_', $key);
 
-        if($exp[1] != "") {
+        if ($exp[1] != "") {
             $res[] = [
                 'name' => $exp[0],
                 'no_hp' => $exp[1],
                 'count' => count($value)
             ];
         }
-        
     }
 
     foreach ($res as $key => $data) {
         $text = '```Yth, \n';
         $text .= '' . $data['name'] . ' \n';
-    
-        $text .= 'Anda masih memiliki sejumlah * '. $data['count'] .' Disposisi * yang belum diselesaikan. Agar disposisi dapat diselesaikan. \n \n';
+
+        $text .= 'Anda masih memiliki sejumlah * ' . $data['count'] . ' Disposisi * yang belum diselesaikan. Agar disposisi dapat diselesaikan. \n \n';
         $text .= 'Terima Kasih atas perhatiannya.';
         $text .= '\n \n';
         $text .= 'Link PTSP KEMENAG PESSEL ``` \n \n';
@@ -101,14 +99,14 @@ Route::get('/disposisi/undone', function () {
 });
 
 Route::get('/message/broadcast', function () {
-    $user = \App\Models\User::first();
-    // foreach ($users as $key => $user) {
-    $hp = $user->no_hp;
+    $users = \App\Models\User::all();
+    foreach ($users as $key => $user) {
+        $hp = $user->no_hp;
 
-    $request = Request::create('message/send/{to}/{text}', 'GET');
-    $response = Route::dispatch($request);
-    \App\Http\Controllers\MessageController::sendMessage($hp, 'Test Live WA Server | ' . $user->username . '. \n \n Mohon maaf atas ketidaknyamanannnya.');
-    // }
+        $request = Request::create('message/send/{to}/{text}', 'GET');
+        $response = Route::dispatch($request);
+        \App\Http\Controllers\MessageController::sendMessage($hp, 'Konfigurasi Ulang Live WA Server | ' . $user->username . '. \n \n Mohon maaf atas ketidaknyamanannnya.');
+    }
 
     return 'done';
 });
@@ -145,13 +143,13 @@ Route::get('/qrcodesistem', function () {
 
 
     $style = array(
-       'border' => 0,
-       'vpadding' => 'auto',
-       'hpadding' => 'auto',
-       'fgcolor' => array(0,0,0),
-       'bgcolor' => false, //array(255,255,255)
-       'module_width' => 1, // width of a single module in points
-       'module_height' => 1 // height of a single module in points
+        'border' => 0,
+        'vpadding' => 'auto',
+        'hpadding' => 'auto',
+        'fgcolor' => array(0, 0, 0),
+        'bgcolor' => false, //array(255,255,255)
+        'module_width' => 1, // width of a single module in points
+        'module_height' => 1 // height of a single module in points
     );
 
     $urlDetail = 'https://ptsp.kemenagpessel.com';
@@ -214,10 +212,10 @@ Route::get('/test/smsptsp', function () {
     $text .= '' . $event['recipient']->name . ' \n';
     $text .= 'Ada Disposisi Baru \n \n';
     $text .= '====================\n';
-    $text .= 'No. Reg : '. $event['pelayanan']->no_registrasi.'\n';
-    $text .= 'Perihal : '. $event['pelayanan']->perihal .'\n';
-    $text .= 'Pemohon : '. $event['pelayanan']->pemohon_nama .'\n';
-    $text .= 'Alamat  : '. $event['pelayanan']->pemohon_alamat .'\n';
+    $text .= 'No. Reg : ' . $event['pelayanan']->no_registrasi . '\n';
+    $text .= 'Perihal : ' . $event['pelayanan']->perihal . '\n';
+    $text .= 'Pemohon : ' . $event['pelayanan']->pemohon_nama . '\n';
+    $text .= 'Alamat  : ' . $event['pelayanan']->pemohon_alamat . '\n';
     $text .= '====================';
     $text .= '\n \n';
     $text .= 'Rincian Pelayanan dapat dilihat pada link dibawah. \n \n';
@@ -232,7 +230,7 @@ Route::get('/summary/daily', function () {
     $totalD = TotalLayananPerHari::get();
     // $totalD = TotalLayananPerHari::where('cron_status', 'executed')->get();
 
-    $seriesD [] = [
+    $seriesD[] = [
         'name' => 'Total Pelayanan',
         'data' => $totalD->pluck('total_pelayanan')
     ];
@@ -251,7 +249,7 @@ Route::get('/summary/weekly', function () {
     $total = TotalLayananPerMinggu::orderBy('id_total_layanan_perminggu', 'DESC')->take(8)->get();
     $total = $total->sortBy("id_total_layanan_perminggu");
 
-    $series [] = [
+    $series[] = [
         'name' => 'Total Pelayanan',
         'data' => $total->pluck('total_pelayanan')
     ];
@@ -306,7 +304,7 @@ Route::get('/summary-run/weekly', function () {
     $totalM = TotalLayananPerMinggu::orderBy('id_total_layanan_perminggu', 'DESC')->take(8)->get();
     $totalM = $totalM->sortBy("id_total_layanan_perminggu");
 
-    $series [] = [
+    $series[] = [
         'name' => 'Total Pelayanan',
         'data' => $totalM->pluck('total_pelayanan')
     ];
@@ -359,7 +357,7 @@ Route::get('/summary-run/daily', function () {
     $totalD = TotalLayananPerHari::get();
     // $totalD = TotalLayananPerHari::where('cron_status', 'executed')->get();
 
-    $seriesD [] = [
+    $seriesD[] = [
         'name' => 'Total Pelayanan',
         'data' => $totalD->pluck('total_pelayanan')
     ];
@@ -375,13 +373,13 @@ Route::get('/summary-run/daily', function () {
 });
 
 Route::get('/xdown/{view}', function ($view) {
-    Artisan::call('down', ['--secret' => 'devmode', '--render' => 'errors.'.$view]);
+    Artisan::call('down', ['--secret' => 'devmode', '--render' => 'errors.' . $view]);
 
-    return 'Web Down with command view: '. $view;
+    return 'Web Down with command view: ' . $view;
 });
 
 Route::get('/view_error/{view}', function ($view) {
-    return view('errors.'. $view);
+    return view('errors.' . $view);
 });
 
 Route::get('/xup', function () {
@@ -418,8 +416,8 @@ Route::get('/teset', function () {
 
     $dokumenBaru = [
         [
-        'filename' => 'nuna',
-        'file_url' => 'https://' . rand(10, 99999) . '.com',
+            'filename' => 'nuna',
+            'file_url' => 'https://' . rand(10, 99999) . '.com',
         ],
         [
             'filename' => 'nuna2',
@@ -569,21 +567,21 @@ Route::get('/dec/{id}', function ($id) {
 
 Route::get('/summary/fetch', function () {
     $summary = \App\Models\DaftarPelayanan::select('status_pelayanan', DB::raw('count(*) as total'))
-                                                ->groupBy('status_pelayanan')
-                                                ->get();
+        ->groupBy('status_pelayanan')
+        ->get();
 
     // ->whereYear('created_at', '=', date('Y'))
     // ->whereMonth('created_at', '=', date('m'))
     $username = \Auth::user()->username;
     $cDisposisi = \App\Models\DaftarDisposisi::whereHas('recipient', function ($q) use ($username) {
-                    $q->where('username', $username);
-                })->doesntHave('child')
-    ->count();
+        $q->where('username', $username);
+    })->doesntHave('child')
+        ->count();
 
     return response()
-    ->json([
-         'summary' => $summary,
-         'disposisi' => $cDisposisi
+        ->json([
+            'summary' => $summary,
+            'disposisi' => $cDisposisi
         ]);
 });
 
