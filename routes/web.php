@@ -754,6 +754,7 @@ Route::group(['middleware' => ['auth', 'same_password_with_username', 'phone_num
         Route::get('/daftar-pelayanan/list/{status}', [\App\Http\Controllers\DataPelayanan\DaftarPelayananController::class, 'index'])->name('daftar-pelayanan.index');
         Route::get('/daftar-pelayanan/create', [\App\Http\Controllers\DataPelayanan\DaftarPelayananController::class, 'create'])->name('daftar-pelayanan.create');
         Route::post('/daftar-pelayanan/store', [\App\Http\Controllers\DataPelayanan\DaftarPelayananController::class, 'store'])->name('daftar-pelayanan.store');
+        Route::post('/daftar-pelayanan/store-simple', [\App\Http\Controllers\DataPelayanan\DaftarPelayananController::class, 'storeSimple'])->name('daftar-pelayanan.store.simple');
         Route::post('/daftar-pelayanan/update', [\App\Http\Controllers\DataPelayanan\DaftarPelayananController::class, 'update'])->name('daftar-pelayanan.update');
 
         /**

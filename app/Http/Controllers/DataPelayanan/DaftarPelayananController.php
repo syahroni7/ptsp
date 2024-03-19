@@ -98,7 +98,7 @@ class DaftarPelayananController extends Controller
                 ->addColumn('pelayanan_perihal', function ($layanan) {
                     $html = '';
                     $html .= '<span>'.$layanan->perihal.  '</span><br>';
-                    $html .='<span class="text-muted" style="font-size:smaller!important;">Oleh: '.$layanan->pemohon_nama.  '</span><br>';
+                    $html .= '<span class="text-muted" style="font-size:smaller!important;">Oleh: '.$layanan->pemohon_nama.  '</span><br>';
                     $html .= '<span class="text-muted" style="font-size:smaller!important;">Alamat: '.$layanan->pemohon_alamat.  '</span><br>';
                     return $html;
                 })
@@ -313,6 +313,164 @@ class DaftarPelayananController extends Controller
                         'filename' => $tempFile->filename,
                         'file_url' => asset($asset),
                     ];
+                }
+            }
+
+            $arsip->dokumen_masuk_url = $urlAssets;
+            $arsip->save();
+
+            $success = true;
+            $code = 200;
+            $message = 'Data Berhasil Disimpan';
+        } catch (\Throwable $th) {
+            $message = $th->getMessage();
+        }
+
+        return response()
+            ->json([
+                'success' => $success,
+                'message' => $message,
+                'data' => $newData,
+                'summary' => $summary,
+                'recipient' => $recipient,
+                'disposisi' => $disposisi
+            ]);
+    }
+
+    public function storeSimple(Request $request)
+    {
+        $success = false;
+        $message = '';
+        $code = 400;
+
+        $data = $request->input();
+        $newData = null;
+        $summary = [];
+        $recipient = null;
+        $disposisi = null;
+
+        try {
+            config(['app.locale' => 'id']);
+            Carbon::setLocale('id');
+            date_default_timezone_set('Asia/Jakarta');
+
+            $layanan = DaftarLayanan::where('id_layanan', $data['id_layanan2'])->first();
+            $pelayananCount = DaftarPelayanan::whereYear('created_at', '=', date('Y'))
+                                                ->whereMonth('created_at', '=', date('m'))
+                                                ->count();
+
+            $pelayananCount = $pelayananCount == 0 ? 1 : ($pelayananCount + 1);
+
+            // Create Pelayanan
+            $pelayanan = new DaftarPelayanan();
+            $pelayanan->id_layanan = $data['id_layanan2'];
+            $pelayanan->no_registrasi = "02".date('ymd').sprintf('%02d', $layanan->id_unit_pengolah).sprintf('%02d', $data['id_layanan2']).sprintf('%03d', $pelayananCount);
+            $pelayanan->perihal = $data['perihal2'];
+            $pelayanan->pemohon_nama = $data['pemohon_nama2'];
+            $pelayanan->pemohon_no_hp = $data['pemohon_no_hp2'];
+            $pelayanan->kelengkapan_syarat = $data['kelengkapan_syarat'];
+            $pelayanan->status_pelayanan = $data['status_pelayanan'];
+            $pelayanan->created_by = Auth::user()->name;
+            $pelayanan->id_unit_pengolah = $layanan->id_unit_pengolah;
+
+            $pelayanan->save();
+            $pelayanan->fresh();
+
+            // Buat Arsip
+            $arsip = new \App\Models\DaftarArsip();
+            $arsip->id_pelayanan = $pelayanan->id_pelayanan;
+            $arsip->save();
+            $arsip->fresh();
+
+            if ($data['status_pelayanan'] == 'Baru') {
+                // Create Disposisi
+                $disposisi = new DaftarDisposisi();
+                $disposisi->id_pelayanan = $pelayanan->id_pelayanan;
+                $disposisi->id_aksi_disposisi = 2; // aksi 'mohon_arahan'
+                $disposisi->urutan_disposisi = 1;
+                $disposisi->id_sender = Auth::user()->id;
+                $disposisi->username_sender = Auth::user()->username;
+                $recipient = \App\Models\User::whereHas('roles', function ($q) {
+                    $q->where('name', 'manager');
+                })->first();
+                $disposisi->id_recipient = $recipient->id;
+                $disposisi->username_recipient = $recipient->username;
+                $disposisi->save();
+                $disposisi->fresh();
+                $disposisi->load('pelayanan');
+
+                Notification::send($recipient, new NewPelayananNotification($disposisi));
+
+
+                // Send Message
+                $detailUrl = route('daftar-pelayanan.detail', $pelayanan->idx_pelayanan);
+                $text = '```Yth, \n';
+                $text .= '' . $recipient->name . ' \n';
+                $text .= 'Ada Disposisi Baru \n \n';
+                $text .= '==========================\n';
+                $text .= 'No. Reg : '. $pelayanan->no_registrasi.'\n';
+                $text .= 'Perihal : '. $pelayanan->perihal .'\n';
+                $text .= 'Pemohon : '. $pelayanan->pemohon_nama .'\n';
+                $text .= 'Alamat  : '. $pelayanan->pemohon_alamat .'\n';
+                $text .= '==========================';
+                $text .= '\n \n';
+                $text .= 'Rincian Pelayanan dapat dilihat pada link dibawah ``` \n \n';
+                $text .= '' . $detailUrl . '';
+
+                // MessageController::sendMessage('6282298476941', $text);
+
+                event(new \App\Events\DispositionProcessed($pelayanan, $recipient));
+            }
+
+            $newData = $pelayanan;
+
+            $summary = DaftarPelayanan::select('status_pelayanan', DB::raw('count(*) as total'))
+                                                ->whereYear('created_at', '=', date('Y'))
+                                                ->whereMonth('created_at', '=', date('m'))
+                                                ->groupBy('status_pelayanan')
+                                                ->get();
+
+            // Save File
+            $files = $request->data_file;
+            $urlAssets = [];
+            if($files) {
+                foreach ($files as $file) {
+                    $dcd = json_decode($file);
+                    $file = $dcd[0];
+                    $tempFile = TemporaryFile::where('folder', $file)->first();
+
+
+                    if ($tempFile) {
+                        $sourcePath = storage_path('app/public/temporary/' . $tempFile->folder);
+                        $sourceFile = $sourcePath . '/' . $tempFile->filename;
+                        $ext = pathinfo($sourceFile, PATHINFO_EXTENSION);
+
+
+
+                        $destinationPath =  storage_path('app/public/files/' . date('Y-m') . '/' . $pelayanan->no_registrasi);
+                        $destinationFile = $destinationPath . '/' . $tempFile->filename;
+                        $asset = 'storage/files/' . date('Y-m') . '/' . $pelayanan->no_registrasi . '/' . $tempFile->filename;
+
+                        if (!Storage::exists($destinationPath)) {
+                            Storage::makeDirectory($destinationPath, 0777, true); //creates directory
+                        }
+
+                        File::ensureDirectoryExists($destinationPath);
+                        File::move($sourceFile, $destinationFile);
+                        // Storage::move( $sourceFile, $destinationFile );
+
+                        // Delete File and Database
+                        $this->rmdir_recursive($sourcePath);
+                        $tempFile->delete();
+
+
+                        // getAsset
+                        // $urlAssets[] = asset($asset);
+                        $urlAssets[] = [
+                            'filename' => $tempFile->filename,
+                            'file_url' => asset($asset),
+                        ];
+                    }
                 }
             }
 

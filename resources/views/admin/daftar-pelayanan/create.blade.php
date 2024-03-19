@@ -54,21 +54,19 @@
                         </div>
                         <div class="card-body">
                             <div class="row mt-2">
-                                <div class="col-sm-8">
+                                <div class="col-sm-12">
                                     <div class="input-group mt-2">
-                                        {{-- <button type="button" class="btn btn-primary">Tambah Pelayanan Baru</button> --}}
-
-                                        <a id="inputButton" class="btn btn-primary" data-bs-toggle="collapse" href="#inputSection" role="button" aria-expanded="false" aria-controls="inputSection" data-bs-target=".input-collapse">
-                                            Tambah Pelayanan Baru
+                                        <a id="inputButton" class="btn btn-primary mr-2" data-bs-toggle="collapse" href="#inputSection" role="button" aria-expanded="false" aria-controls="inputSection" data-bs-target=".input-collapse">
+                                            Tambah Pelayanan
                                         </a>
 
-                                        {{-- <a class="btn btn-primary" id="nav-home-tab" data-bs-toggle="tab"
-                                            data-bs-target="#nav-home" type="button" role="tab"
-                                            aria-controls="nav-home" aria-selected="true">
-                                            Tambah Pelayanan Baru
-                                        </a> --}}
+                                        <a id="simpleButton" class="btn btn-secondary" data-bs-toggle="collapse" href="#inputSimpleSection" role="button" aria-expanded="false" aria-controls="inputSimpleSection" data-bs-target=".input-collapse">
+                                            Tambah Simple
+                                        </a>
                                     </div>
                                 </div>
+
+
                             </div>
                         </div>
 
@@ -236,6 +234,88 @@
                     </div>
                 </div>
 
+
+                {{-- SIMPLE --}}
+                <div class="row collapse input-collapse" id="inputSimpleSection">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title m-0 p-0"> <i class="bi bi-card-checklist"></i> Form Data Simple
+                                </h5>
+                            </div>
+                            <div class="card-body">
+
+                                <form class="row g-3 mt-2 needs-validation" novalidate id="sForm" method="post" action="{{ route('daftar-pelayanan.store.simple') }}" enctype="multipart/form-data">
+                                    {{ csrf_field() }}
+                                    <div class="col-md-12 form-group">
+                                        <label for="id_layanan2" class="form-label fw-bold">Nama Layanan</label>
+                                        <select name="id_layanan2" id="id_layanan2" class="form-control select2 custom-select">
+                                            <option selected value="">Pilih Layanan</option>
+                                            @foreach ($daftar_layanan as $layanan)
+                                                <option value="{{ $layanan->id_layanan }}">{{ $layanan->unit->name . ' - ' . $layanan->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-12 template-syarat" style="display: none">
+                                        <ul class="list-group">
+                                            <li class="list-group-item list-group-item-secondary">Syarat Layanan</li>
+                                            <li class="list-group-item"><span id="message-syarat"></span>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+
+
+                                    <div class="col-md-6 form-group">
+                                        <label for="pemohon_nama2" class="form-label fw-bold">Nama Pemohon</label>
+                                        <input class="form-control" name="pemohon_nama2" id="pemohon_nama2" type="text" placeholder="Nama Pemohon" value="">
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                        <label for="pemohon_no_hp2" class="form-label fw-bold">No. HP Pemohon</label>
+                                        <input class="form-control" name="pemohon_no_hp2" id="pemohon_no_hp2" type="text" placeholder="Nomor HP Pemohon" value="">
+                                    </div>
+
+                                    <div class="col-md-12 form-group">
+                                        <label for="perihal2" class="form-label fw-bold">Perihal</label>
+                                        {{-- <input class="form-control" name="perihal2" id="perihal2" type="text" value="" placeholder="Perihal2"> --}}
+
+                                        <div class="input-group mt-2">
+                                            {{-- <input type="text" class="form-control" placeholder="Ketik No. Registrasi"
+                                                aria-label="Ketik No. Registrasi" aria-describedby="basic-addon2"> --}}
+                                            <input class="form-control" name="perihal2" id="perihal2" type="text" value="" placeholder="Perihal">
+                                            <button class="input-group-text" id="copy-from-layanan2" role="button" type="button" aria-expanded="false" aria-controls="searchSection">
+                                                <i class="bi bi- clipboard-check"></i>&nbsp;&nbsp;Salin dari Layanan
+                                            </button>
+
+                                            {{-- <button class="input-group-text" id="basic-addon2" id="nav-profile-tab"
+                                                data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab"
+                                                aria-controls="nav-profile" aria-selected="false">
+                                                <i class="bi bi-search"></i>&nbsp;&nbsp;Cari
+                                            </button> --}}
+                                        </div>
+                                    </div>
+
+
+
+                                    <input type="hidden" name="kelengkapan_syarat" id="kelengkapan_syarat" value="Sudah Lengkap">
+                                    <input type="hidden" name="status_pelayanan" id="status_pelayanan" value="Baru">
+
+
+                                    <div class="card-footer">
+                                        <button id="submitPelayananBtn2" type="button" class="btn btn-primary float-end">Simpan Data
+                                            Pelayanan</button>
+                                        <button type="reset" class="btn btn-secondary float-start">Reset</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                {{-- END SIMPLE --}}
+
                 {{-- <div class="row tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab"> --}}
                 <div class="row collapse search-collapse2" id="searchSection2">
                     <div class="col-lg-12">
@@ -255,7 +335,7 @@
                             </div>
                             <div class="card-body">
 
-                                <form class="row g-3 mt-2" id="sForm" method="post" action="{{ route('daftar-pelayanan.store') }}" enctype="multipart/form-data">
+                                <form class="row g-3 mt-2" id="fForm" method="post" action="{{ route('daftar-pelayanan.store') }}" enctype="multipart/form-data">
                                     {{ csrf_field() }}
                                     <div class="col-md-6">
                                         <label for="search_no_registrasi" class="form-label fw-bold">No Registrasi</label>
@@ -556,6 +636,13 @@
             $('#perihal').val(textLayanan.split("-").pop());
         });
 
+        $("#copy-from-layanan2").on("click", function() {
+            var textLayanan = $('#id_layanan2').find(":selected").text();
+            var textPemohonNama = $('#pemohon_nama2').val();
+
+            $('#perihal2').val(textLayanan.split("-").pop() + ' a.n. ' + textPemohonNama);
+        });
+
 
         function searchData(id_pelayanan) {
             $('body').block({
@@ -691,6 +778,16 @@
 
             $('#inputSection').fadeIn("slow");
             $('#searchSection2').hide();
+            $('#inputSimpleSection').hide();
+
+        });
+
+        $(document).on('click', '#simpleButton', function(e) {
+            e.preventDefault();
+
+            $('#inputSimpleSection').fadeIn("slow");
+            $('#searchSection2').hide();
+            $('#inputSection').hide();
 
         })
 
@@ -890,6 +987,52 @@
                 }
             });
 
+            $('#sForm').validate({
+                lang: 'id', // or whatever language option you have.
+                ignore: [],
+                rules: {
+                    id_layanan2: {
+                        required: true,
+                    },
+                    perihal2: {
+                        required: true,
+                    },
+                    pemohon_nama2: {
+                        required: true,
+                    },
+                    pemohon_no_hp2: {
+                        required: true,
+                        phoneID: true
+                    },
+                },
+                messages: {
+                    email: {
+                        required: "Please enter a valid email address",
+                        minlength: "Please enter a valid email address",
+                        email: "Please enter a valid email address",
+                        remote: "This email is already registered"
+                    },
+                    username: {
+                        required: "Please enter a valid username",
+                        remote: "This username is already registered"
+                    },
+                    jenis_usaha: "Jenis Usaha Harap diisi",
+                    id_kabkota: "Kota / Kabupaten Harap diisi",
+                    nama: "Nama Harap diisi"
+                },
+                errorElement: 'div',
+                errorPlacement: function(error, element) {
+                    error.addClass('invalid-feedback');
+                    element.closest('.form-group').append(error);
+                },
+                highlight: function(element, errorClass, validClass) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function(element, errorClass, validClass) {
+                    $(element).removeClass('is-invalid');
+                }
+            });
+
             $("#submitPelayananBtn").on("click", function(event) {
                 event.preventDefault();
                 console.log($("#fForm").valid());
@@ -974,6 +1117,95 @@
                         $('#id_layanan').val('').trigger('change');
                         $('#inputSection').hide();
                         $('#inputSection').removeClass('show');
+
+                    }, 1500);
+                }
+            });
+
+            $("#submitPelayananBtn2").on("click", function(event) {
+                event.preventDefault();
+                console.log($("#sForm").valid());
+
+                if ($("#sForm").valid()) {
+
+                    $('#sForm').block({
+                        message: `Loading...`
+                    });
+
+                    setTimeout(function() {
+
+                        var formdata = $("#sForm")
+                            .serialize(); // here $(this) refere to the form its submitting
+                        console.log(formdata);
+                        url = $('#sForm').attr('action');
+
+
+                        $.ajax({
+                            type: 'POST',
+                            url: url,
+                            data: formdata, // here $(this) refers to the ajax object not form
+                            dataType: 'json', // let's set the expected response format
+                            success: function(data) {
+
+                                console.log(data);
+                                if (data.success) {
+                                    Swal.fire(
+                                        'Mantap!',
+                                        'Data Pelayanan berhasil disimpan!',
+                                        'success'
+                                    );
+
+                                    // if (!(typeof socket === "undefined")) {
+                                    socket.emit('sendSummaryToServer', data.summary);
+                                    var notifData = [
+                                        data.recipient, data.disposisi
+                                    ];
+                                    socket.emit('sendNotifToServer', notifData);
+                                    // }
+
+                                    searchData(data.data.id_pelayanan);
+
+                                } else {
+                                    Swal.fire(
+                                        'Perhatian!', data.message,
+                                        'warning'
+                                    );
+                                }
+
+                            },
+                            error: function(err) {
+                                if (err.status ==
+                                    422
+                                ) { // when status code is 422, it's a validation issue
+                                    console.log(err.responseJSON);
+                                    // you can loop through the errors object and show it to the user
+                                    console.warn(err.responseJSON.errors);
+                                    // display errors on each form field
+                                    $('.ajax-invalid').remove();
+                                    $.each(err.responseJSON.errors,
+                                        function(i, error) {
+                                            var el = $(document).find(
+                                                '[name="' +
+                                                i + '"]');
+                                            el.after($('<span class="ajax-invalid" style="color: red;">' +
+                                                error[0] +
+                                                '</span>'));
+                                        });
+                                } else if (err.status == 403) {
+                                    Swal.fire(
+                                        'Unauthorized!',
+                                        'You are unauthorized to do the action',
+                                        'warning'
+                                    );
+                                }
+                            }
+                        });
+
+                        $('#sForm').unblock();
+                        $('#sForm')[0].reset();
+                        $('#id_layanan2').val('').trigger('change');
+                        $('#inputSimpleSection').hide();
+                        $('#inputSimpleSection').removeClass('show');
 
                     }, 1500);
                 }
