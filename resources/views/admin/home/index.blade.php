@@ -323,7 +323,7 @@
                         <div class="row">
 
 
-                            <div class="col-lg-6">
+                            <div class="col-lg-12">
                                 <!-- Reports -->
 
                                 <div class="row">
@@ -425,7 +425,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-6">
+                            <div class="col-lg-12">
                                 <!-- Reports -->
 
                                 <div class="row">
