@@ -682,15 +682,15 @@
 
                             $('#cetak-bukti-button').attr('data-cetak_bukti_link', data.url_pdf)
 
-                            // $(document).on("click", "#cetak-bukti-button", function() {
-                            $("#cetak-bukti-button").on("click", function() {
+                            $(document).on("click", "#cetak-bukti-button", function() {
+                                // $("#cetak-bukti-button").on("click", function() {
                                 var cetakBuktiLink = $(this).data('cetak_bukti_link');
                                 console.log('cetakBuktiLink');
                                 console.log(cetakBuktiLink);
                                 $('#cetak-bukti-link').attr('src', cetakBuktiLink);
                                 var iFrame = $('#cetak-bukti-link');
                                 iFrame.load(cetakBuktiLink);
-                                document.getElementById('#cetak-bukti-link').contentDocument.location.reload(true);
+                                // document.getElementById('#cetak-bukti-link').contentDocument.location.reload(true);
                                 $('#cetak-bukti-link').attr("src", $('#cetak-bukti-link').attr("src"));
                                 console.log('cetakBuktiLink Finished');
                             });
