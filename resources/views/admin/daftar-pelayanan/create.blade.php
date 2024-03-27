@@ -682,6 +682,16 @@
 
                             $('#cetak-bukti-button').attr('data-cetak_bukti_link', data.url_pdf)
 
+                            // $(document).on("click", "#cetak-bukti-button", function() {
+                            $("#cetak-bukti-button").on("click", function() {
+                                var cetakBuktiLink = $(this).data('cetak_bukti_link');
+                                console.log('cetakBuktiLink');
+                                console.log(cetakBuktiLink);
+                                $('#cetak-bukti-link').attr('src', cetakBuktiLink);
+                                var iFrame = $('#cetak-bukti-link');
+                                iFrame.load(cetakBuktiLink);
+                            });
+
                             if (item.arsip) {
                                 if (item.arsip.arsip_masuk_url) {
                                     $('#upload_arsip_masuk').prop('disabled', true);
@@ -837,14 +847,14 @@
 
         $(document).ready(function() {
 
-            $(document).on("click", "#cetak-bukti-button", function() {
-                var cetakBuktiLink = $(this).data('cetak_bukti_link');
-                console.log('cetakBuktiLink');
-                console.log(cetakBuktiLink);
-                $('#cetak-bukti-link').attr('src', cetakBuktiLink);
-                var iFrame = $('#cetak-bukti-link');
-                iFrame.load(cetakBuktiLink);
-            });
+            // $(document).on("click", "#cetak-bukti-button", function() {
+            //     var cetakBuktiLink = $(this).data('cetak_bukti_link');
+            //     console.log('cetakBuktiLink');
+            //     console.log(cetakBuktiLink);
+            //     $('#cetak-bukti-link').attr('src', cetakBuktiLink);
+            //     var iFrame = $('#cetak-bukti-link');
+            //     iFrame.load(cetakBuktiLink);
+            // });
 
             $(document).on("click", "#addBtn", function() {
                 $('.edit-state').hide();
