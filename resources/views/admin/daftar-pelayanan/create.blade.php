@@ -690,8 +690,10 @@
                                 $('#cetak-bukti-link').attr('src', cetakBuktiLink);
                                 var iFrame = $('#cetak-bukti-link');
                                 iFrame.load(cetakBuktiLink);
-                                // document.getElementById('#cetak-bukti-link').contentDocument.location.reload(true);
+                                document.getElementById('cetak-bukti-link').contentDocument.location.reload(true);
                                 $('#cetak-bukti-link').attr("src", $('#cetak-bukti-link').attr("src"));
+                                document.getElementById('cetak-bukti-link').src = document.getElementById('cetak-bukti-link').src
+
                                 console.log('cetakBuktiLink Finished');
                             });
 
