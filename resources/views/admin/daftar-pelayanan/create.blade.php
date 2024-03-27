@@ -1151,13 +1151,20 @@
                             dataType: 'json', // let's set the expected response format
                             success: function(data) {
 
+                                console.log('data');
+                                console.log('=');
                                 console.log(data);
+                                console.log('=');
+                                console.log('data');
+
+
                                 if (data.success) {
                                     Swal.fire(
                                         'Mantap!',
                                         'Data Pelayanan berhasil disimpan!',
                                         'success'
                                     );
+                                    searchData(data.data.id_pelayanan);
 
                                     // if (!(typeof socket === "undefined")) {
                                     socket.emit('sendSummaryToServer', data.summary);
@@ -1167,7 +1174,6 @@
                                     socket.emit('sendNotifToServer', notifData);
                                     // }
 
-                                    searchData(data.data.id_pelayanan);
 
                                 } else {
                                     Swal.fire(
