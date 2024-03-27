@@ -839,7 +839,11 @@
 
             $(document).on("click", "#cetak-bukti-button", function() {
                 var cetakBuktiLink = $(this).data('cetak_bukti_link');
+                console.log('cetakBuktiLink');
+                console.log(cetakBuktiLink);
                 $('#cetak-bukti-link').attr('src', cetakBuktiLink);
+                var iFrame = $('#cetak-bukti-link');
+                iFrame.load(cetakBuktiLink);
             });
 
             $(document).on("click", "#addBtn", function() {
