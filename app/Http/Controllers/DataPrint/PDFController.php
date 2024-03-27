@@ -287,7 +287,7 @@ class PDFController extends Controller
             }
             PDF::SetFont('times', 'B', 9);
             PDF::MultiCell($col1, 0, 'Biodata Pemohon', 0, 'L', false, 0, '', '', true, 0, false, true, 40, 'T');
-            PDF::MultiCell($col2, 0, $pemohon_nama . ' - ' . $pemohon_kontak, 1, 'L', false, 0, '', '', true, 0, false, true, 40, 'T');
+            PDF::MultiCell($col2, 0, substr($pemohon_nama, 0,10)  . ' - ' . $pemohon_kontak, 1, 'L', false, 0, '', '', true, 0, false, true, 40, 'T');
             PDF::Ln($spacing);
 
             // Alamat Pemohon
