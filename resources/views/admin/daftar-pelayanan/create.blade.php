@@ -681,6 +681,7 @@
                             $('.detail-button').attr('href', data.url_detail);
 
                             $('#cetak-bukti-button').attr('data-cetak_bukti_link', data.url_pdf)
+                            $('#cetak-bukti-button').data('cetak_bukti_link', data.url_pdf);
 
                             $(document).on("click", "#cetak-bukti-button", function() {
                                 // $("#cetak-bukti-button").on("click", function() {
