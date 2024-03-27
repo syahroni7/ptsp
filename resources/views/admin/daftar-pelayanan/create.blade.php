@@ -690,8 +690,6 @@
                                 $('#cetak-bukti-link').attr('src', cetakBuktiLink);
                                 var iFrame = $('#cetak-bukti-link');
                                 iFrame.load(cetakBuktiLink);
-                                var iframe = document.getElementById('#cetak-bukti-link');
-                                iframe.src = iframe.src;
                                 document.getElementById('#cetak-bukti-link').contentDocument.location.reload(true);
                                 $('#cetak-bukti-link').attr("src", $('#cetak-bukti-link').attr("src"));
                                 console.log('cetakBuktiLink Finished');
