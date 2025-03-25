@@ -14,9 +14,7 @@
 <script src="{{ asset('js/additional-methods.min.js') }}"></script>
 <script src="{{ asset('js/messages_id.min.js') }}"></script>
 
-<script src="https://cdn.socket.io/4.5.0/socket.io.min.js"
-    integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k" crossorigin="anonymous">
-</script>
+<script src="https://cdn.socket.io/4.5.0/socket.io.min.js" integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k" crossorigin="anonymous"></script>
 
 
 
@@ -51,7 +49,7 @@
     });
 
 
-   
+
     // }
 
     fetchNotif();
@@ -105,3 +103,12 @@
         console.log('woilah');
     }
 </script>
+
+<script>
+    (function() {
+        var s = document.createElement("script");
+        s.setAttribute("data-account", "P5e16SfPdW");
+        s.setAttribute("src", "https://cdn.userway.org/widget.js");
+        document.body.appendChild(s);
+    })();
+</script><noscript>Enable JavaScript to ensure <a href="https://userway.org">website accessibility</a></noscript>

@@ -95,12 +95,16 @@ class DaftarPelayananController extends Controller
                     }
                     return $btn;
                 })
+                // ->addColumn('pelayanan_perihal', function ($layanan) {
+                //     $html = '';
+                //     $html .= '<span>'.$layanan->perihal.  '</span><br>';
+                //     $html .= '<span class="text-muted" style="font-size:smaller!important;">Oleh: '.$layanan->pemohon_nama.  '</span><br>';
+                //     $html .= '<span class="text-muted" style="font-size:smaller!important;">Alamat: '.$layanan->pemohon_alamat.  '</span><br>';
+                //     return $html;
+                // })
                 ->addColumn('pelayanan_perihal', function ($layanan) {
                     $html = '';
                     $html .= '<span>'.$layanan->perihal.  '</span><br>';
-                    $html .= '<span class="text-muted" style="font-size:smaller!important;">Oleh: '.$layanan->pemohon_nama.  '</span><br>';
-                    $html .= '<span class="text-muted" style="font-size:smaller!important;">Alamat: '.$layanan->pemohon_alamat.  '</span><br>';
-                    return $html;
                 })
                 ->editColumn('created_at', function ($layanan) {
                     return $layanan->created_at->format('Y-m-d H:i:s');
