@@ -48,6 +48,8 @@ class DaftarPelayananController extends Controller
                 $query = $query->where('id_layanan', $idLayanan);
             }
 
+            $query = $query->whereYear('created_at', date("Y"));
+
             $query = $query->with('layanan', 'unit', 'output', 'jenis')->orderBy('id_pelayanan', 'desc');
 
             if ($status == 'Semua' || $status == 'semua') {
