@@ -116,6 +116,9 @@
                                                     <a id="string_url" href="javascript:void(0)" style="font-size:smaller;" class="text-white cetak-bukti-button" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-cetak_bukti_link="/laporan-layanan/create/{{ $item['year_month'] }}" data-file_name="Laporan Bulanan PTSP ONLINE Periode {{ $item['title'] }}">
                                                         DOWNLOAD
                                                     </a>
+
+                                                </div>
+                                                <div class="badge bg-primary me-1 text-start">
                                                     <a id="string_url" href="javascript:void(0)" style="font-size:smaller;" class="text-white cetak-bukti-button-sm" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-cetak_bukti_link="/laporan-layanan/create-sm/{{ $item['year_month'] }}" data-file_name="Laporan SURAT MASUK PTSP ONLINE Periode {{ $item['title'] }}">
                                                         SURAT MASUK
                                                     </a>
