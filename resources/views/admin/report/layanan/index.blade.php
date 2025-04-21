@@ -116,6 +116,9 @@
                                                     <a id="string_url" href="javascript:void(0)" style="font-size:smaller;" class="text-white cetak-bukti-button" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-cetak_bukti_link="/laporan-layanan/create/{{ $item['year_month'] }}" data-file_name="Laporan Bulanan PTSP ONLINE Periode {{ $item['title'] }}">
                                                         DOWNLOAD
                                                     </a>
+                                                    <a id="string_url" href="javascript:void(0)" style="font-size:smaller;" class="text-white cetak-bukti-button-sm" data-bs-toggle="modal" data-bs-target="#ExtralargeModal" data-cetak_bukti_link="/laporan-layanan/create-sm/{{ $item['year_month'] }}" data-file_name="Laporan SURAT MASUK PTSP ONLINE Periode {{ $item['title'] }}">
+                                                        SURAT MASUK
+                                                    </a>
                                                 </div>
                                             </td>
                                         </tr>
@@ -168,9 +171,25 @@
                 $('.cetak-title').html(fileName);
             });
 
+            $(document).on("click", ".cetak-bukti-button-sm", function() {
+                console.log('jancok');
+                var cetakBuktiLink = $(this).data('cetak_bukti_link');
+                var fileName = $(this).data('file_name');
+                $('#cetak-bukti-link').attr('src', cetakBuktiLink);
+                $('.cetak-title').html(fileName);
+            });
+
         });
 
         $(document).on("click", ".cetak-bukti-button", function() {
+            console.log('jancok');
+            var cetakBuktiLink = $(this).data('cetak_bukti_link');
+            var fileName = $(this).data('file_name');
+            $('#cetak-bukti-link').attr('src', cetakBuktiLink);
+            $('.cetak-title').html(fileName);
+        });
+
+        $(document).on("click", ".cetak-bukti-button-sm", function() {
             console.log('jancok');
             var cetakBuktiLink = $(this).data('cetak_bukti_link');
             var fileName = $(this).data('file_name');

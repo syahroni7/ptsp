@@ -674,6 +674,7 @@ Route::group(['middleware' => ['auth', 'same_password_with_username', 'phone_num
          */
         Route::get('/laporan-layanan/index/{item}', [\App\Http\Controllers\DataLaporan\LayananController::class, 'index'])->name('laporan-layanan.index');
         Route::get('/laporan-layanan/create/{year}/{month}', [\App\Http\Controllers\DataLaporan\LayananController::class, 'create'])->name('laporan-layanan.create');
+        Route::get('/laporan-layanan/create-sm/{year}/{month}', [\App\Http\Controllers\DataLaporan\LayananController::class, 'createsm'])->name('laporan-layanan.create');
 
         /**
          * User
