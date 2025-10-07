@@ -53,8 +53,8 @@ class LayananController extends Controller
         $pelayananS = DaftarPelayanan::orderBy('created_at', 'asc')->first();
         $pelayananE = DaftarPelayanan::orderBy('created_at', 'desc')->first();
 
-        $start = $pelayananS->created_at;
-        $end = $pelayananE->created_at;
+        $start = $pelayananS->created_at ?? null;
+        $end = $pelayananE->created_at ?? null;
 
 
 
@@ -93,7 +93,7 @@ class LayananController extends Controller
         $daftarpelayanan = DB::select('
                                         SELECT c.id_unit_pengolah as id_unit, c.name as unit, a.name as layanan, COALESCE(count(b.id_pelayanan)) as total
                                         FROM daftar_layanan as a
-                                        LEFT JOIN daftar_pelayanan as b ON a.id_layanan = b.id_layanan AND YEAR(b.created_at) = ? AND MONTH(b.created_at) = ?
+                                        LEFT JOIN daftar_pelayanan as b ON a.id_layanan = b.id_layanan AND YEAR(b.created_at) = ? AND MONTH(b.created_at) = ? 
                                         LEFT JOIN daftar_unit_pengolah as c ON a.id_unit_pengolah = c.id_unit_pengolah
                                         GROUP BY c.id_unit_pengolah, c.name, a.name
                                         ORDER BY c.id_unit_pengolah ASC
@@ -110,11 +110,11 @@ class LayananController extends Controller
 
 
         // Set document information
-        PDF::SetCreator('Pramana Yuda Sayeti');
-        PDF::SetAuthor('Pramana Yuda Sayeti');
+        PDF::SetCreator('Prakom Kemenag Lebak');
+        PDF::SetAuthor('Prakom Kemenag Lebak');
         $date = Carbon::createFromDate($year, $month);
-        $yearMonth = $date->locale('id')->monthName . ' ' .$date->year;
-        $judul = 'Laporan Bulanan PTSP Online Periode ' . $yearMonth;
+        $yearMonth = $date->locale('id')->monthName . ' ' . $date->year;
+        $judul = 'Laporan Bulanan SIPINTU Periode ' . $yearMonth;
         PDF::SetTitle($judul);
         PDF::SetSubject($judul);
         PDF::SetKeywords('PTSP, Pelayanan Publik, ');
@@ -132,8 +132,8 @@ class LayananController extends Controller
 
         $yearMonthUpper = strtoupper($yearMonth);
         $txt = <<<EOF
-                REKAPITULASI PELAYANAN PTSP BERBASIS ONLINE
-                KEMENTERIAN AGAMA KABUPATEN PESISIR SELATAN
+                REKAPITULASI PELAYANAN SIPINTU | PTSP KEMENAG LEBAK
+                PELAYANAN TERPADU SATU PINTU BERBASIS ONLINE
                 PERIODE $yearMonthUpper
                 EOF;
 
@@ -170,7 +170,7 @@ class LayananController extends Controller
                     PDF::AddPage('P', 'A4');
                     $yearMonthUpper = strtoupper($yearMonth);
                     $txt = <<<EOF
-                            REKAPITULASI PELAYANAN PUBLIK
+                            REKAPITULASI PELAYANAN SIPINTU | PTSP KEMENAG LEBAK
                             PELAYANAN TERPADU SATU PINTU BERBASIS ONLINE
                             PERIODE $yearMonthUpper
                             EOF;
@@ -239,11 +239,36 @@ class LayananController extends Controller
         PDF::setXY($x, $y);
         PDF::MultiCell($col1 + $col2 + $col3 - 20, $heightCol, '', 0, 'R', 0, 0, '', '', true, 0, false, true, $heightCol, 'M');
 
-        $dateString =  $year .'-'. $month . '-01';
+        $dateString =  $year . '-' . $month . '-01';
         $date = Carbon::createFromFormat('Y-m-d', $dateString);
         $lastMonth = $date->endOfMonth();
         $stringD = $lastMonth->format('d F Y');
-        PDF::MultiCell($col4 +20, 0, 'Painan,  '.$stringD.'<br> Administrator Sistem <br /> <br /> <br /> <br /> <br /> Pramana Yuda Sayeti, S.Kom', 0, 'C', false, 0, '', '', true, 0, true, true, 40, 'T');
+        $user = auth()->user();
+        $adminName = $user->name ?? 'Administrator Sistem';
+        $jabatan   = $user->jabatan ?? '-'; // Default jika jabatan kosong
+        $isAdmin   = $user->role === 'admin'; // Atau pakai $user->hasRole('admin') jika pakai Spatie
+
+        PDF::MultiCell(
+            $col4 + 20,
+            0,
+            'Lebak, ' . $stringD .
+                ($isAdmin ? '<br>Administrator Sistem' : '') . // Jika admin, tampilkan teks
+                '<br>' . $jabatan . // Tampilkan jabatan user
+                '<br><br><br><br><br>' . $adminName, // Nama user login
+            0,
+            'C',
+            false,
+            0,
+            '',
+            '',
+            true,
+            0,
+            true,
+            true,
+            40,
+            'T'
+        );
+
 
         PDF::Output($judul . '.pdf', 'I');
     }
@@ -290,11 +315,11 @@ class LayananController extends Controller
 
 
         // Set document information
-        PDF::SetCreator('Pramana Yuda Sayeti');
-        PDF::SetAuthor('Pramana Yuda Sayeti');
+        PDF::SetCreator('Prakom Kemenag Lebak');
+        PDF::SetAuthor('Prakom Kemenag Lebak');
         $date = Carbon::createFromDate($year, $month);
-        $yearMonth = $date->locale('id')->monthName . ' ' .$date->year;
-        $judul = 'Laporan Bulanan PTSP Online Periode ' . $yearMonth;
+        $yearMonth = $date->locale('id')->monthName . ' ' . $date->year;
+        $judul = 'Laporan Bulanan SIPINTU Periode ' . $yearMonth;
         PDF::SetTitle($judul);
         PDF::SetSubject($judul);
         PDF::SetKeywords('PTSP, Pelayanan Publik, ');
@@ -312,8 +337,8 @@ class LayananController extends Controller
 
         $yearMonthUpper = strtoupper($yearMonth);
         $txt = <<<EOF
-                REKAPITULASI PELAYANAN PTSP BERBASIS ONLINE
-                KEMENTERIAN AGAMA KABUPATEN PESISIR SELATAN
+                REKAPITULASI PELAYANAN SIPINTU | PTSP KEMENAG LEBAK
+                PELAYANAN TERPADU SATU PINTU BERBASIS ONLINE
                 PERIODE $yearMonthUpper
                 EOF;
 
@@ -350,7 +375,7 @@ class LayananController extends Controller
                     PDF::AddPage('P', 'A4');
                     $yearMonthUpper = strtoupper($yearMonth);
                     $txt = <<<EOF
-                            REKAPITULASI PELAYANAN PUBLIK
+                            REKAPITULASI PELAYANAN SIPINTU | PTSP KEMENAG LEBAK
                             PELAYANAN TERPADU SATU PINTU BERBASIS ONLINE
                             PERIODE $yearMonthUpper
                             EOF;
@@ -419,11 +444,35 @@ class LayananController extends Controller
         PDF::setXY($x, $y);
         PDF::MultiCell($col1 + $col2 + $col3 - 20, $heightCol, '', 0, 'R', 0, 0, '', '', true, 0, false, true, $heightCol, 'M');
 
-        $dateString =  $year .'-'. $month . '-01';
+        $dateString =  $year . '-' . $month . '-01';
         $date = Carbon::createFromFormat('Y-m-d', $dateString);
         $lastMonth = $date->endOfMonth();
         $stringD = $lastMonth->format('d F Y');
-        PDF::MultiCell($col4 +20, 0, 'Painan,  '.$stringD.'<br> Administrator Sistem <br /> <br /> <br /> <br /> <br /> Pramana Yuda Sayeti, S.Kom', 0, 'C', false, 0, '', '', true, 0, true, true, 40, 'T');
+        $user = auth()->user();
+        $adminName = $user->name ?? 'Administrator Sistem';
+        $jabatan   = $user->jabatan ?? '-'; // Default jika jabatan kosong
+        $isAdmin   = $user->role === 'admin'; // Atau pakai $user->hasRole('admin') jika pakai Spatie
+
+        PDF::MultiCell(
+            $col4 + 20,
+            0,
+            'Lebak, ' . $stringD .
+                ($isAdmin ? '<br>Administrator Sistem' : '') . // Jika admin, tampilkan teks
+                '<br>' . $jabatan . // Tampilkan jabatan user
+                '<br><br><br><br><br>' . $adminName, // Nama user login
+            0,
+            'C',
+            false,
+            0,
+            '',
+            '',
+            true,
+            0,
+            true,
+            true,
+            40,
+            'T'
+        );
 
         PDF::Output($judul . '.pdf', 'I');
     }

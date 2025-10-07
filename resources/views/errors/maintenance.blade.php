@@ -46,6 +46,6 @@
         <p>
             Maaf atas ketidaknyamanan ini, tetapi kami sedang melakukan beberapa pemeliharaan saat ini. Jika perlu, Anda selalu dapat menghubungi kami, jika tidak, kami akan segera kembali online!
         </p>
-        <p>&mdash; Sub Bagian Tata Usaha Kementerian Agama Kab. Pesisir Selatan</p>
+        <p>&mdash; Sub Bagian Tata Usaha Kementerian Agama Kabupaten Lebak</p>
     </div>
 </article>

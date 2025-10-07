@@ -3,25 +3,29 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
     /**
      * Seed the application's database.
-     *
-     * @return void
      */
-    public function run()
+    public function run(): void
     {
+        // Nonaktifkan pengecekan foreign key untuk sementara
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
 
-        $this->call(UsersTableSeeder::class);
-        $this->call(RolesTableSeeder::class);
-        $this->call(MasterDisposisiSeeder::class);
-        $this->call(LayananTableSeeder::class);
-        $this->call(SyaratLayananTableSeeder::class);
+        // Panggil semua seeder yang dibutuhkan
+        $this->call([
+            AccessTypeSeeder::class,
+            UsersTableSeeder::class,
+            RolesTableSeeder::class,
+            MasterDisposisiSeeder::class,
+            LayananTableSeeder::class,
+            SyaratLayananTableSeeder::class,
+        ]);
 
+        // Aktifkan kembali pengecekan foreign key
         DB::statement('SET FOREIGN_KEY_CHECKS=1');
     }
 }

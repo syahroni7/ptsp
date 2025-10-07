@@ -506,7 +506,7 @@
                     reverseButtons: true
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        var url = '{{ route('daftar-pelayanan.destroy', ':id') }}';
+                        var url = "{{ route('daftar-pelayanan.destroy', ':id') }}";
                         url = url.replace(':id', idPelayanan);
                         $.ajax({
                             type: 'DELETE',

@@ -25,19 +25,19 @@ class RolesTableSeeder extends Seeder
         $staff = Role::create(['name' => 'staff']);
 
         // Super Admin
-        $user = User::where('username', '199407292022031002')->first();
+        $user = User::where('username', '199605222025051001')->first();
         $user->assignRole('super_administrator', 'administrator');
 
         // Pimpinan
-        $user = User::where('username', '197105141995031001')->first();
+        $user = User::where('username', '196901031991031005')->first();
         $user->assignRole('director');
 
         // Kasubag TU
-        $user = User::where('username', '198008042005011007')->first();
+        $user = User::where('username', '197010051991031004')->first();
         $user->assignRole('manager');
 
         // Seksi
-        $users = User::whereIn('username', ['197202112003121003', '197202051997031003', '196706191994031004', '197107051998031013', '198106122008011013', '196906151996032002'])->get();
+        $users = User::whereIn('username', ['197408101998032004', '196806251996031002', '196706191994031004', '196912151997031003', '197711292014112003', '197010252005011006'])->get();
         $users->each(function ($user) {
             $user->assignRole('supervisor');
         });
@@ -84,6 +84,7 @@ class RolesTableSeeder extends Seeder
         $permissionMenu4 = Permission::create(['name' => 'menu-disposisi']);
         $permissionMenu5 = Permission::create(['name' => 'menu-main']);
         $permissionMenu6 = Permission::create(['name' => 'menu-layanan']);
+        $permissionMenu7 = Permission::create(['name' => 'menu-report']);
 
         $permissionPage1_1 = Permission::create(['name' => 'page-dashboard']);
 
@@ -106,14 +107,17 @@ class RolesTableSeeder extends Seeder
         $permissionPage6_4 = Permission::create(['name' => 'page-layanan-syarat-master']);
         $permissionPage6_5 = Permission::create(['name' => 'page-layanan-syarat-list']);
 
+        $permissionPage7_1 = Permission::create(['name' => 'page-report-layanan']);
+
         $super_administrator->givePermissionTo([
-            $permissionMenu1, $permissionMenu2, $permissionMenu3, $permissionMenu4, $permissionMenu5, $permissionMenu6,
+            $permissionMenu1, $permissionMenu2, $permissionMenu3, $permissionMenu4, $permissionMenu5, $permissionMenu6, $permissionMenu7,
             $permissionPage1_1,
             $permissionPage2_1, $permissionPage2_2,
             $permissionPage3_1,
             $permissionPage4_1, $permissionPage4_2,
             $permissionPage5_1, $permissionPage5_2, $permissionPage5_3, $permissionPage5_4,
             $permissionPage6_1, $permissionPage6_2, $permissionPage6_3, $permissionPage6_4, $permissionPage6_5,
+            $permissionPage7_1,
         ]);
 
         $administrator->givePermissionTo([
@@ -126,10 +130,11 @@ class RolesTableSeeder extends Seeder
 
 
         $operator->givePermissionTo([
-            $permissionMenu1, $permissionMenu2, $permissionMenu3,
+            $permissionMenu1, $permissionMenu2, $permissionMenu3, $permissionMenu7,
             $permissionPage1_1,
             $permissionPage2_1, $permissionPage2_2,
             $permissionPage3_1,
+            $permissionPage7_1,
         ]);
 
         $director->givePermissionTo([

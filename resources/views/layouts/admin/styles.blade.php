@@ -4,8 +4,8 @@
 {{-- <link href="{{asset('niceadmin/img/favicon.png')}}" rel="icon">
 <link href="{{asset('niceadmin/img/apple-touch-icon.png')}}" rel="apple-touch-icon"> --}}
 
-<link href="{{ asset('assets/images/logo/hajj_logo.png') }}" rel="icon">
-<link href="{{ asset('assets/images/logo/hajj_logo.png') }}" rel="apple-touch-icon">
+<link href="{{ asset('assets/images/logo/logo-icon.png') }}" rel="icon">
+<link href="{{ asset('assets/images/logo/logo-icon.png') }}" rel="apple-touch-icon">
 
 <link href="{{ asset('niceadmin/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
 <link href="{{ asset('niceadmin/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">

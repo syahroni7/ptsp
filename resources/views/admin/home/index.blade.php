@@ -1,5 +1,5 @@
 @extends('layouts.admin.master')
-@section('title', 'Beranda PTSP Kemenag Pessel')
+@section('title', 'Beranda PTSP Kemenag Lebak')
 
 
 @section('css')

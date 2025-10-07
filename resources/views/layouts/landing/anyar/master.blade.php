@@ -4,7 +4,7 @@
 <head>
 
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LTPQ4EM2TL"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HQ5S4RXHE7"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
 
@@ -13,36 +13,35 @@
         }
         gtag('js', new Date());
 
-        gtag('config', 'G-LTPQ4EM2TL');
-
+        gtag('config', 'G-HQ5S4RXHE7');
     </script>
 
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>@yield('title')</title>
-    <meta name="description" content="PTSP KemenagPessel - PTSP Kementerian Agama Kabupaten Pesisir Selatan" />
-    <meta name="keywords" content="PTSP, PTSP ONLINE, Pelayanan Publik" />
-    <meta name="author" content="Pramana Yuda Sayeti" />
+    <title>SIPINTU Kemenag Lebak</title>
+    <meta name="description" content="SIPINTU - PTSP Kementerian Agama Kabupaten Lebak" />
+    <meta name="keywords" content="SIPINTU Kemenag Lebak, PTSP Kemenag Lebak, SIPINTU Online, Pelayanan Publik" />
+    <meta name="author" content="Prakom Kemenag Lebak" />
     <meta name="robots" content="all" />
     <meta name="revisit-after" content="1 Days" />
     <meta property="og:locale" content="id-ID" />
-    <meta property="og:site_name" content="PTSP ONLINE KEMENAGPESSEL" />
-    <meta property="og:image" content="https://pesisirselatan.kemenag.go.id/v1/uploads/logo/logo_5f315af825f0d.png" />
+    <meta property="og:site_name" content="SIPINTU / PTSP Kemenag Lebak" />
+    <meta property="og:image" content="https://lh5.googleusercontent.com/3bQe7yrarMJrsJRG9A68Re1YTTC7wM26tDRgCxlRFXQ94MUoyBHfvAeipThgj_dQxrNbZ8k5bCXLDortY5uIVCVem03AtYCnTjlk5AEAPoL0ptUKUxxJa7kGeL-K90YIzyRn9oGEnzQ=w16383" /> <!-- Logo dari web Kemenag Lebak -->
     <meta property="og:image:width" content="180" />
     <meta property="og:image:height" content="50" />
     <meta property="og:type" content=website />
-    <meta property="og:title" content="PTSP ONLINE - Kemenag Pesisir Selatan" />
-    <meta property="og:description" content="Pelayanan Publik Terpadu Satu Pintu Berbasis Web (ONLINE) Kementerian Agama Kabupaten Pesisir Selatan" />
-    <meta property="og:url" content="https://ptsp.kemenagpessel.com" />
+    <meta property="og:title" content="SIPINTU - Kemenag Lebak" />
+    <meta property="og:description" content="Pelayanan Publik Terpadu Satu Pintu Berbasis Web (ONLINE) Kementerian Agama Kabupaten Lebak" />
+    <meta property="og:url" content="https://pstpkemenaglebak.my.id" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="PTSP ONLINE Kemenag Pesisir Selatan" />
-    <meta name="twitter:title" content="PTSP ONLINE - Kemenag Pesisir Selatan" />
-    <meta name="twitter:description" content="Pelayanan Publik Terpadu Satu Pintu Berbasis Web (ONLINE) Kementerian Agama Kabupaten Pesisir Selatan" />
-    <meta name="twitter:image" content="https://pesisirselatan.kemenag.go.id/v1/uploads/logo/logo_5f315af825f0d.png" />
-    <link rel="canonical" href="https://ptsp.kemenagpessel.com" />
-    <link rel="alternate" hreflang="en-US" href="https://ptsp.kemenagpessel.com" />
-    <link rel="shortcut icon" type="image/png" href="https://pesisirselatan.kemenag.go.id/v1/uploads/logo/logo_5f315af825f0d2.png" />
+    <meta name="twitter:site" content="SIPINTU ONLINE Kemenag Lebak" />
+    <meta name="twitter:title" content="SIPINTU ONLINE - Kemenag Lebak" />
+    <meta name="twitter:description" content="Pelayanan Publik Terpadu Satu Pintu Berbasis Web (ONLINE) Kementerian Agama Kabupaten Lebak" />
+    <meta name="twitter:image" content="https://lh5.googleusercontent.com/3bQe7yrarMJrsJRG9A68Re1YTTC7wM26tDRgCxlRFXQ94MUoyBHfvAeipThgj_dQxrNbZ8k5bCXLDortY5uIVCVem03AtYCnTjlk5AEAPoL0ptUKUxxJa7kGeL-K90YIzyRn9oGEnzQ=w16383" /> <!-- Logo dari web Kemenag Lebak -->
+    <link rel="canonical" href="https://pstpkemenaglebak.my.id" />
+    <link rel="alternate" hreflang="en-US" href="https://pstpkemenaglebak.my.id" />
+    <link rel="shortcut icon" type="image/png" href="https://lh5.googleusercontent.com/3bQe7yrarMJrsJRG9A68Re1YTTC7wM26tDRgCxlRFXQ94MUoyBHfvAeipThgj_dQxrNbZ8k5bCXLDortY5uIVCVem03AtYCnTjlk5AEAPoL0ptUKUxxJa7kGeL-K90YIzyRn9oGEnzQ=w16383" /> <!-- Logo dari web Kemenag Lebak -->
 
     @include('layouts.landing.anyar.styles')
 
@@ -75,22 +74,63 @@
     @yield('_scripts')
 
 
-    <script defer>
-        document.addEventListener('load', function(d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) return;
-            js = d.createElement(s);
-            js.id = id;
-            js.src = "https://widget.equally.ai/equally-widget.min.js";
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'equallyWidget'));
-        !window.EQUALLY_AI_API_KEY && (window.EQUALLY_AI_API_KEY = "HUEjaXltfIEVyLgfE3kO", intervalId = setInterval(function() {
-            window.EquallyAi && (clearInterval(intervalId), window.EquallyAi = new EquallyAi)
-        }, 500));
+    <!-- Accessibility Code for "ptspkemenaglebak.my.id" -->
+    <script>
+        /* Want to customize your button? visit our documentation page: https://login.equalweb.com/custom-button */
+        window.interdeal = {
+            get sitekey() {
+                return "8555d2a8c2522e6997535ea2228fd788"
+            },
+            get domains() {
+                return {
+                    "js": "https://cdn.equalweb.com/",
+                    "acc": "https://access.equalweb.com/"
+                }
+            },
+            "Position": "left",
+            "Menulang": "ID",
+            "draggable": true,
+            "btnStyle": {
+                "vPosition": [
+                    "80%",
+                    "80%"
+                ],
+                "margin": [
+                    "0",
+                    "0"
+                ],
+                "scale": [
+                    "0.6",
+                    "0.5"
+                ],
+                "color": {
+                    "main": "#2e850f",
+                    "second": "#ffffff"
+                },
+                "icon": {
+                    "outline": true,
+                    "outlineColor": "#ffffff",
+                    "type": 7,
+                    "shape": "circle"
+                }
+            },
 
+        };
+
+        (function(doc, head, body) {
+            var coreCall = doc.createElement('script');
+            coreCall.src = interdeal.domains.js + 'core/5.1.13/accessibility.js';
+            coreCall.defer = true;
+            coreCall.integrity = 'sha512-70/AbMe6C9H3r5hjsQleJEY4y5l9ykt4WYSgyZj/WjpY/ord/26LWfva163b9W+GwWkfwbP0iLT+h6KRl+LoXA==';
+            coreCall.crossOrigin = 'anonymous';
+            coreCall.setAttribute('data-cfasync', true);
+            body ? body.appendChild(coreCall) : head.appendChild(coreCall);
+        })(document, document.head, document.body);
     </script>
 
-    <script src="https://code.responsivevoice.org/responsivevoice.js?key=zJWb4A6g"></script>
+
+    <!-- script src="https://code.responsivevoice.org/responsivevoice.js?key=zJWb4A6g" --><!-- /script --> <!-- Suara Voice -->
+    <script src="https://code.responsivevoice.org/responsivevoice.js?key=9iOhRsUe"></script>
 </body>
 
 </html>

@@ -90,8 +90,8 @@ class MessageController extends Controller
 
     public static function sendMessageWithImage($to, $text, $img_url = null)
     {
-        $img_url = "http://res.cloudinary.com/kemenagpessel/image/upload/v1679931788/arsip_masuk/fl0hkd7bulf3rq3ypdsl.png";
-        $key = '4402c795bd22dc1fdf1927f5a5d5f680aa79f74f2a983c75';
+        $img_url = "";
+        $key = '4402c795bd22dc1fdf1927f5a5d5f680aa79f74f2a983c75'; /* API pengirim WhatsApp */
 
         if ($img_url == '') {
             Log::info('masuk send_text_only');
@@ -143,8 +143,8 @@ class MessageController extends Controller
 
     public static function sendMessageWithButton($to, $text, $url = null)
     {
-        $img_url = "http://res.cloudinary.com/kemenagpessel/image/upload/v1679931788/arsip_masuk/fl0hkd7bulf3rq3ypdsl.png";
-        $url = "https://sikm.kemenagpessel.com/isi-survey";
+        $img_url = ""; /* isi url dengan Cloudinary */
+        $url = "";  /* isi url dengan Website Survei */
         $key = '4402c795bd22dc1fdf1927f5a5d5f680aa79f74f2a983c75';
 
         Log::info('masuk send_image_url');

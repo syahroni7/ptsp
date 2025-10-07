@@ -209,8 +209,10 @@ class HomeController extends Controller
             $pelayananS = DaftarPelayanan::orderBy('created_at', 'asc')->first();
             $pelayananE = DaftarPelayanan::orderBy('created_at', 'desc')->first();
 
-            $start = $pelayananS->created_at;
-            $end = $pelayananE->created_at;
+            //$start = $pelayananS->created_at;
+            $start = optional($pelayananS)->created_at;
+            //$end = $pelayananE->created_at;
+            $end = optional($pelayananE)->created_at;
             $range = $this->_getPeriodRange($start, $end);
 
             $collData = [];

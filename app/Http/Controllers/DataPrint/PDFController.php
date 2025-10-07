@@ -18,8 +18,8 @@ class PDFController extends Controller
         $pelayanan = DaftarPelayanan::where('id_pelayanan', $id_pelayanan)->with('layanan.unit')->first();
 
         // Set document information
-        PDF::SetCreator('Pramana Yuda Sayeti');
-        PDF::SetAuthor('Pramana Yuda Sayeti');
+        PDF::SetCreator('Muhamad Syahroni');
+        PDF::SetAuthor('Muhamad Syahroni');
         PDF::SetTitle('Bukti Pendaftaran #' . $pelayanan->no_registrasi);
         PDF::SetSubject('Bukti Pendaftaran #' . $pelayanan->no_registrasi);
         PDF::SetKeywords('PTSP, Pelayanan Publik, ' . $pelayanan->layanan->name);
@@ -90,7 +90,7 @@ class PDFController extends Controller
             }
             PDF::setFontStretching(100);
             PDF::setFontSpacing(0.1);
-            PDF::MultiCell(115, 0, 'KANTOR KEMENTERIAN AGAMA KABUPATEN PESISIR SELATAN', $showBorder, 'C', false, 0, '', '', true, 0, false, true, 40, 'T');
+            PDF::MultiCell(115, 0, 'KANTOR KEMENTERIAN AGAMA KABUPATEN LEBAK', $showBorder, 'C', false, 0, '', '', true, 0, false, true, 40, 'T');
             PDF::Ln(5);
 
             $initialHeader = 30;
@@ -103,7 +103,7 @@ class PDFController extends Controller
             PDF::setFontStretching(100);
             PDF::setFontSpacing(0.2544);
             PDF::SetFont('times', '', 7);
-            PDF::MultiCell(115, 0, 'Jalan Imam Bonjol, Painan | Telp. (0756) 21305', $showBorder, 'C', false, 0, '', '', true, 0, false, true, 40, 'T');
+            PDF::MultiCell(115, 0, 'Jl. Siliwangi No. 2 Rangkasbitung | Telp. (0252) -201319', $showBorder, 'C', false, 0, '', '', true, 0, false, true, 40, 'T');
             PDF::Ln(3);
 
             $initialHeader = 30;
@@ -116,7 +116,7 @@ class PDFController extends Controller
             PDF::setFontStretching(100);
             PDF::setFontSpacing(0.2544);
             PDF::SetFont('times', '', 7);
-            PDF::MultiCell(115, 0, 'Email: pessel@kemenag.go.id', $showBorder, 'C', false, 0, '', '', true, 0, false, true, 40, 'T');
+            PDF::MultiCell(115, 0, 'Email: sekjen_416610@kemenag.go.id', $showBorder, 'C', false, 0, '', '', true, 0, false, true, 40, 'T');
             PDF::Ln(5);
 
             PDF::Ln(9);
@@ -362,7 +362,7 @@ class PDFController extends Controller
                 'border' => 2,
                 'vpadding' => 'auto',
                 'hpadding' => 'auto',
-                'fgcolor' => array(0,0,0),
+                'fgcolor' => array(0, 0, 0),
                 'bgcolor' => false, //array(255,255,255)
                 'module_width' => 1, // width of a single module in points
                 'module_height' => 1 // height of a single module in points
@@ -371,26 +371,26 @@ class PDFController extends Controller
             // Unit Pengolah
             PDF::SetFont('times', 'B', 9);
             if ($i == 0) {
-                PDF::write2DBarcode($urlDetail, 'QRCODE,L', $columnStart1+2, 175, 17, 17, $style);
+                PDF::write2DBarcode($urlDetail, 'QRCODE,L', $columnStart1 + 2, 175, 17, 17, $style);
                 PDF::Text($columnStart1, 169, 'Scan QRCode');
             } else {
-                PDF::write2DBarcode($urlDetail, 'QRCODE,L', $columnStart2+2, 175, 17, 17, $style);
+                PDF::write2DBarcode($urlDetail, 'QRCODE,L', $columnStart2 + 2, 175, 17, 17, $style);
                 PDF::Text($columnStart2, 169, 'Scan QRCode');
             }
 
 
             // Unit Pengolah
             if ($i == 0) {
-                PDF::setX($columnStart1+70);
+                PDF::setX($columnStart1 + 70);
             } else {
-                PDF::setX($columnStart2+70);
+                PDF::setX($columnStart2 + 70);
             }
             PDF::SetFont('times', 'B', 9);
 
-            
-            
-            
-            PDF::MultiCell($col1 + 20, 0, 'Petugas Penerima <br /> <br /> <br /> <br /> <br /> '. $petugas_penerima, 0, 'C', false, 0, '', '', true, 0, true, true, 40, 'T');
+
+
+
+            PDF::MultiCell($col1 + 20, 0, 'Petugas Penerima <br /> <br /> <br /> <br /> <br /> ' . $petugas_penerima, 0, 'C', false, 0, '', '', true, 0, true, true, 40, 'T');
 
             $yHorizontal = 197;
             $adder = 0.9;
@@ -433,7 +433,7 @@ class PDFController extends Controller
             PDF::SetFont('times', '', 9);
             Carbon::setLocale('id');
             $date_now = Carbon::now()->translatedFormat('j F Y');
-            PDF::MultiCell($col2, 0, 'Painan, '.$date_now, 0, 'R', false, 0, '', '', true, 0, false, true, 40, 'T');
+            PDF::MultiCell($col2, 0, 'Lebak, ' . $date_now, 0, 'R', false, 0, '', '', true, 0, false, true, 40, 'T');
         }
 
         PDF::Output('Bukti Pendaftaran #' . $pelayanan->no_registrasi, 'I');
@@ -442,8 +442,8 @@ class PDFController extends Controller
     public function index()
     {
         // set document information
-        PDF::SetCreator('Pramana Yuda Sayeti');
-        PDF::SetAuthor('Pramana Yuda Sayeti');
+        PDF::SetCreator('Muhamad Syahroni');
+        PDF::SetAuthor('Muhamad Syahroni');
         PDF::SetTitle('Kartu Cetak PTSP');
         PDF::SetSubject('TCPDF Tutorial');
         PDF::SetKeywords('TCPDF, PDF, example, test, guide');
@@ -508,7 +508,7 @@ class PDFController extends Controller
             }
             PDF::setFontStretching(100);
             PDF::setFontSpacing(0.1);
-            PDF::MultiCell(115, 0, 'KANTOR KEMENTERIAN AGAMA KABUPATEN PESISIR SELATAN', $showBorder, 'C', false, 0, '', '', true, 0, false, true, 40, 'T');
+            PDF::MultiCell(115, 0, 'KANTOR KEMENTERIAN AGAMA KABUPATEN LEBAK', $showBorder, 'C', false, 0, '', '', true, 0, false, true, 40, 'T');
             PDF::Ln(5);
 
             $initialHeader = 30;
@@ -521,7 +521,7 @@ class PDFController extends Controller
             PDF::setFontStretching(100);
             PDF::setFontSpacing(0.2544);
             PDF::SetFont('times', '', 7);
-            PDF::MultiCell(115, 0, 'Jalan Imam Bonjol, Painan | Telp. (0756) 21305', $showBorder, 'C', false, 0, '', '', true, 0, false, true, 40, 'T');
+            PDF::MultiCell(115, 0, 'Jl. Siliwangi No. 2 Rangkasbitung | Telp. (0252) -201319', $showBorder, 'C', false, 0, '', '', true, 0, false, true, 40, 'T');
             PDF::Ln(3);
 
             $initialHeader = 30;
@@ -534,7 +534,7 @@ class PDFController extends Controller
             PDF::setFontStretching(100);
             PDF::setFontSpacing(0.2544);
             PDF::SetFont('times', '', 7);
-            PDF::MultiCell(115, 0, 'Email: pessel@kemenag.go.id', $showBorder, 'C', false, 0, '', '', true, 0, false, true, 40, 'T');
+            PDF::MultiCell(115, 0, 'Email: sekjen_416610@kemenag.go.id', $showBorder, 'C', false, 0, '', '', true, 0, false, true, 40, 'T');
             PDF::Ln(5);
 
             PDF::Ln(9);
@@ -625,7 +625,7 @@ class PDFController extends Controller
             $pemohon_nomor_surat = '12/w.3/KBIH.3/478';
             $pemohon_tanggal_surat = '10 Oktober 2022';
             $pemohon_nama = 'Aprimuzami Pratama, S.Kom';
-            $pemohon_alamat = 'Jln. Agus Salim No.43, di Belakang Kantor Bupati Kabupaten Pesisir Selatan';
+            $pemohon_alamat = 'Jln. Siliwangi Tribun Timur Stadion Uwes Qorny';
             $pemohon_kontak = '0823211233312';
             $waktu_surat_masuk = '2022-10-01 10:14:12';
             $estimasi_waktu_selesai = '2022-10-03';
@@ -774,14 +774,14 @@ class PDFController extends Controller
 
             // Unit Pengolah
             if ($i == 0) {
-                PDF::setX($columnStart1+90);
+                PDF::setX($columnStart1 + 90);
             } else {
-                PDF::setX($columnStart2+90);
+                PDF::setX($columnStart2 + 90);
             }
             PDF::SetFont('times', 'B', 9);
 
 
-            PDF::MultiCell($col1, 0, 'Petugas Penerima <br /> <br /> <br /> <br /> <br /> '. $petugas_penerima, 0, 'C', false, 0, '', '', true, 0, true, true, 40, 'T');
+            PDF::MultiCell($col1, 0, 'Petugas Penerima <br /> <br /> <br /> <br /> <br /> ' . $petugas_penerima, 0, 'C', false, 0, '', '', true, 0, true, true, 40, 'T');
 
             $yHorizontal = 197;
             $adder = 0.9;
@@ -822,7 +822,7 @@ class PDFController extends Controller
             }
             PDF::MultiCell($col1, 0, $owner, 0, 'L', false, 0, '', '', true, 0, false, true, 40, 'T');
             PDF::SetFont('times', '', 9);
-            PDF::MultiCell($col2, 0, 'Painan, 01 Oktober 2022', 0, 'R', false, 0, '', '', true, 0, false, true, 40, 'T');
+            PDF::MultiCell($col2, 0, 'Lebak, 01 Oktober 2022', 0, 'R', false, 0, '', '', true, 0, false, true, 40, 'T');
         }
 
 
@@ -833,7 +833,7 @@ class PDFController extends Controller
         PDF::Output('example_010.pdf', 'I');
     }
 
-    public function PrintChapter($num, $title, $file, $mode=false)
+    public function PrintChapter($num, $title, $file, $mode = false)
     {
         // add a new page
         $this->AddPage();

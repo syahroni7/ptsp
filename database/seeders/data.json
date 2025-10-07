@@ -1,6 +1,6 @@
 $data = [
     [
-        'name' => 'Pramana Yuda Sayeti, S.Kom',
+        'name' => 'Prakom Kemenag Lebak, S.Kom',
         'username' => '199407292022031002',
         'jabatan' => 'Ahli Pertama - Pranata Komputer',
         'email' => '199407292022031002@kemenag.go.id',
@@ -105,26 +105,7 @@ $data = [
         'email' => '197406142007101001@kemenag.go.id',
         'password' => Hash::make('197406142007101001'),
         'updated_at' => \Carbon\Carbon::now()
-    ],
-    // Staff Penmad
-    [
+    ]
 
-    ],
-    // Staff Haji
-    [
-
-    ],
-    // Staff PAIS
-    [
-
-    ],
-    // Staff Bimas
-    [
-
-    ],
-    // Staff ZaWa
-    [
-
-    ],
-
+    // Jika ingin menambahkan lagi, pastikan isi datanya lengkap
 ];

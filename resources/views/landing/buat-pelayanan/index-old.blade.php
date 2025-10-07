@@ -332,7 +332,7 @@
         // Cloudinary Widget
 
         var widgetMasuk = cloudinary.createUploadWidget({
-            cloudName: 'kemenagpessel',
+            cloudName: 'dwzc7p9dj', // Cloud name dari Cloudinary
             uploadPreset: 'arsip_masuk',
             theme: 'minimal',
             multiple: true,
@@ -361,8 +361,8 @@
         }, false);
 
 
-        const socket = io('wss://socket.kemenagpessel.com/', {
-            foceNew: true,
+        const socket = io('wss://socket.ptspkemenaglebak.my.id/', {
+            forceNew: true,
             transports: ["polling"]
         });
 

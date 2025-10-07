@@ -264,7 +264,7 @@
                     reverseButtons: true
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        var url = '{{ route('disposisi-master.destroy', ':id') }}';
+                        var url = "{{ route('disposisi-master.destroy', ':id') }}";
                         url = url.replace(':id', idItem);
                         $.ajax({
                             type: 'DELETE',

@@ -2,194 +2,151 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | SIPINTU</title>
 
-    <title>Login - PTSP Kemenag Pessel</title>
-    <meta content="" name="description">
-    <meta content="" name="keywords">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+  <link href="{{ asset('niceadmin/img/favicon.png') }}" rel="icon">
+  <link href="{{ asset('niceadmin/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
+  <link href="{{ asset('niceadmin/css/styleloginbaru.css') }}" rel="stylesheet">
 
-    <!-- Favicons -->
-    <link href="{{ asset('niceadmin/img/favicon.png') }} " rel="icon">
-    <link href="{{ asset('niceadmin/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
+  <style>
+    @media (max-width: 768px) {
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.gstatic.com" rel="preconnect">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+      .left-box,
+      .right-box {
+        padding: 2rem 1rem !important;
+        text-align: center;
+      }
 
-    <!-- Vendor CSS Files -->
-    <link href="{{ asset('niceadmin/vendor/bootstrap/css/bootstrap.min.css') }} " rel="stylesheet">
-    <link href="{{ asset('niceadmin/vendor/bootstrap-icons/bootstrap-icons.css') }} " rel="stylesheet">
-    <link href="{{ asset('niceadmin/vendor/boxicons/css/boxicons.min.css') }} " rel="stylesheet">
-    <link href="{{ asset('niceadmin/vendor/quill/quill.snow.css') }} " rel="stylesheet">
-    <link href="{{ asset('niceadmin/vendor/quill/quill.bubble.css') }} " rel="stylesheet">
-    <link href="{{ asset('niceadmin/vendor/remixicon/remixicon.css') }} " rel="stylesheet">
-    <link href="{{ asset('niceadmin/vendor/simple-datatables/style.css') }} " rel="stylesheet">
+      .left-box img {
+        height: 80px !important;
+      }
 
-    <!-- Template Main CSS File -->
-    <link href="{{ asset('niceadmin/css/style.css') }} " rel="stylesheet">
+      .box-area {
+        margin: 1rem;
+      }
 
-    <!-- =======================================================
-  * Template Name: NiceAdmin - v2.3.1
-  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
+      .header-text h2 {
+        justify-content: center !important;
+      }
+    }
 
-    <style>
-        .logo img {
-            max-height: 70px !important;
-            margin-right: 10px;
-        }
+    .gradient-btn {
+      background: linear-gradient(to right, #103cbe, #00b894);
+      border: none;
+      opacity: 0.95;
+      /* opacity default */
+      transition: background 0.3s ease, opacity 0.3s ease;
+    }
 
-        /* body {
-            background: none;
-            background: url('/anyar-assets/img/landing-kmg.jpeg') top center !important;
-            background-size: cover !important;
-            filter: blur(8px);
-            -webkit-filter: blur(8px);
-        } */
-
-        body,
-        html {
-            background: none !important;
-            height: 100%;
-        }
-
-
-        .bg-image {
-            /* The image used */
-            background: url('/anyar-assets/img/landing-kmg.jpeg') top center !important;
-            background-image: url('/anyar-assets/img/landing-kmg.jpeg') top center !important;
-            background-size: cover !important;
-            /* Add the blur effect */
-            filter: blur(3px);
-            -webkit-filter: blur(3px);
-
-            /* Full height */
-            height: 100%;
-
-            /* Center and scale the image nicely */
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-        }
-
-        main {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 2;
-            width: 80%;
-        }
-
-    </style>
+    .gradient-btn:hover {
+      background: linear-gradient(to right, #00b894, #103cbe);
+      opacity: 1;
+      /* opacity penuh saat hover */
+    }
+  </style>
 </head>
 
 <body>
-    <div class="bg-image"></div>
-    <main>
-        <div class="container">
+  <!-- Background Blur Image -->
+  <div class="position-fixed top-0 start-0 w-100 h-100"></div>
 
-            <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+  <!-- Kontainer Form Login -->
+  <div class="container d-flex justify-content-center align-items-center min-vh-100 position-relative px-3">
+    <div class="row border rounded-5 p-3 bg-white shadow box-area w-100" style="max-width: 960px;">
 
-                            <div class="d-flex justify-content-center py-4">
-                                <a href="index.html" class="logo d-flex align-items-center w-auto">
-                                    <img src="{{ asset('assets/images/logo/logo-kemenag.png') }}" alt="">
-                                    {{-- <span class="d-none d-md-block">PTSP Kemenag Pessel</span> --}}
-                                    <span class="d-none d-xs-none d-sm-none d-md-none d-lg-block d-xl-block text-white">PTSP Kementerian Agama Kabupaten Pesisir Selatan</span>
-                                    <span class="d-none d-xs-block d-sm-block d-md-block d-lg-none d-xl-none text-white">PTSP Kemenag Pessel</span>
-                                </a>
-                            </div><!-- End Logo -->
-
-                            <div class="card mb-3">
-
-                                <div class="card-body">
-
-                                    <div class="pt-4 pb-2">
-                                        <h5 class="card-title text-center pb-0 fs-4">Masuk ke akun Anda</h5>
-                                        <p class="text-center small">Masukkan username dan Password untuk login</p>
-                                    </div>
-
-                                    <form class="row g-3 needs-validation" novalidate method="POST" action="{{ route('login') }}">
-                                        @csrf
-                                        <div class="col-12">
-                                            <label for="yourUsername" class="form-label">Username</label>
-                                            <div class="input-group has-validation">
-                                                {{-- <span class="input-group-text" id="inputGroupPrepend">@</span> --}}
-                                                <input type="text" name="username" class="form-control" id="yourUsername" required>
-                                                {{-- <div class="invalid-feedback">Please enter your username.</div> --}}
-                                                @error('username')
-                                                <div class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </div>
-                                                @enderror
-                                            </div>
-                                        </div>
-
-                                        <div class="col-12">
-                                            <label for="yourPassword" class="form-label">Password</label>
-                                            <input type="password" name="password" class="form-control" id="yourPassword" required>
-                                            {{-- <div class="invalid-feedback">Please enter your password!</div> --}}
-                                            @error('password')
-                                            <div class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </div>
-                                            @enderror
-                                        </div>
-
-                                        <div class="col-12">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                                                <label class="form-check-label" for="rememberMe">Ingat Saya</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <button class="btn btn-primary w-100" type="submit">Login</button>
-                                        </div>
-                                        <div class="col-12">
-                                            <p class="small mb-0">Lupa password Akun? Hubungi Administrator</p>
-                                        </div>
-                                    </form>
-
-                                </div>
-                            </div>
-
-                            <div class="credits">
-                                <!-- All the links in the footer should remain intact. -->
-                                <!-- You can delete the links only if you purchased the pro version. -->
-                                <!-- Licensing information: https://bootstrapmade.com/license/ -->
-                                <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-                                {{-- Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a> --}}
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-            </section>
-
+      <!-- Left Box -->
+      <div class="col-12 col-md-6 rounded-4 d-flex justify-content-center align-items-center flex-column left-box py-5"
+        style="background: linear-gradient(1755deg, #103cbe, #00b894);">
+        <div class="featured-image mb-3">
+          <a href="https://ptspkemenaglebak.my.id" target="_blank">
+            <img src="{{ asset('niceadmin/img/icon-putih.png') }}" class="img-fluid" style="height: 100px;">
+          </a>
         </div>
-    </main><!-- End #main -->
+        <p class="text-white fs-2" style="font-family: 'Poppins'; font-weight: 600; margin-bottom: 4px;">KEMENAG LEBAK</p>
+        <small class="text-white text-center d-block px-3" style="margin-bottom: 2px;">Sistem Informasi Pelayanan Terpadu Satu Pintu</small>
+      </div>
 
-    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+      <!-- Right Box -->
+      <div class="col-12 col-md-6 right-box py-5">
+        <div class="row align-items-center">
+          <div class="header-text mb-4 text-center text-md-start">
+            <h2 class="d-flex gap-2 justify-content-center justify-content-md-start" style="color: #525151ff;">
+              <a href="https://ptspkemenaglebak.my.id" target="_blank">
+                <img src="{{ asset('niceadmin/img/apple-touch-icon.png') }}" alt="SIPINTU" style="height: 45px;">
+              </a>
+              SIPINTU
+            </h2>
+            <p>Masukkan Username & Password untuk Login.</p>
+          </div>
 
-    <!-- Vendor JS Files -->
-    <script src="{{ asset('niceadmin/vendor/apexcharts/apexcharts.min.js') }}  "></script>
-    <script src="{{ asset('niceadmin/vendor/bootstrap/js/bootstrap.bundle.min.js') }}  "></script>
-    <script src="{{ asset('niceadmin/vendor/chart.js/chart.min.js') }}  "></script>
-    <script src="{{ asset('niceadmin/vendor/echarts/echarts.min.js') }}  "></script>
-    <script src="{{ asset('niceadmin/vendor/quill/quill.min.js') }}  "></script>
-    <script src="{{ asset('niceadmin/vendor/simple-datatables/simple-datatables.js') }}  "></script>
-    <script src="{{ asset('niceadmin/vendor/tinymce/tinymce.min.js') }}  "></script>
-    <script src="{{ asset('niceadmin/vendor/php-email-form/validate.js') }}  "></script>
+          <form method="POST" action="{{ route('login') }}">
+            @csrf
 
-    <!-- Template Main JS File -->
-    <script src="{{ asset('niceadmin/js/main.js') }}  "></script>
+            <!-- Username Input Field -->
+            <div class="input-group mb-3 has-validation">
+              <input type="text" name="username" class="form-control form-control-lg bg-light fs-6" placeholder="Username" required>
+              @error('username')
+              <div class="invalid-feedback d-block">
+                <strong>{{ $message }}</strong>
+              </div>
+              @enderror
+            </div>
+
+            <!-- Password Input Field -->
+            <div class="input-group mb-3 has-validation">
+              <input type="password" id="password" name="password" class="form-control form-control-lg bg-light fs-6" placeholder="Password">
+
+              @error('password')
+              <div class="invalid-feedback d-block">
+                <strong>{{ $message }}</strong>
+              </div>
+              @enderror
+            </div>
+
+            <!-- Checkbox "Lihat Kata Sandi" -->
+            <div class="input-group mb-3">
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="showPasswordCheck" onclick="togglePassword()">
+                <label for="showPasswordCheck" class="form-check-label text-secondary">
+                  <small>Lihat Kata Sandi</small>
+                </label>
+              </div>
+            </div>
+
+            <!-- JavaScript Toggle -->
+            <script>
+              function togglePassword() {
+                const passwordInput = document.getElementById("password");
+                passwordInput.type = passwordInput.type === "password" ? "text" : "password";
+              }
+            </script>
+
+            <!-- Tombol input -->
+            <div class="input-group mb-3">
+              <button type="submit" class="btn btn-lg w-100 fs-6 text-white gradient-btn">Login</button>
+            </div>
+
+            <div class="row">
+              <small class="text-center">Lupa Password? <a href="#">Hubungi Administrator</a></small>
+            </div>
+
+            <!-- Copyright -->
+            <div class="row">
+              <small class="text-center text-muted w-100 mt-3 d-block">
+                &copy; 2025 Prakom Kemenag Lebak.
+              </small>
+            </div>
+
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
 
 </body>
 

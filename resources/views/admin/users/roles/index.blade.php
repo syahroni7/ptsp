@@ -279,7 +279,7 @@
                     reverseButtons: true
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        var url = '{{ route('user-roles.destroy', ':id') }}';
+                        var url = "{{ route('user-roles.destroy', ':id') }}";
                         url = url.replace(':id', roleID);
                         $.ajax({
                             type: 'DELETE',

@@ -163,7 +163,7 @@
         // Cloudinary Widget
 
         var widgetMasuk = cloudinary.createUploadWidget({
-            cloudName: 'kemenagpessel',
+            cloudName: 'dwzc7p9dj', // Cloud name dari Cloudinary
             uploadPreset: 'arsip_masuk',
             theme: 'minimal',
             multiple: true,
@@ -194,7 +194,7 @@
 
 
         var widgetKeluar = cloudinary.createUploadWidget({
-            cloudName: 'kemenagpessel',
+            cloudName: 'kemenaglebak',
             uploadPreset: 'arsip_keluar',
             theme: 'minimal',
             multiple: true,
@@ -622,7 +622,7 @@
                     reverseButtons: true
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        var url = '{{ route('jenis-layanan.destroy', ':id') }}';
+                        var url = "{{ route('jenis-layanan.destroy', ':id') }}";
                         url = url.replace(':id', idJenisLayanan);
                         $.ajax({
                             type: 'DELETE',

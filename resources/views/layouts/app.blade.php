@@ -9,6 +9,9 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
+    <!-- Favicons -->
+    <link href="{{ asset('bizland-assets/img/favicon.png') }}" rel="icon" type="image/png">
+
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 

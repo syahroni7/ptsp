@@ -57,12 +57,62 @@ In order to ensure that the Laravel community is welcoming to all, please review
 
 ## Security Vulnerabilities
 
+## TUTORIAL
+Tutorial cara memasang Laravel di Localhost :
+1. Install Xampp
+2. Install VisualCode
+3. Install Composer.exe
+
+Step by step Cara Menjalankan Source Code Laravel Yang di Download dari Internet (YouTube)
+1. Copy project ke htdocs
+2. Jalankan Xampp
+3. Buka Project di VisulCode
+4. Jalankan Composer di direktori project menggunakan Visualcode
+	-> Composer Install (jika tidak bisa kadang ada yang harus di enable dari #extension=gd menjadi extension=gd & rubah #extension=zip ke extention=zip di PHP)
+	-> Composer Update
+   	-> cp .env.example .env
+	-> php artisan key:generate
+	-> php artisan migrate
+	-> php artisan db:seed tulis seeder yang akan di import
+	-> php artisan serve
+	-> Jika Laravel di Hosting cPanel wajib menggunakan Symlink agar File terbaca di Public
+
+  ## Setup Repository di Localhost dengan clone dari Github
+```
+git clone https://github.com/syahroni7/ptsp.kemenglebak.go.id.git
+```
+```
+Composser Install
+```
+```
+Composer Update
+```
+```
+cp .env.example .env
+```
+```
+php artisan key:generate
+```
+```
+php artisan migrate
+```
+```
+php artisan db:seed DatabaseSeeder
+```
+```
+php artisan db:seed AccessTypeSeeder
+```
+```
+php artisan serve
+```
+
+
+Cron Job -> di sebagai alternative jika tidak bisa symlink di Laravel 
+
+ln -s /home/ptsr9274/laravel/storage/app/public /home/ptsr9274/public_html/storage
+
 If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-
-## Fork
-> Project ini dikembangkan dari [yudapramana/ptsp.kemenagpessel.com](https://github.com/yudapramana/ptsp.kemenagpessel.com)
-> dan dimodifikasi untuk kebutuhan Kemenag Lebak.

@@ -69,7 +69,7 @@
                         <div class="col-md-6 mb-3">
                             <label for="search_kelengkapan_syarat" class="form-label fw-bold">Kelengkapan
                                 Syarat</label>
-                            <select name="kelengkapan_syarat" id="search_kelengkapan_syarat" class="form-control select2" disabled="disabled">
+                            <select name="kelengkapan_syarat" id="search_kelengkapan_syarat" class="form-control select2" @if (!Auth::user()->hasRole('super_administrator')) disabled="disabled" @endif>
                                 <option selected="">-- Pilih Kelengkapan Syarat --</option>
                                 <option value="Sudah Lengkap">Sudah Lengkap</option>
                                 <option value="Belum Lengkap">Belum Lengkap</option>

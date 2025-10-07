@@ -14,9 +14,11 @@
 <script src="{{ asset('js/additional-methods.min.js') }}"></script>
 <script src="{{ asset('js/messages_id.min.js') }}"></script>
 
-<script src="https://cdn.socket.io/4.5.0/socket.io.min.js" integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k" crossorigin="anonymous"></script>
+<!-- script src="https://cdn.socket.io/4.5.0/socket.io.min.js" integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k" crossorigin="anonymous"></!-->
 
-
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"
+    integrity="sha384-6SeGLRU4YdxJtUdzbf6ZrJXB7zQo5MDZH2qvjYgRnM8xNsIHDA0AStDnkhHOmIfY"
+    crossorigin="anonymous"></script>
 
 
 
@@ -31,8 +33,8 @@
     }
 
     // if (!(typeof io === "undefined")) {
-    const socket = io('wss://socket.kemenagpessel.com/', {
-        foceNew: true,
+    const socket = io('wss://socket.ptspkemenaglebak.my.id/', {
+        forceNew: true,
         transports: ["polling"]
     });
     // }

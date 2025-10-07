@@ -18,47 +18,47 @@ class UsersTableSeeder extends Seeder
     {
         $data = [
             [
-                'name' => 'Pramana Yuda Sayeti, S.Kom',
-                'username' => '199407292022031002',
+                'name' => 'Muhamad Syahroni, S.Kom',
+                'username' => '199605222025051001',
                 'jabatan' => 'Ahli Pertama - Pranata Komputer',
-                'email' => '199407292022031002@kemenag.go.id',
+                'email' => 'muhamadsyahroni7@gmail.com',
                 'password' => Hash::make('superadmin'),
                 'updated_at' => \Carbon\Carbon::now()
             ],
             [
-                'name' => 'H. Abrar Munanda, M.Ag',
-                'username' => '197105141995031001',
+                'name' => 'Badrusalam, S.Ag.',
+                'username' => '196901031991031005',
                 'jabatan' => 'Kepala Kantor',
-                'email' => 'abrar.munanda@kemenag.go.id',
-                'password' => Hash::make('197105141995031001'),
+                'email' => '196901031991031005@kemenag.go.id',
+                'password' => Hash::make('196901031991031005'),
                 'updated_at' => \Carbon\Carbon::now()
             ],
             [
-                'name' => 'Yossef Yuda, S.HI, MA',
-                'username' => '198008042005011007',
+                'name' => 'Ajrum Firdaus, S.Ag',
+                'username' => '197010051991031004',
                 'jabatan' => 'Kepala Sub Bagian Tata Usaha',
-                'email' => '198008042005011007@kemenag.go.id',
-                'password' => Hash::make('198008042005011007'),
+                'email' => '197010051991031004@kemenag.go.id',
+                'password' => Hash::make('197010051991031004'),
                 'updated_at' => \Carbon\Carbon::now()
             ],
             [
-                'name' => 'Sudirman, S.Ag',
-                'username' => '197202112003121003',
-                'jabatan' => 'Kepala Seksi Pondok Pesantren',
-                'email' => '197202112003121003@kemenag.go.id',
-                'password' => Hash::make('197202112003121003'),
+                'name' => 'Neng Eulis, S.Ag',
+                'username' => '197408101998032004',
+                'jabatan' => 'Kepala Seksi Pendidikan Diniyah dan Pondok Pesantren',
+                'email' => '197408101998032004@kemenag.go.id',
+                'password' => Hash::make('197408101998032004'),
                 'updated_at' => \Carbon\Carbon::now()
             ],
             [
-                'name' => 'Masrizal, S.Ag, M.Pd',
-                'username' => '197202051997031003',
+                'name' => 'Baban Bahtiar, S.Ag., M.M.',
+                'username' => '196806251996031002',
                 'jabatan' => 'Kepala Seksi Pendidikan Agama Islam',
-                'email' => '197202051997031003@kemenag.go.id',
-                'password' => Hash::make('197202051997031003'),
+                'email' => '196806251996031002@kemenag.go.id',
+                'password' => Hash::make('196806251996031002'),
                 'updated_at' => \Carbon\Carbon::now()
             ],
             [
-                'name' => 'Drs. Firdaus',
+                'name' => 'Sudirman, S.Ag, M.Pd.I',
                 'username' => '196706191994031004',
                 'jabatan' => 'Kepala Seksi Bimbingan Masyarakat Islam',
                 'email' => '196706191994031004@kemenag.go.id',
@@ -66,27 +66,27 @@ class UsersTableSeeder extends Seeder
                 'updated_at' => \Carbon\Carbon::now()
             ],
             [
-                'name' => 'Sumardi, S.Ag, M.Pd',
-                'username' => '197107051998031013',
+                'name' => 'Slamet, S.Ag, M.Pd.I',
+                'username' => '196912151997031003',
                 'jabatan' => 'Kepala Seksi Pendidikan Madrasah',
-                'email' => 'sumardi@kemenag.go.id',
-                'password' => Hash::make('197107051998031013'),
+                'email' => '196912151997031003@kemenag.go.id',
+                'password' => Hash::make('196912151997031003'),
                 'updated_at' => \Carbon\Carbon::now()
             ],
             [
-                'name' => 'Betriadi, S.HI',
-                'username' => '198106122008011013',
+                'name' => 'Halimatussadiyah,S.Sos',
+                'username' => '197711292014112003',
                 'jabatan' => 'Kepala Seksi Penyelenggara Haji dan Umrah',
-                'email' => '198106122008011013@kemenag.go.id',
-                'password' => Hash::make('198106122008011013'),
+                'email' => '197711292014112003@kemenag.go.id',
+                'password' => Hash::make('197711292014112003'),
                 'updated_at' => \Carbon\Carbon::now()
             ],
             [
-                'name' => 'Gustiwarni, S.Ag',
-                'username' => '196906151996032002',
+                'name' => 'Abdul Basit, S.Pd.I., M.Pd',
+                'username' => '197010252005011006',
                 'jabatan' => 'Kepala Seksi Zakat dan Wakaf',
-                'email' => '196906151996032002@kemenag.go.id',
-                'password' => Hash::make('196906151996032002'),
+                'email' => '197010252005011006@kemenag.go.id',
+                'password' => Hash::make('197010252005011006'),
                 'updated_at' => \Carbon\Carbon::now()
             ],
             [

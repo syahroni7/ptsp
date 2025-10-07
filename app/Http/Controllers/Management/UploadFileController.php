@@ -35,7 +35,7 @@ class UploadFileController extends Controller
                 $extension = $file->getClientOriginalExtension();
                 $filename  = $file->getClientOriginalName();
                 $folder    = uniqid() . '-'. now()->timestamp;
-                $file->storeAs('temporary/' . $folder, $filename);
+                $file->storeAs('public/temporary/' . $folder, $filename);
 
                 TemporaryFile::create([
                     'folder' => $folder,

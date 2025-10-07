@@ -114,7 +114,7 @@
             k.criticalCssBeaconInit = k.g;
         })();
         pagespeed.selectors = ["#error-page", "#error-page .wp-die-message", "#error-page code", "#error-page p", ".button", ".button.button-large", "a", "body", "h1", "html", "ul li"];
-        pagespeed.criticalCssBeaconInit('/ngx_pagespeed_beacon', 'https://kemenagpessel.com/', 'lTStk3L15_', 'MPOKT3AQIVI', pagespeed.selectors);
+        pagespeed.criticalCssBeaconInit('/ngx_pagespeed_beacon', 'https://kemenaglebak.com/', 'lTStk3L15_', 'MPOKT3AQIVI', pagespeed.selectors);
     </script><noscript class="psa_add_styles">
         <style type="text/css">
             html {

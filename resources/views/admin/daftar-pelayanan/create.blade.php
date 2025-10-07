@@ -538,7 +538,7 @@
         // Cloudinary Widget
 
         var widgetMasuk = cloudinary.createUploadWidget({
-            cloudName: 'kemenagpessel',
+            cloudName: 'dwzc7p9dj', // Cloud name dari Cloudinary
             uploadPreset: 'arsip_masuk',
             theme: 'minimal',
             multiple: true,
@@ -569,7 +569,7 @@
 
 
         var widgetKeluar = cloudinary.createUploadWidget({
-            cloudName: 'kemenagpessel',
+            loudName: 'dwzc7p9dj', // Cloud name dari 
             uploadPreset: 'arsip_keluar',
             theme: 'minimal',
             multiple: true,

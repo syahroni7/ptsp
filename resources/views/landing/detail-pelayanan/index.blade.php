@@ -1,4 +1,4 @@
-@extends('layouts.landing.anyar.master')
+@extends('layouts.landing.bizland.master')
 @section('title', 'Daftar Pelayanan')
 
 

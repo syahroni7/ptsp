@@ -6,6 +6,8 @@ use App\Models\DaftarPelayanan;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -89,8 +91,8 @@ Route::get('/disposisi/undone', function () {
         $text .= 'Anda masih memiliki sejumlah * ' . $data['count'] . ' Disposisi * yang belum diselesaikan. Agar disposisi dapat diselesaikan. \n \n';
         $text .= 'Terima Kasih atas perhatiannya.';
         $text .= '\n \n';
-        $text .= 'Link PTSP KEMENAG PESSEL ``` \n \n';
-        $text .= 'https://ptsp.kemengapessel.com';
+        $text .= 'Link PTSP KEMENAG LEBAK ``` \n \n';
+        $text .= 'https://ptspkemenaglebak.my.id';
 
         \App\Http\Controllers\MessageController::sendMessage($data['no_hp'], $text);
     }
@@ -131,8 +133,8 @@ Route::get('/get/bod', function () {
 
 Route::get('/qrcodesistem', function () {
     // Set document information
-    PDF::SetCreator('Pramana Yuda Sayeti');
-    PDF::SetAuthor('Pramana Yuda Sayeti');
+    PDF::SetCreator('Prakom Kemenag Lebak');
+    PDF::SetAuthor('Prakom Kemenag Lebak');
 
     PDF::SetMargins(0, 0, 0, 0);
     PDF::SetLeftMargin(0);
@@ -153,7 +155,7 @@ Route::get('/qrcodesistem', function () {
         'module_height' => 1 // height of a single module in points
     );
 
-    $urlDetail = 'https://ptsp.kemenagpessel.com';
+    $urlDetail = 'https://ptspkemenaglebak.my.id/login';
     PDF::write2DBarcode($urlDetail, 'QRCODE,L', 10, 10, 100, 100, $style);
 
     PDF::Output('example_010.pdf', 'I');
@@ -163,19 +165,19 @@ Route::get('/message-warning/send', function () {
     $no_hp = ['081267750055', '082289337241', '081275811997', '085265171049', '081363107032', '085274047000', '082294297733'];
 
 
-    $text = '```.:= PTSP KEMENAG PESSEL =:. \n';
+    $text = '```.:= PTSP KEMENAG LEBAK =:. \n';
     $text .= '\n';
     $text .= 'Yth, \n';
-    $text .= 'Bapak / Ibu Pegawai Kementerian Agama Kabupaten Pesisir Selatan. ';
+    $text .= 'Bapak / Ibu Pegawai Kementerian Agama Kabupaten Lebak. ';
     $text .= 'Agar dapat melakukan update data pada PTSP Online dengan melakukan login menggunakan: \n \n';
     $text .= '==========================\n';
     $text .= 'Username : NIP \n';
     $text .= 'Password : NIP \n';
-    $text .= 'Loginuri : ```https://ptsp.kemenagpessel.com/login ``` \n';
+    $text .= 'Loginuri : ```https://ptspkemenaglebak.my.id/login/login ``` \n';
     $text .= '==========================';
     $text .= '\n \n';
     $text .= 'Link untuk login dapat dilihat pada url yang disematkan dibawah ini atau diatas. \n \n```';
-    $text .= 'https://ptsp.kemenagpessel.com/login \n\n';
+    $text .= 'https://ptspkemenaglebak.my.id/login/login \n\n';
 
     $text .= '```Harap nomor ini untuk disimpan agar bisa mengakses link diatas. Terima Kasih atas Perhatiannya```';
 
@@ -207,7 +209,7 @@ Route::get('/test/smsptsp', function () {
     ];
 
     $detailUrl = route('daftar-pelayanan.detail', $event['pelayanan']->idx_pelayanan);
-    $text = '```.:= PTSP KMGPESSEL =:. \n';
+    $text = '```.:= PTSP KMGLEBAK =:. \n';
     $text .= '\n';
     $text .= 'Yth, \n';
     $text .= '' . $event['recipient']->name . ' \n';
@@ -220,7 +222,7 @@ Route::get('/test/smsptsp', function () {
     $text .= '====================';
     $text .= '\n \n';
     $text .= 'Rincian Pelayanan dapat dilihat pada link dibawah. \n \n';
-    $text .= 'Harap Menyimpan nomor ini dengan Nama KemenagPessel agar dapat klik Link dibawah. ``` \n \n';
+    $text .= 'Harap Menyimpan nomor ini dengan Nama KemenagLebak agar dapat klik Link dibawah. ``` \n \n';
     $text .= '' . $detailUrl . '';
 
 
@@ -668,7 +670,7 @@ Route::group(['middleware' => ['auth', 'same_password_with_username', 'phone_num
     Route::get('/notifications/fetch', [\App\Http\Controllers\NotificationController::class, 'fetch'])->name('notification.fetch');
     Route::get('/notifications/detail/{id}', [\App\Http\Controllers\NotificationController::class, 'detail'])->name('notification.detail');
 
-    Route::group(['middleware' => ['role:super_administrator|administrator|manager']], function () {
+    Route::group(['middleware' => ['role:super_administrator|administrator|manager|operator']], function () {
         /**
          * Laporan
          */
@@ -694,7 +696,7 @@ Route::group(['middleware' => ['auth', 'same_password_with_username', 'phone_num
          * Permissions
          */
         Route::get('/permissions', [\App\Http\Controllers\DataPengguna\PermissionController::class, 'index'])->name('permissions.index');
-        Route::post('/permissions/store', [\App\Http\Controllers\DataPengguna\sController::class, 'store'])->name('permissions.store');
+        Route::post('/permissions/store', [\App\Http\Controllers\DataPengguna\PermissionController::class, 'store'])->name('permissions.store');
         Route::delete('/permissions/destroy/{permission}', [\App\Http\Controllers\DataPengguna\PermissionController::class, 'destroy'])->name('permissions.destroy');
 
         /**
@@ -765,7 +767,7 @@ Route::group(['middleware' => ['auth', 'same_password_with_username', 'phone_num
         Route::post('/arsip-pelayanan/store', [\App\Http\Controllers\DataArsip\ArsipPelayananController::class, 'store'])->name('arsip-pelayanan.store');
     });
 
-    Route::group(['middleware' => ['role:super_administrator|administrator|director|manager|supervisor|staff']], function () {
+    Route::group(['middleware' => ['role:super_administrator|administrator|director|manager|supervisor|staff|operator']], function () {
         /**
          * Master Disposisi
          */

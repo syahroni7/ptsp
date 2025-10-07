@@ -265,7 +265,7 @@
                     reverseButtons: true
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        var url = '{{ route('unit-pengolah.destroy', ':id') }}';
+                        var url = "{{ route('unit-pengolah.destroy', ':id') }}";
                         url = url.replace(':id', idUnitPengolah);
                         $.ajax({
                             type: 'DELETE',

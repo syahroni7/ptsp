@@ -43,7 +43,7 @@ class UnitPengolahController extends Controller
         }
 
         return view('admin.unit-pengolah.index', [
-            'title'  => 'Daftar Unit Pengolah di Kementerian Agama Kabupaten Pesisir Selatan',
+            'title'  => 'Daftar Unit Pengolah di Kementerian Agama Kabupaten Lebak',
             'br1'  => 'Kelola',
             'br2'  => 'Unit Pengolah',
         ]);

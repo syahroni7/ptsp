@@ -139,7 +139,7 @@
                                             <div class="col-md-6">
                                                 <label for="search_kelengkapan_syarat" class="form-label fw-bold">Kelengkapan
                                                     Syarat</label>
-                                                <select name="search_kelengkapan_syarat" id="search_kelengkapan_syarat" class="form-control select2" disabled="true" width="100%">
+                                                <select name="search_kelengkapan_syarat" id="search_kelengkapan_syarat" class="form-control select2" disabled="false" width="100%">
                                                     <option selected="">-- Pilih Kelengkapan Syarat --</option>
                                                     <option value="Sudah Lengkap">Sudah Lengkap</option>
                                                     <option value="Belum Lengkap">Belum Lengkap</option>

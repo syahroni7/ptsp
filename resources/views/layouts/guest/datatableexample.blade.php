@@ -287,7 +287,7 @@
     <script src="assets/vendor/tinymce/tinymce.min.js"></script>
     <script src="assets/vendor/php-email-form/validate.js"></script>
     <script src="assets/js/main.js"></script>
-    <script async src='https://www.googletagmanager.com/gtag/js?id=G-P7JSYB1CSP'></script>
+    <script async src='https://www.googletagmanager.com/gtag/js?id=G-HQ5S4RXHE7'></script>
     <script>
         if (window.self == window.top) {
             window.dataLayer = window.dataLayer || [];
@@ -296,7 +296,7 @@
                 dataLayer.push(arguments);
             }
             gtag('js', new Date());
-            gtag('config', 'G-P7JSYB1CSP');
+            gtag('config', 'G-HQ5S4RXHE7');
         }
 
     </script>
